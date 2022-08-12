@@ -1,0 +1,33 @@
+AKBAR REHMAT 1912387 BSCS SECTION 5F
+COMPILER CONSTRUCTION
+
+ALL INSTRUCTIONS HAVE BEEN FOLLOWED AND TESTED.
+ 
+ Do NOT use package statement in your code.
+ Input file named input.txt should be kept in same folder where your main method code is.
+ Submit your compiler code (.java file(s)) in the form of one .rar file having format:
+“RegistrationID_Section_FullName_Project.rar”
+(for example: 1011234_D_AhmedAliKhan_Project.rar) 
+by sending in email to: khawaja.mohiuddin@szabist.pk (not @szabist.edu.pk)
+ Mention your full name, registration Id and section in your email Subject title also.
+ If you send me multiple emails of project, 2 marks will be deducted on each extra email.
+ If you send me code that does not compile, you will get zero.
+ If you send me copied or partially copied code, you will get zero.
+ Late submissions will get 2 marks deducted per day.
+ Questions will be asked during evaluation by running your code in class
+
+
+All requirements asked for the project have been completed.
+
+The ones listed below are tried and tested.
+Token Recognition (7 marks) All tokens are recognized using spaces which is necessary.
+Symbol Table (3 marks)( symbol table is working according to instructions in project)
+Error Handling (3 marks)// includes how the code distinguishes the comments
+Parsing (7 marks) (successfully marks any errors made by user.)
+
+READ INSTRUCTIONS
+This project will not work if proper JDK AND SDK are not installed on any java compatible IDE. Do not try to run this program without
+the specified requirements. Otherwise the code may not work or may have any issues.
+ Please do not overlook this as i will bring my own laptop as well if the project isn't working on your machine.
+All parts of project will be explained in class from lexemes,tokens, parser and error handling.
+Irrelevant questions will not be entertained. 
