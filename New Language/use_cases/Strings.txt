@@ -1,0 +1,51 @@
+		"STRING"
+Declaration: 	String xyz;
+
+Assignment:	xyz = "Java Programming";
+
+Declaration and assignment:		String type = "Java programming";
+
+Print strings:	System.out.println(xyz);
+
+Length of string:	int length = xyz.length();
+
+Concatination:
+class Main {
+  public static void main(String[] args) {
+
+    // create first string
+    String first = "Java ";
+    System.out.println("First String: " + first);
+
+    // create second
+    String second = "Programming";
+    System.out.println("Second String: " + second);
+
+    // join two strings
+    String joinedString = first.concat(second);
+    System.out.println("Joined String: " + joinedString);
+  }
+}
+
+Compare Two Strings:
+class Main {
+  public static void main(String[] args) {
+
+    // create 3 strings
+    String first = "java programming";
+    String second = "java programming";
+    String third = "python programming";
+
+    // compare first and second strings
+    boolean result1 = first.equals(second);
+    System.out.println("Strings first and second are equal: " + result1);}}
+
+Escape Character: 		String example = "This is the \"String\" class.";
+
+String Object: 		String name = new String("Java String");
+
+Constructor: 		public String(char[] value, int offset, int count)
+			public void getChars(int srcBegin,int srcEnd, char[] dst, int dstBegin)
+
+
+

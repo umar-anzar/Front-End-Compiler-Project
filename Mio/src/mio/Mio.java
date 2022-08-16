@@ -14,6 +14,12 @@ public class Mio {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+
+        Integer x = new Integer(10); 
+        int j;
+        j = x.intValue();
+        
+        System.out.println(j);
         // TODO code application logic here
     }
     

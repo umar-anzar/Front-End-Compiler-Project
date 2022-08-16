@@ -1,0 +1,83 @@
+						"INT"
+input:		int age = myObj.nextInt();
+
+declaration:	int variableName;
+
+assignment:	variableName = value
+
+declaration and assignment: 	int variableName = value;
+
+method:
+		static void myMethod(String fname, int age) {
+		  System.out.println(fname + " is " + age);
+ 		 }			
+for loop:		for (int i = 0; i < 5; i++):
+switch: 	
+		int var = 4;
+		switch (var) {
+		  case 6:
+		    System.out.println("Today is Saturday");
+		    break;
+		}
+array: 		int[] Var = {10, 20, 30, 40};
+while:		
+		int i = 0;
+		while (i < 5) {
+		  System.out.println(i);
+		  int x = 2
+		  print(x)
+		  i++;
+		}	
+do while:	
+		int i = 0;
+		do {
+		  System.out.println(i);
+		  i++;
+		}
+		while (i < 5);	
+for each:
+		String[] cars = {"Volvo", "BMW", "Ford", "Mazda"};
+		for (String i : cars) {
+		  System.out.println(i);
+		}
+if/else:
+		int time = 20;
+		if (time < 18) {
+		  System.out.println("Good day.");
+		} else {
+		  System.out.println("Good evening.");
+		}
+boolean:
+		int x = 10;
+		int y = 9;
+		System.out.println(x > y);
+typecasting:
+		int myInt = 9;
+		double myDouble = myInt; // Automatic casting: int to double
+
+		System.out.println(myInt);      // Outputs 9
+		System.out.println(myDouble);   // Outputs 9.0
+operator:
+		int sum1 = 100 + 50;        
+		int sum2 = sum1 + 250;     
+		int sum3 = sum2 + sum2;
+
+		"OOP"
+Class:
+		public class Main {
+		  int x;
+
+		public static void main(String[] args) {
+		  Main myObj = new Main();
+		  myObj.x = 40;
+		  System.out.println(myObj.x);
+		  }
+		}
+Java Constructor:
+		public class Main {
+		  int x;
+
+		  public Main(int y) {
+		    x = y;
+		  }
+
