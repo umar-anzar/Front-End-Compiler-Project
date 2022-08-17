@@ -15,7 +15,7 @@ import java.io.IOException;  // Import the IOException class to handle errors
  *
  * @author omer
  */
-public class NewClass2 {
+public class GsonWrite {
     public static void main(String[] args) {
         ABC Hello = new ABC(4, (float)2.3, new double[]{3,2,5});
         GsonBuilder builder = new GsonBuilder(); 

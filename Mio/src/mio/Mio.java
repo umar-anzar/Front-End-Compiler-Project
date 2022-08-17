@@ -6,7 +6,7 @@ package mio;
 
 /**
  *
- * @author omer
+ * @author Izhan, Umar, Muqsit
  */
 public class Mio {
 
@@ -15,11 +15,6 @@ public class Mio {
      */
     public static void main(String[] args) {
 
-        Integer x = new Integer(10); 
-        int j;
-        j = x.intValue();
-        
-        System.out.println(j);
         // TODO code application logic here
     }
     

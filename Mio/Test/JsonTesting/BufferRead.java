@@ -14,7 +14,7 @@ import java.io.IOException;
  *
  * @author omer
  */
-public class NewClass1 {
+public class BufferRead {
     public static void main(String[] args) {
         FileReader myObj;
         BufferedReader br;
