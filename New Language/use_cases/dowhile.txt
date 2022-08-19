@@ -1,0 +1,37 @@
+		"Do While"
+Syntax:
+do {
+    body of loop
+} while(condition);
+
+Code:
+class Main {
+  public static void main(String[] args) {
+
+    int i = 1, n = 5;
+
+    // do...while loop from 1 to 5
+    do {
+      System.out.println(i);
+      i++;
+    } while(i <= n);
+  }
+}
+
+
+public class Sample {
+
+    public static void main(String args[]) {
+        int n = 1, times = 0;
+        do {
+            System.out.println("Java do while loops:" + n);
+            n++;
+        } while (n <= times);
+    }
+}
+
+Infinite Loop:
+int count = 1;
+do {
+   // body of loop
+} while(count == 1)
