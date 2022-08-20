@@ -1,0 +1,23 @@
+				"main"
+Syntax:
+
+
+// a class can exist here
+
+
+public class Test {
+
+// a class can exist here
+
+
+static void main(String[] args){
+	System.out.println("Hello World");
+
+	}
+
+// a class can exist here
+
+}
+
+
+// a class can exist here

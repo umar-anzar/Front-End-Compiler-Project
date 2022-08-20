@@ -1,0 +1,41 @@
+					"DEFAULT (SWITCH-CASE)"
+Syntax:
+
+(Specify the default value in a switch case statement)
+
+switch(expression) {
+  case x:
+    // code block
+    break;
+  case y:
+    // code block
+    break;
+  default:
+    // code block
+}
+
+
+(Declare default values in a Java annotation)
+
+public @interface Editable {
+ 
+    boolean value() default false;
+ 
+    String name() default "Untitled";
+}
+
+
+(Declare default method in an interface)
+
+public interface Animal {
+ 
+    public void eat();
+ 
+    public void move();
+ 
+    public default void sleep() {
+ 
+        // implementation goes here...
+ 
+    }
+}
