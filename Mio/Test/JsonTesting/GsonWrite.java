@@ -11,6 +11,8 @@ import com.google.gson.GsonBuilder;
 
 import java.io.FileWriter;   // Import the FileWriter class
 import java.io.IOException;  // Import the IOException class to handle errors
+import java.util.ArrayList;
+import java.util.List;
 /**
  *
  * @author omer
@@ -18,25 +20,27 @@ import java.io.IOException;  // Import the IOException class to handle errors
 public class GsonWrite {
     public static void main(String[] args) {
         ABC Hello = new ABC(4, (float)2.3, new double[]{3,2,5});
+        List<ABC> tokenList = new ArrayList<ABC>();
+        tokenList.add(Hello);
+        tokenList.add(Hello);
         GsonBuilder builder = new GsonBuilder(); 
         builder.setPrettyPrinting(); 
         Gson gson = builder.create(); 
         
-        System.out.println(gson.toJson(Hello));
+        System.out.println(gson.toJson(tokenList));
 //        ABC NewHello = gson.fromJson(gson.toJson(Hello), ABC.class);
 //        System.out.println(NewHello.a);
 
-
-        try {
-            FileWriter myWriter = new FileWriter("Test\\JsonTesting\\json.json");
-            myWriter.write(gson.toJson(Hello));
-            myWriter.write(gson.toJson(Hello));
-            myWriter.close();
-            System.out.println("Successfully wrote to the file.");
-          } catch (IOException e) {
-            System.out.println("An error occurred.");
-            e.printStackTrace();
-          }
+        
+//        try {
+//            FileWriter myWriter = new FileWriter("Test\\JsonTesting\\json.json");
+//            myWriter.write(gson.toJson(Hello));
+//            myWriter.write(gson.toJson(Hello));
+//            myWriter.close();
+//            System.out.println("Successfully wrote to the file.");
+//          } catch (IOException e) {
+//            System.out.println("An error occurred.");
+//          }
 
     }
 }
