@@ -25,16 +25,20 @@ public class GsonWrite {
         ABC Hello2 = new ABC(2,"DT","int");
         ABC Hello3 = new ABC(7,"for","for");
         Hello1.error = "asdasd";
-        ABC.addToken(Hello1);
+        
+        ABC.addToken(Hello1);//tokens are added in loops
         ABC.addToken(Hello2);
         ABC.addToken(Hello3);
-        ABC.saveToken();
+        
+        
+        
+        ABC.saveToken();//When all tokens are generated
         
         
         
         
 
-//        
+
 //        GsonBuilder builder = new GsonBuilder(); 
 //        builder.setPrettyPrinting(); 
 //        Gson gson = builder.create(); 
