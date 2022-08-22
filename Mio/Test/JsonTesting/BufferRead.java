@@ -22,13 +22,25 @@ public class BufferRead {
         try {
             myObj = new FileReader("Test\\JsonTesting\\file.txt"); // Specify the filename
             br = new BufferedReader(myObj);    
-             
-            System.out.println((char)br.read()=='a');
-            System.out.println((char)br.read()=='\r');
-            System.out.println((char)br.read()=='\n');
-            System.out.println((char)br.read()=='b');
-            System.out.println((char)br.read()==(char)-1);//last charater is -1
-            System.out.println((char)-1);
+ 
+            System.out.println((char)br.read());
+            System.out.println((char)br.read());
+            System.out.println((char)br.read());
+            System.out.println((char)br.read());System.out.println((char)br.read());
+            System.out.println((char)br.read());
+            System.out.println((char)br.read());
+            System.out.println((char)br.read());
+            System.out.println((char)br.read());
+            System.out.println((char)br.read());
+            
+
+            
+//            System.out.println((char)br.read()=='a');
+//            System.out.println((char)br.read()=='\r');
+//            System.out.println((char)br.read()=='\n');
+//            System.out.println((char)br.read()=='b');
+//            System.out.println((char)br.read()==(char)-1);//last charater is -1
+//            System.out.println((char)-1);
             br.close();
             myObj.close();
             

@@ -33,7 +33,7 @@ public class TokenClass {
             this.classPart = classPart;
             this.line = line;
             // Class part is not equal to value then add value else Dont
-            if ( !(classPart.equals(this.valuePart)) ) {
+            if ( !(classPart.equals(valuePart)) ) {
                 this.valuePart = valuePart;
             }
         }

@@ -8,6 +8,7 @@
 package JsonTesting;
 import com.google.gson.Gson; 
 import com.google.gson.GsonBuilder; 
+import java.io.File;
 
 import java.io.FileWriter;   // Import the FileWriter class
 import java.io.IOException;  // Import the IOException class to handle errors
@@ -19,23 +20,33 @@ import java.util.List;
  */
 public class GsonWrite {
     public static void main(String[] args) {
-        ABC Hello = new ABC(4, (float)2.3, new double[]{3,2,5});
-        List<ABC> tokenList = new ArrayList<ABC>();
-        tokenList.add(Hello);
-        tokenList.add(Hello);
-        GsonBuilder builder = new GsonBuilder(); 
-        builder.setPrettyPrinting(); 
-        Gson gson = builder.create(); 
+        ABC.createTokenList();//CLASS STATIC VARIABLE AK ARRAYH INTIALZIE 
+        ABC Hello1 = new ABC(5,"ID","izhan");
+        ABC Hello2 = new ABC(2,"DT","int");
+        ABC Hello3 = new ABC(7,"for","for");
+        Hello1.error = "asdasd";
+        ABC.addToken(Hello1);
+        ABC.addToken(Hello2);
+        ABC.addToken(Hello3);
+        ABC.saveToken();
         
-        System.out.println(gson.toJson(tokenList));
+        
+        
+        
+
+//        
+//        GsonBuilder builder = new GsonBuilder(); 
+//        builder.setPrettyPrinting(); 
+//        Gson gson = builder.create(); 
+//        
+//        System.out.println(gson.toJson(tokenList));
 //        ABC NewHello = gson.fromJson(gson.toJson(Hello), ABC.class);
 //        System.out.println(NewHello.a);
 
         
 //        try {
 //            FileWriter myWriter = new FileWriter("Test\\JsonTesting\\json.json");
-//            myWriter.write(gson.toJson(Hello));
-//            myWriter.write(gson.toJson(Hello));
+//            myWriter.write(gson.toJson(tokenList));
 //            myWriter.close();
 //            System.out.println("Successfully wrote to the file.");
 //          } catch (IOException e) {
@@ -44,15 +55,70 @@ public class GsonWrite {
 
     }
 }
-class ABC{
-    int a;
-    float b;
-    private double[] x;
+class ABC {
+    
+    // Class Attribute
+    static List <ABC> tokenList;
+    
+    // Object Attributes
+    String classPart;
+    String valuePart;
+    String error;
+    int line;
+    
+    //Constructor--------------------------------------------------------------
+        public ABC(int line,String classPart, String valuePart) {
 
-    public ABC(int a, float b, double[] x) {
-        this.a = a;
-        this.b = b;
-        this.x = x;
-    }
+            this.classPart = classPart;
+            this.line = line;
+            // Class part is not equal to value then add value else Dont
+            if ( !(classPart.equals(valuePart)) ) {
+                this.valuePart = valuePart;
+            }
+        }
+    
+    
+    // Static SAVE METHOD-------------------------------------------------------
+        // Create TokenList
+        static void createTokenList() {
+            ABC.tokenList = new ArrayList<>();
+        }
+
+        // Add Token
+        static void addToken(ABC t) {
+            ABC.tokenList.add(t);
+        }
+
+        // Save Token in Json File
+        static void saveToken() {
+            GsonBuilder builder = new GsonBuilder(); 
+            builder.setPrettyPrinting(); 
+            Gson gson = builder.create(); 
+            try {
+                //Create Token Json File
+                File myObj = new File("Test\\JsonTesting\\json.json");
+                if (myObj.createNewFile()) {
+                  System.out.println("File created: " + myObj.getName());
+                } else {
+                  System.out.println("File already exists.");
+                }
+
+                // Write Token Json File
+                FileWriter writer = new FileWriter("Test\\JsonTesting\\json.json");
+                writer.write(gson.toJson(ABC.tokenList ));
+                writer.close();
+                System.out.println("Successfully wrote to the file.");
+
+              } catch (IOException e) {
+                System.out.println("An error occurred.");
+              }
+        }
+            
+
+    // Object Method------------------------------------------------------------
+        // Set The Error Message
+        public void setError(String error) {
+            this.error = error;
+        }
     
 }
