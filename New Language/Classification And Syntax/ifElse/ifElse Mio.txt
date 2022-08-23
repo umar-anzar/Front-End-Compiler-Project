@@ -1,0 +1,28 @@
+if (condition) {
+  block of code
+}
+
+
+
+if (condition) {
+  block of code
+} else {
+  block of code
+}
+
+if (condition) {
+  block of code
+} else if (condition) {
+  block of code
+}
+
+
+
+if (condition) {
+  block of code
+} else {
+  if (condition) {
+    block of code
+  }
+  
+}
