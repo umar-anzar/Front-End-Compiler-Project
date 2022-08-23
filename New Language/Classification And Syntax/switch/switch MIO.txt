@@ -1,0 +1,12 @@
+Syntax:
+
+shift(expression) {
+  state x:
+       code block
+       stop;
+  state y:
+       code block
+       stop;
+  default:
+       code block
+}

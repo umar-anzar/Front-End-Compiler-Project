@@ -1,0 +1,10 @@
+loop till (condition) {
+     code block
+}
+
+Code:
+int i = 0;
+loop till (i < 5) {
+  System.out.println(i);
+  i++;
+}
