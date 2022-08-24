@@ -1,17 +1,3 @@
-[
-  {
-    "classPart": "ID",
-    "valuePart": "izhan",
-    "error": "asdasd",
-    "line": 5
-  },
-  {
-    "classPart": "DT",
-    "valuePart": "int",
-    "line": 2
-  },
-  {
-    "classPart": "for",
-    "line": 7
-  }
-]
+[{"classPart":"ID","valuePart":"izhan","error":"asdasd","line":5},
+{"classPart":"DT","valuePart":"int","line":2},
+{"classPart":"for","line":7}]

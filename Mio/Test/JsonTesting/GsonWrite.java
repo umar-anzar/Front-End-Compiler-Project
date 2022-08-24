@@ -8,6 +8,7 @@
 package JsonTesting;
 import com.google.gson.Gson; 
 import com.google.gson.GsonBuilder; 
+import com.google.gson.reflect.TypeToken;
 import java.io.File;
 
 import java.io.FileWriter;   // Import the FileWriter class
@@ -96,7 +97,7 @@ class ABC {
         // Save Token in Json File
         static void saveToken() {
             GsonBuilder builder = new GsonBuilder(); 
-            builder.setPrettyPrinting(); 
+            //builder.setPrettyPrinting(); 
             Gson gson = builder.create(); 
             try {
                 //Create Token Json File
@@ -109,7 +110,18 @@ class ABC {
 
                 // Write Token Json File
                 FileWriter writer = new FileWriter("Test\\JsonTesting\\json.json");
-                writer.write(gson.toJson(ABC.tokenList ));
+                
+                String jsonString  = "[";
+                if (!ABC.tokenList.isEmpty()){
+                    jsonString += gson.toJson(ABC.tokenList.get(0));
+                }
+                for (int i = 1; i < ABC.tokenList.size(); i++) {
+                    jsonString += ",\n";
+                    jsonString += gson.toJson(ABC.tokenList.get(i));
+                    
+                }
+                jsonString += "]";
+                writer.write(jsonString);
                 writer.close();
                 System.out.println("Successfully wrote to the file.");
 
@@ -124,5 +136,15 @@ class ABC {
         public void setError(String error) {
             this.error = error;
         }
-    
+        
+    // Override function
+        // When Print Show attributes
+        @Override
+        public String toString() {
+            String returnString = this.classPart+"-"+this.valuePart+"-"+this.line;
+            if (this.error != null){
+                returnString += "-"+this.error;
+            }
+            return returnString; 
+        }
 }

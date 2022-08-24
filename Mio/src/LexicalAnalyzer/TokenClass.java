@@ -6,9 +6,13 @@ package LexicalAnalyzer;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Reader;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,7 +57,7 @@ public class TokenClass {
         // Save Token in Json File
         static void saveToken() {
             GsonBuilder builder = new GsonBuilder(); 
-            builder.setPrettyPrinting(); 
+            //builder.setPrettyPrinting(); 
             Gson gson = builder.create(); 
             try {
                 //Create Token Json File
@@ -66,13 +70,37 @@ public class TokenClass {
 
                 // Write Token Json File
                 FileWriter writer = new FileWriter("src\\LexicalAnalyzer\\Tokens.json");
-                writer.write(gson.toJson(TokenClass.tokenList ));
+                    //Every Token In New Line
+                    String jsonString  = "[";
+                    if (!TokenClass.tokenList.isEmpty()){
+                        jsonString += gson.toJson(TokenClass.tokenList.get(0));
+                    }
+                    for (int i = 1; i < TokenClass.tokenList.size(); i++) {
+                        jsonString += ",\n";
+                        jsonString += gson.toJson(TokenClass.tokenList.get(i));
+
+                    }
+                    jsonString += "]";
+                    
+                writer.write(jsonString);
                 writer.close();
-                System.out.println("Successfully wrote to the file.");
+                System.out.println("Successfully save Token to the file.");
 
               } catch (IOException e) {
                 System.out.println("An error occurred.");
               }
+        }
+        
+        // Load Token from Json File
+        static void loadToken(){
+            try {
+            Reader reader = Files.newBufferedReader(Paths.get("src\\LexicalAnalyzer\\Tokens.json"));
+             // convert JSON array to list of users
+            TokenClass.tokenList = new Gson().fromJson(reader, new TypeToken<List<TokenClass>>() {}.getType());
+                System.out.println("Successfully load Token from the file.");
+            } catch (IOException e) {
+                TokenClass.tokenList = new ArrayList<>();
+            }
         }
             
 
@@ -81,5 +109,17 @@ public class TokenClass {
         public void setError(String error) {
             this.error = error;
         }
+        
+    // Override function
+        // When Print Show attributes
+        @Override
+        public String toString() {
+            String returnString = this.classPart+"-"+this.valuePart+"-"+this.line;
+            if (this.error != null){
+                returnString += "-"+this.error;
+            }
+            return returnString; 
+        }
+        
     
 }
