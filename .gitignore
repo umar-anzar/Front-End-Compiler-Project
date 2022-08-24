@@ -1,13 +1,8 @@
-
-New Language/~$New Microsoft Excel Worksheet.xlsx
-/Mio/build/
-
-Mio/nbproject/private/private.xml
-New Language/~$Syntacticcally replaceable.xlsx
-Mio/nbproject/private/private.xml
-*.xml
-Mio/nbproject/private/private.xml
-*.xml
-New Language/~$ntacticcally replaceable.docx
-*.properties
-*.xml
+**/nbproject/private/
+**/nbproject/Makefile-*.mk
+**/nbproject/Package-*.bash
+build/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
