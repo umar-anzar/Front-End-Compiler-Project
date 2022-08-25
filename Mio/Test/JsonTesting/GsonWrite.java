@@ -68,8 +68,9 @@ class ABC {
     // Object Attributes
     String classPart;
     String valuePart;
-    String error;
     int line;
+    String error;
+    
     
     //Constructor--------------------------------------------------------------
         public ABC(int line,String classPart, String valuePart) {
