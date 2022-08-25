@@ -28,8 +28,9 @@ public class TokenClass {
     // Object Attributes
     String classPart;
     String valuePart;
-    String error;
     int line;
+    String error;
+    
     
     //Constructor--------------------------------------------------------------
         public TokenClass(String classPart, String valuePart, int line) {
