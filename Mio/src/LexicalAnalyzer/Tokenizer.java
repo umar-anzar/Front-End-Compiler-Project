@@ -8,6 +8,6 @@ package LexicalAnalyzer;
  *
  * @author omera
  */
-public class TokenGenerator {
+public class Tokenizer {
     
 }
