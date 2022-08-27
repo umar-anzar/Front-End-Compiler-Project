@@ -4,10 +4,27 @@
  */
 package LexicalAnalyzer;
 
+
 /**
  *
  * @author omera
  */
 public class Tokenizer {
-    
+    public static void main(String[] args) {
+        //Initialize tokenList
+        
+        
+        
+        ValidWords checker = new ValidWords();
+        
+        // Reader
+        
+        
+        
+        
+        
+        
+        // Save Token List In Txt
+        
+    }
 }
