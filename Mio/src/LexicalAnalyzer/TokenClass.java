@@ -62,7 +62,7 @@ public class TokenClass {
             Gson gson = builder.create(); 
             try {
                 //Create Token Json File
-                File myObj = new File("src\\LexicalAnalyzer\\Tokens.json");
+                File myObj = new File("src\\LexicalAnalyzer\\Tokens.txt");
                 if (myObj.createNewFile()) {
                   System.out.println("File created: " + myObj.getName());
                 } else {
@@ -70,7 +70,7 @@ public class TokenClass {
                 }
 
                 // Write Token Json File
-                FileWriter writer = new FileWriter("src\\LexicalAnalyzer\\Tokens.json");
+                FileWriter writer = new FileWriter("src\\LexicalAnalyzer\\Tokens.txt");
                     //Every Token In New Line
                     String jsonString  = "[";
                     if (!TokenClass.tokenList.isEmpty()){
@@ -95,7 +95,7 @@ public class TokenClass {
         // Load Token from Json File
         static void loadToken(){
             try {
-            Reader reader = Files.newBufferedReader(Paths.get("src\\LexicalAnalyzer\\Tokens.json"));
+            Reader reader = Files.newBufferedReader(Paths.get("src\\LexicalAnalyzer\\Tokens.txt"));
              // convert JSON array to list of users
             TokenClass.tokenList = new Gson().fromJson(reader, new TypeToken<List<TokenClass>>() {}.getType());
                 System.out.println("Successfully load Token from the file.");

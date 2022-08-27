@@ -102,7 +102,7 @@ class ABC {
             Gson gson = builder.create(); 
             try {
                 //Create Token Json File
-                File myObj = new File("Test\\JsonTesting\\json.json");
+                File myObj = new File("Test\\JsonTesting\\json.txt");
                 if (myObj.createNewFile()) {
                   System.out.println("File created: " + myObj.getName());
                 } else {
@@ -110,7 +110,7 @@ class ABC {
                 }
 
                 // Write Token Json File
-                FileWriter writer = new FileWriter("Test\\JsonTesting\\json.json");
+                FileWriter writer = new FileWriter("Test\\JsonTesting\\json.txt");
                 
                 String jsonString  = "[";
                 if (!ABC.tokenList.isEmpty()){

@@ -18,7 +18,7 @@ import java.util.List;
 public class GsonRead {
     public static void main(String[] args) {
         try {
-            Reader reader = Files.newBufferedReader(Paths.get("Test\\JsonTesting\\json.json"));
+            Reader reader = Files.newBufferedReader(Paths.get("Test\\JsonTesting\\json.txt"));
              // convert JSON array to list of users
             List<ABC> users = new Gson().fromJson(reader, new TypeToken<List<ABC>>() {}.getType());
             System.out.println(users);
