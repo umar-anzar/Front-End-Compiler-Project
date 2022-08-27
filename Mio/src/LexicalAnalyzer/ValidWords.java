@@ -17,8 +17,10 @@ public class ValidWords {
         {"if", "if"}, 
         {"else", "else"},
         {"loop", "loop"},
+        
         {"till", "unidentified"},
         {"thru", "unidentified"},
+        
         {"in", "in"},
         {"shift", "shift"}, // shift
         {"state", "state"}, // case
@@ -26,6 +28,7 @@ public class ValidWords {
         {"cont", "cont"},   // continue
         {"stop", "stop"},   // break
         {"ret", "ret"},     // return
+        
         {"int", "dataType"},     
         {"point", "dataType"}, // float 
         {"char", "dataType"},
@@ -44,7 +47,7 @@ public class ValidWords {
         {"except", "except"},   
         {"finally", "finally"},
         {"raise", "raise"},
-        {"raises", "raises"},
+        {"raises", "raises"}
         
           
     };
@@ -57,15 +60,44 @@ public class ValidWords {
         {"!=", "Relation Operator"},
         {"==", "Relation Operator"},
         
-        {"==", "Relation Operator"},
-        {"==", "Relation Operator"},
-        {"==", "Relation Operator"},
-        {"==", "Relation Operator"},
+        {"++", "inc-dec"},
+        {"--", "inc-dec"},
+          
+        {"+", "pm"},
+        {"-", "pm"},
+        
+        {"*", "mdm"},
+        {"/", "mdm"},
+        {"%", "mdm"},
+        
+        {"^", "power"},
+        
+        {"=", "simple assignment"},
+        
+        {"+=", "compund assignment"},
+        {"*=", "compund assignment"},
+        {"-=", "compund assignment"},
+        {"%=", "compund assignment"},
+        
+        {"!", "not"}, 
+        {"&&", "and"},
+        {"||", "or"}
            
     };
 
-    String[] punctuator = {};
-    
+    String[] punctuator = {
+        
+        ";",
+        ",", 
+        ":", 
+        "{", 
+        "(", 
+        "[",
+        "}",
+        ")",
+        "]"
+            
+    };
     
 
     
