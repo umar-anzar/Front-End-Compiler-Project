@@ -43,10 +43,10 @@ public class ValidWords {
         {"Self", "Self"},
         {"Parent", "Parent"},
         {"new", "new"},
-        {"test", "test"},
+        {"test", "test"},   // catch
         {"except", "except"},   
         {"finally", "finally"},
-        {"raise", "raise"},
+        {"raise", "raise"}, 
         {"raises", "raises"}
         
           
@@ -112,7 +112,7 @@ public class ValidWords {
     }    
 
 
-    static void isID() {
+    static void isId() {
         // code to be executed
     }    
     static void isCharConst() {
