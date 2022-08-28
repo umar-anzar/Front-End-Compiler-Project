@@ -51,10 +51,9 @@ public class ValidWords {
         
           
     };
-    
+
     String[][] operator = {
         
-        {"<>", "Relation Operator"}, 
         {"<=", "Relation Operator"},
         {">=", "Relation Operator"},
         {"!=", "Relation Operator"},
