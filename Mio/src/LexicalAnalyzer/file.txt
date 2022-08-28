@@ -1,4 +1,1 @@
-x=0
-while(x<1){
-    //code
-}
+izhan is the best <3
