@@ -15,6 +15,10 @@ import java.util.ArrayList;
  * @author omera
  */
 public class Tokenizer {
+    
+    
+    
+    
     public static void main(String[] args) {
         
         // Initialize var
@@ -22,9 +26,14 @@ public class Tokenizer {
         FileReader fr = null;
         BufferedReader br = null;
         
-        //For Reader
+        // For Reader
         int chr=0;
         int line=0;
+        
+        // Breaker
+        String [] b_punctuator = ValidWords.punctuator;
+        String [][] b_operator = ValidWords.operator;
+        
         
         //Initialize tokenList
         
@@ -47,19 +56,50 @@ public class Tokenizer {
         
         // Reading File Char by Char and making Tokens
         try {
-            String [] punctuator = ValidWords.punctuator;
-            while((chr = br.read()) != -1){
+            
+            
+
+            while((chr = br.read()) != -1) {
+                char character = (char) chr;
                 
-                temp += (char)chr;
+                //newline
+                if (character == '\r') {
+                    character = (char)br.read();
+                    if (character == '\n') {
+                        line += 1;
+                        continue;
+                    }
+                } 
                 
-                for (int i = 0; i < punctuator.length; i++) {
-                    if (punctuator[i].charAt(0) == chr){
-                        //temp[0:-1]
+                
+                
+                
+                
+                
+                temp += character; //add character in temp
+                
+                
+                
+                // THIS IS FOR SPACE BREAKER
+                if (' ' == character || '\t' == character) {
+                    if (temp.length() != 1) { 
                         System.out.println(temp.substring(0, temp.length() - 1));
+                    }
+                    temp = "";
+                    continue;
+                }
+                
+                
+                // THIS IS FOR b_punctuator BREAKER
+                for (int i = 0; i < b_punctuator.length; i++) {
+                    if (b_punctuator[i].charAt(0) == character){
+                        if (temp.length() != 1) { 
+                            System.out.println(temp.substring(0, temp.length() - 1)); //word token
+                            temp = "";
+                            temp += character;
+                        }
+                        System.out.println(temp);//punctuator token
                         temp = "";
-                        temp += (char)chr;
-                        System.out.println(temp);
-                        
                     }
                 }
                 
@@ -67,9 +107,10 @@ public class Tokenizer {
                 
                 
                 
+                
             } 
-            System.out.println(temp);
-            
+            //System.out.println(temp);
+            System.out.println(line);
             
             
             

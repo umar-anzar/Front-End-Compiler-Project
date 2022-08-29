@@ -1,1 +1,2 @@
-for(int i;i<0,}
+for ( int i; i<0,}
+asdas
