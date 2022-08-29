@@ -1,4 +1,4 @@
 
-for i in range(50,30,50){
-        return 5+2/5;
+for i in range(@@50,30,50){
+        re@@turn 5+2/5;
 }

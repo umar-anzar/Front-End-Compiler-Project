@@ -8,6 +8,8 @@ import java.io.FileNotFoundException;  // Import this class to handle errors
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 /**
@@ -31,6 +33,48 @@ public class Tokenizer {
         static String [][] b_operator = ValidWords.operator;
     
     
+        
+    public static boolean newLine(){
+        if (character == '\r') {
+            try {
+                character = (char)br.read();
+            } catch (IOException ex) {
+                System.out.println("error new line function");
+            }
+            if (character == '\n') {
+                line += 1;
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    public static boolean comment() {
+        if (character == '@') {
+            try {
+                if ( (chr = br.read()) == -1){return true;}
+                character = (char) chr;
+                if (character == '@') {
+                    while( (chr = br.read()) != -1) {
+                        character = (char) chr;
+                        if (character == '@') {
+                            if ( (chr = br.read()) == -1){return true;}
+                            if (character == '@') {break;}
+                        }
+                    }
+                } else {
+                    while( (chr = br.read()) != -1) {
+                        character = (char) chr;
+                        if (newLine()) {break;}
+                    }
+                }
+                temp="";
+
+            } catch (IOException ex) {
+                System.out.println("Error in Comment function");
+            }
+        }
+    }
     
     public static boolean spaceAndTab() {
         if (' ' == character || '\t' == character) {
@@ -107,16 +151,34 @@ public class Tokenizer {
                 character = (char) chr;
 
                 //newline
-                if (character == '\r') {
-                    character = (char)br.read();
-                    if (character == '\n') {
-                        line += 1;
-                        continue;
-                    }
-                } 
+                if (newLine()) {continue;}
+
                 
                 temp += character; //add character in temp
 
+                // COMMENT
+                if (character == '@') {
+                    if ( (chr = br.read()) == -1){break;}
+                    character = (char) chr;
+                    if (character == '@') {
+                        while( (chr = br.read()) != -1) {
+                            character = (char) chr;
+                            if (character == '@') {
+                                if ( (chr = br.read()) == -1){break;}
+                                if (character == '@') {break;}
+                            }
+                        }
+                    } else {
+                        while( (chr = br.read()) != -1) {
+                            character = (char) chr;
+                            if (newLine()) {break;}
+                        }
+                    }
+                    temp="";
+                    continue;
+                }
+                
+                
                 // THIS IS FOR SPACE BREAKER
                 if (spaceAndTab()){continue;}
 
@@ -128,6 +190,11 @@ public class Tokenizer {
 
                 
             } 
+            if (temp.isEmpty()) {
+            } else {
+                System.out.println(temp+" op line:" + line);//operator token
+                temp = "";
+            }
 
             
             br.close();
