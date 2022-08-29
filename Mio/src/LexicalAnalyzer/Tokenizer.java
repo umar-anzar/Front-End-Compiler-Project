@@ -16,23 +16,37 @@ import java.util.ArrayList;
  */
 public class Tokenizer {
     
+    // Initialize var
+        static String temp ="";
+        static FileReader fr = null;
+        static BufferedReader br = null;
+        
+        // For Reader
+        static int chr=0;
+        static char character=' ';
+        static int line=1;
+        
+        // Breaker
+        static String [] b_punctuator = ValidWords.punctuator;
+        static String [][] b_operator = ValidWords.operator;
     
+    
+    
+    public static boolean spaceAndTab() {
+        if (' ' == character || '\t' == character) {
+            if (temp.length() != 1) { 
+                System.out.println(temp.substring(0, temp.length() - 1));
+            }
+            temp = "";
+            return true;
+        }
+        return false;
+    }
     
     
     public static void main(String[] args) {
         
-        // Initialize var
-        String temp ="";
-        FileReader fr = null;
-        BufferedReader br = null;
         
-        // For Reader
-        int chr=0;
-        int line=0;
-        
-        // Breaker
-        String [] b_punctuator = ValidWords.punctuator;
-        String [][] b_operator = ValidWords.operator;
         
         
         //Initialize tokenList
@@ -60,8 +74,8 @@ public class Tokenizer {
             
 
             while((chr = br.read()) != -1) {
-                char character = (char) chr;
-                
+                character = (char) chr;
+
                 //newline
                 if (character == '\r') {
                     character = (char)br.read();
@@ -78,16 +92,9 @@ public class Tokenizer {
                 
                 temp += character; //add character in temp
                 
-                
-                
+
                 // THIS IS FOR SPACE BREAKER
-                if (' ' == character || '\t' == character) {
-                    if (temp.length() != 1) { 
-                        System.out.println(temp.substring(0, temp.length() - 1));
-                    }
-                    temp = "";
-                    continue;
-                }
+                if (spaceAndTab()){continue;}
                 
                 
                 // THIS IS FOR b_punctuator BREAKER
@@ -98,12 +105,25 @@ public class Tokenizer {
                             temp = "";
                             temp += character;
                         }
-                        System.out.println(temp);//punctuator token
+                        System.out.println(temp+" punc");//punctuator token
                         temp = "";
+                        break;
                     }
                 }
                 
-                
+                // THIS IS FOR b_operator BREAKER
+                for (int i = 0; i < b_operator.length; i++) {
+                    if (b_operator[i][0].charAt(0) == character){
+                        if (temp.length() != 1) { 
+                            System.out.println(temp.substring(0, temp.length() - 1)); //word token
+                            temp = "";
+                            temp += character;
+                        }
+                        System.out.println(temp+" op");//operator token
+                        temp = "";
+                        break;
+                    }
+                }
                 
                 
                 
