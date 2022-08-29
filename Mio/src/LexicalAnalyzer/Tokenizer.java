@@ -43,6 +43,36 @@ public class Tokenizer {
         return false;
     }
     
+    public static void punctuatorBreaker() {
+        for (int i = 0; i < b_punctuator.length; i++) {
+            if (b_punctuator[i].charAt(0) == character){
+                if (temp.length() != 1) { 
+                    System.out.println(temp.substring(0, temp.length() - 1)); //word token
+                    temp = "";
+                    temp += character;
+                }
+                System.out.println(temp+" punc line:" + line);//punctuator token
+                temp = "";
+                break;
+            }
+        }
+    }
+    
+    public static void operatorBreaker() {
+        for (int i = 0; i < b_operator.length; i++) {
+            if (b_operator[i][0].charAt(0) == character){
+                if (temp.length() != 1) { 
+                    System.out.println(temp.substring(0, temp.length() - 1)); //word token
+                    temp = "";
+                    temp += character;
+                }
+                System.out.println(temp+" op line:" + line);//operator token
+                temp = "";
+                break;
+            }
+        }
+    }
+    
     
     public static void main(String[] args) {
         
@@ -72,8 +102,8 @@ public class Tokenizer {
         try {
             
             
-
-            while((chr = br.read()) != -1) {
+            /* READER LOOP */
+            while( (chr = br.read()) != -1) {
                 character = (char) chr;
 
                 //newline
@@ -85,59 +115,20 @@ public class Tokenizer {
                     }
                 } 
                 
-                
-                
-                
-                
-                
                 temp += character; //add character in temp
-                
 
                 // THIS IS FOR SPACE BREAKER
                 if (spaceAndTab()){continue;}
-                
-                
+
                 // THIS IS FOR b_punctuator BREAKER
-                for (int i = 0; i < b_punctuator.length; i++) {
-                    if (b_punctuator[i].charAt(0) == character){
-                        if (temp.length() != 1) { 
-                            System.out.println(temp.substring(0, temp.length() - 1)); //word token
-                            temp = "";
-                            temp += character;
-                        }
-                        System.out.println(temp+" punc");//punctuator token
-                        temp = "";
-                        break;
-                    }
-                }
+                punctuatorBreaker();
                 
                 // THIS IS FOR b_operator BREAKER
-                for (int i = 0; i < b_operator.length; i++) {
-                    if (b_operator[i][0].charAt(0) == character){
-                        if (temp.length() != 1) { 
-                            System.out.println(temp.substring(0, temp.length() - 1)); //word token
-                            temp = "";
-                            temp += character;
-                        }
-                        System.out.println(temp+" op");//operator token
-                        temp = "";
-                        break;
-                    }
-                }
-                
-                
-                
+                operatorBreaker();
+
                 
             } 
-            //System.out.println(temp);
-            System.out.println(line);
-            
-            
-            
-            
 
-            
-            
             
             br.close();
             fr.close();
