@@ -69,11 +69,12 @@ public class Tokenizer {
                     }
                 }
                 temp="";
-
+                return true;
             } catch (IOException ex) {
                 System.out.println("Error in Comment function");
             }
         }
+        return false;
     }
     
     public static boolean spaceAndTab() {
@@ -119,14 +120,8 @@ public class Tokenizer {
     
     
     public static void main(String[] args) {
-        
-        
-        
-        
         //Initialize tokenList
-        
-        
-        //ValidWords checker = new ValidWords();
+        TokenClass.createTokenList();
         
         
         // Initialize File Reader 
@@ -150,52 +145,32 @@ public class Tokenizer {
             while( (chr = br.read()) != -1) {
                 character = (char) chr;
 
-                //newline
+                // THIS IS FOR NEWLINE
                 if (newLine()) {continue;}
-
-                
-                temp += character; //add character in temp
-
+                //add character in temp after checking new Line
+                temp += character; 
                 // COMMENT
-                if (character == '@') {
-                    if ( (chr = br.read()) == -1){break;}
-                    character = (char) chr;
-                    if (character == '@') {
-                        while( (chr = br.read()) != -1) {
-                            character = (char) chr;
-                            if (character == '@') {
-                                if ( (chr = br.read()) == -1){break;}
-                                if (character == '@') {break;}
-                            }
-                        }
-                    } else {
-                        while( (chr = br.read()) != -1) {
-                            character = (char) chr;
-                            if (newLine()) {break;}
-                        }
-                    }
-                    temp="";
-                    continue;
-                }
-                
-                
+                if (comment()) {continue;}
                 // THIS IS FOR SPACE BREAKER
                 if (spaceAndTab()){continue;}
-
                 // THIS IS FOR b_punctuator BREAKER
                 punctuatorBreaker();
-                
                 // THIS IS FOR b_operator BREAKER
                 operatorBreaker();
 
                 
             } 
+            
+            // AFTER LOOP CHECKING IF TEMP IS FILL WITH SOMETHING
             if (temp.isEmpty()) {
             } else {
                 System.out.println(temp+" op line:" + line);//operator token
                 temp = "";
             }
 
+            
+            
+            
             
             br.close();
             fr.close();
