@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public class ValidWords {
 
     //{{value, classpart}}
-    static String[][] keyword = {
+    String[][] keyword = {
         
         {"if", "if"}, 
         {"else", "else"},
@@ -52,7 +52,7 @@ public class ValidWords {
           
     };
 
-    static String[][] operator = {
+    String[][] operator = {
         
         {"<=", "Relation Operator"},
         {">=", "Relation Operator"},
@@ -84,7 +84,7 @@ public class ValidWords {
            
     };
 
-    static String[] punctuator = {
+    String[] punctuator = {
         
         ";",
         ",", 
@@ -97,8 +97,8 @@ public class ValidWords {
         "]"
             
     };
-
     
+
     
     static void isKeyword() {
         // code to be executed

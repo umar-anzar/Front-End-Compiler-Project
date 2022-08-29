@@ -8,8 +8,8 @@ public class testing {
     
     public static void main(String[] args){
         
-        System.out.println((int)' ');
-        System.out.println("aasd".charAt(0));
+        System.out.println("henlo");
+        System.out.println();
         
     }
     class b{
