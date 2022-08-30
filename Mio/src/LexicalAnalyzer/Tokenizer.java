@@ -224,46 +224,44 @@ public class Tokenizer {
             while( (chr = br.read()) != -1) {
                 character = (char) chr;
                 
-                
                 //len2operator check
                 if (len2OperatorBreaker()) {continue;}
                 
                 if (floatDot) {
-                    if (Pattern.compile("[0-9]").matcher(String.valueOf(character)).matches()) {
+                    if (Pattern.compile("[0-9e]").matcher(String.valueOf(character)).matches()) {
                         // It's a FLOAT because next char is number :)
                         //Read then
                     } else {
-                        // Its not a float, its a indentifer breaker
-                        if (temp.length() != 1) { 
-                            System.out.println(temp.substring(0, temp.length() - 1)); //word token
-                            temp = "";
-                            temp += character;
-                        }
-                        System.out.println(temp+" punc line:" + line);//punctuator token
+                        // Its not a float, its a indentifer or other breaker
+                        System.out.println(temp.charAt(0)); //word token DOT
                         temp = "";
                     }
-
+                    
                     floatDot = false;
                 }
                 if (character == '.') {
-                    if (temp.length() >= 1) {
-                        char beforeDot = temp.charAt(temp.length()-1);
-                        if (beforeDot == ' '){
-                            floatDot = true; //might be float
-                            //need checking further thats why I've used floatDot bool
-                        } else if (Pattern.compile("[_a-zA-Z]").matcher(String.valueOf(beforeDot)).matches()) {
-                            //ITS A Identifer not a Float
-                            floatDot = true;
-                            if (temp.length() >= 1) {
-                                System.out.println(temp);//TOKEN
-                            }
+                    if (temp.isEmpty()) {
+                        //This might be float so we go further
+                        floatDot = true;
+                    } else {
+                        if (Pattern.compile("[0-9]*").matcher(temp).matches()) {
+                            // This is float Hurrah
+                            //No need to check further and no breaking
+                            floatDot = false;
+                            
+                        } else {
+                            //Then this might be identifier or other thing so BREAK IT
+                            //NOT A FLOAT SO BREAKING MUST
+                            System.out.println(temp);//TOKEN
                             temp = ""+character;
                             System.out.println(temp);//TOKEN
                             temp = "";
+                            //return true
                             continue;
-                            
                         }
+                        
                     }
+                    //return false
                 }
                 
                 //add character in temp
