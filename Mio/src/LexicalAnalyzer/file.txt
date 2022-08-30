@@ -1,4 +1,4 @@
-class Izhan (omer) {
+Class Izhan (omer) {
     @ Attributes
     int Hello = 5;
     float n = 34.05;

@@ -9,9 +9,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 
 
 /**
@@ -69,7 +67,10 @@ public class Tokenizer {
                 
                 //Dot breaker 
                 if (dotSpecialBreaker()) {continue;}
-
+                
+                
+                
+                
                 //add character in temp
                 temp += character;
                 
@@ -77,7 +78,7 @@ public class Tokenizer {
                 // THIS IS FOR NEWLINE
                 if (newLine(false)) {continue;}
                 
-
+                
                 // THIS IS FOR STRING BREAKER(finish string from start to end)
                 if (stringBreaker('\"')) {continue;}
                 // THIS IS FOR CHARACTER BREAKER(finish CHARACTER from start to end)
@@ -98,6 +99,7 @@ public class Tokenizer {
             if (temp.isEmpty()) {
             } else {
                 System.out.println(temp+" op line:" + line);//operator token
+                tokenDecidier(temp);
                 temp = "";
             }
 
@@ -114,7 +116,7 @@ public class Tokenizer {
         
         
         // Save Token List In txt
-        
+        TokenClass.saveToken();
             
     }
  
@@ -123,7 +125,8 @@ public class Tokenizer {
             
             if (!str) {
                 if (temp.length() != 1) {
-                    System.out.println(temp);//TOKEN
+                    System.out.println(temp.substring(0, temp.length()-1));//TOKEN
+                    tokenDecidier(temp.substring(0, temp.length()-1));
                 }
                 temp = "";
             }
@@ -146,6 +149,7 @@ public class Tokenizer {
             try {
                 if (temp.length() != 1) {
                     System.out.println(temp.substring(0, temp.length() - 1));
+                    tokenDecidier(temp.substring(0, temp.length() - 1));
                 }
                 temp = "";
                 temp += character;
@@ -161,7 +165,8 @@ public class Tokenizer {
                     }
 
                 }
-                System.out.println(temp+" String");
+                System.out.println(temp+" String");//Token
+                tokenDecidier(temp);
                 temp = "";
                 return true;
             } catch (IOException ex) {
@@ -183,6 +188,7 @@ public class Tokenizer {
                 if (character == '@') {
                     while( (chr = br.read()) != -1) {
                         character = (char) chr;
+                        if (newLine(true)){continue;}
                         if (character == '@') {
                             if ( (chr = br.read()) == -1){return true;}
                             character = (char) chr;
@@ -210,6 +216,7 @@ public class Tokenizer {
         if (' ' == character || '\t' == character) {
             if (temp.length() != 1) { 
                 System.out.println(temp.substring(0, temp.length() - 1));//TOKEN
+                tokenDecidier(temp.substring(0, temp.length() - 1));
             }
             temp = "";
             return true;
@@ -222,10 +229,12 @@ public class Tokenizer {
             if (bPunctuator[i].charAt(0) == character){
                 if (temp.length() != 1) { 
                     System.out.println(temp.substring(0, temp.length() - 1)); //word token
+                    tokenDecidier(temp.substring(0, temp.length() - 1));
                     temp = "";
                     temp += character;
                 }
                 System.out.println(temp+" punc line:" + line);//punctuator token
+                tokenDecidier(temp);
                 temp = "";
                 break;
             }
@@ -237,6 +246,7 @@ public class Tokenizer {
             if (bOperator[i][0].charAt(0) == character){
                 if (temp.length() != 1) { 
                     System.out.println(temp.substring(0, temp.length() - 1)); //word token
+                    tokenDecidier(temp.substring(0, temp.length() - 1));
                     temp = "";
                     temp += character;
                 }
@@ -260,6 +270,7 @@ public class Tokenizer {
                 }
             }
             System.out.println(temp+" op line:" + line);//operator token
+            tokenDecidier(temp);
             temp = "";
             len2Op = false;
             if (found){
@@ -278,6 +289,7 @@ public class Tokenizer {
             } else {
                 // Its not a float, its a indentifer or other breaker
                 System.out.println(temp.charAt(0)); //word token DOT
+                tokenDecidier(String.valueOf(temp.charAt(0)));
                 temp = "";
             }
 
@@ -297,8 +309,10 @@ public class Tokenizer {
                     //Then this might be identifier or other thing so BREAK IT
                     //NOT A FLOAT SO BREAKING MUST
                     System.out.println(temp);//TOKEN
+                    tokenDecidier(temp);
                     temp = ""+character;
                     System.out.println(temp);//TOKEN
+                    tokenDecidier(temp);
                     temp = "";
                     return true;
                 }
@@ -334,17 +348,17 @@ public class Tokenizer {
                 token.setError("Invalid ID");
             }    
         }
-        else if ( match(".", String.valueOf(tokenString.charAt(0))) ) {
+        else if ( match("[.]", String.valueOf(tokenString.charAt(0))) ) {
            if (tokenString.length() == 1){
                 token = new TokenClass(tokenString, tokenString, line);
             } 
            else if(tokenString.length() > 1){
                if(ValidWords.isFltConst(tokenString)){
-                    token = new TokenClass("float", tokenString, line);
+                    token = new TokenClass("FloatConst", tokenString, line);
                }
                else{
-                    token = new TokenClass("float", tokenString, line);
-                    token.setError("Invalid flaot");
+                    token = new TokenClass("FloatConst", tokenString, line);
+                    token.setError("Invalid FloatConst");
                }
             }
            else{
@@ -361,7 +375,7 @@ public class Tokenizer {
                     token.setError("Invalid punctuator");
             }
         }
-        else if (match("[<>!=+*-%^/]", String.valueOf(tokenString.charAt(0)))){
+        else if (match("[<>!=+*%^/|&]|[-]", String.valueOf(tokenString.charAt(0)))){
             if(!ValidWords.isOperator(tokenString).isEmpty()){
                 token = new TokenClass(tokenString, tokenString, line);
             }
@@ -372,13 +386,34 @@ public class Tokenizer {
         }
         else if(match("[0-9]", String.valueOf(tokenString.charAt(0)))){
             if(ValidWords.isIntConst(tokenString)){
-                token = new TokenClass(tokenString, tokenString, line);    
+                token = new TokenClass("IntegerConst", tokenString, line);    
             }
-            else{
-                token = new TokenClass("Integer", tokenString, line);
-                    token.setError("Invalid Integer");
+            else if (ValidWords.isFltConst(tokenString)){
+                token = new TokenClass("FloatConst", tokenString, line); 
+            } else {
+                token = new TokenClass("Integer/FloatConst", tokenString, line);
+                token.setError("Invalid Integer/FloatConst");
+            }
+        } 
+        else if (match("\'", String.valueOf(tokenString.charAt(0)))) {
+            if (ValidWords.isCharConst(tokenString)) {
+                token = new TokenClass("CharacterConst", tokenString, line);    
+            } 
+            else {
+                token = new TokenClass("CharacterConst", tokenString, line);
+                token.setError("Invalid CharacterConst");
             }
         }
+        else if (match("\"", String.valueOf(tokenString.charAt(0)))) {
+            if (ValidWords.isStrConst(tokenString)) {
+                token = new TokenClass("StringConst", tokenString, line); 
+            }
+            else {
+                token = new TokenClass("StringConst", tokenString, line);
+                token.setError("Invalid StringConst");
+            }
+        } 
+        
 
         TokenClass.addToken(token);   
     }

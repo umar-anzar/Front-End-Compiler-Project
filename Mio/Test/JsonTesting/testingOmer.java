@@ -19,7 +19,7 @@ public class testingOmer {
         String a = "";
         
         
-        System.out.println(Pattern.compile("[0-9]*").matcher("23423423").matches());
+        System.out.println(Pattern.compile("^[0-9]*\\.?[0-9]+([eE][-+]?[0-9]+)?$").matcher("6.").matches());
     }
 }
 class A{

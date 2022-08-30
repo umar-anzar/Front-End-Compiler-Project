@@ -109,6 +109,7 @@ public class TokenClass {
         // Set The Error Message
         public void setError(String error) {
             this.error = error;
+            System.out.println(error+" IM IN TOKEN CLASS----------");
         }
         
     // Override function

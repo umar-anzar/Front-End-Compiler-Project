@@ -3,10 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/projects_collab/Front-End-Compiler-Project/Mio/src/LexicalAnalyzer/Tokenizer.java</file>
-            <file>file:/D:/projects_collab/Front-End-Compiler-Project/Mio/src/LexicalAnalyzer/TokenClass.java</file>
-            <file>file:/D:/projects_collab/Front-End-Compiler-Project/Mio/Test/JsonTesting/testing.java</file>
-            <file>file:/D:/projects_collab/Front-End-Compiler-Project/Mio/src/LexicalAnalyzer/ValidWords.java</file>
+            <file>file:/I:/omer/myGitHub/Front-End-Compiler-Project/Mio/src/LexicalAnalyzer/ValidWords.java</file>
+            <file>file:/I:/omer/myGitHub/Front-End-Compiler-Project/Mio/src/LexicalAnalyzer/Tokenizer.java</file>
+            <file>file:/I:/omer/myGitHub/Front-End-Compiler-Project/Mio/src/LexicalAnalyzer/TokenClass.java</file>
+            <file>file:/I:/omer/myGitHub/Front-End-Compiler-Project/Mio/src/LexicalAnalyzer/file.txt</file>
+            <file>file:/I:/omer/myGitHub/Front-End-Compiler-Project/Mio/src/LexicalAnalyzer/Tokens.json</file>
+            <file>file:/I:/omer/myGitHub/Front-End-Compiler-Project/Mio/src/LexicalAnalyzer/Tokens.txt</file>
         </group>
     </open-files>
 </project-private>

@@ -4,6 +4,9 @@
  */
 package LexicalAnalyzer;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 
 /**
  *  variable naming scheme: camel case.
@@ -47,7 +50,9 @@ public class ValidWords {
         {"except", "except"},   
         {"finally", "finally"},
         {"raise", "raise"}, 
-        {"raises", "raises"}
+        {"raises", "raises"},
+        {"true","true"},
+        {"false","false"}
         
           
     };
@@ -104,38 +109,61 @@ public class ValidWords {
     
     static String isKeyword(String word) {
         // code to be executed
+        for (int i = 0; i < keyword.length; i++) {
+            if (word.equals(keyword[i][0])) {
+                return keyword[i][1];
+            }
+        }
         return "";
     }
     static String isOperator(String word) {
         // code to be executed
+        for (int i = 0; i < operator.length; i++) {
+            if (word.equals(operator[i][0])) {
+                return operator[i][1];
+            }
+        }
         return "";
     }      
     static boolean isPunctuator(String word) {
         // code to be executed
-        return true;
+        for (int i = 0; i < punctuator.length; i++) {
+            if (word.equals(punctuator[i])) {
+                return true;
+            }
+        }
+        return false;
     }    
-
-
     static boolean isId(String word) {
         // code to be executed
-        return true;
+        String RE = "[_a-zA-Z][_a-zA-Z0-9]*";
+        return match(RE, word);
     }    
     static boolean isCharConst(String word) {
         // code to be executed
-        return true;
+        String RE = "[']((\\\\(n|r|t|b|0|\\\\|'|\"))|([\\d\\w !-\\[\\]-~]{1}))[']";
+        return match(RE, word);
     }
     static boolean isStrConst(String word) {
         // code to be executed
-        return true;
+        String RE = "[\"]((\\\\(n|r|t|b|0|\\\\|'|\"))|([\\d\\w\\s!-\\[\\]-~]))*[\"]";
+        return match(RE, word);
     }
     static boolean isIntConst(String word) {
         // code to be executed
-        return true;
+        String RE = "[0-9]+";
+        return match(RE, word);
     }
     static boolean isFltConst(String word) {
         // code to be executed
-        return true;
+        String RE = "^[0-9]*\\.?[0-9]+([eE][-+]?[0-9]+)?$";
+        return match(RE, word);
     }
     
+    public static boolean match(String RE, String test){
+        Pattern p = Pattern.compile(RE);
+        Matcher m = p.matcher(test);
+        return m.matches();
+     }  
     
 }
