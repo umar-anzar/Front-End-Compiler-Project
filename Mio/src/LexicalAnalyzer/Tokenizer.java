@@ -310,32 +310,82 @@ public class Tokenizer {
     }
     
     public static void tokenDecidier(String tokenString) {
-        
-        
+        TokenClass token = null;
         if ( match("_", String.valueOf(tokenString.charAt(0))) ) {
-           if (ValidWords.isId(tokenString)) {
-               TokenClass token = new TokenClass("ID", tokenString, line);
-               TokenClass.addToken(token);
-           } else {
-               TokenClass token = new TokenClass("ID", tokenString, line);
-               token.setError("Invalid ID");
-               TokenClass.addToken(token);
+           if (ValidWords.isId(tokenString)){
+                token = new TokenClass("ID", tokenString, line);
+            } 
+           else{
+                token = new TokenClass("ID", tokenString, line);
+                token.setError("Invalid ID");
+            }  
+        }
+        else if ( match("[$a-zA-Z]", String.valueOf(tokenString.charAt(0))) ) {
+           if (ValidWords.isId(tokenString)){
+               if(!(ValidWords.isKeyword(tokenString).isEmpty())){
+                    token = new TokenClass(ValidWords.isKeyword(tokenString), tokenString, line);
+               }
+               else{
+                    token = new TokenClass("ID", tokenString, line);
+                }
+           } 
+           else{
+                token = new TokenClass("ID", tokenString, line);
+                token.setError("Invalid ID");
+            }    
+        }
+        else if ( match(".", String.valueOf(tokenString.charAt(0))) ) {
+           if (tokenString.length() == 1){
+                token = new TokenClass(tokenString, tokenString, line);
+            } 
+           else if(tokenString.length() > 1){
+               if(ValidWords.isFltConst(tokenString)){
+                    token = new TokenClass("float", tokenString, line);
+               }
+               else{
+                    token = new TokenClass("float", tokenString, line);
+                    token.setError("Invalid flaot");
+               }
+            }
+           else{
+                token = new TokenClass("dot", tokenString, line);
+                token.setError("Invalid dot");
            }
-        } else if()
-        
-        
-        
-        
-        
-        
-        
-        
-    } 
+        }
+        else if (match("[;,:{([})]]", String.valueOf(tokenString.charAt(0)))){
+            if(ValidWords.isPunctuator(tokenString)){
+                token = new TokenClass(tokenString, tokenString, line);
+            }
+            else{
+                token = new TokenClass("Punctuator", tokenString, line);
+                    token.setError("Invalid punctuator");
+            }
+        }
+        else if (match("[<>!=+*-%^/]", String.valueOf(tokenString.charAt(0)))){
+            if(!ValidWords.isOperator(tokenString).isEmpty()){
+                token = new TokenClass(tokenString, tokenString, line);
+            }
+            else{
+                token = new TokenClass("Operator", tokenString, line);
+                    token.setError("Invalid Operator");
+            }   
+        }
+        else if(match("[0-9]", String.valueOf(tokenString.charAt(0)))){
+            if(ValidWords.isIntConst(tokenString)){
+                token = new TokenClass(tokenString, tokenString, line);    
+            }
+            else{
+                token = new TokenClass("Integer", tokenString, line);
+                    token.setError("Invalid Integer");
+            }
+        }
+
+        TokenClass.addToken(token);   
+    }
     
      public static boolean match(String RE, String test){
         Pattern p = Pattern.compile(RE);
         Matcher m = p.matcher(test);
         return m.matches();
-     }
-     
+     }    
 }

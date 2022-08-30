@@ -64,6 +64,7 @@ public class ValidWords {
         {"-=", "compund assignment"},
         {"%=", "compund assignment"},
         {"^=", "compund assignment"},
+        {"/=", "compund assignment"},
         
         {"!", "not"}, 
         {"&&", "and"},
@@ -103,12 +104,15 @@ public class ValidWords {
     
     static String isKeyword(String word) {
         // code to be executed
+        return "";
     }
     static String isOperator(String word) {
         // code to be executed
+        return "";
     }      
     static boolean isPunctuator(String word) {
         // code to be executed
+        return true;
     }    
 
 
