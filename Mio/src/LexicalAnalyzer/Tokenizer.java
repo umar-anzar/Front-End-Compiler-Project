@@ -68,8 +68,8 @@ public class Tokenizer {
         return false;
     }
 
-    public static boolean stringBreaker() {
-        if ('\"' == character) {
+    public static boolean stringBreaker(char c) {
+        if (c == character) {
             try {
                 if (temp.length() != 1) {
                     System.out.println(temp.substring(0, temp.length() - 1));
@@ -80,7 +80,7 @@ public class Tokenizer {
                     character = (char) chr;
                     if (newLine(true)) {break;}
                     temp += character;
-                    if ('\"' == character) {
+                    if (c == character) {
                         if ('\\' == temp.charAt(temp.length() - 2)) {
                             continue;
                         }
@@ -266,6 +266,7 @@ public class Tokenizer {
                 //len2operator check
                 if (len2OperatorBreaker()) {continue;}
                 
+                //Dot breaker 
                 if (dotSpecialBreaker()) {continue;}
 
                 //add character in temp
@@ -277,7 +278,9 @@ public class Tokenizer {
                 
 
                 // THIS IS FOR STRING BREAKER(finish string from start to end)
-                if (stringBreaker()) {continue;}
+                if (stringBreaker('\"')) {continue;}
+                // THIS IS FOR CHARACTER BREAKER(finish CHARACTER from start to end)
+                if (stringBreaker('\'')) {continue;}
                 // THIS IS FOR COMMENT(finish string from start to end)
                 if (commentBreaker()) {continue;}
                 // THIS IS FOR SPACE BREAKER

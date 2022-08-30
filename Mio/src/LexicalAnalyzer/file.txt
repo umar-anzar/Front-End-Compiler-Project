@@ -6,7 +6,7 @@ class Izhan (omer) {
     @@ methods which are awesome
 
     and I LOVE METHODS@@
-    
+    char c = '\''
     String const $Hey = "hello hello how are you sir \"Muqsit\" ";
 
     @ METHODS ARE BEST OF THE BEST
