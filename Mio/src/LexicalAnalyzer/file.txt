@@ -1,3 +1,2 @@
 
-a= "asda"@@ asdas @@sd"x
-x = (char) a;
+a *=/5 + 2 ^ x

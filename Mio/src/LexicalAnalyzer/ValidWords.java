@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package LexicalAnalyzer;
-import java.util.ArrayList;
+
 
 /**
  *  variable naming scheme: camel case.
@@ -59,6 +59,16 @@ public class ValidWords {
         {"!=", "Relation Operator"},
         {"==", "Relation Operator"},
         
+        {"+=", "compund assignment"},
+        {"*=", "compund assignment"},
+        {"-=", "compund assignment"},
+        {"%=", "compund assignment"},
+        {"^=", "compund assignment"},
+        
+        {"!", "not"}, 
+        {"&&", "and"},
+        {"||", "or"},
+
         {"++", "inc-dec"},
         {"--", "inc-dec"},
           
@@ -71,16 +81,7 @@ public class ValidWords {
         
         {"^", "power"},
         
-        {"=", "simple assignment"},
-        
-        {"+=", "compund assignment"},
-        {"*=", "compund assignment"},
-        {"-=", "compund assignment"},
-        {"%=", "compund assignment"},
-        
-        {"!", "not"}, 
-        {"&&", "and"},
-        {"||", "or"}
+        {"=", "simple assignment"}
            
     };
 

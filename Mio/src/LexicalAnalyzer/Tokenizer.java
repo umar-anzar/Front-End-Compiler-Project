@@ -29,8 +29,16 @@ public class Tokenizer {
         static int line=1;
         
         // Breaker
-        static String [] b_punctuator = ValidWords.punctuator;
-        static String [][] b_operator = ValidWords.operator;
+        static boolean len2Op = false;
+        static String [] bPunctuator = ValidWords.punctuator;
+        static String [][] bOperator = ValidWords.operator;
+//        static String [][] len2Operator = {
+//            {"+","+"},{"+","="},{"-","-"},{"-","="},
+//            {"*","="},{"/","="},{"%","="},{"^","="},
+//            {"<","="},{">","="},{"=","="},
+//            {"|","|"},{"&","&"},{"=","="},
+//        
+//        };
     
     
     
@@ -92,6 +100,7 @@ public class Tokenizer {
             if (temp.length() != 1) { 
                 System.out.println(temp.substring(0, temp.length() - 1));
             }
+            temp = "";
             try {
                 if ( (chr = br.read()) == -1){return true;}
                 character = (char) chr;
@@ -105,10 +114,12 @@ public class Tokenizer {
                         }
                     }
                 } else {
-                    while( (chr = br.read()) != -1) {
+                    
+                    do {
                         character = (char) chr;
-                        if (newLine(false)) {break;}
-                    }
+                        if (newLine(true)) {break;}
+                    } while((chr = br.read()) != -1);
+                    
                 }
                 temp="";
                 return true;
@@ -131,8 +142,8 @@ public class Tokenizer {
     }
     
     public static void punctuatorBreaker() {
-        for (int i = 0; i < b_punctuator.length; i++) {
-            if (b_punctuator[i].charAt(0) == character){
+        for (int i = 0; i < bPunctuator.length; i++) {
+            if (bPunctuator[i].charAt(0) == character){
                 if (temp.length() != 1) { 
                     System.out.println(temp.substring(0, temp.length() - 1)); //word token
                     temp = "";
@@ -145,22 +156,46 @@ public class Tokenizer {
         }
     }
     
-    public static void operatorBreaker() {
-        for (int i = 0; i < b_operator.length; i++) {
-            if (b_operator[i][0].charAt(0) == character){
+    public static boolean operatorBreaker() {
+        for (int i = 0; i < bOperator.length; i++) {
+            if (bOperator[i][0].charAt(0) == character){
                 if (temp.length() != 1) { 
                     System.out.println(temp.substring(0, temp.length() - 1)); //word token
                     temp = "";
                     temp += character;
                 }
-                System.out.println(temp+" op line:" + line);//operator token
-                temp = "";
-                break;
+                // len 2 operator boolean
+                return true;
             }
         }
+        return false;
+    }
+    
+    public static boolean len2OperatorBreaker() {
+        if (len2Op) {
+            boolean found=false;
+            for (int i = 0; i < bOperator.length; i++) {
+                if (bOperator[i][0].length()>1) {
+                    if (character == bOperator[i][0].charAt(1)) {
+                        temp += character;
+                        found = true;
+                        break;
+                    }
+                }
+            }
+            System.out.println(temp+" op line:" + line);//operator token
+            temp = "";
+            len2Op = false;
+            if (found){
+                found = false;
+                return true;
+            }
+        }
+        return false;
     }
     
     public static void main(String[] args) {
+        
         //Initialize tokenList
         TokenClass.createTokenList();
         
@@ -185,24 +220,27 @@ public class Tokenizer {
             /* READER LOOP */
             while( (chr = br.read()) != -1) {
                 character = (char) chr;
-
+                
+                //len2operator check
+                if (len2OperatorBreaker()) {continue;}
+                
+                //add character in temp
                 temp += character;
                 
                 // THIS IS FOR NEWLINE
                 if (newLine(false)) {continue;}
-                //add character in temp after checking new Line
                 
-                
+
                 // THIS IS FOR STRING BREAKER
                 if (stringBreaker()) {continue;}
                 // THIS IS FOR COMMENT
                 if (commentBreaker()) {continue;}
                 // THIS IS FOR SPACE BREAKER
                 if (spaceAndTab()){continue;}
-                // THIS IS FOR b_punctuator BREAKER
+                // THIS IS FOR Punctuator BREAKER
                 punctuatorBreaker();
-                // THIS IS FOR b_operator BREAKER
-                operatorBreaker();
+                // THIS IS FOR Operator BREAKER
+                len2Op = operatorBreaker();
 
                 
             } 
