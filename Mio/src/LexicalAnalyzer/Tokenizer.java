@@ -43,8 +43,87 @@ public class Tokenizer {
 //        
 //        };
     
-    
-    
+    public static void main(String[] args) {
+        
+        //Initialize tokenList
+        TokenClass.createTokenList();
+        
+        
+        // Initialize File Reader 
+        try {
+            //Creation of File Reader object
+            fr = new FileReader("src\\LexicalAnalyzer\\file.txt");
+            //Creation of BufferedReader object ("Raw file Reader")
+            br = new BufferedReader(fr);             
+        } catch (FileNotFoundException ex) {
+            System.out.println("File Not Found");
+            System.exit(0);
+        }
+        
+        
+
+        // Reading File Char by Char and making Tokens
+        try {
+            
+            
+            /* READER LOOP */
+            while( (chr = br.read()) != -1) {
+                character = (char) chr;
+                
+                //len2operator check
+                if (len2OperatorBreaker()) {continue;}
+                
+                //Dot breaker 
+                if (dotSpecialBreaker()) {continue;}
+
+                //add character in temp
+                temp += character;
+                
+                
+                // THIS IS FOR NEWLINE
+                if (newLine(false)) {continue;}
+                
+
+                // THIS IS FOR STRING BREAKER(finish string from start to end)
+                if (stringBreaker('\"')) {continue;}
+                // THIS IS FOR CHARACTER BREAKER(finish CHARACTER from start to end)
+                if (stringBreaker('\'')) {continue;}
+                // THIS IS FOR COMMENT(finish string from start to end)
+                if (commentBreaker()) {continue;}
+                // THIS IS FOR SPACE BREAKER
+                if (spaceAndTab()){continue;}
+                // THIS IS FOR Punctuator BREAKER
+                punctuatorBreaker();
+                // THIS IS FOR Operator BREAKER
+                len2Op = operatorBreaker();
+                
+                
+            } 
+            
+            // AFTER LOOP CHECKING IF TEMP IS FILL WITH SOMETHING
+            if (temp.isEmpty()) {
+            } else {
+                System.out.println(temp+" op line:" + line);//operator token
+                temp = "";
+            }
+
+            
+            
+            
+            
+            br.close();
+            fr.close();
+        } catch (IOException ex) {
+            System.out.println("IO exception");
+        }
+        
+        
+        
+        // Save Token List In txt
+        
+            
+    }
+ 
     public static boolean newLine(boolean str){
         if (character == '\r') {
             
@@ -236,85 +315,4 @@ public class Tokenizer {
         return false;
     }
     
-    public static void main(String[] args) {
-        
-        //Initialize tokenList
-        TokenClass.createTokenList();
-        
-        
-        // Initialize File Reader 
-        try {
-            //Creation of File Reader object
-            fr = new FileReader("src\\LexicalAnalyzer\\file.txt");
-            //Creation of BufferedReader object ("Raw file Reader")
-            br = new BufferedReader(fr);             
-        } catch (FileNotFoundException ex) {
-            System.out.println("File Not Found");
-            System.exit(0);
-        }
-        
-        
-
-        // Reading File Char by Char and making Tokens
-        try {
-            
-            
-            /* READER LOOP */
-            while( (chr = br.read()) != -1) {
-                character = (char) chr;
-                
-                //len2operator check
-                if (len2OperatorBreaker()) {continue;}
-                
-                //Dot breaker 
-                if (dotSpecialBreaker()) {continue;}
-
-                //add character in temp
-                temp += character;
-                
-                
-                // THIS IS FOR NEWLINE
-                if (newLine(false)) {continue;}
-                
-
-                // THIS IS FOR STRING BREAKER(finish string from start to end)
-                if (stringBreaker('\"')) {continue;}
-                // THIS IS FOR CHARACTER BREAKER(finish CHARACTER from start to end)
-                if (stringBreaker('\'')) {continue;}
-                // THIS IS FOR COMMENT(finish string from start to end)
-                if (commentBreaker()) {continue;}
-                // THIS IS FOR SPACE BREAKER
-                if (spaceAndTab()){continue;}
-                // THIS IS FOR Punctuator BREAKER
-                punctuatorBreaker();
-                // THIS IS FOR Operator BREAKER
-                len2Op = operatorBreaker();
-                
-                
-            } 
-            
-            // AFTER LOOP CHECKING IF TEMP IS FILL WITH SOMETHING
-            if (temp.isEmpty()) {
-            } else {
-                System.out.println(temp+" op line:" + line);//operator token
-                temp = "";
-            }
-
-            
-            
-            
-            
-            br.close();
-            fr.close();
-        } catch (IOException ex) {
-            System.out.println("IO exception");
-        }
-        
-        
-        
-        // Save Token List In txt
-        
-            
-    }
- 
 }
