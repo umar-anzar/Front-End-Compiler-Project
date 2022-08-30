@@ -33,9 +33,17 @@ public class Tokenizer {
         static String [][] b_operator = ValidWords.operator;
     
     
-        
-    public static boolean newLine(){
+    
+    public static boolean newLine(boolean str){
         if (character == '\r') {
+            
+            if (!str) {
+                if (temp.length() != 1) {
+                    System.out.println(temp);//TOKEN
+                }
+                temp = "";
+            }
+            
             try {
                 character = (char)br.read();
             } catch (IOException ex) {
@@ -48,9 +56,42 @@ public class Tokenizer {
         }
         return false;
     }
+
+    public static boolean stringBreaker() {
+        if ('\"' == character) {
+            try {
+                if (temp.length() != 1) {
+                    System.out.println(temp.substring(0, temp.length() - 1));
+                }
+                temp = "";
+                temp += character;
+                while ((chr = br.read()) != -1) {
+                    character = (char) chr;
+                    if (newLine(true)) {break;}
+                    temp += character;
+                    if ('\"' == character) {
+                        if ('\\' == temp.charAt(temp.length() - 2)) {
+                            continue;
+                        }
+                        break;
+                    }
+
+                }
+                System.out.println(temp+" String");
+                temp = "";
+                return true;
+            } catch (IOException ex) {
+                System.out.println("String breaker error");
+            }
+        }
+        return false;
+    }
     
-    public static boolean comment() {
+    public static boolean commentBreaker() {
         if (character == '@') {
+            if (temp.length() != 1) { 
+                System.out.println(temp.substring(0, temp.length() - 1));
+            }
             try {
                 if ( (chr = br.read()) == -1){return true;}
                 character = (char) chr;
@@ -59,13 +100,14 @@ public class Tokenizer {
                         character = (char) chr;
                         if (character == '@') {
                             if ( (chr = br.read()) == -1){return true;}
+                            character = (char) chr;
                             if (character == '@') {break;}
                         }
                     }
                 } else {
                     while( (chr = br.read()) != -1) {
                         character = (char) chr;
-                        if (newLine()) {break;}
+                        if (newLine(false)) {break;}
                     }
                 }
                 temp="";
@@ -80,7 +122,7 @@ public class Tokenizer {
     public static boolean spaceAndTab() {
         if (' ' == character || '\t' == character) {
             if (temp.length() != 1) { 
-                System.out.println(temp.substring(0, temp.length() - 1));
+                System.out.println(temp.substring(0, temp.length() - 1));//TOKEN
             }
             temp = "";
             return true;
@@ -118,7 +160,6 @@ public class Tokenizer {
         }
     }
     
-    
     public static void main(String[] args) {
         //Initialize tokenList
         TokenClass.createTokenList();
@@ -136,7 +177,7 @@ public class Tokenizer {
         }
         
         
-        
+
         // Reading File Char by Char and making Tokens
         try {
             
@@ -145,12 +186,17 @@ public class Tokenizer {
             while( (chr = br.read()) != -1) {
                 character = (char) chr;
 
+                temp += character;
+                
                 // THIS IS FOR NEWLINE
-                if (newLine()) {continue;}
+                if (newLine(false)) {continue;}
                 //add character in temp after checking new Line
-                temp += character; 
-                // COMMENT
-                if (comment()) {continue;}
+                
+                
+                // THIS IS FOR STRING BREAKER
+                if (stringBreaker()) {continue;}
+                // THIS IS FOR COMMENT
+                if (commentBreaker()) {continue;}
                 // THIS IS FOR SPACE BREAKER
                 if (spaceAndTab()){continue;}
                 // THIS IS FOR b_punctuator BREAKER
