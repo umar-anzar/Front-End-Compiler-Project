@@ -7,6 +7,8 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;  // Import this class to handle errors
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -30,6 +32,7 @@ public class Tokenizer {
         
         // Breaker
         static boolean len2Op = false;
+        static boolean floatDot = false;
         static String [] bPunctuator = ValidWords.punctuator;
         static String [][] bOperator = ValidWords.operator;
 //        static String [][] len2Operator = {
@@ -221,19 +224,59 @@ public class Tokenizer {
             while( (chr = br.read()) != -1) {
                 character = (char) chr;
                 
+                
                 //len2operator check
                 if (len2OperatorBreaker()) {continue;}
                 
+                if (floatDot) {
+                    if (Pattern.compile("[0-9]").matcher(String.valueOf(character)).matches()) {
+                        // It's a FLOAT because next char is number :)
+                        //Read then
+                    } else {
+                        // Its not a float, its a indentifer breaker
+                        if (temp.length() != 1) { 
+                            System.out.println(temp.substring(0, temp.length() - 1)); //word token
+                            temp = "";
+                            temp += character;
+                        }
+                        System.out.println(temp+" punc line:" + line);//punctuator token
+                        temp = "";
+                    }
+
+                    floatDot = false;
+                }
+                if (character == '.') {
+                    if (temp.length() >= 1) {
+                        char beforeDot = temp.charAt(temp.length()-1);
+                        if (beforeDot == ' '){
+                            floatDot = true; //might be float
+                            //need checking further thats why I've used floatDot bool
+                        } else if (Pattern.compile("[_a-zA-Z]").matcher(String.valueOf(beforeDot)).matches()) {
+                            //ITS A Identifer not a Float
+                            floatDot = true;
+                            if (temp.length() >= 1) {
+                                System.out.println(temp);//TOKEN
+                            }
+                            temp = ""+character;
+                            System.out.println(temp);//TOKEN
+                            temp = "";
+                            continue;
+                            
+                        }
+                    }
+                }
+                
                 //add character in temp
                 temp += character;
+                
                 
                 // THIS IS FOR NEWLINE
                 if (newLine(false)) {continue;}
                 
 
-                // THIS IS FOR STRING BREAKER
+                // THIS IS FOR STRING BREAKER(finish string from start to end)
                 if (stringBreaker()) {continue;}
-                // THIS IS FOR COMMENT
+                // THIS IS FOR COMMENT(finish string from start to end)
                 if (commentBreaker()) {continue;}
                 // THIS IS FOR SPACE BREAKER
                 if (spaceAndTab()){continue;}
@@ -241,7 +284,7 @@ public class Tokenizer {
                 punctuatorBreaker();
                 // THIS IS FOR Operator BREAKER
                 len2Op = operatorBreaker();
-
+                
                 
             } 
             

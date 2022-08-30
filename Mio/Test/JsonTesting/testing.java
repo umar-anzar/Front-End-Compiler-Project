@@ -30,6 +30,7 @@ public class testing {
         public static boolean language(String RE, String test){
         Pattern p = Pattern.compile(RE);
         Matcher m = p.matcher(test);
+        ;
         return m.matches();
      
     }  
