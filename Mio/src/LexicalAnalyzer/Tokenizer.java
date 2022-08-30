@@ -35,13 +35,7 @@ public class Tokenizer {
         static boolean floatDot = false;
         static String [] bPunctuator = ValidWords.punctuator;
         static String [][] bOperator = ValidWords.operator;
-//        static String [][] len2Operator = {
-//            {"+","+"},{"+","="},{"-","-"},{"-","="},
-//            {"*","="},{"/","="},{"%","="},{"^","="},
-//            {"<","="},{">","="},{"=","="},
-//            {"|","|"},{"&","&"},{"=","="},
-//        
-//        };
+
     
     public static void main(String[] args) {
         
@@ -66,7 +60,7 @@ public class Tokenizer {
         try {
             
             
-            /* READER LOOP */
+            /* READER AND BREAKER LOOP */
             while( (chr = br.read()) != -1) {
                 character = (char) chr;
                 
@@ -278,7 +272,7 @@ public class Tokenizer {
     
     public static boolean dotSpecialBreaker(){
         if (floatDot) {
-            if (Pattern.compile("[0-9e]").matcher(String.valueOf(character)).matches()) {
+            if (match("[0-9]", String.valueOf(character))) {
                 // It's a FLOAT because next char is number :)
                 //Read then
             } else {
@@ -294,7 +288,7 @@ public class Tokenizer {
                 //This might be float so we go further
                 floatDot = true;
             } else {
-                if (Pattern.compile("[0-9]*").matcher(temp).matches()) {
+                if (match("[0-9]*", temp)) {
                     // This is float Hurrah
                     //No need to check further and no breaking
                     floatDot = false;
@@ -315,4 +309,26 @@ public class Tokenizer {
         return false;
     }
     
+    public static void tokenDecidier(String tokenString) {
+        
+        
+//        if ( match("_", tokenString[0]) ) {
+//            
+//        } 
+        
+        
+        
+        
+        
+        
+        
+        
+    } 
+    
+     public static boolean match(String RE, String test){
+        Pattern p = Pattern.compile(RE);
+        Matcher m = p.matcher(test);
+        return m.matches();
+     }
+     
 }
