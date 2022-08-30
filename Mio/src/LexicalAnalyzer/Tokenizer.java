@@ -197,6 +197,45 @@ public class Tokenizer {
         return false;
     }
     
+    public static boolean dotSpecialBreaker(){
+        if (floatDot) {
+            if (Pattern.compile("[0-9e]").matcher(String.valueOf(character)).matches()) {
+                // It's a FLOAT because next char is number :)
+                //Read then
+            } else {
+                // Its not a float, its a indentifer or other breaker
+                System.out.println(temp.charAt(0)); //word token DOT
+                temp = "";
+            }
+
+            floatDot = false;
+        }
+        if (character == '.') {
+            if (temp.isEmpty()) {
+                //This might be float so we go further
+                floatDot = true;
+            } else {
+                if (Pattern.compile("[0-9]*").matcher(temp).matches()) {
+                    // This is float Hurrah
+                    //No need to check further and no breaking
+                    floatDot = false;
+
+                } else {
+                    //Then this might be identifier or other thing so BREAK IT
+                    //NOT A FLOAT SO BREAKING MUST
+                    System.out.println(temp);//TOKEN
+                    temp = ""+character;
+                    System.out.println(temp);//TOKEN
+                    temp = "";
+                    return true;
+                }
+
+            }
+            
+        }
+        return false;
+    }
+    
     public static void main(String[] args) {
         
         //Initialize tokenList
@@ -227,43 +266,8 @@ public class Tokenizer {
                 //len2operator check
                 if (len2OperatorBreaker()) {continue;}
                 
-                if (floatDot) {
-                    if (Pattern.compile("[0-9e]").matcher(String.valueOf(character)).matches()) {
-                        // It's a FLOAT because next char is number :)
-                        //Read then
-                    } else {
-                        // Its not a float, its a indentifer or other breaker
-                        System.out.println(temp.charAt(0)); //word token DOT
-                        temp = "";
-                    }
-                    
-                    floatDot = false;
-                }
-                if (character == '.') {
-                    if (temp.isEmpty()) {
-                        //This might be float so we go further
-                        floatDot = true;
-                    } else {
-                        if (Pattern.compile("[0-9]*").matcher(temp).matches()) {
-                            // This is float Hurrah
-                            //No need to check further and no breaking
-                            floatDot = false;
-                            
-                        } else {
-                            //Then this might be identifier or other thing so BREAK IT
-                            //NOT A FLOAT SO BREAKING MUST
-                            System.out.println(temp);//TOKEN
-                            temp = ""+character;
-                            System.out.println(temp);//TOKEN
-                            temp = "";
-                            //return true
-                            continue;
-                        }
-                        
-                    }
-                    //return false
-                }
-                
+                if (dotSpecialBreaker()) {continue;}
+
                 //add character in temp
                 temp += character;
                 
