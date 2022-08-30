@@ -1,1 +1,21 @@
-x4.ab
+class Izhan (omer) {
+    @ Attributes
+    int Hello = 5;
+    float n = 34.05;
+    
+    @@ methods which are awesome
+
+    and I LOVE METHODS@@
+    char c = '\''
+    String const $Hey = "hello hello how are you sir \"Muqsit\" ";
+
+    @ METHODS ARE BEST OF THE BEST
+    String Method_name_(int i, char x) {
+        this.n ^= 3.5;
+        this.n++;
+        p = this.n;
+        if (p == 4 || p != 3){;}
+        return this.Hello * ( n * .6)/ 4.8
+    
+    }
+}

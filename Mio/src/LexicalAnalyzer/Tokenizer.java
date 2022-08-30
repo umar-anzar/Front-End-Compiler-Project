@@ -35,16 +35,89 @@ public class Tokenizer {
         static boolean floatDot = false;
         static String [] bPunctuator = ValidWords.punctuator;
         static String [][] bOperator = ValidWords.operator;
-//        static String [][] len2Operator = {
-//            {"+","+"},{"+","="},{"-","-"},{"-","="},
-//            {"*","="},{"/","="},{"%","="},{"^","="},
-//            {"<","="},{">","="},{"=","="},
-//            {"|","|"},{"&","&"},{"=","="},
-//        
-//        };
+
     
-    
-    
+    public static void main(String[] args) {
+        
+        //Initialize tokenList
+        TokenClass.createTokenList();
+        
+        
+        // Initialize File Reader 
+        try {
+            //Creation of File Reader object
+            fr = new FileReader("src\\LexicalAnalyzer\\file.txt");
+            //Creation of BufferedReader object ("Raw file Reader")
+            br = new BufferedReader(fr);             
+        } catch (FileNotFoundException ex) {
+            System.out.println("File Not Found");
+            System.exit(0);
+        }
+        
+        
+
+        // Reading File Char by Char and making Tokens
+        try {
+            
+            
+            /* READER AND BREAKER LOOP */
+            while( (chr = br.read()) != -1) {
+                character = (char) chr;
+                
+                //len2operator check
+                if (len2OperatorBreaker()) {continue;}
+                
+                //Dot breaker 
+                if (dotSpecialBreaker()) {continue;}
+
+                //add character in temp
+                temp += character;
+                
+                
+                // THIS IS FOR NEWLINE
+                if (newLine(false)) {continue;}
+                
+
+                // THIS IS FOR STRING BREAKER(finish string from start to end)
+                if (stringBreaker('\"')) {continue;}
+                // THIS IS FOR CHARACTER BREAKER(finish CHARACTER from start to end)
+                if (stringBreaker('\'')) {continue;}
+                // THIS IS FOR COMMENT(finish string from start to end)
+                if (commentBreaker()) {continue;}
+                // THIS IS FOR SPACE BREAKER
+                if (spaceAndTab()){continue;}
+                // THIS IS FOR Punctuator BREAKER
+                punctuatorBreaker();
+                // THIS IS FOR Operator BREAKER
+                len2Op = operatorBreaker();
+                
+                
+            } 
+            
+            // AFTER LOOP CHECKING IF TEMP IS FILL WITH SOMETHING
+            if (temp.isEmpty()) {
+            } else {
+                System.out.println(temp+" op line:" + line);//operator token
+                temp = "";
+            }
+
+            
+            
+            
+            
+            br.close();
+            fr.close();
+        } catch (IOException ex) {
+            System.out.println("IO exception");
+        }
+        
+        
+        
+        // Save Token List In txt
+        
+            
+    }
+ 
     public static boolean newLine(boolean str){
         if (character == '\r') {
             
@@ -68,8 +141,8 @@ public class Tokenizer {
         return false;
     }
 
-    public static boolean stringBreaker() {
-        if ('\"' == character) {
+    public static boolean stringBreaker(char c) {
+        if (c == character) {
             try {
                 if (temp.length() != 1) {
                     System.out.println(temp.substring(0, temp.length() - 1));
@@ -80,7 +153,7 @@ public class Tokenizer {
                     character = (char) chr;
                     if (newLine(true)) {break;}
                     temp += character;
-                    if ('\"' == character) {
+                    if (c == character) {
                         if ('\\' == temp.charAt(temp.length() - 2)) {
                             continue;
                         }
@@ -197,119 +270,65 @@ public class Tokenizer {
         return false;
     }
     
-    public static void main(String[] args) {
-        
-        //Initialize tokenList
-        TokenClass.createTokenList();
-        
-        
-        // Initialize File Reader 
-        try {
-            //Creation of File Reader object
-            fr = new FileReader("src\\LexicalAnalyzer\\file.txt");
-            //Creation of BufferedReader object ("Raw file Reader")
-            br = new BufferedReader(fr);             
-        } catch (FileNotFoundException ex) {
-            System.out.println("File Not Found");
-            System.exit(0);
-        }
-        
-        
-
-        // Reading File Char by Char and making Tokens
-        try {
-            
-            
-            /* READER LOOP */
-            while( (chr = br.read()) != -1) {
-                character = (char) chr;
-                
-                
-                //len2operator check
-                if (len2OperatorBreaker()) {continue;}
-                
-                if (floatDot) {
-                    if (Pattern.compile("[0-9]").matcher(String.valueOf(character)).matches()) {
-                        // It's a FLOAT because next char is number :)
-                        //Read then
-                    } else {
-                        // Its not a float, its a indentifer breaker
-                        if (temp.length() != 1) { 
-                            System.out.println(temp.substring(0, temp.length() - 1)); //word token
-                            temp = "";
-                            temp += character;
-                        }
-                        System.out.println(temp+" punc line:" + line);//punctuator token
-                        temp = "";
-                    }
-
-                    floatDot = false;
-                }
-                if (character == '.') {
-                    if (temp.length() >= 1) {
-                        char beforeDot = temp.charAt(temp.length()-1);
-                        if (beforeDot == ' '){
-                            floatDot = true; //might be float
-                            //need checking further thats why I've used floatDot bool
-                        } else if (Pattern.compile("[_a-zA-Z]").matcher(String.valueOf(beforeDot)).matches()) {
-                            //ITS A Identifer not a Float
-                            floatDot = true;
-                            if (temp.length() >= 1) {
-                                System.out.println(temp);//TOKEN
-                            }
-                            temp = ""+character;
-                            System.out.println(temp);//TOKEN
-                            temp = "";
-                            continue;
-                            
-                        }
-                    }
-                }
-                
-                //add character in temp
-                temp += character;
-                
-                
-                // THIS IS FOR NEWLINE
-                if (newLine(false)) {continue;}
-                
-
-                // THIS IS FOR STRING BREAKER(finish string from start to end)
-                if (stringBreaker()) {continue;}
-                // THIS IS FOR COMMENT(finish string from start to end)
-                if (commentBreaker()) {continue;}
-                // THIS IS FOR SPACE BREAKER
-                if (spaceAndTab()){continue;}
-                // THIS IS FOR Punctuator BREAKER
-                punctuatorBreaker();
-                // THIS IS FOR Operator BREAKER
-                len2Op = operatorBreaker();
-                
-                
-            } 
-            
-            // AFTER LOOP CHECKING IF TEMP IS FILL WITH SOMETHING
-            if (temp.isEmpty()) {
+    public static boolean dotSpecialBreaker(){
+        if (floatDot) {
+            if (match("[0-9]", String.valueOf(character))) {
+                // It's a FLOAT because next char is number :)
+                //Read then
             } else {
-                System.out.println(temp+" op line:" + line);//operator token
+                // Its not a float, its a indentifer or other breaker
+                System.out.println(temp.charAt(0)); //word token DOT
                 temp = "";
             }
 
-            
-            
-            
-            
-            br.close();
-            fr.close();
-        } catch (IOException ex) {
-            System.out.println("IO exception");
+            floatDot = false;
         }
-        
-        
-        
-        // Save Token List In txt
-        
+        if (character == '.') {
+            if (temp.isEmpty()) {
+                //This might be float so we go further
+                floatDot = true;
+            } else {
+                if (match("[0-9]*", temp)) {
+                    // This is float Hurrah
+                    //No need to check further and no breaking
+                    floatDot = false;
+
+                } else {
+                    //Then this might be identifier or other thing so BREAK IT
+                    //NOT A FLOAT SO BREAKING MUST
+                    System.out.println(temp);//TOKEN
+                    temp = ""+character;
+                    System.out.println(temp);//TOKEN
+                    temp = "";
+                    return true;
+                }
+
+            }
             
+        }
+        return false;
     }
- 
+    
+    public static void tokenDecidier(String tokenString) {
+        
+        
+//        if ( match("_", tokenString[0]) ) {
+//            
+//        } 
+        
+        
+        
+        
+        
+        
+        
+        
+    } 
+    
+     public static boolean match(String RE, String test){
+        Pattern p = Pattern.compile(RE);
+        Matcher m = p.matcher(test);
+        return m.matches();
+     }
+     
 }
