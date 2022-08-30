@@ -9,21 +9,24 @@ public class testing {
 
     
     public static void main(String[] args){
-        System.out.println(("\"\"").length());
-//        while(true){
-//        Scanner scan = new Scanner(System.in);
-//        System.out.print("enter a test case: ");        
-//        String test = scan.nextLine();
-//        
-//        // regex
-//        if (language("^([a-zA-Z_$][a-zA-Z\\d_$]*)$", test)){  //"[A-Za-z][A-Za-z0-9_]*"
-//               System.out.println("Identifier constant");
-//        }
-//        else{
-//            System.out.println("Not identifier constant");
-//        }
-//        
-//        }
+        
+        while(true){
+        Scanner scan = new Scanner(System.in);
+        System.out.print("enter a test case: ");        
+        String test = scan.nextLine();
+        
+        // character regex
+        if (language("[']((\\\\(n|r|t|b|0|\\\\|'|\"))|([\\d\\w !-\\[\\]-~]{1}))[']", test)){  
+               System.out.println("char constant");
+        }
+        else if (language("[\"]((\\\\(n|r|t|b|0|\\\\|'|\"))|([\\d\\w\\s!-\\[\\]-~]))*[\"]", test)){  
+               System.out.println("string constant");
+        }        
+        else{
+            System.out.println("wrong");
+        }
+        
+        }
 
 
     }
