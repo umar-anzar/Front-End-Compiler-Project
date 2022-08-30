@@ -312,9 +312,16 @@ public class Tokenizer {
     public static void tokenDecidier(String tokenString) {
         
         
-//        if ( match("_", tokenString[0]) ) {
-//            
-//        } 
+        if ( match("_", String.valueOf(tokenString.charAt(0))) ) {
+           if (ValidWords.isId(tokenString)) {
+               TokenClass token = new TokenClass("ID", tokenString, line);
+               TokenClass.addToken(token);
+           } else {
+               TokenClass token = new TokenClass("ID", tokenString, line);
+               token.setError("Invalid ID");
+               TokenClass.addToken(token);
+           }
+        } else if()
         
         
         

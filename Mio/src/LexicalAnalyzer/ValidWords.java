@@ -101,31 +101,36 @@ public class ValidWords {
 
     
     
-    static void isKeyword() {
+    static String isKeyword(String word) {
         // code to be executed
     }
-    static void isOperator() {
+    static String isOperator(String word) {
         // code to be executed
     }      
-    static void isPunctuator() {
+    static boolean isPunctuator(String word) {
         // code to be executed
     }    
 
 
-    static void isId() {
+    static boolean isId(String word) {
         // code to be executed
+        return true;
     }    
-    static void isCharConst() {
+    static boolean isCharConst(String word) {
         // code to be executed
+        return true;
     }
-    static void isStrConst() {
+    static boolean isStrConst(String word) {
         // code to be executed
+        return true;
     }
-    static void isIntConst() {
+    static boolean isIntConst(String word) {
         // code to be executed
+        return true;
     }
-    static void isFltConst() {
+    static boolean isFltConst(String word) {
         // code to be executed
+        return true;
     }
     
     
