@@ -159,6 +159,13 @@ public class Tokenizer {
                     temp += character;
                     if (c == character) {
                         if ('\\' == temp.charAt(temp.length() - 2)) {
+                            //for "\\" break
+                            if (temp.length() > 3) { 
+                                if ('\\' == temp.charAt(temp.length() - 3)) {
+                                    break;
+                                }
+                            }
+                            // for "\" so continue
                             continue;
                         }
                         break;

@@ -63,6 +63,8 @@ public class ValidWords {
         {">=", "Relation Operator"},
         {"!=", "Relation Operator"},
         {"==", "Relation Operator"},
+        {"<", "Relation Operator"},
+        {">", "Relation Operator"},
         
         {"+=", "compund assignment"},
         {"*=", "compund assignment"},
