@@ -1,0 +1,75 @@
+Syntax:
+
+Class className(inheritedClass){
+
+}
+
+Example:
+
+Class Car(){
+	static dataType attribute;
+	$dataType attribute;
+	$$dataType attribute;
+	
+	def returnType Identifer(parameters,comma,separated){
+		//block of code
+		ret returnType;
+	}
+
+}
+Class JDM(){
+	static dataType attribute;
+	$$dataType attribute;
+	
+	def returnType Identifer(parameters,comma,separated){
+		//block of code
+		ret returnType;
+	}
+
+}
+
+Class Supra(Car, JDM){	//Car and JDM classes are inherited
+	static dataType attribute;
+	$dataType attribute;
+	$$dataType attribute;
+	
+	def returnType Identifer(parameters,comma,separated){
+		//block of code
+		ret returnType;
+	}
+
+}
+Class UnitedBravo(Car){	//Car classe are inherited
+	static dataType attribute;
+	$dataType attribute;
+	$$dataType attribute;
+	
+	def returnType Identifer(parameters,comma,separated){
+		//block of code
+		ret returnType;
+	}
+
+}
+
+Example2:
+
+begin{
+	Polygone<Integer> x = new Box<Integer>();
+      Polygone<String> x_alpha = new Box<String>();
+
+      x.add(new Integer(10));
+      x_alpha.add(new String("Hello World"));
+}
+
+Class Polygone<T>(){
+   private T t;
+
+   public void add(T t) {
+      this.t = t;
+   }
+
+   public T get() {
+      return t;
+   }   
+}
+
