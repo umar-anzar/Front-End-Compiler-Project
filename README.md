@@ -214,8 +214,8 @@ def Identifer(parameters,comma,separated) {
 def foo(int a, point b) {
 
 }
-
 ```
+
 - Function
 ```
 def returnType Identifer(parameters,comma,separated) {
