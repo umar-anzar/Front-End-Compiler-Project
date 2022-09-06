@@ -1,8 +1,8 @@
 declaration: 
-DT ID;
+dataType IdentifierName;
 
 assignment:
-ID = DTConstant;
+IdentifierName = Constant;
 
 declaration and assignment:
-DT ID = DTConstant;
+dataType IdentifierName = Constant;

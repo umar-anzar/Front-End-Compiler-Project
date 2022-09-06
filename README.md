@@ -43,7 +43,7 @@ Project of Compiler Construction
 | public     | implicit                    |         |         |
 | private    | $$                          |         |         |
 | protected  | $                           |         |         |
-| static     | implicit                    |         |         |
+| static     | static                      |         |         |
 | new        | new                         |         |         |
 
 ## Classification
@@ -91,16 +91,101 @@ Same:
 
 ## Syntax
 
+### Comment
+```
+Syntax:
+
+@ Single Line Comment
+
+@@ Multi
+Line
+comment @@
+```
+
+### Main Function
+```
+Begin {
+    block of code
+}
+```
+
 ### Variable Definition and Initialization
 ```
+Syntax:
+
 declaration: 
-DT ID;
+dataType IdentifierName;
 
 assignment:
-ID = DTConstant;
+IdentifierName = Constant;
 
 declaration and assignment:
-DT ID = DTConstant;
+dataType IdentifierName = Constant;
 ```
 
-### Variable Definition and Initialization
+### Conditional Statement
+IF AND ELSE
+```
+Syntax:
+
+if (condition) {
+    block of code
+}
+
+
+if (condition) {
+    block of code
+} else {
+    block of code
+}
+
+if (condition) {
+    block of code
+} else if (condition) {
+    block of code
+}
+```
+SWITCH CASE
+```
+Syntax:
+
+shift(expression) {
+    state x:
+        code block
+        stop;
+    state y:
+        code block
+        stop;
+    default:
+        code block
+}
+```
+
+### Loop
+
+While Loop
+```
+Syntax:
+
+loop till (condition) {
+     code block
+}
+
+int i = 0;
+loop till (i < 5) {
+  block of code
+  i++;
+}
+```
+
+For Loop (iterator)
+```
+loop  thru ( DT i in (initial, final, incremental) ) {
+    block of code
+}
+loop  thru ( int i in (0,5,1) ) {
+    block of code
+}
+```
+
+

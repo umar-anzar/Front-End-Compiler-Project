@@ -16,10 +16,24 @@ public class testingOmer {
 
         int q = x.a;
         
-        String a = "";
+        String z = "Tue";
+        switch (z) {
+            case "Mon":
+                System.out.println("x");
+                break;
+            case "Tue":
+                System.out.println("y");
+                break;
+            case "Wed":
+                System.out.println("z");
+                break;
+            default:
+                break;
+        }
+
         
         
-        System.out.println(Pattern.compile("^[0-9]*\\.?[0-9]+([eE][-+]?[0-9]+)?$").matcher("6.").matches());
+        //System.out.println(Pattern.compile("^[0-9]*\\.?[0-9]+([eE][-+]?[0-9]+)?$").matcher("6.").matches());
     }
 }
 class A{
