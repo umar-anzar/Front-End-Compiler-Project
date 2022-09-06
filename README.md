@@ -12,7 +12,7 @@ Front End Compiler Project
 
 Project of Compiler Construction
 
-
+## Language Keywords
 | Java/C#  | Mio        | Java/C#           | Mio                    |
 |----------|------------|-------------------|------------------------|
 | if       | if         | int               | int                    |
@@ -46,4 +46,61 @@ Project of Compiler Construction
 | static     | implicit                    |         |         |
 | new        | new                         |         |         |
 
+## Classification
 
+### Operator
+
+Same: 
+- Precedence
+- Associativity
+- Syntactically replaceable
+
+| Relation   Operator | inc-dec | not | pm | mdm | power |
+|---------------------|---------|-----|----|-----|-------|
+| <                   | ++      | !   | +  | *   | ^     |
+| >                   | --      |     | -  | /   |       |
+| <=                  |         |     |    | %   |       |
+| >=                  |         |     |    |     |       |
+| !=                  |         |     |    |     |       |
+| ==                  |         |     |    |     |       |
+
+| simple assignment | compound assignment  | and | or   |
+|-------------------|----------------------|-----|------|
+| =                 | +=                   | &&  | \|\| |
+|                   | *=                   |     |      |
+|                   | -=                   |     |      |
+|                   | %=                   |     |      |
+
+### Keyword
+
+Same:
+- Syntactically replaceable
+
+| DT    | String |
+|-------|--------|
+| int   | str    |
+| point |        |
+| char  |        |
+| val   |        |
+| bool  |        |
+
+| if | else | while | do | for | in |
+|----|------|-------|----|-----|----|
+| if | else | while | do | for | in |
+
+
+## Syntax
+
+### Variable Definition and Initialization
+```
+declaration: 
+DT ID;
+
+assignment:
+ID = DTConstant;
+
+declaration and assignment:
+DT ID = DTConstant;
+```
+
+### Variable Definition and Initialization

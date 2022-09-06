@@ -1,5 +1,6 @@
 Parametric Class<?>()
 Class name<T>(intehritedclasses)
+https://www.tutorialspoint.com/java_generics/java_generics_classes.htm#:~:text=Java%20For%20Testers&text=The%20type%20parameter%20section%20of,accept%20one%20or%20more%20parameters.
 
 MultiInheritance (intertclass,interclass)
 

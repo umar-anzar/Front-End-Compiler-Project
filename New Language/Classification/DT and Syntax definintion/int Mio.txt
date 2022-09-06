@@ -1,0 +1,8 @@
+declaration: 
+DT ID;
+
+assignment:
+ID = DTConstant;
+
+declaration and assignment:
+DT ID = DTConstant;
