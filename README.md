@@ -27,7 +27,7 @@ Project: Front End Compiler Project
 | break    | stop       | comment           | @@multi-line comment@@ |
 | return   | ret        | line terminator;  | ;                      |
 | void     | implicit   | var               | var                    |
-| main     | begin/end  |                   |                        |
+| main     | begin      |                   |                        |
 
 | Java/C#    | Mio                         | Java/C# | Mio     |
 |------------|-----------------------------|---------|---------|
@@ -75,17 +75,33 @@ Same:
 Same:
 - Syntactically replaceable
 
-| DT    | String |
-|-------|--------|
-| int   | str    |
-| point |        |
-| char  |        |
-| val   |        |
-| bool  |        |
+| DT    | String |var|
+|-------|--------|---|
+| int   | str    |var|
+| point |        |   |
+| char  |        |   |
+| val   |        |   |
+| bool  |        |   |
 
-| if | else | while | do | for | in |
-|----|------|-------|----|-----|----|
-| if | else | while | do | for | in |
+| if | else | loop | till | thru | do | class |
+|----|------|------|------|------|----|-------|
+| if | else | loop | till | thru | do | Class |
+
+| switch | case | break | continue | return | static |
+|--------|------|-------|----------|--------|--------|
+| switch | case | stop  | cont     | ret    | static |
+
+| final | main  | in | default | new | abstract | super  | this |
+|-------|-------|----|---------|-----|----------|--------|------|
+| const | begin | in | default | new | abstract | Parent | Self |
+
+| Three ps  | try  | catch  | finally | throw  | throws |
+|-----------|------|--------|---------|--------|--------|
+| public    | test | except | finally | raise  | raises |
+| private   |      |        |         |        |        |
+| protected |      |        |         |        |        |
+
+
 
 
 ## Syntax

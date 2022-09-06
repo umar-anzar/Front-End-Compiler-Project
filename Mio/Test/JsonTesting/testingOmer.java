@@ -11,9 +11,10 @@ import java.util.regex.Pattern;
  * @author omera
  */
 public class testingOmer {
+    
     public static void main(String[] args) {
         A x = new A();
-
+        
         int q = x.a;
         
         String z = "Tue";
