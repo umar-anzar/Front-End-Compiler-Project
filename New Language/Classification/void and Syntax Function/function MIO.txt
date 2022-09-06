@@ -1,0 +1,28 @@
+Syntax:
+
+Procedure:
+def Identifer(parameters,comma,separated) {
+	block of code
+	ret returnType;
+}
+
+def foo(int a, point b) {
+
+}
+
+
+Functions:
+def returnType Identifer(parameters,comma,separated) {
+	block of code
+	ret returnType;
+}
+
+def str foo(str x) {
+	block of code
+	ret x;
+}
+
+
+
+
+

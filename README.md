@@ -104,6 +104,8 @@ comment @@
 
 ### Main Function
 ```
+Syntax:
+
 Begin {
     block of code
 }
@@ -123,8 +125,18 @@ declaration and assignment:
 dataType IdentifierName = Constant;
 ```
 
+### Type Casting
+```
+Syntax:
+DT <- value
+
+int x = 2 * int<-3.9 @@Here 3.9 is converted into 3 then * 2
+
+int x = int<- 2.9 * 32 @@Here 2.9 * 32 then converted into integer
+```
+
 ### Conditional Statement
-IF AND ELSE
+- IF AND ELSE
 ```
 Syntax:
 
@@ -145,7 +157,7 @@ if (condition) {
     block of code
 }
 ```
-SWITCH CASE
+- SWITCH CASE
 ```
 Syntax:
 
@@ -163,7 +175,7 @@ shift(expression) {
 
 ### Loop
 
-While Loop
+- While Loop
 ```
 Syntax:
 
@@ -178,8 +190,10 @@ loop till (i < 5) {
 }
 ```
 
-For Loop (iterator)
+- For Loop (iterator)
 ```
+Syntax:
+
 loop  thru ( DT i in (initial, final, incremental) ) {
     block of code
 }
@@ -187,5 +201,37 @@ loop  thru ( int i in (0,5,1) ) {
     block of code
 }
 ```
+### Function
+- Procedure
+```
+Syntax:
+
+def Identifer(parameters,comma,separated) {
+	block of code
+	ret returnType;
+}
+
+def foo(int a, point b) {
+
+}
+
+```
+- Function
+```
+def returnType Identifer(parameters,comma,separated) {
+	block of code
+	ret returnType;
+}
+
+def str foo(str x) {
+	block of code
+	ret x;
+}
+```
+
+
+
+
+
 
 
