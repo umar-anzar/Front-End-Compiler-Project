@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
 
 /**
  *  variable naming scheme: camel case.
- * @author omera
+ * @author  Umar, Izhan, Muqsit
  */
 public class ValidWords {
 

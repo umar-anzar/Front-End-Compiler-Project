@@ -14,7 +14,7 @@ import java.util.regex.Pattern;
 
 /**
  *
- * @author omera
+ * @author  Umar, Izhan, Muqsit
  */
 public class Tokenizer {
     
@@ -218,7 +218,7 @@ public class Tokenizer {
         }
         return false;
     }
-    
+
     public static boolean spaceAndTab() {
         if (' ' == character || '\t' == character) {
             if (temp.length() != 1) { 

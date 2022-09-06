@@ -1,0 +1,13 @@
+Parametric Class<?>()
+Class name<T>(intehritedclasses)
+
+MultiInheritance
+
+Default values of parameters in function and Class
+
+
+
+
+typeCast		DT <- value
+int x = 2 * int<-3.9
+int x = int<- 2.9 * 32 @@Here 2.9 is converted into 2 then *31q
