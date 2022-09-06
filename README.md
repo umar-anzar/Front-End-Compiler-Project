@@ -1,18 +1,17 @@
 # Mio Programming Language
 > - By 
-> - - **Muhammad Umar Anzar**
-> - - **Izhan Nadeem**
-> - - **Abdul Muqsit**
-> - Seat No. **B19102104**
+>   - **B19102104 Muhammad Umar Anzar**
+>   - **B19102148 Izhan Nadeem**
+>   - **B19102004 Abdul Muqsit**
 > - University Of Karachi 
 > - UBIT department of computer science
-> - Subject Computer Graphics
+> - Subject Compiler Construction
 
-Front End Compiler Project
+## Description
+Project: Front End Compiler Project
 
-Project of Compiler Construction
 
-## Language Keywords
+## Language New Keywords
 | Java/C#  | Mio        | Java/C#           | Mio                    |
 |----------|------------|-------------------|------------------------|
 | if       | if         | int               | int                    |
@@ -27,7 +26,7 @@ Project of Compiler Construction
 | continue | cont       | comment           | @comment               |
 | break    | stop       | comment           | @@multi-line comment@@ |
 | return   | ret        | line terminator;  | ;                      |
-| void     | implicit   |                   |                        |
+| void     | implicit   | var               | var                    |
 | main     | begin/end  |                   |                        |
 
 | Java/C#    | Mio                         | Java/C# | Mio     |
@@ -41,12 +40,12 @@ Project of Compiler Construction
 | this       | Self                        |         |         |
 | super      | Parent                      |         |         |
 | public     | implicit                    |         |         |
-| private    | $$                          |         |         |
-| protected  | $                           |         |         |
+| private    | $$identiferName             |         |         |
+| protected  | $identiferName              |         |         |
 | static     | static                      |         |         |
 | new        | new                         |         |         |
 
-## Classification
+## Classification of Lexemes
 
 ### Operator
 
@@ -116,13 +115,13 @@ Begin {
 Syntax:
 
 declaration: 
-dataType IdentifierName;
+dataType variableName;
 
 assignment:
-IdentifierName = Constant;
+variableName = Constant;
 
 declaration and assignment:
-dataType IdentifierName = Constant;
+dataType variableName = Constant;
 ```
 
 ### Type Casting
@@ -201,14 +200,15 @@ loop  thru ( int i in (0,5,1) ) {
     block of code
 }
 ```
+
 ### Function
+
 - Procedure
 ```
 Syntax:
 
-def Identifer(parameters,comma,separated) {
+def functionName(parameters,comma,separated) {
 	block of code
-	ret returnType;
 }
 
 def foo(int a, point b) {
@@ -217,10 +217,11 @@ def foo(int a, point b) {
 ```
 
 - Function
+    - returnType is dataType
 ```
 def returnType Identifer(parameters,comma,separated) {
 	block of code
-	ret returnType;
+	ret value;
 }
 
 def str foo(str x) {
@@ -229,8 +230,107 @@ def str foo(str x) {
 }
 ```
 
+### Class
+
+- Class Structure
+```
+Syntax:
+
+Class className(){
+
+}
+Class className(inheritedClass){
+
+}
+Class className(inheritedClass1,nheritedClass2){
+
+}
+Class className <Parameter> (inheritedClass1,nheritedClass2){
+
+}
+```
 
 
+- Abstract class and function
+```
+abstract Class Shape{  
+    abstract draw();  
+}  
+```
+
+- Example code
+```
+Syntax:
+
+Class Car(){
+
+    dataType attribute;         @public
+	static dataType attribute;  @static
+	dataType $attribute;        @private
+	dataType $$attribute;       @protected
+	
+    @This function is public and void
+	def foo(dataType variable1,dataType variable2) {
+		@block of code
+	}
+
+    @This function is private and returnType is there
+    def dataType $foo1(dataType variable1,dataType variable2) {
+		@block of code
+		ret variable1+variable2;
+	}
+
+    @This function is protected and returnType is there
+    def dataType $$foo2(dataType variable1,dataType variable2) {
+		@block of code
+		ret variable1+variable2;
+	}
+}
+```
+
+- Parametric class
+```
+Syntax:
+
+begin 
+{
+	  Polygone<A> x = new Box<A>();
+      Polygone<str> x_alpha = new Box<str>();
+
+      x.add(new A(10));
+      x_alpha.add(new str("Hello World"));
+}
+
+Class Polygone<T>(){
+   T $t; @private variable
+
+   add(T t) {
+      this.t = t;
+   }
+
+   T get() {
+      return t;
+   }   
+}
+```
+
+- Example code of multiple inheritances
+```
+Syntax:
+
+Class JDM(){
+	static dataType attribute;
+	dataType $$attribute;
+}
+
+Class Supra(Car, JDM){	//Car and JDM classes are inherited
+	dataType attribute;
+}
+
+Class UnitedBravo(Car){	//Car classe are inherited
+	dataType attribute;
+}
+```
 
 
 

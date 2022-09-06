@@ -7,13 +7,26 @@ Class className(inheritedClass){
 Example:
 
 Class Car(){
-	static dataType attribute;
-	$dataType attribute;
-	$$dataType attribute;
+    	dataType attribute;         @public
+	static dataType attribute;  @static
+	dataType $attribute;        @private
+	dataType $$attribute;       @protected
 	
-	def returnType Identifer(parameters,comma,separated){
-		//block of code
-		ret returnType;
+    	@This function is public and void
+	def foo(dataType variable1,dataType variable2){
+		@block of code
+	}
+
+    	@This function is private and returnType is there
+    	def dataType $foo1(dataType variable1,dataType variable2){
+		@block of code
+		ret variable1+variable2;
+	}
+    
+    	@This function is protected and returnType is there
+    	def dataType $$foo2(dataType variable1,dataType variable2){
+		@block of code
+		ret variable1+variable2;
 	}
 
 }
@@ -53,22 +66,22 @@ Class UnitedBravo(Car){	//Car classe are inherited
 
 Example2:
 
-begin{
-	Polygone<Integer> x = new Box<Integer>();
-      Polygone<String> x_alpha = new Box<String>();
+begin {
+	  Polygone<A> x = new Box<A>();
+      Polygone<str> x_alpha = new Box<str>();
 
-      x.add(new Integer(10));
-      x_alpha.add(new String("Hello World"));
+      x.add(new A(10));
+      x_alpha.add(new str("Hello World"));
 }
 
 Class Polygone<T>(){
-   private T t;
+   T $t; @private variable
 
-   public void add(T t) {
+   add(T t) {
       this.t = t;
    }
 
-   public T get() {
+   T get() {
       return t;
    }   
 }
