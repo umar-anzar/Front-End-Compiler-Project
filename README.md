@@ -1,7 +1,7 @@
 # Mio Programming Language
 > - By 
 >   - **B19102104 Muhammad Umar Anzar**
->   - **B19102148 Izhan Nadeem**
+>   - **B19102048 Izhan Nadeem**
 >   - **B19102004 Abdul Muqsit**
 > - University Of Karachi 
 > - UBIT department of computer science
@@ -102,8 +102,6 @@ Same:
 | protected |      |        |         |        |        |
 
 
-
-
 ## Syntax
 
 ### Comment
@@ -145,13 +143,14 @@ dataType variableName = Constant;
 Syntax:
 DT <- value
 
-int x = 2 * int<-3.9 @@Here 3.9 is converted into 3 then * 2
+int x = 2 * int<-3.9        @ Here 3.9 is converted into 3 then * 2
 
-int x = int<- 2.9 * 32 @@Here 2.9 * 32 then converted into integer
+int x = int<- 2.9 * 32      @ Here 2.9 * 32 then converted into integer
 ```
 
 ### Conditional Statement
 - IF AND ELSE
+
 ```
 Syntax:
 
@@ -173,6 +172,7 @@ if (condition) {
 }
 ```
 - SWITCH CASE
+
 ```
 Syntax:
 
@@ -191,6 +191,7 @@ shift(expression) {
 ### Loop
 
 - While Loop
+
 ```
 Syntax:
 
@@ -206,6 +207,7 @@ loop till (i < 5) {
 ```
 
 - For Loop (iterator)
+
 ```
 Syntax:
 
@@ -220,6 +222,7 @@ loop  thru ( int i in (0,5,1) ) {
 ### Function
 
 - Procedure
+
 ```
 Syntax:
 
@@ -234,6 +237,7 @@ def foo(int a, point b) {
 
 - Function
     - returnType is dataType
+
 ```
 def returnType Identifer(parameters,comma,separated) {
 	block of code
@@ -249,6 +253,7 @@ def str foo(str x) {
 ### Class
 
 - Class Structure
+
 ```
 Syntax:
 
@@ -268,6 +273,7 @@ Class className <Parameter> (inheritedClass1,nheritedClass2){
 
 
 - Abstract class and function
+
 ```
 abstract Class Shape{  
     abstract draw();  
@@ -275,6 +281,7 @@ abstract Class Shape{
 ```
 
 - Example code
+
 ```
 Syntax:
 
@@ -305,6 +312,7 @@ Class Car(){
 ```
 
 - Parametric class
+
 ```
 Syntax:
 
@@ -331,6 +339,7 @@ Class Polygone<T>(){
 ```
 
 - Example code of multiple inheritances
+
 ```
 Syntax:
 
@@ -347,7 +356,3 @@ Class UnitedBravo(Car){	//Car classe are inherited
 	dataType attribute;
 }
 ```
-
-
-
-
