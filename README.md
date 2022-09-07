@@ -26,7 +26,7 @@ Project: Front End Compiler Project
 | continue | cont       | comment           | @comment               |
 | break    | stop       | comment           | @@multi-line comment@@ |
 | return   | ret        | line terminator;  | ;                      |
-| void     | implicit   | var               | var                    |
+| void     | implicit   |                   |                        |
 | main     | begin      |                   |                        |
 
 | Java/C#    | Mio                         | Java/C# | Mio     |
