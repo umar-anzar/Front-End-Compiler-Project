@@ -21,8 +21,8 @@ public class ValidWords {
         {"else", "else"},
         {"loop", "loop"},
         
-        {"till", "unidentified"},
-        {"thru", "unidentified"},
+        {"till", "till"},
+        {"thru", "thru"},
         
         {"in", "in"},
         {"shift", "shift"}, // shift
@@ -61,19 +61,19 @@ public class ValidWords {
 
     static String[][] operator = {
         
-        {"<=", "Relation Operator"},
-        {">=", "Relation Operator"},
-        {"!=", "Relation Operator"},
-        {"==", "Relation Operator"},
-        {"<", "Relation Operator"},
-        {">", "Relation Operator"},
+        {"<=", "rOp"},
+        {">=", "rOp"},
+        {"!=", "rOp"},
+        {"==", "rOp"},
+        {"<", "rOp"},
+        {">", "rOp"},
         
-        {"+=", "compund assignment"},
-        {"*=", "compund assignment"},
-        {"-=", "compund assignment"},
-        {"%=", "compund assignment"},
-        {"^=", "compund assignment"},
-        {"/=", "compund assignment"},
+        {"+=", "cmpAssignOp"},
+        {"*=", "cmpAssignOp"},
+        {"-=", "cmpAssignOp"},
+        {"%=", "cmpAssignOp"},
+        {"^=", "cmpAssignOp"},
+        {"/=", "cmpAssignOp"},
         
         {"!", "not"}, 
         {"&&", "and"},
@@ -91,7 +91,9 @@ public class ValidWords {
         
         {"^", "power"},
         
-        {"=", "simple assignment"}
+        {"=", "assignOP"},
+            
+        {"<-", "typeCast"}
            
     };
 

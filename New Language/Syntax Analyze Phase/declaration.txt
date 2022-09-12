@@ -1,0 +1,13 @@
+In Main Function
+There is no access modifer nor static
+
+<MAIN DEC>  -> <PROP> ID <INIT> <LIST>
+<PROP>      -> const DT | DT | null
+<INIT>      -> = <TYPECAST> ID <INIT> | = <expression> | null
+<TYPECAST>  -> DT <- | null
+<LIST>      -> , ID <INIT> <LIST> | ;
+
+Example:
+const int x = y = a + 5, t = 3;
+int x = int <- y = a + 5, t = q = 2;
+x = y = a + 5, t = 3;

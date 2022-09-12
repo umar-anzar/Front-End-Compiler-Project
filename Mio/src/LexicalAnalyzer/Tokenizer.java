@@ -401,7 +401,7 @@ public class Tokenizer {
         }
         else if (match("[<>!=+*%^/|&]|[-]", String.valueOf(tokenString.charAt(0)))){
             if(!ValidWords.isOperator(tokenString).isEmpty()){
-                token = new TokenClass(tokenString, tokenString, line);
+                token = new TokenClass(ValidWords.isOperator(tokenString), tokenString, line);
             }
             else{
                 token = new TokenClass("Operator", tokenString, line);

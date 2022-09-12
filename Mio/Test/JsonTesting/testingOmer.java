@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
  * @author omera
  */
 public class testingOmer {
-    
+    private final int a=3;
     public static void main(String[] args) {
         A x = new A();
         
