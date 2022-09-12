@@ -42,6 +42,8 @@ public class ValidWords {
         
         {"Class", "Class"},
         {"Abstract", "Abstract"},
+        {"$", "private"},
+        {"$$", "protected"},
         {"Const", "const"},
         {"Self", "Self"},
         {"Parent", "Parent"},
@@ -106,8 +108,6 @@ public class ValidWords {
         "]"
             
     };
-
-    
     
     static String isKeyword(String word) {
         // code to be executed

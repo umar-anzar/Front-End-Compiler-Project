@@ -3,7 +3,7 @@ Class Izhan (omer) {
 xa'\\'y
 a<=<<4::3
     @ Attributes
-    int Hello = 5;
+    int $$variable_name = 5;
     float n = 34.05;
     
     @@ methods which are awesome
