@@ -12,6 +12,14 @@ import java.util.regex.Pattern;
  */
 public class testingOmer {
     private final int a=3;
+    private int y=3;
+    public testingOmer() {
+        int h=0;
+        for (;;;) {
+            
+        }
+    }
+    
     public static void main(String[] args) {
         A x = new A();
         
