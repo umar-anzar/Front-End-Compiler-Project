@@ -15,7 +15,7 @@ public class testingOmer {
     private int y=3;
     public testingOmer() {
         int h=0;
-        for (;;;) {
+        for (;;) {
             
         }
     }
