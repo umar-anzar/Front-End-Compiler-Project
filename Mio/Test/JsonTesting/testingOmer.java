@@ -15,30 +15,65 @@ public class testingOmer {
     private int y=3;
     public testingOmer() {
         int h=0;
-        for (;;) {
+        int c=0;
+        int q=0;
+        int g=0;
+
+        int x = g = (int)c + 5, t = q = 2;
+        
+        boolean qre = 6*5<3+2 && !(3>5);
+        
+        for (final int xx=0;x<4;g++) {
             
         }
+        System.out.println("Izhan");
+        for (int i = 0; i < 10; i++)
+            if (true)
+                System.out.println("");
+                System.out.println("Izhan");
+
+            
+            
+            
     }
     
     public static void main(String[] args) {
-        A x = new A();
+            int h=0;
+        int c=0;
+        int q=0;
+        int g=0;
+
+        int x = g = (int)c + 5, t = q = 2;
         
-        int q = x.a;
+        boolean qre = 6*5<3+2 && !(3>5);
         
-        String z = "Tue";
-        switch (z) {
-            case "Mon":
-                System.out.println("x");
-                break;
-            case "Tue":
-                System.out.println("y");
-                break;
-            case "Wed":
-                System.out.println("z");
-                break;
-            default:
-                break;
+        for (final int xx=0;x<4;g++) {
+            
         }
+
+        for (int i = 0; i < 10; i++)
+        if (true)
+            System.out.println("");
+            System.out.println("Izhan");
+
+//        A x = new A();
+//        
+//        int q = x.a;
+//        
+//        String z = "Tue";
+//        switch (z) {
+//            case "Mon":
+//                System.out.println("x");
+//                break;
+//            case "Tue":
+//                System.out.println("y");
+//                break;
+//            case "Wed":
+//                System.out.println("z");
+//                break;
+//            default:
+//                break;
+//        }
 
         
         
