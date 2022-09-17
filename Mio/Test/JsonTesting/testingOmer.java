@@ -18,7 +18,12 @@ public class testingOmer {
         int c=0;
         int q=0;
         int g=0;
-
+        
+        boolean aa = (boolean)!true;
+        boolean aag = !(boolean)(boolean)!(boolean)(boolean)true;
+        boolean aaa = !!!!!!(boolean)(boolean)!!!( (int) 1.0 < 3) ;
+        
+        
         int x = g = (int)c + 5, t = q = 2;
         
         boolean qre = 6*5<3+2 && !(3>5);

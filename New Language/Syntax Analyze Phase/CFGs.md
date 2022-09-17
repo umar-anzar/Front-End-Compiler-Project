@@ -11,60 +11,91 @@ In Main Function
 There is no access modifer nor static
 
 ```md
-<DEC>       -> <PROP> ID <INIT> <LIST>
-<PROP>      -> const DT | DT
-<INIT>      -> = ID <INIT> | = <expression> | null
-<LIST>      -> , ID <INIT> <LIST> | ;
+<DEC>       -> <PROP> id <INIT> <LIST>
+<PROP>      -> const dt | dt
+<INIT>      -> = <INIT2> | null
+<INIT2>     -> id <INIT> | <expression>
+<LIST>      -> , id <INIT> <LIST> | ;
 ```
-
+```
 Example:
 const int x = y = a + 5, t = 3;         r
 int x = y = int <- a + 5, t = q = 2;    r
 int x = int <- y = a + 5, t = q = 2;    w
 x = y = a + 5, t = 3;                   w
-
-
-
-
-
-
-TYPECAST  -> DT <- | null
-
-'+ -'
-'* \ %'
-```md
-<E>     -> <E> PM <T>
-<E>     -> <T>
-<T>     -> <T> MDM <F>
-<T>     -> <F>
-<F>     -> <operands>
 ```
 
-||
-&&
-ROP
-PM
-MDM
-Power
 
-Left Recursive
+
+
+
+### Expression
+
+Precedance of Operators L to H
+```
+or      '||'
+and     '&&'
+rop     '> < >= <= == !='
+pm      '+ -' 
+mdm     '* \ %' 
+power   '^'
+```
 ```md
-<C>         -> <C> or <E>
-<C>         -> <E>
-<E>         -> <E> and <F>
-<E>         -> <F>
-<F>         -> <F> rop <G>
-<F>         -> <G>
-<G>         -> <G> pm <H>
-<G>         -> <H>
-<H>         -> <H> mdm <I>
-<H>         -> <I>
-<I>         -> <I> power <J>
-<I>         -> <J>
-<J>         -> <UNARY> <OPERANDS>
+<E>         -> <E> PM <T>
+<E>         -> <T>
+<T>         -> <T> MDM <F>
+<T>         -> <F>
+<F>         -> <operands>
+```
 
-<TYPECAST>  -> DT typeCast
-<UNARY>     -> <TYPECAST> | not | null
+Left Recursive 
+```md
+<E>         -> <E> or <F>
+<E>         -> <F>
+<F>         -> <F> and <G>
+<F>         -> <G>
+<G>         -> <G> rop <H>
+<G>         -> <H>
+<H>         -> <H> pm <I>
+<H>         -> <I>
+<I>         -> <I> mdm <J>
+<I>         -> <J>
+<J>         -> <J> power <K>
+<J>         -> <K>
+<K>         -> <UNARY> <L>
+<L>         ->  <OPERANDS>
+
+<UNARY>     -> DT typeCast <UNARY> | not <UNARY>| null
+
+```
+With Brackets
+```md
+<E>         -> <Brackets>|<E> or <F>
+<E>         -> <F>
+
+<Brackets>  -> ( <E> )
+
+<F>         -> <Brackets>
+<G>         -> <Brackets>
+<H>         -> <Brackets>
+<I>         -> <Brackets>
+<J>         -> <Brackets>
+<K>         -> <Brackets>
+
+<F>         -> <F> and <G>
+<F>         -> <G>
+<G>         -> <G> rop <H>
+<G>         -> <H>
+<H>         -> <H> pm <I>
+<H>         -> <I>
+<I>         -> <I> mdm <J>
+<I>         -> <J>
+<J>         -> <J> power <K>
+<J>         -> <K>
+<K>         -> <UNARY> <L>
+<L>         ->  <OPERANDS>|<BRACKETS>
+
+<UNARY>     -> DT typeCast <UNARY> | not <UNARY>| null
 
 ```
 
