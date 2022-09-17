@@ -25,6 +25,7 @@ public class testingOmer {
         
         
         int x = g = (int)c + 5, t = q = 2;
+        x += g -= 2;
         
         boolean qre = 6*5<3+2 && !(3>5);
         
@@ -35,9 +36,23 @@ public class testingOmer {
         for (int i = 0; i < 10; i++)
             if (true)
                 System.out.println("");
-                System.out.println("Izhan");
-
-            
+        System.out.println("Izhan");
+        
+        if (true)
+            if (true)
+                System.out.println("");
+            else
+        if(true)
+        
+        
+        if (true)
+            if (true){
+                System.out.println("");
+            } else {
+                
+            }
+        if(true)
+            System.out.println("");
             
             
     }

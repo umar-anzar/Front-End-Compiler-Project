@@ -40,34 +40,8 @@ pm      '+ -'
 mdm     '* \ %' 
 power   '^'
 ```
-```md
-<E>         -> <E> PM <T>
-<E>         -> <T>
-<T>         -> <T> MDM <F>
-<T>         -> <F>
-<F>         -> <operands>
-```
 
 Left Recursive 
-```md
-<E>         -> <E> or <F>
-<E>         -> <F>
-<F>         -> <F> and <G>
-<F>         -> <G>
-<G>         -> <G> rop <H>
-<G>         -> <H>
-<H>         -> <H> pm <I>
-<H>         -> <I>
-<I>         -> <I> mdm <J>
-<I>         -> <J>
-<J>         -> <J> power <K>
-<J>         -> <K>
-<K>         -> <UNARY> <L>
-<L>         ->  <OPERANDS>
-
-<UNARY>     -> DT typeCast <UNARY> | not <UNARY>| null
-
-```
 With Brackets
 ```md
 <E>         -> <Brackets>|<E> or <F>
@@ -98,6 +72,20 @@ With Brackets
 <UNARY>     -> DT typeCast <UNARY> | not <UNARY>| null
 
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
