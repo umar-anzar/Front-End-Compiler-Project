@@ -18,6 +18,7 @@ Declaration and Initialization
 <INIT2>     -> id <INIT> | <EXPR>
 <LIST>      -> , id <INIT> <LIST> | ;
 ```
+
 ```
 Example:
 const int x = y = a + 5, t = 3;         r
@@ -27,12 +28,13 @@ x = y = a + 5, t = 3;                   w
 ```
 
 Assignment
-```md
+```xml
 <ASSIGN>    -> id <ASS_OP><NN>
 <NN>        -> id <ASSIGN1> | <EXPR> 
 <ASSIGN1>   -> <ASS_OP> id <ASSIGN1> | <EXPR> | null 
 <ASS_OP>    -> = | cma
 ```
+
 ```
 Example:
 x += 2 + 3 * a          r
@@ -57,7 +59,7 @@ power   '^'
 
 Left Recursive 
 With Brackets
-```md
+```xml
 <EXPR>      -> <E> or <F>
 <E>         -> <BRACKETS>|<EXPR>
 <EXPR>      -> <F>
@@ -85,19 +87,18 @@ With Brackets
 <L>         -> <OPERANDS>|<BRACKETS>
 
 <UNARY>     -> dt typeCast <UNARY> | not <UNARY>| null
-
 ```
 
 ### Conditional Statement
 
 if-else CFG
-```md
+```xml
 <IF_ELSE >  -> if(<EXPR>) <body> <OELSE>
 <OELSE>     -> else <body> | null
 ```
 
 switch-case statement:
-```md
+```xml
 <SHIFT>     -> shift ( <EXPR> ) { <STATE> }
 <STATE>     -> state <EXPR> : <MST> <STATE> | null
 ```
