@@ -331,13 +331,16 @@ public class Tokenizer {
     }
     
     public static void tokenDecidier(String tokenString) {
+        
         TokenClass token = null;
+        
+        
         if ( match("_", String.valueOf(tokenString.charAt(0))) ) {
            if (ValidWords.isId(tokenString)){
-                token = new TokenClass("ID", tokenString, line);
+                token = new TokenClass(ValidWords.ID, tokenString, line);
             } 
            else{
-                token = new TokenClass("ID", tokenString, line);
+                token = new TokenClass(ValidWords.ID, tokenString, line);
                 token.setError("Invalid ID");
             }  
         }
@@ -364,11 +367,11 @@ public class Tokenizer {
                      token = new TokenClass(ValidWords.isKeyword(tokenString), tokenString, line);
                 }
                 else{
-                     token = new TokenClass("ID", tokenString, line);
+                     token = new TokenClass(ValidWords.ID, tokenString, line);
                 }
             } 
             else{
-                 token = new TokenClass("ID", tokenString, line);
+                 token = new TokenClass(ValidWords.ID, tokenString, line);
                  token.setError("Invalid ID");
                 }    
             }
@@ -378,15 +381,15 @@ public class Tokenizer {
             } 
            else if(tokenString.length() > 1){
                if(ValidWords.isFltConst(tokenString)){
-                    token = new TokenClass("FloatConst", tokenString, line);
+                    token = new TokenClass(ValidWords.FLOATCONST, tokenString, line);
                }
                else{
-                    token = new TokenClass("FloatConst", tokenString, line);
+                    token = new TokenClass(ValidWords.FLOATCONST, tokenString, line);
                     token.setError("Invalid FloatConst");
                }
             }
            else{
-                token = new TokenClass("dot", tokenString, line);
+                token = new TokenClass(ValidWords.DOT, tokenString, line);
                 token.setError("Invalid dot");
            }
         }
@@ -410,10 +413,10 @@ public class Tokenizer {
         }
         else if(match("[0-9]", String.valueOf(tokenString.charAt(0)))){
             if(ValidWords.isIntConst(tokenString)){
-                token = new TokenClass("IntegerConst", tokenString, line);    
+                token = new TokenClass(ValidWords.INTCONST, tokenString, line);    
             }
             else if (ValidWords.isFltConst(tokenString)){
-                token = new TokenClass("FloatConst", tokenString, line); 
+                token = new TokenClass(ValidWords.FLOATCONST, tokenString, line); 
             } else {
                 token = new TokenClass("Integer/FloatConst", tokenString, line);
                 token.setError("Invalid Integer/FloatConst");
@@ -421,19 +424,19 @@ public class Tokenizer {
         } 
         else if (match("\'", String.valueOf(tokenString.charAt(0)))) {
             if (ValidWords.isCharConst(tokenString)) {
-                token = new TokenClass("CharacterConst", tokenString, line);    
+                token = new TokenClass(ValidWords.CHARCONST, tokenString, line);    
             } 
             else {
-                token = new TokenClass("CharacterConst", tokenString, line);
+                token = new TokenClass(ValidWords.CHARCONST, tokenString, line);
                 token.setError("Invalid CharacterConst");
             }
         }
         else if (match("\"", String.valueOf(tokenString.charAt(0)))) {
             if (ValidWords.isStrConst(tokenString)) {
-                token = new TokenClass("StringConst", tokenString, line); 
+                token = new TokenClass(ValidWords.STRCONST, tokenString, line); 
             }
             else {
-                token = new TokenClass("StringConst", tokenString, line);
+                token = new TokenClass(ValidWords.STRCONST, tokenString, line);
                 token.setError("Invalid StringConst");
             }
         } 

@@ -4,7 +4,7 @@ xa'\\'y
 a<=<<4::3
     @ Attributes
     int $$variable_name = int <-5.6;
-    float n = 34.05;
+    point n = 34.05;
     
     @@ methods which are awesome
 

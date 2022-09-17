@@ -14,6 +14,19 @@ import java.util.regex.Pattern;
  */
 public class ValidWords {
 
+    final static String ID = "id";
+    final static String INTCONST = "intConst";
+    final static String FLOATCONST = "floatConst";
+    final static String CHARCONST = "charConst";
+    final static String STRCONST = "strConst";
+    final static String DOT = "dot";
+    
+    
+    final static String DT = "dt";
+    final static String MDM = "mdm";
+    final static String RELATIONALOPERATOR = "rop";
+    final static String COMPOUNDASSIGNMENT = "cma";
+    
     //{{value, classpart}}
     static String[][] keyword = {
         
@@ -32,12 +45,12 @@ public class ValidWords {
         {"stop", "stop"},   // break
         {"ret", "ret"},     // return
         
-        {"int", "dataType"},     
-        {"point", "dataType"}, // float 
-        {"char", "dataType"},
-        {"str", "dataType"},
-        {"bool", "dataType"},
-        {"val", "dataType"},
+        {"int", DT},     
+        {"point", DT}, // float 
+        {"char", DT},
+        {"str", DT},
+        {"bool", DT},
+        {"val", DT},
  
         
         {"Class", "Class"},
@@ -61,37 +74,37 @@ public class ValidWords {
 
     static String[][] operator = {
         
-        {"<=", "rOp"},
-        {">=", "rOp"},
-        {"!=", "rOp"},
-        {"==", "rOp"},
-        {"<", "rOp"},
-        {">", "rOp"},
+        {"<=", RELATIONALOPERATOR},
+        {">=", RELATIONALOPERATOR},
+        {"!=", RELATIONALOPERATOR},
+        {"==", RELATIONALOPERATOR},
+        {"<",  RELATIONALOPERATOR},
+        {">",  RELATIONALOPERATOR},
         
-        {"+=", "cmpAssignOp"},
-        {"*=", "cmpAssignOp"},
-        {"-=", "cmpAssignOp"},
-        {"%=", "cmpAssignOp"},
-        {"^=", "cmpAssignOp"},
-        {"/=", "cmpAssignOp"},
+        {"+=", COMPOUNDASSIGNMENT},
+        {"*=", COMPOUNDASSIGNMENT},
+        {"-=", COMPOUNDASSIGNMENT},
+        {"%=", COMPOUNDASSIGNMENT},
+        {"^=", COMPOUNDASSIGNMENT},
+        {"/=", COMPOUNDASSIGNMENT},
         
         {"!", "not"}, 
         {"&&", "and"},
         {"||", "or"},
 
-        {"++", "inc-dec"},
-        {"--", "inc-dec"},
+        {"++", "inc_dec"},
+        {"--", "inc_dec"},
           
         {"+", "pm"},
         {"-", "pm"},
         
-        {"*", "mdm"},
-        {"/", "mdm"},
-        {"%", "mdm"},
+        {"*", MDM},
+        {"/", MDM},
+        {"%", MDM},
         
         {"^", "power"},
         
-        {"=", "assignOP"},
+        {"=", "assignOp"},
             
         {"<-", "typeCast"}
            

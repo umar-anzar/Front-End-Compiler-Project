@@ -49,21 +49,23 @@ Power
 
 Left Recursive
 ```md
-<C>     -> <C> || <E>
-<C>     -> <E>
-<E>     -> <E> && <F>
-<E>     -> <F>
-<F>     -> <F> ROP <G>
-<F>     -> <G>
-<G>     -> <G> PM <H>
-<G>     -> <H>
-<H>     -> <H> ROP <I>
-<H>     -> <I>
-<I>     -> <I> MDM <J>
-<I>     -> <J>
-<J>     -> <J> Power <K>
-<J>     -> <K>
-<K>     -> <operands>
+<C>         -> <C> or <E>
+<C>         -> <E>
+<E>         -> <E> and <F>
+<E>         -> <F>
+<F>         -> <F> rop <G>
+<F>         -> <G>
+<G>         -> <G> pm <H>
+<G>         -> <H>
+<H>         -> <H> mdm <I>
+<H>         -> <I>
+<I>         -> <I> power <J>
+<I>         -> <J>
+<J>         -> <UNARY> <OPERANDS>
+
+<TYPECAST>  -> DT typeCast
+<UNARY>     -> <TYPECAST> | not | null
+
 ```
 
 
