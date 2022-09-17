@@ -11,7 +11,7 @@ In Main Function
 There is no access modifer nor static
 
 Declaration and Initialization
-```md
+```html
 <DEC>       -> <PROP> id <INIT> <LIST>
 <PROP>      -> const dt | dt
 <INIT>      -> = <INIT2> | null
