@@ -10,6 +10,9 @@ public class testing {
     
     public static void main(String[] args){
         
+        
+        
+        /*        
         while(true){
         Scanner scan = new Scanner(System.in);
         System.out.print("enter a test case: ");        
@@ -35,9 +38,14 @@ public class testing {
         Matcher m = p.matcher(test);
         ;
         return m.matches();
-     
-    }  
+        */
+    int day = 7;
+    switch (day) {
 
-}
+    }
+    // Outputs "Thursday" (day 4)
+
+    }
+}  
 
 
