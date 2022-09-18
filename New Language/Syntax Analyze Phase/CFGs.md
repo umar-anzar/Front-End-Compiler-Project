@@ -68,17 +68,17 @@ array subscript | arr[2]          | arr[2:3]
 Access Part can end with ID, array subscript, and function call
 ```xml
 <ACCESS_ID>     -> <INDFRS> <AP_DOT_LIST>
-<AP_DOT_LIST>   -> dot <INDFRS>  <AP_DOT_LIST> | null
+<AP_DOT_LIST>   -> dot <INDFRS> <AP_DOT_LIST> | null
 ```
 
-Assignment Part  end only with ID, array subscript
+Assignment Part end only with ID, array subscript
 ```xml
-<ASSIGN_ID>     -> id  <IS_ARR_FUNC> 
-<IS_ARR_FUNC>   -> <IS_DOT> | <SUBSCRIPT> <IS_DOT>  | <FUNC_CALL> dot <ASP_DOT_LIST>
+<ASSIGN_ID>     -> id <IS_ARR_FUNC> 
+<IS_ARR_FUNC>   -> <IS_DOT> | <SUBSCRIPT> <IS_DOT> | <FUNC_CALL> dot <ASP_DOT_LIST>
 <IS_DOT>        -> dot <ASP_DOT_LIST> | null
 <ASP_DOT_LIST>  -> <INDFRS> dot <ASP_DOT_LIST> | <LAST_ID_ARR>
 <LAST_ID_ARR>   -> id <ARRAY_NULL>
-<ARRAY_NULL>    -> <SUBSCRIPT> |  null
+<ARRAY_NULL>    -> <SUBSCRIPT> | null
 ```
 <hr>
 
@@ -112,9 +112,9 @@ x = y = a + 5, t = 3;                   w
 
 ### Assignment
 ```xml
-<ASSIGN>        -> <ASSIGN_ID>  <ASSIGN1>  
+<ASSIGN>        -> <ASSIGN_ID> <ASS_OP> <ASSIGN_LIST>
 <ASSIGN1>       -> <ASS_OP> <ASSIGN_LIST> | null 
-<ASSIGN_LIST>   -> <ASSIGN_ID>  <ASSIGN1> | <EXPR> 
+<ASSIGN_LIST>   -> <ASSIGN_ID> <ASSIGN1> | <EXPR> 
 <ASS_OP>        -> = | cma
 ```
 
