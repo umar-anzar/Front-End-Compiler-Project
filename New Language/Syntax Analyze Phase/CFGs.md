@@ -10,9 +10,9 @@ w: wrong
 
 ### Single/Multi Statement
 ```xml
-<SST>   -> <IF_ELSE>    | <SHIFT>   | <INC_DEC_ST> ;    | <DEC>     |  
-           <OBJ_DEC>    | <LOOP>    | <DO_WHILE> ;      | <BREAK> ; | 
-           <CONTINUE> ; | <ASSIGN> ;| <TRY_CATCH_ST>    | <FN_CALL> | 
+<SST>   -> <IF_ELSE>    | <SHIFT>    | <INC_DEC_ST> ;    | <DEC>     |  
+           <OBJ_DEC>    | <LOOP>     | <DO_WHILE> ;      | <BREAK> ; | 
+           <CONTINUE> ; | <ASSIGN> ; | <TRY_CATCH_ST>    | <FN_CALL> | 
            <RET_ST> ;
 
 <MST>   -> <SST> <MST> | null 
@@ -189,11 +189,41 @@ if-else CFG
 
 switch-case statement:
 ```xml
-<SHIFT> -> shift ( <EXPR> ) { <STATE> }
-<STATE> -> state <EXPR> : <MST> <STATE> | null
+<SHIFT>     -> shift ( <EXPR> ) { <STATE> }
+<STATE>     -> state <EXPR> : <BODY> <STATE> | <DEFAULT> 
+<DEFAULT>   -> default : <BODY> | null 
+```
+<hr>
+
+
+
+### Loop and Break/Continue Statement
+
+Loop
+```xml
+<LOOP>  -> loop <LT>
+<LT>    -> <WHILE_ST> | <FOR_ST>
 ```
 
+While/do-while loop
+```xml
+<WHILE_ST> -> till ( <EXPR> ) <body>
+<DO_WHILE> -> do <BODY> till ( <EXPR> )
+```
 
+For-loop
+```xml
+<FOR_ST>    -> thru ( dt id in <F1> ) <BODY>
+<F1>        -> id | ( <EXPR> , <EXPR> , <EXPR> )
+```
+
+Break-continue:
+```xml
+<BREAK>     -> stop <L>
+<CONTINUE>  -> cont <L>
+<L>         -> id : | null
+```
+<hr>
 
 
 
