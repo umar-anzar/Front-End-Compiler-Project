@@ -91,11 +91,11 @@ In Main Function
 There is no access modifer nor static
 
 ```xml
-<DEC>   -> <PROP> id <INIT> <LIST>
-<PROP>  -> const dt | dt
-<INIT>  -> = <INIT2> | null
-<INIT2> -> <ASSIGN_ID> <INIT> | <EXPR>
-<LIST>  -> , id <INIT> <LIST> | ;
+<DEC>       -> <PROP> id <INIT> <LIST>
+<PROP>      -> const dt | dt
+<INIT>      -> = <INIT2> | null
+<INIT2>     -> <ASSIGN_ID> <INIT> | <EXPR>
+<LIST>      -> , id <INIT> <LIST> | ;
 ```
 
 ```
