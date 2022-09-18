@@ -5,6 +5,49 @@ Writing context free grammar
 r: right
 w: wrong
 
+### Single/Multi Statement
+```xml
+<SST>   -> <IF_ELSE>    | <SHIFT>   | <INC_DEC_ST> ;    | <DEC>     |  
+           <OBJ_DEC>    | <LOOP>    | <DO_WHILE> ;      | <BREAK> ; | 
+           <CONTINUE> ; | <ASSIGN> ;| <TRY_CATCH_ST>    | <FN_CALL> | 
+           <RET_ST> ;
+
+<MST>   -> <SST> <MST> | null 
+```
+### Body
+```xml
+<BODY>  -> ; | <SST> | { <MST> }
+```
+
+### Operands
+```xml
+```
+
+### FUNCTIONCALL,ID,ARRAYCALL (INDFRS)
+```xml
+<INDFRS>    -> id <AF>
+<AF>        -> [ <EXPR> <SLICE> ] | ( <FC> ) | null
+<SLICE>     -> : <EXPR> | null
+<FC>        -> <EXPR> <PAR_LIST> | null
+<PAR_LIST>  -> , <EXPR> <PAR_LIST> | null
+```
+
+### DOT SEPARATED FUNCTIONCALL,ID,ARRAYCALL
+```xml
+<ACCESS_PROP> -> <INDFRS> <AP_DOT_LIST>
+<AP_DOT_LIST> -> dot <IDNF>  <AP_DOT_LIST> | null
+```
+
+BUT END ONLY WITH ID,ARRAYCALL
+```xml
+<ASSIGN_PROP>   -> <INDFRS> <ASP_DOT_LIST>
+<ASP_DOT_LIST>  -> dot <ASP1>
+<ASP1>          -> <INDFRS> <ASP_DOT_LIST> | <LAST_ID_ARR>
+<LAST_ID_ARR>   -> id <ARRAY_NULL>
+<ARRAY_NULL>    -> [ <EXPR> <SLICE> ] |  null
+```
+
+
 ### Declaration and Assignment
 
 In Main Function
@@ -12,11 +55,11 @@ There is no access modifer nor static
 
 Declaration and Initialization
 ```xml
-<DEC>       -> <PROP> id <INIT> <LIST>
-<PROP>      -> const dt | dt
-<INIT>      -> = <INIT2> | null
-<INIT2>     -> id <INIT> | <EXPR>
-<LIST>      -> , id <INIT> <LIST> | ;
+<DEC>   -> <PROP> id <INIT> <LIST>
+<PROP>  -> const dt | dt
+<INIT>  -> = <INIT2> | null
+<INIT2> -> id <INIT> | <EXPR>
+<LIST>  -> , id <INIT> <LIST> | ;
 ```
 
 ```
@@ -93,14 +136,14 @@ With Brackets
 
 if-else CFG
 ```xml
-<IF_ELSE >  -> if(<EXPR>) <body> <OELSE>
+<IF_ELSE>   -> if(<EXPR>) <body> <OELSE>
 <OELSE>     -> else <body> | null
 ```
 
 switch-case statement:
 ```xml
-<SHIFT>     -> shift ( <EXPR> ) { <STATE> }
-<STATE>     -> state <EXPR> : <MST> <STATE> | null
+<SHIFT> -> shift ( <EXPR> ) { <STATE> }
+<STATE> -> state <EXPR> : <MST> <STATE> | null
 ```
 
 

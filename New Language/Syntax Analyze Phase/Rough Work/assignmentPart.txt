@@ -31,36 +31,36 @@ funct().x
 <OASP4> -> id | ArrayCall
 
 
-
+-----------------------------------------------------------------------------------
 
 FUNCTIONCALL	helo_q(par1,par2)  |  helo_q()  
 ID		var_1 
-ARRAYCALL	Arr[2]    |    arr[2:3]
+ARRAYCALL	Arr[2]    |    arr[2:3]  | arr[slicer]
 
 
-FUNCTIONCALL,ID,ARRAYCALL
-
-<IDNF> 		-> id <AF>
-<AF> 		-> [ <EXPR> <AC> ] | ( <FC> ) | null
-<AC> 		-> : <EXPR> | null
+-FUNCTIONCALL,ID,ARRAYCALL (INDFRS)
+---------------------------------
+<INDFRS> 	-> id <AF>
+<AF> 		-> [ <EXPR> <SLICE> ] | ( <FC> ) | null
+<SLICE> 	-> : <EXPR> | null
 <FC> 		-> <EXPR> <PAR_LIST> | null
 <PAR_LIST> 	-> , <EXPR> <PAR_LIST> | null
 
 
-ACCEPTS DOT SEPARATED FUNCTIONCALL,ID,ARRAYCALL
+-ACCEPTS DOT SEPARATED FUNCTIONCALL,ID,ARRAYCALL
+---------------------------------
+<ACCESS_PROP> -> <INDFRS> <AP_DOT_LIST>
+<AP_DOT_LIST> -> dot <IDNF>  <AP_DOT_LIST> | null
 
-<ACCESS_PROP> -> <IDNF> <AP_DOT_LIST>
-<AP_DOT_LIST> -> dot <IDNF>  <AP> | null
 
-
-ACCEPTS DOT SEPARATED FUNCTIONCALL,ID,ARRAYCALL
+-ACCEPTS DOT SEPARATED FUNCTIONCALL,ID,ARRAYCALL
 BUT END ONLY WITH ID,ARRAYCALL
-
-<ASSIGN_PROP> 	-> <IDNF> <ASP_DOT_LIST>
+---------------------------------
+<ASSIGN_PROP> 	-> <INDFRS> <ASP_DOT_LIST>
 <ASP_DOT_LIST> 	-> dot <ASP1>
-<ASP1> 		-> <IDNF> <ASP_DOT_LIST> | <LAST_ID_ARR>
+<ASP1> 		-> <INDFRS> <ASP_DOT_LIST> | <LAST_ID_ARR>
 <LAST_ID_ARR> 	-> id <ARRAY_NULL>
-<ARRAY_NULL> 	-> [ <EXPR> <AC> ] |  null
+<ARRAY_NULL> 	-> [ <EXPR> <SLICE> ] |  null
 
 
 
