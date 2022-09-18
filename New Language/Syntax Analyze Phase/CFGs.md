@@ -14,16 +14,26 @@ w: wrong
 
 <MST>   -> <SST> <MST> | null 
 ```
+<hr>
+
 ### Body
 ```xml
 <BODY>  -> ; | <SST> | { <MST> }
 ```
+<hr>
 
 ### Operands
 ```xml
 ```
+<hr>
 
-### FUNCTIONCALL,ID,ARRAYCALL (INDFRS)
+### Identifer, Function call, array subscript (INDFRS)
+| Type            | Example         | Example  |
+|-----------------|-----------------|----------|
+| ID              | var_1           |          |
+| Function call   | func(par1,par2) | helo_q() |
+| array subscript | arr[2]          | arr[2:3] |
+
 ```xml
 <INDFRS>    -> id <AF>
 <AF>        -> [ <EXPR> <SLICE> ] | ( <FC> ) | null
@@ -31,6 +41,7 @@ w: wrong
 <FC>        -> <EXPR> <PAR_LIST> | null
 <PAR_LIST>  -> , <EXPR> <PAR_LIST> | null
 ```
+<hr>
 
 ### DOT SEPARATED FUNCTIONCALL,ID,ARRAYCALL
 ```xml
@@ -46,7 +57,7 @@ BUT END ONLY WITH ID,ARRAYCALL
 <LAST_ID_ARR>   -> id <ARRAY_NULL>
 <ARRAY_NULL>    -> [ <EXPR> <SLICE> ] |  null
 ```
-
+<hr>
 
 ### Declaration and Assignment
 
@@ -86,7 +97,7 @@ x += y *= int <- a + 5; r
 x = int <- y = a + 5;   w
 x = y = a + 5, t = 3;   w
 ```
-
+<hr>
 
 ### Expression
 
@@ -131,6 +142,7 @@ With Brackets
 
 <UNARY>     -> dt typeCast <UNARY> | not <UNARY>| null
 ```
+<hr>
 
 ### Conditional Statement
 
