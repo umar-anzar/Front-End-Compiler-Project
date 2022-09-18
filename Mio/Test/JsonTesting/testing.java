@@ -5,13 +5,18 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 
-public class testing {
-
-    
+public class testing {  
     public static void main(String[] args){
         
-        
-        
+    int i=1;    
+    do
+        System.out.println(i);    
+    
+    while(i<=10);  
+    }
+}  
+
+
         /*        
         while(true){
         Scanner scan = new Scanner(System.in);
@@ -39,13 +44,3 @@ public class testing {
         ;
         return m.matches();
         */
-    int day = 7;
-    switch (day) {
-
-    }
-    // Outputs "Thursday" (day 4)
-
-    }
-}  
-
-
