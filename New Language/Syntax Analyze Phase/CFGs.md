@@ -46,7 +46,9 @@ w: wrong
 ### Identifer, Function call, array subscript (INDFRS)
 ```xml
 <INDFRS>    -> id <AF>
-<AF>        -> [ <EXPR> <SLICE> ] | ( <FC> ) | null
+<AF>        -> <SUBSCRIPT> | <FUNC_CALL> | null
+<SUBSCRIPT> -> [ <EXPR> <SLICE> ]
+<FUNC_CALL> -> ( <FC> )
 <SLICE>     -> : <EXPR> | null
 <FC>        -> <EXPR> <PAR_LIST> | null
 <PAR_LIST>  -> , <EXPR> <PAR_LIST> | null
@@ -63,18 +65,20 @@ array subscript | arr[2]          | arr[2:3]
 
 
 ### DOT SEPARATED FUNCTIONCALL,ID,ARRAYCALL
+
 ```xml
-<ACCESS_PROP> -> <INDFRS> <AP_DOT_LIST>
-<AP_DOT_LIST> -> dot <IDNF>  <AP_DOT_LIST> | null
+<ACCESS_ID>     -> <INDFRS> <AP_DOT_LIST>
+<AP_DOT_LIST>   -> dot <INDFRS>  <AP_DOT_LIST> | null
 ```
 
-BUT END ONLY WITH ID,ARRAYCALL
+Assignment Part  end only with ID, array subscript
 ```xml
-<ASSIGN_PROP>   -> <INDFRS> <ASP_DOT_LIST>
-<ASP_DOT_LIST>  -> dot <ASP1>
-<ASP1>          -> <INDFRS> <ASP_DOT_LIST> | <LAST_ID_ARR>
+<ASSIGN_ID>     -> id  <IS_ARR_FUNC> 
+<IS_ARR_FUNC>   -> <IS_DOT> | <SUBSCRIPT> <IS_DOT>  | <FUNC_CALL> dot <ASP_DOT_LIST>
+<IS_DOT>        -> dot <ASP_DOT_LIST> | null
+<ASP_DOT_LIST>  -> <INDFRS> dot <ASP_DOT_LIST> | <LAST_ID_ARR>
 <LAST_ID_ARR>   -> id <ARRAY_NULL>
-<ARRAY_NULL>    -> [ <EXPR> <SLICE> ] |  null
+<ARRAY_NULL>    -> <SUBSCRIPT> |  null
 ```
 <hr>
 
@@ -90,7 +94,7 @@ There is no access modifer nor static
 <DEC>   -> <PROP> id <INIT> <LIST>
 <PROP>  -> const dt | dt
 <INIT>  -> = <INIT2> | null
-<INIT2> -> id <INIT> | <EXPR>
+<INIT2> -> <ASSIGN_ID> <INIT> | <EXPR>
 <LIST>  -> , id <INIT> <LIST> | ;
 ```
 
@@ -108,10 +112,10 @@ x = y = a + 5, t = 3;                   w
 
 ### Assignment
 ```xml
-<ASSIGN>    -> id <ASS_OP><NN>
-<NN>        -> id <ASSIGN1> | <EXPR> 
-<ASSIGN1>   -> <ASS_OP> id <ASSIGN1> | <EXPR> | null 
-<ASS_OP>    -> = | cma
+<ASSIGN>        -> <ASSIGN_ID>  <ASSIGN1>  
+<ASSIGN1>       -> <ASS_OP> <ASSIGN_LIST> | null 
+<ASSIGN_LIST>   -> <ASSIGN_ID>  <ASSIGN1> | <EXPR> 
+<ASS_OP>        -> = | cma
 ```
 
 ```
