@@ -19,11 +19,26 @@ w: wrong
 ```
 <hr>
 
+
+
 ### Body
 ```xml
 <BODY>  -> ; | <SST> | { <MST> }
 ```
 <hr>
+
+
+
+
+### Operands
+```xml
+<OPERAND>   -> <CONST> | <INDFRS> | <INC_DEC> <INDFRS> | <INDFRS> <OP1> | 
+               <OBJ_AC_PROP>
+
+<OP1>       -> <INC_DEC> | null
+```
+<hr>
+
 
 
 
@@ -63,16 +78,6 @@ BUT END ONLY WITH ID,ARRAYCALL
 ```
 <hr>
 
-
-
-### Operands
-```xml
-<OPERAND>   -> <CONST> | <INDFRS> | <INC_DEC> <INDFRS> | <INDFRS> <OP1> | 
-               <OBJ_AC_PROP>
-
-<OP1>       -> <INC_DEC> | null
-```
-<hr>
 
 
 
