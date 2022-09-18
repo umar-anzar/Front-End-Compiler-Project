@@ -64,8 +64,8 @@ array subscript | arr[2]          | arr[2:3]
 
 
 
-### DOT SEPARATED FUNCTIONCALL,ID,ARRAYCALL
-
+### Dot Separated Identifers
+Access Part can end with ID, array subscript, and function call
 ```xml
 <ACCESS_ID>     -> <INDFRS> <AP_DOT_LIST>
 <AP_DOT_LIST>   -> dot <INDFRS>  <AP_DOT_LIST> | null
