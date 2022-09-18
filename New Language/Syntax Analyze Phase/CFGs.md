@@ -36,12 +36,12 @@ w: wrong
 <FC>        -> <EXPR> <PAR_LIST> | null
 <PAR_LIST>  -> , <EXPR> <PAR_LIST> | null
 ```
-
-| Type            | Example         | Example  |
-|-----------------|-----------------|----------|
-| ID              | var_1           |          |
-| Function call   | func(par1,par2) | helo_q() |
-| array subscript | arr[2]          | arr[2:3] |
+```
+Example:
+ID              | var_1 
+Function call   | func(par1,par2) | helo_q()
+array subscript | arr[2]          | arr[2:3]
+```
 <hr>
 
 
@@ -76,12 +76,11 @@ BUT END ONLY WITH ID,ARRAYCALL
 
 
 
-### Declaration and Assignment
+### Declaration and Initialization
 
 In Main Function
 There is no access modifer nor static
 
-Declaration and Initialization
 ```xml
 <DEC>   -> <PROP> id <INIT> <LIST>
 <PROP>  -> const dt | dt
@@ -97,8 +96,12 @@ int x = y = int <- a + 5, t = q = 2;    r
 int x = int <- y = a + 5, t = q = 2;    w
 x = y = a + 5, t = 3;                   w
 ```
+<hr>
 
-Assignment
+
+
+
+### Assignment
 ```xml
 <ASSIGN>    -> id <ASS_OP><NN>
 <NN>        -> id <ASSIGN1> | <EXPR> 
