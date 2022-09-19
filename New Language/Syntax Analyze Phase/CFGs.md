@@ -6,14 +6,15 @@ r: right
 w: wrong
 
 
+## Inside Function
 
-
-### Single/Multi Statement
+### Single and Multi Statements
 ```xml
-<SST>   -> <IF_ELSE>    | <SHIFT>    | <INC_DEC_ST> ;    | <DEC>     |  
-           <OBJ_DEC>    | <LOOP>     | <DO_WHILE> ;      | <BREAK> ; | 
-           <CONTINUE> ; | <ASSIGN> ; | <TRY_CATCH_ST>    | <FN_CALL> | 
-           <RET_ST> ;
+<SST>   -> <IF_ELSE>      | <SWITCH>   | <INC_DEC_ST> ;    | <DEC>      |  
+           <OBJ_DEC>      | <LOOP>     | <DO_WHILE> ;      | <BREAK> ;  | 
+           <CONTINUE> ;   | <RET_ST> ; | <THROW> ;         | <ASSIGN> ; | 
+           <TRY_CATCH_ST> | <FN_CALL>
+           
 
 <MST>   -> <SST> <MST> | null 
 ```
@@ -50,8 +51,8 @@ w: wrong
 <SUBSCRIPT> -> [ <EXPR> <SLICE> ]
 <FUNC_CALL> -> ( <FC> )
 <SLICE>     -> : <EXPR> | null
-<FC>        -> <EXPR> <PAR_LIST> | null
-<PAR_LIST>  -> , <EXPR> <PAR_LIST> | null
+<FC>        -> <EXPR> <ARG_LIST> | null
+<ARG_LIST>  -> , <EXPR> <ARG_LIST> | null
 ```
 ```
 Example:
@@ -150,7 +151,7 @@ With Brackets
 <E>         -> <BRACKETS>|<EXPR>
 <EXPR>      -> <F>
 
-<BRACKETS>  -> ( <EXPR> )
+<BRACKETS>  -> <UNARY> ( <EXPR> )
 
 <F>         -> <BRACKETS>
 <G>         -> <BRACKETS>
@@ -158,6 +159,7 @@ With Brackets
 <I>         -> <BRACKETS>
 <J>         -> <BRACKETS>
 <K>         -> <BRACKETS>
+<L>         -> <BRACKETS>
 
 <F>         -> <F> and <G>
 <F>         -> <G>
@@ -170,7 +172,7 @@ With Brackets
 <J>         -> <J> power <K>
 <J>         -> <K>
 <K>         -> <UNARY> <L>
-<L>         -> <OPERANDS>|<BRACKETS>
+<L>         -> <OPERANDS>
 
 <UNARY>     -> dt typeCast <UNARY> | not <UNARY>| null
 ```
@@ -179,7 +181,7 @@ With Brackets
 
 
 
-### Conditional Statement
+### Conditional Statements
 
 if-else CFG
 ```xml
@@ -189,7 +191,7 @@ if-else CFG
 
 switch-case statement:
 ```xml
-<SHIFT>     -> shift ( <EXPR> ) { <STATE> }
+<SWITCH>    -> shift ( <EXPR> ) { <STATE> }
 <STATE>     -> state <EXPR> : <BODY> <STATE> | <DEFAULT> 
 <DEFAULT>   -> default : <BODY> | null 
 ```
@@ -197,18 +199,18 @@ switch-case statement:
 
 
 
-### Loop and Break/Continue Statement
+### Loop Statements
 
 Loop
 ```xml
-<LOOP>  -> loop <LT>
-<LT>    -> <WHILE_ST> | <FOR_ST>
+<LOOP>      -> loop <LT>
+<LT>        -> <WHILE_ST> | <FOR_ST>
 ```
 
 While/do-while loop
 ```xml
-<WHILE_ST> -> till ( <EXPR> ) <body>
-<DO_WHILE> -> do <BODY> till ( <EXPR> )
+<WHILE_ST>  -> till ( <EXPR> ) <body>
+<DO_WHILE>  -> do <BODY> till ( <EXPR> )
 ```
 
 For-loop
@@ -216,25 +218,66 @@ For-loop
 <FOR_ST>    -> thru ( dt id in <F1> ) <BODY>
 <F1>        -> id | ( <EXPR> , <EXPR> , <EXPR> )
 ```
+<hr>
 
-Break-continue:
+
+
+### Jump Statements
+
+Break-continue
 ```xml
 <BREAK>     -> stop <L>
 <CONTINUE>  -> cont <L>
 <L>         -> id : | null
 ```
+
+Return-statement
+```xml
+<RET_ST>    -> ret <EXPR>
+```
+
+Throw
+```xml
+<THROW>     -> raise new id <FUNC_CALL>
+```
+<hr>
+
+
+### Exception Handler
+
+```xml
+<TRY_CATCH>     -> test { <MST> } except <ERROR_TYPE> { <MST> }
+<ERROR_TYPE>    -> ( id id )
+```
 <hr>
 
 
 
+## Function Statement
+
+```xml
+<FUNC_DEC>      -> <RET_TYPE> id ( <FUNC_ST> ) { <MST> }
+<RET_TYPE>      -> id | dt | null   <!--Here null is void-->
+<FUNC_ST>       -> <DT_ID> id <PAR_LIST>   | null
+<PAR_LIST>      -> , <DT_ID> id <PAR_LIST> | null
+```
+<hr>
 
 
+## Class Body
 
+### Class
 
+```xml
+<CLASS_DEC> -> Class id <CLASS_PAR> ( <INHERITED> ) { <CLASS_BODY> }
+<CLASS_PAR> -> < id > | null
+```
 
+### Class Body 
 
-
-
+```xml
+<CLASS_BODY>    -> 
+```
 
 
 
