@@ -36,12 +36,14 @@ w: wrong
 ### Operands
 
 ```xml
-<OPERAND>   -> <CONST> | <INDFRS> | <INC_DEC> <INDFRS> | <INDFRS> <OP1> | 
+<OPERAND>   -> <CONST> | <INC_DEC> <INDFRS> | <INDFRS> <OP1> | 
                <OBJ_AC_PROP>
 
 <OP1>       -> <INC_DEC> | null
 ```
 <hr>
+
+
 
 
 ### Function Call
@@ -360,4 +362,5 @@ Throw
 <ABS_FINAL>     -> Abstract | const | null
 <STATIC>        -> static | null
 <FUNC_ST>       -> ( <PAR> )
+<FUNC_CALL>     -> ( <ARG> )
 ```
