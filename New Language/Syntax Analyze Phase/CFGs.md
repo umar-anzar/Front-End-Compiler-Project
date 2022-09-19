@@ -11,10 +11,10 @@ w: wrong
 ### Single and Multi Statements
 
 ```xml
-<SST>   -> <IF_ELSE>      | <SWITCH>   | <INC_DEC_ST> ;    | <DEC>      |  
-           <OBJ_DEC>      | <LOOP>     | <DO_WHILE> ;      | <BREAK> ;  | 
-           <CONTINUE> ;   | <RET_ST> ; | <THROW> ;         | <ASSIGN> ; | 
-           <TRY_CATCH_ST> | <FN_CALL>
+<SST>   -> <IF_ELSE>      | <SWITCH>    | <INC_DEC_ST> ;    | <DEC>      |  
+           <OBJ_DEC>  ;   | <LOOP>      | <DO_WHILE> ;      | <BREAK> ;  | 
+           <CONTINUE> ;   | <RET_ST> ;  | <THROW> ;         | <ASSIGN> ; | 
+           <TRY_CATCH_ST> | <FN_CALL> ;
            
 
 <MST>   -> <SST> <MST> | null 
@@ -44,6 +44,11 @@ w: wrong
 <hr>
 
 
+### Function Call
+```xml
+<FN_CALL> -> id <FUNC_CALL>
+```
+<hr>
 
 
 
@@ -53,9 +58,9 @@ w: wrong
 <INDFRS>    -> id <AF>
 <AF>        -> <SUBSCRIPT> | <FUNC_CALL> | null
 <SUBSCRIPT> -> [ <EXPR> <SLICE> ]
-<FUNC_CALL> -> ( <FC> )
+<FUNC_CALL> -> ( <ARG> )
 <SLICE>     -> : <EXPR> | null
-<FC>        -> <EXPR> <ARG_LIST> | null
+<ARG>       -> <EXPR> <ARG_LIST> | null
 <ARG_LIST>  -> , <EXPR> <ARG_LIST> | null
 ```
 ```
@@ -263,13 +268,14 @@ Throw
 ```xml
 <FUNC_DEC>      -> def <RET_TYPE> id <FUNC_ST> { <MST> }
 <RET_TYPE>      -> id | dt | null   <!--Here null is void-->
-<FUNC_ST>       -> <DT_ID> id <PAR_LIST>   | null
+<FUNC_ST>       -> ( <PAR> )
+<PAR>           -> <DT_ID> id <PAR_LIST>   | null
 <PAR_LIST>      -> , <DT_ID> id <PAR_LIST> | null
 ```
 <hr>
 
 
-## Class PART
+## OOP PART
 
 ### Access Modifier, Static and Abstract
 
@@ -314,23 +320,44 @@ Throw
 <FINAL>     -> const | null
 <INIT>      -> = <INIT2> | null
 <INIT2>     -> <ASSIGN_ID> <INIT> | <EXPR>
-<LIST>      -> , id <INIT> <LIST> | ;
+<LIST>      -> , <ACCESSMOD> id <INIT> <LIST> | ;
 ```
+<hr>
+
+
 
 ### Function Statement in class
 
 ```xml
 <FUNC_CLASS_DEC>    -> def <RET_TYPE> <ACCESSMOD> <IS_ABSTRACT>
-<IS_ABSTRACT>       -> Abstract id ( <FUNC_ST> ) ; | <FINAL> id <FUNC_ST> { <MST> }
+<IS_ABSTRACT>       -> Abstract id <FUNC_ST> ; | <FINAL> id <FUNC_ST> { <MST> }
 ```
+<hr>
+
+
+### Object Declaration
+
+```xml
+<OBJ_DEC>   -> id id = new id <FUNC_CALL>
+<OBJ_DEC>   -> STRING id = new String <FUNC_CALL>
+```
+<hr>
 
 
 
+
+
+
+<!--
+*
+*
+*
+-->
 
 ```xml
 <FINAL>         -> const | null
 <ACCESSMOD>     -> protected | private | null
 <ABS_FINAL>     -> Abstract | const | null
 <STATIC>        -> static | null
+<FUNC_ST>       -> ( <PAR> )
 ```
-<hr>
