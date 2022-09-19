@@ -6,7 +6,7 @@ r: right
 w: wrong
 
 
-## Inside Function
+## Functional Part
 
 ### Single and Multi Statements
 
