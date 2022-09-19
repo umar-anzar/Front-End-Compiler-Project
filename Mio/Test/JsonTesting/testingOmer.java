@@ -11,10 +11,11 @@ import java.util.regex.Pattern;
  * @author omera
  */
 
-public class testingOmer {
-    private abstract class X{}
+public final class testingOmer {
+    private class X{}
     private final int a=3;
     private int y=3;
+    
     public testingOmer() {
         int h=0;
         int c=0;

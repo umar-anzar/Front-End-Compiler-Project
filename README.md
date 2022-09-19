@@ -40,8 +40,8 @@ Project: Front End Compiler Project
 | this       | Self                        |         |         |
 | super      | Parent                      |         |         |
 | public     | implicit                    |         |         |
-| private    | $$                          |         |         |
-| protected  | $                           |         |         |
+| private    | $$identiferName             |         |         |
+| protected  | $identiferName              |         |         |
 | static     | static                      |         |         |
 | new        | new                         |         |         |
 
@@ -289,8 +289,8 @@ Class Car(){
 
     dataType attribute;         @public
 	static dataType attribute;  @static
-	$ dataType attribute;       @private
-	$$ dataType attribute;      @protected
+	dataType $attribute;        @private
+	dataType $$attribute;       @protected
 	
     @This function is public and void
 	def foo(dataType variable1,dataType variable2) {
@@ -298,13 +298,13 @@ Class Car(){
 	}
 
     @This function is private and returnType is there
-    $ def dataType foo1(dataType variable1,dataType variable2) {
+    def dataType $foo1(dataType variable1,dataType variable2) {
 		@block of code
 		ret variable1+variable2;
 	}
 
     @This function is protected and returnType is there
-    $$ def dataType foo2(dataType variable1,dataType variable2) {
+    def dataType $$foo2(dataType variable1,dataType variable2) {
 		@block of code
 		ret variable1+variable2;
 	}
@@ -326,13 +326,13 @@ begin
 }
 
 Class Polygone<T>(){
-   $ T t; @private variable
+   T $t; @private variable
 
-   def add(T t) {
+   add(T t) {
       this.t = t;
    }
 
-   def T get() {
+   T get() {
       return t;
    }   
 }
@@ -345,7 +345,7 @@ Syntax:
 
 Class JDM(){
 	static dataType attribute;
-	$$ dataType attribute;
+	dataType $$attribute;
 }
 
 Class Supra(Car, JDM){	//Car and JDM classes are inherited

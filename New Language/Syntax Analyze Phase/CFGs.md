@@ -97,8 +97,8 @@ In Main Function
 There is no access modifer nor static
 
 ```xml
-<DEC>       -> <PROP> id <INIT> <LIST>
-<PROP>      -> const dt | dt
+<DEC>       -> <FINAL> dt id <INIT> <LIST>
+<FINAL>     -> const | null
 <INIT>      -> = <INIT2> | null
 <INIT2>     -> <ASSIGN_ID> <INIT> | <EXPR>
 <LIST>      -> , id <INIT> <LIST> | ;
@@ -258,10 +258,10 @@ Throw
 
 
 
-## Function Statement
+### Function Statement not in class
 
 ```xml
-<FUNC_DEC>      -> def <RET_TYPE> id ( <FUNC_ST> ) { <MST> }
+<FUNC_DEC>      -> def <RET_TYPE> id <FUNC_ST> { <MST> }
 <RET_TYPE>      -> id | dt | null   <!--Here null is void-->
 <FUNC_ST>       -> <DT_ID> id <PAR_LIST>   | null
 <PAR_LIST>      -> , <DT_ID> id <PAR_LIST> | null
@@ -269,29 +269,68 @@ Throw
 <hr>
 
 
-## Class Body
+## Class PART
 
-### Access Modifier and Abstract
+### Access Modifier, Static and Abstract
 
 ```xml
-<ACCESSMOD> -> protected | private | null  <!--Here null is public-->
-<ABSTRACT>  -> Abstract | null
+<ACCESSMOD>     -> protected | private | null  <!--Here null is public-->
+<ABS_FINAL>     -> Abstract | const | null
+<STATIC>        -> static | null
 ```
+<hr>
+
 
 ### Class
 
 ```xml
-<CLASS_DEC> -> <ACCESSMOD> Class id <CLASS_PAR> ( <INHERITED> ) { <CLASS_BODY> }
-<CLASS_PAR> -> < id > | null
+<CLASS_DEC>     -> <ABS_FINAL> Class <ACCESSMOD> id <CLASS_PAR> ( <INHERIT> ) { <CLASS_BODY> }
+<CLASS_PAR>     -> < id > | null
+<INHERIT>       -> id <MULTI_INHERIT>   | null
+<MULTI_INHERIT> -> , id <MULTI_INHERIT> | null
 ```
+<hr>
+
+
 
 ### Class Body 
 
 ```xml
 <CLASS_BODY>    -> <ATTR_FUNC> <CLASS_BODY> | null
-<ATTR_FUNC>     -> <ACCESSMOD> <FUNC_DEC>   | <CLASS_ATTR>
-<CLASS_ATTR>    -> 
+<ATTR_FUNC>     -> <FUNC_CLASS_DEC> | <ATTR_CLASS_DEC>
+```
+<hr>
+
+
+
+### Attribute Declaration in class
+
+```xml
+<ATTR_CLASS_DEC>    -> <STATIC>  dt  <ACCESSMOD>  id 
+```
+
+```xml
+<DEC>       -> <STATIC> <FINAL> dt <ACCESSMOD> id <INIT> <LIST>
+<FINAL>     -> const | null
+<INIT>      -> = <INIT2> | null
+<INIT2>     -> <ASSIGN_ID> <INIT> | <EXPR>
+<LIST>      -> , id <INIT> <LIST> | ;
+```
+
+### Function Statement in class
+
+```xml
+<FUNC_CLASS_DEC>    -> def <RET_TYPE> <ACCESSMOD> <IS_ABSTRACT>
+<IS_ABSTRACT>       -> Abstract id ( <FUNC_ST> ) ; | <FINAL> id <FUNC_ST> { <MST> }
 ```
 
 
 
+
+```xml
+<FINAL>         -> const | null
+<ACCESSMOD>     -> protected | private | null
+<ABS_FINAL>     -> Abstract | const | null
+<STATIC>        -> static | null
+```
+<hr>
