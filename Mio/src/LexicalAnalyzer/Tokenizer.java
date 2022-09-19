@@ -344,23 +344,16 @@ public class Tokenizer {
                 token.setError("Invalid ID");
             }  
         }
-        else if ( match("[$a-zA-Z]", String.valueOf(tokenString.charAt(0))) ) {
-            // IF IDENTIFER STATS WITH $
-            if (String.valueOf(tokenString.charAt(0)).equals("$")){
-                if (tokenString.length() >= 2){
-                    if (String.valueOf(tokenString.charAt(1)).equals("$")){
-                        token = new TokenClass(ValidWords.isKeyword(tokenString.substring(0, 2)), 
-                                tokenString.substring(0, 2), line);
-                        tokenString = tokenString.substring(2, tokenString.length());
-                    } else {
-                        token = new TokenClass(ValidWords.isKeyword(tokenString.substring(0, 1)), 
-                                tokenString.substring(0, 1), line);
-                        tokenString = tokenString.substring(1, tokenString.length());
-                    }
-                }
-                TokenClass.addToken(token); // ADDING Access modifer
+        else if ( match("[$]", String.valueOf(tokenString.charAt(0))) ) {
+            if(!(ValidWords.isKeyword(tokenString).isEmpty())){
+                token = new TokenClass(ValidWords.isKeyword(tokenString), tokenString, line);
+            } else {
+                token = new TokenClass(ValidWords.ID, tokenString, line);
+                token.setError("Invalid ID");
             }
-            
+        }
+        else if ( match("[a-zA-Z]", String.valueOf(tokenString.charAt(0))) ) {
+
             // Word goes to check for id or keyword
             if (ValidWords.isId(tokenString)){
                 if(!(ValidWords.isKeyword(tokenString).isEmpty())){

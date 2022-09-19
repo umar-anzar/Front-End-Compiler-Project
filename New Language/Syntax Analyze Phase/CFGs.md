@@ -9,6 +9,7 @@ w: wrong
 ## Inside Function
 
 ### Single and Multi Statements
+
 ```xml
 <SST>   -> <IF_ELSE>      | <SWITCH>   | <INC_DEC_ST> ;    | <DEC>      |  
            <OBJ_DEC>      | <LOOP>     | <DO_WHILE> ;      | <BREAK> ;  | 
@@ -23,6 +24,7 @@ w: wrong
 
 
 ### Body
+
 ```xml
 <BODY>  -> ; | <SST> | { <MST> }
 ```
@@ -32,6 +34,7 @@ w: wrong
 
 
 ### Operands
+
 ```xml
 <OPERAND>   -> <CONST> | <INDFRS> | <INC_DEC> <INDFRS> | <INDFRS> <OP1> | 
                <OBJ_AC_PROP>
@@ -45,6 +48,7 @@ w: wrong
 
 
 ### Identifer, Function call, array subscript (INDFRS)
+
 ```xml
 <INDFRS>    -> id <AF>
 <AF>        -> <SUBSCRIPT> | <FUNC_CALL> | null
@@ -66,6 +70,7 @@ array subscript | arr[2]          | arr[2:3]
 
 
 ### Dot Separated Identifers
+
 Access Part can end with ID, array subscript, and function call
 ```xml
 <ACCESS_ID>     -> <INDFRS> <AP_DOT_LIST>
@@ -256,7 +261,7 @@ Throw
 ## Function Statement
 
 ```xml
-<FUNC_DEC>      -> <RET_TYPE> id ( <FUNC_ST> ) { <MST> }
+<FUNC_DEC>      -> def <RET_TYPE> id ( <FUNC_ST> ) { <MST> }
 <RET_TYPE>      -> id | dt | null   <!--Here null is void-->
 <FUNC_ST>       -> <DT_ID> id <PAR_LIST>   | null
 <PAR_LIST>      -> , <DT_ID> id <PAR_LIST> | null
@@ -266,17 +271,26 @@ Throw
 
 ## Class Body
 
+### Access Modifier and Abstract
+
+```xml
+<ACCESSMOD> -> protected | private | null  <!--Here null is public-->
+<ABSTRACT>  -> Abstract | null
+```
+
 ### Class
 
 ```xml
-<CLASS_DEC> -> Class id <CLASS_PAR> ( <INHERITED> ) { <CLASS_BODY> }
+<CLASS_DEC> -> <ACCESSMOD> Class id <CLASS_PAR> ( <INHERITED> ) { <CLASS_BODY> }
 <CLASS_PAR> -> < id > | null
 ```
 
 ### Class Body 
 
 ```xml
-<CLASS_BODY>    -> 
+<CLASS_BODY>    -> <ATTR_FUNC> <CLASS_BODY> | null
+<ATTR_FUNC>     -> <ACCESSMOD> <FUNC_DEC>   | <CLASS_ATTR>
+<CLASS_ATTR>    -> 
 ```
 
 

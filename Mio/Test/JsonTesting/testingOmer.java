@@ -10,7 +10,9 @@ import java.util.regex.Pattern;
  *
  * @author omera
  */
+
 public class testingOmer {
+    private abstract class X{}
     private final int a=3;
     private int y=3;
     public testingOmer() {
