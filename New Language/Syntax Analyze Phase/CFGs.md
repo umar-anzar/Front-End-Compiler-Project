@@ -408,7 +408,8 @@ Throw
 ### Array Declaration
 
 ```xml
-<ARR_DEC>       -> [ ] <MUL_ARR_LIST> id = new <IS_OBJ_DT> [ <EXPR> ] <MUL_ARR_DEC> 
+<ARR_DEC>       -> [ ] <MUL_ARR_LIST> id = <CHOICE>
+<CHOICE>        -> <ARR_CONST> | new <IS_OBJ_DT> [ <EXPR> ] <MUL_ARR_DEC> 
 <MUL_ARR_LIST>  -> [ ] <MUL_ARR_LIST> | null
 <IS_OBJ_DT>     -> id | dt
 <MUL_ARR_DEC>   -> [ <EXPR> ] <MUL_ARR_DEC> | null
