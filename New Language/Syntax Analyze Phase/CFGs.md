@@ -390,7 +390,8 @@ With Brackets
 ### Attribute Declaration in class
 
 ```xml
-<ATTR_CLASS_DEC>    -> <STATIC> <FINAL> dt <ACCESSMOD> id <INIT> <LIST>
+<ATTR_CLASS_DEC>    -> <STATIC> <FINAL> <IS_OBJ>
+<IS_OBJ>            -> <OBJ_CLASS_DEC> | dt <ACCESSMOD> id <INIT> <LIST>
 <FINAL>             -> const | null
 <INIT>              -> = <INIT2> | null
 <INIT2>             -> <ASSIGN_ID> <INIT> | <EXPR>
@@ -415,15 +416,14 @@ With Brackets
 
 - Not in Class
 ```xml
-<OBJ_DEC>   -> id <IS_ARR>
+<OBJ_DEC>   -> id <IS_ARR>      <!--2nd rule is in string declaration-->
 <IS_ARR>    -> <ARR_DEC> | id = <NEW_OBJ> 
 <NEW_OBJ>   -> new id <FN_CALL>
 ```
 
 - In Class
 ```xml
-<OBJ_CLASS_DEC> -> <STATIC> <FINAL> <IS_STR>
-<IS_STR>        -> <STR_CLASS> | id <IS_ARR_CLASS>
+<OBJ_CLASS_DEC> -> id <IS_ARR_CLASS>   <!--2nd rule is in string declaration-->
 <IS_ARR_CLASS>  -> <ARR_DEC> | <ACCESSMOD> id = <NEW_OBJ> 
 <NEW_OBJ>       -> new id <FN_CALL>
 ```
@@ -442,7 +442,7 @@ With Brackets
 
 - In Class
 ```xml
-<STR_CLASS> -> str <ACCESSMOD> id = <NEW_STR_CONST>
+<OBJ_CLASS_DEC> -> str <ACCESSMOD> id = <NEW_STR_CONST>
 ```
 <hr>
 
