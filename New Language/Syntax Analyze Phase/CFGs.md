@@ -37,7 +37,7 @@ w: wrong
 
 ```xml
 <OPERAND>   -> <CONST> | <INC_DEC> <INDFRS> | <INDFRS> <OP1> | 
-               <OBJ_AC_PROP> |
+               <OBJ_AC_PROP> | <NEW_OBJ> <!--new String()-->
 
 <OP1>       -> <INC_DEC> | null
 ```
@@ -50,11 +50,14 @@ w: wrong
 ```
 
 ```xml
-<CONST>         -> intConst | floatConst | charConst | boolConst | strConst | <ARR_CONST>
+<CONST>         -> intConst | floatConst | charConst | boolConst | 
+                   strConst | <ARR_CONST>
 <ARR_CONST>     -> { <EXPR> <EXPR_LIST> }
 <EXPR_LIST>     -> , <EXPR>| null
 ```
 <hr>
+
+
 
 ### Function Call
 
@@ -176,7 +179,7 @@ x = y = a + 5, t = 3;                   w
 <ASSIGN1>       -> <ASS_OP> <ASSIGN_LIST> | null 
 <ASSIGN_LIST>   -> <ASSIGN_ID> <ASSIGN1> | <EXPR> 
 <ASS_OP>        -> = | cma
-<OBJ_PRIMITIVE> -> new id <FN_CALL> | <ASSIGN_LIST>
+<OBJ_PRIMITIVE> -> <NEW_OBJ> | <ASSIGN_LIST>
 ```
 
 ```
@@ -299,7 +302,7 @@ Return-statement
 
 Throw
 ```xml
-<THROW>     -> raise new id <FN_CALL>
+<THROW>     -> raise <NEW_OBJ>
 ```
 <hr>
 
@@ -411,8 +414,8 @@ Throw
 <MUL_ARR_DEC>   -> [ <EXPR> ] <MUL_ARR_DEC> | null
 ```
 
-
-
+<br>
+<hr><hr><hr>
 
 <!--
 *
@@ -427,4 +430,5 @@ Throw
 <STATIC>    -> static | null
 <FN_ST>     -> ( <PAR> ) <!--used in function declaration-->
 <FN_CALL>   -> ( <ARG> ) <!--used in function calling-->
+<NEW_OBJ>   -> new id <FN_CALL> <!--after = or cma(+= etc) also in array const-->
 ```
