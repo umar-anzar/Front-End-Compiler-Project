@@ -17,6 +17,7 @@ public final class testingOmer {
     private final int a=3;
     private int y=3;
     
+    
     public testingOmer() {
         int h=0;
         int c=0;
@@ -80,6 +81,9 @@ public final class testingOmer {
         String xxx = null;
         xxx += new String() + "asd";
         boolean qre = 6*5<3+2 && !(3>5);
+        
+        
+        new String();
         
         for (final int xx=0;x<4;g++) {
             

@@ -49,7 +49,7 @@ function_id (p1,p2,p3)
 - Function Statement
 
 ```xml
-<FN_DEC>    -> def <RET_TYPE> id <FN_ST> { <MST> }
+<FN_DEC>    -> def <RET_TYPE> id <FN_ST> <THROWS> { <MST> }
 <RET_TYPE>  -> id | dt | null   <!--Here null is void-->
 <FN_ST>     -> ( <PAR> )
 <PAR>       -> <DT_ID> id <PAR_LIST>   | null
@@ -255,6 +255,7 @@ Throw
 ```xml
 <TRY_CATCH>     -> test { <MST> } except <ERROR_TYPE> { <MST> }
 <ERROR_TYPE>    -> ( id id )
+<THROWS>        -> raises id | null
 ```
 <hr>
 
@@ -401,8 +402,9 @@ With Brackets
 ### Function Statement in class
 
 ```xml
-<FN_CLASS_DEC>  -> def <RET_TYPE> <ACCESSMOD> <IS_ABSTRACT>
-<IS_ABSTRACT>   -> Abstract id <FN_ST> ; | <FINAL> id <FN_ST> { <MST> }
+<FN_CLASS_DEC>  -> def <RET_TYPE> <IS_ABSTRACT>
+<IS_ABSTRACT>   -> Abstract  <ACCESSMOD>  id <FN_ST> <THROWS> ; | 
+                   <FINAL> <ACCESSMOD> id <FN_ST> <THROWS> { <MST> }
 ```
 <hr>
 
