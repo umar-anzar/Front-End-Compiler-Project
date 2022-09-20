@@ -20,10 +20,10 @@ w: wrong
 ### Single and Multi Statements
 
 ```xml
-<SST>   -> <IF_ELSE>    | <SWITCH>          | <INC_DEC_ST> ;    | <DEC> ;       |  
-           <LOOP>       | <DO_WHILE> ;      | <BREAK> ;         | <RET_ST> ;    |
-           <CONTINUE> ; | <THROW> ;         | <ASSIGN> ;        | <TRY_CATCH>   | 
-           <FN_ID_CALL> ;
+<SST>   -> <IF_ELSE>        | <SWITCH>          | <INC_DEC_ST> ;    | <DEC> ;       |  
+ ...       <LOOP>           | <DO_WHILE> ;      | <BREAK> ;         | <RET_ST> ;    |
+ ...       <CONTINUE> ;     | <THROW> ;         | <ASSIGN> ;        | <TRY_CATCH>   | 
+ ...       <FN_CALL> ;
            
 
 <MST>   -> <SST> <MST> | null 
@@ -36,7 +36,7 @@ w: wrong
 - Function call
 
 ```xml
-<FN_ID_CALL>    -> id <FN_CALL>
+<FN_CALL>    -> id <FN_BRACKETS>
 ```
 
 ```
@@ -119,13 +119,13 @@ x = y = a + 5, t = 3;   w
 ### Identifer, Function call, array subscript (IDNFRS)
 
 ```xml
-<IDNFRS>    -> id <AF>
-<AF>        -> <SUBSCRIPT> | <FN_CALL> | null
-<SUBSCRIPT> -> [ <EXPR> <SLICE> ]
-<FN_CALL>   -> ( <ARG> )
-<SLICE>     -> : <EXPR> | null
-<ARG>       -> <EXPR> <ARG_LIST> | null
-<ARG_LIST>  -> , <EXPR> <ARG_LIST> | null
+<IDNFRS>        -> id <AF>
+<AF>            -> <SUBSCRIPT> | <FN_BRACKETS> | null
+<SUBSCRIPT>     -> [ <EXPR> <SLICE> ]
+<FN_BRACKETS>   -> ( <ARG> )
+<SLICE>         -> : <EXPR> | null
+<ARG>           -> <EXPR> <ARG_LIST> | null
+<ARG_LIST>      -> , <EXPR> <ARG_LIST> | null
 ```
 ```
 Example:
@@ -165,7 +165,7 @@ which word this cfg going to parse
 These are all used before equal sign
 ```xml
 <ASSIGN_ID>     -> id <IS_ARR_FUNC> 
-<IS_ARR_FUNC>   -> <IS_DOT> | <SUBSCRIPT> <IS_DOT> | <FN_CALL> dot <ASP_DOT_LIST>
+<IS_ARR_FUNC>   -> <IS_DOT> | <SUBSCRIPT> <IS_DOT> | <FN_BRACKETS> dot <ASP_DOT_LIST>
 <IS_DOT>        -> dot <ASP_DOT_LIST> | null
 <ASP_DOT_LIST>  -> <IDNFRS> dot <ASP_DOT_LIST> | <LAST_ID_ARR>
 <LAST_ID_ARR>   -> id <ARRAY_NULL>
@@ -268,7 +268,7 @@ Throw
 
 ```xml
 <OPERAND>   -> <CONST> | <INC_DEC> <ASSIGN_ID> | <ASSIGN_ID> <OP1> | <ACCESS_ID> |
-               <OBJ_AC_PROP> | <NEW_OBJ> <!--new String()-->
+...            <OBJ_AC_PROP> | <NEW_OBJ> <!--new String()-->
 
 <OP1>       -> <INC_DEC> | null
 ```
@@ -384,7 +384,7 @@ With Brackets
 
 ```xml
 <CLASS_BODY>    -> <ATTR_FUNC> <CLASS_BODY> | null
-<ATTR_FUNC>     -> <FN_CLASS_DEC> | <ATTR_CLASS_DEC> ;
+<ATTR_FUNC>     -> <FN_CLASS_DEC> | <ATTR_CLASS_DEC> ; 
 ```
 
 
@@ -405,9 +405,9 @@ With Brackets
 ### Function Statement in class
 
 ```xml
-<FN_CLASS_DEC>  -> def <RET_TYPE> <IS_ABSTRACT>
-<IS_ABSTRACT>   -> Abstract  <ACCESSMOD>  id <FN_ST> <THROWS> ; | 
-                   <FINAL> <ACCESSMOD> id <FN_ST> <THROWS> { <MST> }
+<FN_CLASS_DEC>  -> def <RET_TYPE> <IS_ABSTRACT> 
+<IS_ABSTRACT>   -> Abstract <ACCESSMOD> id <FN_ST> <THROWS> ; | 
+...                <FINAL> <ACCESSMOD> id <FN_ST> <THROWS> { <MST> }
 ```
 <hr>
 
@@ -419,7 +419,7 @@ With Brackets
 ```xml
 <OBJ_DEC>   -> id <IS_ARR>      <!--2nd rule is in string declaration-->
 <IS_ARR>    -> <ARR_DEC> | id = <NEW_OBJ> 
-<NEW_OBJ>   -> new <STR_ID> <FN_CALL> 
+<NEW_OBJ>   -> new <STR_ID> <FN_BRACKETS> 
 <STR_ID>    -> str | id
 ```
 
@@ -438,7 +438,7 @@ With Brackets
 - Not in Class
 ```xml
 <OBJ_DEC>       -> str id = <NEW_STR_CONST>
-<NEW_STR_CONST> -> new str <FN_CALL> | strConst
+<NEW_STR_CONST> -> new str <FN_BRACKETS> | strConst
 ```
 
 - In Class
@@ -469,13 +469,13 @@ With Brackets
 -->
 
 ```xml
-<FINAL>     -> const | null
-<ACCESSMOD> -> protected | private | null
-<ABS_FINAL> -> Abstract | const | null
-<STATIC>    -> static | null
-<FN_ST>     -> ( <PAR> ) <!--used in function declaration-->
-<FN_CALL>   -> ( <ARG> ) <!--used in function calling-->
-<NEW_OBJ>   -> new <STR_ID> <FN_CALL> <!--after = or cma(+= etc) also in array const-->
-<STR_ID>    -> str | id 
-<ASSIGN_OP> -> = | cma
+<FINAL>         -> const | null
+<ACCESSMOD>     -> protected | private | null
+<ABS_FINAL>     -> Abstract | const | null
+<STATIC>        -> static | null
+<FN_ST>         -> ( <PAR> ) <!--used in function declaration-->
+<FN_BRACKETS>   -> ( <ARG> ) <!--used in function calling-->
+<NEW_OBJ>       -> new <STR_ID> <FN_BRACKETS> <!--after = or cma(+= etc) also in array const-->
+<STR_ID>        -> str | id 
+<ASSIGN_OP>     -> = | cma
 ```
