@@ -20,10 +20,10 @@ w: wrong
 ### Single and Multi Statements
 
 ```xml
-<SST>   -> <IF_ELSE>    | <SWITCH>          | <INC_DEC_ST> ;    | <DEC>      |  
-           <OBJ_DEC>  ; | <LOOP>            | <DO_WHILE> ;      | <BREAK> ;  | 
-           <CONTINUE> ; | <RET_ST> ;        | <THROW> ;         | <ASSIGN> ; | 
-           <TRY_CATCH>  | <FN_ID_CALL> ;
+<SST>   -> <IF_ELSE>    | <SWITCH>          | <INC_DEC_ST> ;    | <DEC> ;       |  
+           <LOOP>       | <DO_WHILE> ;      | <BREAK> ;         | <RET_ST> ;    |
+           <CONTINUE> ; | <THROW> ;         | <ASSIGN> ;        | <TRY_CATCH>   | 
+           <FN_ID_CALL> ;
            
 
 <MST>   -> <SST> <MST> | null 
@@ -50,7 +50,7 @@ function_id (p1,p2,p3)
 
 ```xml
 <FN_DEC>    -> def <RET_TYPE> id <FN_ST> <THROWS> { <MST> }
-<RET_TYPE>  -> id | dt | null   <!--Here null is void-->
+<RET_TYPE>  -> id | dt | str | null   <!--Here null is void-->
 <FN_ST>     -> ( <PAR> )
 <PAR>       -> <DT_ID> id <PAR_LIST>   | null
 <PAR_LIST>  -> , <DT_ID> id <PAR_LIST> | null
@@ -78,12 +78,13 @@ There is no access modifer nor static
 <FINAL>     -> const | null
 <INIT>      -> = <INIT2> | null
 <INIT2>     -> <ASSIGN_ID> <INIT> | <EXPR>
-<LIST>      -> , id <INIT> <LIST> | ;
+<LIST>      -> , id <INIT> <LIST> | null
 ```
 
 ```
 Example:
 const int x = y = a + 5, t = 3;         r
+const str y = "str" ;
 int x = y = int <- a + 5, t = q = 2;    r
 int x = int <- y = a + 5, t = q = 2;    w
 x = y = a + 5, t = 3;                   w
@@ -383,7 +384,7 @@ With Brackets
 
 ```xml
 <CLASS_BODY>    -> <ATTR_FUNC> <CLASS_BODY> | null
-<ATTR_FUNC>     -> <FN_CLASS_DEC> | <ATTR_CLASS_DEC> ; | <OBJ_CLASS_DEC> ;
+<ATTR_FUNC>     -> <FN_CLASS_DEC> | <ATTR_CLASS_DEC> ;
 ```
 
 
@@ -418,14 +419,14 @@ With Brackets
 ```xml
 <OBJ_DEC>   -> id <IS_ARR>      <!--2nd rule is in string declaration-->
 <IS_ARR>    -> <ARR_DEC> | id = <NEW_OBJ> 
-<NEW_OBJ>   -> new id <FN_CALL>
+<NEW_OBJ>   -> new <STR_ID> <FN_CALL> 
+<STR_ID>    -> str | id
 ```
 
 - In Class
 ```xml
 <OBJ_CLASS_DEC> -> id <IS_ARR_CLASS>   <!--2nd rule is in string declaration-->
 <IS_ARR_CLASS>  -> <ARR_DEC> | <ACCESSMOD> id = <NEW_OBJ> 
-<NEW_OBJ>       -> new id <FN_CALL>
 ```
 
 <hr>
@@ -454,7 +455,7 @@ With Brackets
 <ARR_DEC>       -> [ ] <MUL_ARR_LIST> id = <CHOICE>
 <CHOICE>        -> <ARR_CONST> | new <IS_OBJ_DT> [ <EXPR> ] <MUL_ARR_DEC> 
 <MUL_ARR_LIST>  -> [ ] <MUL_ARR_LIST> | null
-<IS_OBJ_DT>     -> id | dt
+<IS_OBJ_DT>     -> id | dt | str
 <MUL_ARR_DEC>   -> [ <EXPR> ] <MUL_ARR_DEC> | null
 ```
 
@@ -474,6 +475,7 @@ With Brackets
 <STATIC>    -> static | null
 <FN_ST>     -> ( <PAR> ) <!--used in function declaration-->
 <FN_CALL>   -> ( <ARG> ) <!--used in function calling-->
-<NEW_OBJ>   -> new id <FN_CALL> <!--after = or cma(+= etc) also in array const-->
+<NEW_OBJ>   -> new <STR_ID> <FN_CALL> <!--after = or cma(+= etc) also in array const-->
+<STR_ID>    -> str | id 
 <ASSIGN_OP> -> = | cma
 ```
