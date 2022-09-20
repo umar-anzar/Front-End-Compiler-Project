@@ -141,11 +141,11 @@ dataType variableName = Constant;
 ### Type Casting
 ```
 Syntax:
-DT <- value
+convt(DT) value
 
-int x = 2 * int<-3.9        @ Here 3.9 is converted into 3 then * 2
+int x = 2 * convt(int)3.9        @ Here 3.9 is converted into 3 then * 2
 
-int x = int<- 2.9 * 32      @ Here 2.9 * 32 then converted into integer
+int x = convt(int) 2.9 * 32      @ Here 2.9 * 32 then converted into integer
 ```
 
 ### Conditional Statement

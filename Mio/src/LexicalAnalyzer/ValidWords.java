@@ -18,6 +18,7 @@ public class ValidWords {
     final static String INTCONST = "intConst";
     final static String FLOATCONST = "floatConst";
     final static String CHARCONST = "charConst";
+    final static String BOOLEANCONST = "boolConst";
     final static String STRCONST = "strConst";
     final static String DOT = "dot";
     
@@ -29,7 +30,9 @@ public class ValidWords {
     
     //{{value, classpart}}
     static String[][] keyword = {
-        
+            
+        {"convt", "typeCast"},
+                
         {"if", "if"}, 
         {"else", "else"},
         {"loop", "loop"},
@@ -48,7 +51,7 @@ public class ValidWords {
         {"int", DT},     
         {"point", DT}, // float 
         {"char", DT},
-        {"str", DT},
+        {"str", "str"},
         {"bool", DT},
         {"val", DT},
  
@@ -66,8 +69,8 @@ public class ValidWords {
         {"finally", "finally"},
         {"raise", "raise"}, 
         {"raises", "raises"},
-        {"true","true"},
-        {"false","false"}
+        {"true",BOOLEANCONST},
+        {"false",BOOLEANCONST}
         
           
     };
@@ -104,9 +107,7 @@ public class ValidWords {
         
         {"^", "power"},
         
-        {"=", "assignOp"},
-            
-        {"<-", "typeCast"}
+        {"=", "assignOp"}
            
     };
 

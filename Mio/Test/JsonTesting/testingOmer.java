@@ -4,6 +4,7 @@
  */
 package JsonTesting;
 
+import java.util.Arrays;
 import java.util.regex.Pattern;
 
 /**
@@ -62,13 +63,22 @@ public final class testingOmer {
     }
 
     public static void main(String[] args) {
-            int h=0;
+        int h=0;
         int c=0;
         int q=0;
         int g=0;
-
+        int[][] aaa = {{},{}};
+        String[] aaaa = new String[2];
+        int[] bbb = {1};
+        int[] ccc = {1,3};
+        aaa[0] = bbb;
+        aaa[1] = ccc;
+        int[][] ddd = {{0},{},{3,4,6}};
+        System.out.println(Arrays.toString(aaa));
+        System.out.println(Arrays.toString(ddd[1]));
         int x = g = (int)c + 5, t = q = 2;
-        
+        String xxx = null;
+        xxx += new String() + "asd";
         boolean qre = 6*5<3+2 && !(3>5);
         
         for (final int xx=0;x<4;g++) {
