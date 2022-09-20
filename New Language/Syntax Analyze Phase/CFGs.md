@@ -369,7 +369,7 @@ With Brackets
 
 <!--------------------------------------------------------------------------------------->
 
-### Class
+### Class Declaration
 
 ```xml
 <CLASS_DEC>     -> <ABS_FINAL> Class <ACCESSMOD> id <CLASS_PAR> ( <INHERIT> ) { <CLASS_BODY> }
