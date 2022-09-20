@@ -264,7 +264,7 @@ Throw
 ### Operands
 
 ```xml
-<OPERAND>   -> <CONST> | <INC_DEC> <ASSIGN_ID> | <ASSIGN_ID> <OP1> | 
+<OPERAND>   -> <CONST> | <INC_DEC> <ASSIGN_ID> | <ASSIGN_ID> <OP1> | <ACCESS_ID> |
                <OBJ_AC_PROP> | <NEW_OBJ> <!--new String()-->
 
 <OP1>       -> <INC_DEC> | null
