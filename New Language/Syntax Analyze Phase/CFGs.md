@@ -382,7 +382,7 @@ With Brackets
 
 ```xml
 <CLASS_BODY>    -> <ATTR_FUNC> <CLASS_BODY> | null
-<ATTR_FUNC>     -> <FN_CLASS_DEC> | <ATTR_CLASS_DEC>
+<ATTR_FUNC>     -> <FN_CLASS_DEC> | <ATTR_CLASS_DEC> | <OBJ_DEC>
 ```
 
 
