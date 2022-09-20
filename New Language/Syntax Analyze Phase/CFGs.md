@@ -1,4 +1,4 @@
-## Syntax Analyze Phase
+# Syntax Analyze Phase
 
 Writing context free grammar
 
@@ -7,6 +7,15 @@ w: wrong
 
 
 ## Functional Part
+
+
+
+### Body
+
+```xml
+<BODY>  -> ; | <SST> | { <MST> }
+```
+
 
 ### Single and Multi Statements
 
@@ -21,45 +30,10 @@ w: wrong
 ```
 <hr>
 
+<!--------------------------------------------------------------------------------------->
 
-
-### Body
-
-```xml
-<BODY>  -> ; | <SST> | { <MST> }
-```
-<hr>
-
-
-
-
-### Operands
-
-```xml
-<OPERAND>   -> <CONST> | <INC_DEC> <INDFRS> | <INDFRS> <OP1> | 
-               <OBJ_AC_PROP> | <NEW_OBJ> <!--new String()-->
-
-<OP1>       -> <INC_DEC> | null
-```
-<hr>
-
-###  Increment Decrement and Constant
-
-```xml
-<INC_DEC> -> ++ | --
-```
-
-```xml
-<CONST>         -> intConst | floatConst | charConst | boolConst | 
-                   strConst | <ARR_CONST>
-<ARR_CONST>     -> { <EXPR> <EXPR_LIST> }
-<EXPR_LIST>     -> , <EXPR>| null
-```
-<hr>
-
-
-
-### Function Call
+### Function Not in Class
+- Function call
 
 ```xml
 <FN_ID_CALL>    -> id <FN_CALL>
@@ -71,7 +45,72 @@ function_id ()
 function_id (p1)
 function_id (p1,p2,p3)
 ```
+
+- Function Statement
+
+```xml
+<FN_DEC>    -> def <RET_TYPE> id <FN_ST> { <MST> }
+<RET_TYPE>  -> id | dt | null   <!--Here null is void-->
+<FN_ST>     -> ( <PAR> )
+<PAR>       -> <DT_ID> id <PAR_LIST>   | null
+<PAR_LIST>  -> , <DT_ID> id <PAR_LIST> | null
+```
+```
+Example:
+def function_id () { }
+def int function_id (p1)  { }
+def object function_id (p1,p2,p3) {}
+```
 <hr>
+
+
+<!--------------------------------------------------------------------------------------->
+
+### Declaration and Initialization
+
+In Main Function
+There is no access modifer nor static
+
+```xml
+<DEC>       -> <FINAL> dt id <VAR_ARR> 
+<VAR_ARR>   -> <IS_ARR> | <INIT> <LIST>
+<FINAL>     -> const | null
+<INIT>      -> = <INIT2> | null
+<INIT2>     -> <ASSIGN_ID> <INIT> | <EXPR>
+<LIST>      -> , id <INIT> <LIST> | ;
+```
+
+```
+Example:
+const int x = y = a + 5, t = 3;         r
+int x = y = int <- a + 5, t = q = 2;    r
+int x = int <- y = a + 5, t = q = 2;    w
+x = y = a + 5, t = 3;                   w
+```
+
+
+
+
+### Assignment
+```xml
+<ASSIGN>        -> <ASSIGN_ID> <ASS_OP> <OBJ_PRIMITIVE> 
+<ASSIGN1>       -> <ASS_OP> <ASSIGN_LIST> | null 
+<ASSIGN_LIST>   -> <ASSIGN_ID> <ASSIGN1> | <EXPR> 
+<ASS_OP>        -> = | cma
+<OBJ_PRIMITIVE> -> <NEW_OBJ> | <ASSIGN_LIST>
+```
+
+```
+Example:
+x += 2 + 3 * a          r
+x = y -= a + 5;         r
+x += y *= int <- a + 5; r
+x = new Q(x,y)          r
+x = int <- y = a + 5;   w
+x = y = a + 5, t = 3;   w
+```
+<hr>
+
 
 
 
@@ -141,58 +180,120 @@ func().b[7].c.a[2] =    r
 a[2].b.c.func() =       w
 func() =                w
 ```
-
 <hr>
 
 
+<!--------------------------------------------------------------------------------------->
 
 
-### Declaration and Initialization
+### Conditional Statements
 
-In Main Function
-There is no access modifer nor static
+if-else CFG
+```xml
+<IF_ELSE>   -> if(<EXPR>) <body> <OELSE>
+<OELSE>     -> else <body> | null
+```
+
+switch-case statement:
+```xml
+<SWITCH>    -> shift ( <EXPR> ) { <STATE> }
+<STATE>     -> state <EXPR> : <BODY> <STATE> | <DEFAULT> 
+<DEFAULT>   -> default : <BODY> | null 
+```
+<hr>
+
+<!--------------------------------------------------------------------------------------->
+
+### Loop Statements
+
+Loop
+```xml
+<LOOP>      -> loop <LT>
+<LT>        -> <WHILE_ST> | <FOR_ST>
+```
+
+While/do-while loop
+```xml
+<WHILE_ST>  -> till ( <EXPR> ) <body>
+<DO_WHILE>  -> do <BODY> till ( <EXPR> )
+```
+
+For-loop
+```xml
+<FOR_ST>    -> thru ( dt id in <F1> ) <BODY>
+<F1>        -> id | ( <EXPR> , <EXPR> , <EXPR> )
+```
+<hr>
+
+<!--------------------------------------------------------------------------------------->
+
+### Jump Statements
+
+Break-continue
+```xml
+<BREAK>     -> stop <L>
+<CONTINUE>  -> cont <L>
+<L>         -> id : | null
+```
+
+Return-statement
+```xml
+<RET_ST>    -> ret <EXPR>
+```
+
+Throw
+```xml
+<THROW>     -> raise <NEW_OBJ>
+```
+<hr>
+
+<!--------------------------------------------------------------------------------------->
+
+
+### Exception Handler
 
 ```xml
-<DEC>       -> <FINAL> dt id <VAR_ARR> 
-<VAR_ARR>   -> <IS_ARR> | <INIT> <LIST>
-<FINAL>     -> const | null
-<INIT>      -> = <INIT2> | null
-<INIT2>     -> <ASSIGN_ID> <INIT> | <EXPR>
-<LIST>      -> , id <INIT> <LIST> | ;
-```
-
-```
-Example:
-const int x = y = a + 5, t = 3;         r
-int x = y = int <- a + 5, t = q = 2;    r
-int x = int <- y = a + 5, t = q = 2;    w
-x = y = a + 5, t = 3;                   w
+<TRY_CATCH>     -> test { <MST> } except <ERROR_TYPE> { <MST> }
+<ERROR_TYPE>    -> ( id id )
 ```
 <hr>
 
 
+<!--------------------------------------------------------------------------------------->
 
 
-### Assignment
+### Operands
+
 ```xml
-<ASSIGN>        -> <ASSIGN_ID> <ASS_OP> <OBJ_PRIMITIVE> 
-<ASSIGN1>       -> <ASS_OP> <ASSIGN_LIST> | null 
-<ASSIGN_LIST>   -> <ASSIGN_ID> <ASSIGN1> | <EXPR> 
-<ASS_OP>        -> = | cma
-<OBJ_PRIMITIVE> -> <NEW_OBJ> | <ASSIGN_LIST>
-```
+<OPERAND>   -> <CONST> | <INC_DEC> <INDFRS> | <INDFRS> <OP1> | 
+               <OBJ_AC_PROP> | <NEW_OBJ> <!--new String()-->
 
-```
-Example:
-x += 2 + 3 * a          r
-x = y -= a + 5;         r
-x += y *= int <- a + 5; r
-x = new Q(x,y)          r
-x = int <- y = a + 5;   w
-x = y = a + 5, t = 3;   w
+<OP1>       -> <INC_DEC> | null
 ```
 <hr>
 
+
+<!--------------------------------------------------------------------------------------->
+
+###  Increment Decrement
+
+```xml
+<INC_DEC> -> ++ | --
+```
+
+
+
+### Constant
+```xml
+<CONST>         -> intConst | floatConst | charConst | boolConst | 
+                   strConst | <ARR_CONST>
+<ARR_CONST>     -> { <EXPR> <EXPR_LIST> }
+<EXPR_LIST>     -> , <EXPR>| null
+```
+<hr>
+
+
+<!--------------------------------------------------------------------------------------->
 
 
 
@@ -200,12 +301,16 @@ x = y = a + 5, t = 3;   w
 
 Precedance of Operators Low to High
 ```
+Binary OP
 or      '||'
 and     '&&'
 rop     '> < >= <= == !='
 pm      '+ -' 
 mdm     '* \ %' 
 power   '^'
+
+Unary OP
+Unary   'convt(dt) !'
 ```
 
 Left Recursive 
@@ -242,94 +347,11 @@ With Brackets
 ```
 <hr>
 
+<!--------------------------------------------------------------------------------------->
 
 
 
-### Conditional Statements
-
-if-else CFG
-```xml
-<IF_ELSE>   -> if(<EXPR>) <body> <OELSE>
-<OELSE>     -> else <body> | null
-```
-
-switch-case statement:
-```xml
-<SWITCH>    -> shift ( <EXPR> ) { <STATE> }
-<STATE>     -> state <EXPR> : <BODY> <STATE> | <DEFAULT> 
-<DEFAULT>   -> default : <BODY> | null 
-```
-<hr>
-
-
-
-### Loop Statements
-
-Loop
-```xml
-<LOOP>      -> loop <LT>
-<LT>        -> <WHILE_ST> | <FOR_ST>
-```
-
-While/do-while loop
-```xml
-<WHILE_ST>  -> till ( <EXPR> ) <body>
-<DO_WHILE>  -> do <BODY> till ( <EXPR> )
-```
-
-For-loop
-```xml
-<FOR_ST>    -> thru ( dt id in <F1> ) <BODY>
-<F1>        -> id | ( <EXPR> , <EXPR> , <EXPR> )
-```
-<hr>
-
-
-
-### Jump Statements
-
-Break-continue
-```xml
-<BREAK>     -> stop <L>
-<CONTINUE>  -> cont <L>
-<L>         -> id : | null
-```
-
-Return-statement
-```xml
-<RET_ST>    -> ret <EXPR>
-```
-
-Throw
-```xml
-<THROW>     -> raise <NEW_OBJ>
-```
-<hr>
-
-
-### Exception Handler
-
-```xml
-<TRY_CATCH>     -> test { <MST> } except <ERROR_TYPE> { <MST> }
-<ERROR_TYPE>    -> ( id id )
-```
-<hr>
-
-
-
-### Function Statement not in class
-
-```xml
-<FN_DEC>    -> def <RET_TYPE> id <FN_ST> { <MST> }
-<RET_TYPE>  -> id | dt | null   <!--Here null is void-->
-<FN_ST>     -> ( <PAR> )
-<PAR>       -> <DT_ID> id <PAR_LIST>   | null
-<PAR_LIST>  -> , <DT_ID> id <PAR_LIST> | null
-```
-<hr>
-
-
-## OOP PART
+## Object Oriented Programming PART
 
 ### Access Modifier, Static and Abstract
 
@@ -340,6 +362,7 @@ Throw
 ```
 <hr>
 
+<!--------------------------------------------------------------------------------------->
 
 ### Class
 
@@ -349,9 +372,6 @@ Throw
 <INHERIT>       -> id <MULTI_INHERIT>   | null
 <MULTI_INHERIT> -> , id <MULTI_INHERIT> | null
 ```
-<hr>
-
-
 
 ### Class Body 
 
@@ -359,26 +379,20 @@ Throw
 <CLASS_BODY>    -> <ATTR_FUNC> <CLASS_BODY> | null
 <ATTR_FUNC>     -> <FN_CLASS_DEC> | <ATTR_CLASS_DEC>
 ```
-<hr>
-
 
 
 ### Attribute Declaration in class
 
 ```xml
-<ATTR_CLASS_DEC>    -> <STATIC>  dt  <ACCESSMOD>  id 
-```
-
-```xml
-<DEC>       -> <STATIC> <FINAL> dt <ACCESSMOD> id <INIT> <LIST>
-<FINAL>     -> const | null
-<INIT>      -> = <INIT2> | null
-<INIT2>     -> <ASSIGN_ID> <INIT> | <EXPR>
-<LIST>      -> , <ACCESSMOD> id <INIT> <LIST> | ;
+<ATTR_CLASS_DEC>    -> <STATIC> <FINAL> dt <ACCESSMOD> id <INIT> <LIST>
+<FINAL>             -> const | null
+<INIT>              -> = <INIT2> | null
+<INIT2>             -> <ASSIGN_ID> <INIT> | <EXPR>
+<LIST>              -> , <ACCESSMOD> id <INIT> <LIST> | ;
 ```
 <hr>
 
-
+<!--------------------------------------------------------------------------------------->
 
 ### Function Statement in class
 
@@ -388,6 +402,7 @@ Throw
 ```
 <hr>
 
+<!--------------------------------------------------------------------------------------->
 
 ### Object Declaration
 
@@ -398,12 +413,17 @@ Throw
 ```
 <hr>
 
+
+<!--------------------------------------------------------------------------------------->
+
 ### String Declaration
 
 ```xml
 <OBJ_DEC>   -> str id = new str <FN_CALL>
 ```
 <hr>
+
+<!--------------------------------------------------------------------------------------->
 
 ### Array Declaration
 
