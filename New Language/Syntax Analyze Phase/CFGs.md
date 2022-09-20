@@ -72,8 +72,9 @@ In Main Function
 There is no access modifer nor static
 
 ```xml
-<DEC>       -> <FINAL> dt id <VAR_ARR> 
-<VAR_ARR>   -> <IS_ARR> | <INIT> <LIST>
+<DEC>       -> <FINAL> <VAR_OBJ>
+<VAR_OBJ>    -> <OBJ_DEC> | dt <VAR_ARR>
+<VAR_ARR>   -> <ARR_DEC> | id <INIT> <LIST>
 <FINAL>     -> const | null
 <INIT>      -> = <INIT2> | null
 <INIT2>     -> <ASSIGN_ID> <INIT> | <EXPR>
@@ -382,7 +383,7 @@ With Brackets
 
 ```xml
 <CLASS_BODY>    -> <ATTR_FUNC> <CLASS_BODY> | null
-<ATTR_FUNC>     -> <FN_CLASS_DEC> | <ATTR_CLASS_DEC> | <OBJ_DEC>
+<ATTR_FUNC>     -> <FN_CLASS_DEC> | <ATTR_CLASS_DEC> ; | <OBJ_CLASS_DEC> ;
 ```
 
 
@@ -412,20 +413,36 @@ With Brackets
 
 ### Object Declaration
 
+- Not in Class
 ```xml
 <OBJ_DEC>   -> id <IS_ARR>
 <IS_ARR>    -> <ARR_DEC> | id = <NEW_OBJ> 
 <NEW_OBJ>   -> new id <FN_CALL>
 ```
+
+- In Class
+```xml
+<OBJ_CLASS_DEC> -> <STATIC> <FINAL> <IS_STR>
+<IS_STR>        -> <STR_CLASS> | id <IS_ARR_CLASS>
+<IS_ARR_CLASS>  -> <ARR_DEC> | <ACCESSMOD> id = <NEW_OBJ> 
+<NEW_OBJ>       -> new id <FN_CALL>
+```
+
 <hr>
 
 
 <!--------------------------------------------------------------------------------------->
 
 ### String Declaration
-
+- Not in Class
 ```xml
-<OBJ_DEC>   -> str id = new str <FN_CALL>
+<OBJ_DEC>       -> str id = <NEW_STR_CONST>
+<NEW_STR_CONST> -> new str <FN_CALL> | strConst
+```
+
+- In Class
+```xml
+<STR_CLASS> -> str <ACCESSMOD> id = <NEW_STR_CONST>
 ```
 <hr>
 
