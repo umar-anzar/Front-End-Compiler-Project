@@ -1,0 +1,4 @@
+new String()
+
+new String().asd.asd
+<NEW_OBJ>   -> new id <FN_CALL> 

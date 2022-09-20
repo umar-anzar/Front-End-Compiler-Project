@@ -93,11 +93,11 @@ x = y = a + 5, t = 3;                   w
 
 ### Assignment
 ```xml
-<ASSIGN>        -> <ASSIGN_ID> <ASS_OP> <OBJ_PRIMITIVE> 
-<ASSIGN1>       -> <ASS_OP> <ASSIGN_LIST> | null 
-<ASSIGN_LIST>   -> <ASSIGN_ID> <ASSIGN1> | <EXPR> 
-<ASS_OP>        -> = | cma
+<ASSIGN>        -> <ASSIGN_ID> <ASSIGN_OP> <OBJ_PRIMITIVE> 
 <OBJ_PRIMITIVE> -> <NEW_OBJ> | <ASSIGN_LIST>
+<ASSIGN_LIST>   -> <ASSIGN_ID> <ASSIGN1> | <EXPR>
+<ASSIGN1>       -> <ASSIGN_OP> <ASSIGN_LIST> | null  
+<ASSIGN_OP>     -> = | cma
 ```
 
 ```
@@ -114,10 +114,10 @@ x = y = a + 5, t = 3;   w
 
 
 
-### Identifer, Function call, array subscript (INDFRS)
+### Identifer, Function call, array subscript (IDNFRS)
 
 ```xml
-<INDFRS>    -> id <AF>
+<IDNFRS>    -> id <AF>
 <AF>        -> <SUBSCRIPT> | <FN_CALL> | null
 <SUBSCRIPT> -> [ <EXPR> <SLICE> ]
 <FN_CALL>   -> ( <ARG> )
@@ -141,8 +141,8 @@ array subscript | arr[2]          | arr[2:3]
 - Access Part can end with ID, array subscript, and function call
 These are all used after equal sign
 ```xml
-<ACCESS_ID>     -> <INDFRS> <AP_DOT_LIST>
-<AP_DOT_LIST>   -> dot <INDFRS> <AP_DOT_LIST> | null
+<ACCESS_ID>     -> <IDNFRS> <AP_DOT_LIST>
+<AP_DOT_LIST>   -> dot <IDNFRS> <AP_DOT_LIST> | null
 ```
 
 ```
@@ -165,7 +165,7 @@ These are all used before equal sign
 <ASSIGN_ID>     -> id <IS_ARR_FUNC> 
 <IS_ARR_FUNC>   -> <IS_DOT> | <SUBSCRIPT> <IS_DOT> | <FN_CALL> dot <ASP_DOT_LIST>
 <IS_DOT>        -> dot <ASP_DOT_LIST> | null
-<ASP_DOT_LIST>  -> <INDFRS> dot <ASP_DOT_LIST> | <LAST_ID_ARR>
+<ASP_DOT_LIST>  -> <IDNFRS> dot <ASP_DOT_LIST> | <LAST_ID_ARR>
 <LAST_ID_ARR>   -> id <ARRAY_NULL>
 <ARRAY_NULL>    -> <SUBSCRIPT> | null
 ```
@@ -261,11 +261,10 @@ Throw
 
 <!--------------------------------------------------------------------------------------->
 
-
 ### Operands
 
 ```xml
-<OPERAND>   -> <CONST> | <INC_DEC> <INDFRS> | <INDFRS> <OP1> | 
+<OPERAND>   -> <CONST> | <INC_DEC> <ASSIGN_ID> | <ASSIGN_ID> <OP1> | 
                <OBJ_AC_PROP> | <NEW_OBJ> <!--new String()-->
 
 <OP1>       -> <INC_DEC> | null
@@ -322,26 +321,31 @@ With Brackets
 
 <BRACKETS>  -> <UNARY> ( <EXPR> )
 
-<F>         -> <BRACKETS>
-<G>         -> <BRACKETS>
-<H>         -> <BRACKETS>
-<I>         -> <BRACKETS>
-<J>         -> <BRACKETS>
-<K>         -> <BRACKETS>
-<L>         -> <BRACKETS>
-
 <F>         -> <F> and <G>
 <F>         -> <G>
+<F>         -> <BRACKETS>
+
 <G>         -> <G> rop <H>
 <G>         -> <H>
+<G>         -> <BRACKETS>
+
 <H>         -> <H> pm <I>
 <H>         -> <I>
+<H>         -> <BRACKETS>
+
 <I>         -> <I> mdm <J>
 <I>         -> <J>
+<I>         -> <BRACKETS>
+
 <J>         -> <J> power <K>
 <J>         -> <K>
+<J>         -> <BRACKETS>
+
 <K>         -> <UNARY> <L>
+<K>         -> <BRACKETS>
+
 <L>         -> <OPERANDS>
+<L>         -> <BRACKETS>
 
 <UNARY>     -> typeCast ( dt ) <UNARY> | not <UNARY>| null
 ```
@@ -452,4 +456,5 @@ With Brackets
 <FN_ST>     -> ( <PAR> ) <!--used in function declaration-->
 <FN_CALL>   -> ( <ARG> ) <!--used in function calling-->
 <NEW_OBJ>   -> new id <FN_CALL> <!--after = or cma(+= etc) also in array const-->
+<ASSIGN_OP> -> = | cma
 ```
