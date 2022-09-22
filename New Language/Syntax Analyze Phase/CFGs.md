@@ -116,7 +116,7 @@ x = y = a + 5, t = 3;   w
 
 
 
-### Identifer, Function call, array subscript (IDNFRS)
+### Dot Separated Identifers , Function calls, array subscripts
 
 ```xml
 <POS>           -> <DOT_ID> | <SUBSCRIPT> <DOT_ID> | <FN_BRACKETS> dot id <POS>
