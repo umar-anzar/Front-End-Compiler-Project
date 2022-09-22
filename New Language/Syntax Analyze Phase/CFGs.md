@@ -123,7 +123,7 @@ x = y = a + 5, t = 3;   w
 ### Identifer, Function call, array subscript (IDNFRS)
 
 ```xml
-<IDNFRS>        -> id <AF>
+<POS>           -> id <AF>
 <AF>            -> <SUBSCRIPT> | <FN_BRACKETS> | null
 <SUBSCRIPT>     -> [ <EXPR> <SLICE> ]
 <FN_BRACKETS>   -> ( <ARG> )
@@ -268,6 +268,61 @@ Throw
 
 <!--------------------------------------------------------------------------------------->
 
+
+
+
+
+### Expression
+
+Precedance of Operators Low to High
+```
+Binary OP
+or      '||'
+and     '&&'
+rop     '> < >= <= == !='
+pm      '+ -' 
+mdm     '* \ %' 
+power   '^'
+
+Unary OP
+Unary   'convt(dt) !'
+```
+
+- Left Recursive 
+```xml
+<EXPR>      -> <EXPR> or <F>
+<EXPR>      -> <F>
+<F>         -> <F> and <G>
+<F>         -> <G>
+<G>         -> <G> rop <H>
+<G>         -> <H>
+<H>         -> <H> pm <I>
+<H>         -> <I>
+<I>         -> <I> mdm <J>
+<I>         -> <J>
+<J>         -> <J> power <K>
+<J>         -> <K>
+<K>         -> <OPERANDS>
+```
+- Right Recursive 
+```xml
+<EXPR>      -> <F> <EXPR1>
+<EXPR1>     -> or <F> <EXPR1> | null
+<F>         -> <G> <F1>
+<F1>        -> and <G> <F1>   | null
+<G>         -> <H> <G1>
+<G1>        -> rop <H> <G1>   | null
+<H>         -> <I> <H1>  
+<H1>        -> pm <I> <H1>    | null  
+<I>         -> <J> <I1> 
+<I1>        -> mdm <J> <I1>   | null
+<J>         -> <K> <J1> 
+<J1>        -> power <K> <J1> | null
+<K>         -> <OPERANDS>
+```
+<hr>
+
+<!--------------------------------------------------------------------------------------->
 ### Operands
 
 ```xml
@@ -297,58 +352,6 @@ Throw
 
 
 <!--------------------------------------------------------------------------------------->
-
-
-
-### Expression
-
-Precedance of Operators Low to High
-```
-Binary OP
-or      '||'
-and     '&&'
-rop     '> < >= <= == !='
-pm      '+ -' 
-mdm     '* \ %' 
-power   '^'
-
-Unary OP
-Unary   'convt(dt) !'
-```
-
-Left Recursive 
-With Brackets
-```xml
-<EXPR>      -> <EXPR> or <F>
-<EXPR>      -> <F>
-
-<F>         -> <F> and <G>
-<F>         -> <G>
-
-
-<G>         -> <G> rop <H>
-<G>         -> <H>
-
-
-<H>         -> <H> pm <I>
-<H>         -> <I>
-
-
-<I>         -> <I> mdm <J>
-<I>         -> <J>
-
-
-<J>         -> <J> power <K>
-<J>         -> <K>
-
-
-<K>         -> <OPERANDS>
-
-```
-<hr>
-
-<!--------------------------------------------------------------------------------------->
-
 
 
 ## Object Oriented Programming PART
