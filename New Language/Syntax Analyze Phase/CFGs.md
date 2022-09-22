@@ -274,7 +274,7 @@ Throw
 <OPERAND>   -> id <>    | <INC_DEC> id <POS>    | ( <EXPR> ) | 
               <CONST>   | <UNARY> <OPERAND>     | <NEW_STR_CONST> <!--new String()-->
 
-<UNARY>     -> typeCast | not
+<UNARY>     -> typeCast ( dt ) | not
 ```
 <hr>
 
