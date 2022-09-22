@@ -271,10 +271,14 @@ Throw
 ### Operands
 
 ```xml
-<OPERAND>   -> <CONST> | <INC_DEC> <ASSIGN_ID> | <ASSIGN_ID> <OP1> | <ACCESS_ID> |
-...            <OBJ_AC_PROP> | <NEW_STR_CONST> <!--new String()-->
 
-<OP1>       -> <INC_DEC> | null
+
+
+<OPERAND>   -> id <>    | <INC_DEC> id <POS>    | ( <EXPR> ) | 
+              <CONST>   | <UNARY> <OPERAND>     | <NEW_STR_CONST> <!--new String()-->
+
+
+<UNARY>     -> typeCast ( dt ) | not <UNARY>
 ```
 <hr>
 
@@ -288,11 +292,10 @@ Throw
 ```
 
 
-
 ### Constant
 ```xml
-<CONST>         -> intConst | floatConst | charConst | boolConst | 
-                   strConst
+<CONST> -> intConst | floatConst | charConst | boolConst | 
+           strConst
 ```
 <hr>
 
@@ -320,39 +323,31 @@ Unary   'convt(dt) !'
 Left Recursive 
 With Brackets
 ```xml
-<EXPR>      -> <E> or <F>
-<E>         -> <BRACKETS>|<EXPR>
+<EXPR>      -> <EXPR> or <F>
 <EXPR>      -> <F>
-
-<BRACKETS>  -> <UNARY> ( <EXPR> )
 
 <F>         -> <F> and <G>
 <F>         -> <G>
-<F>         -> <BRACKETS>
+
 
 <G>         -> <G> rop <H>
 <G>         -> <H>
-<G>         -> <BRACKETS>
+
 
 <H>         -> <H> pm <I>
 <H>         -> <I>
-<H>         -> <BRACKETS>
+
 
 <I>         -> <I> mdm <J>
 <I>         -> <J>
-<I>         -> <BRACKETS>
+
 
 <J>         -> <J> power <K>
 <J>         -> <K>
-<J>         -> <BRACKETS>
 
-<K>         -> <UNARY> <L>
-<K>         -> <BRACKETS>
 
-<L>         -> <OPERANDS>
-<L>         -> <BRACKETS>
+<K>         -> <OPERANDS>
 
-<UNARY>     -> typeCast ( dt ) <UNARY> | not <UNARY>| null
 ```
 <hr>
 
@@ -421,7 +416,7 @@ With Brackets
 ```xml
 <OBJ_DEC>       -> id <IS_ARR>      <!--2nd rule is in string declaration-->
 <IS_ARR>        -> <ARR_DEC> | id = <NEW_OBJ> 
-<NEW_OBJ>       -> new <TYPE> 
+<NEW_OBJ>       -> new <TYPE> <CONSTR_ARR> 
 <CONSTR_ARR>    -> <FN_BRACKETS> | [ ] <MUL_ARR_DIM> 
 ```
 
@@ -485,7 +480,7 @@ With Brackets
 <STATIC>        -> static | null
 <FN_ST>         -> ( <PAR> ) <!--used in function declaration-->
 <FN_BRACKETS>   -> ( <ARG> ) <!--used in function calling-->
-<NEW_OBJ>       -> new <STR_ID> <FN_BRACKETS> <!--after = or cma(+= etc) also in array const-->
+<NEW_OBJ>       -> new <TYPE> <CONSTR_ARR>  <!--after = or cma(+= etc) also in array const-->
 <STR_ID>        -> str | id 
 <ASSIGN_OP>     -> = | cma
 ```
