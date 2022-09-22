@@ -77,33 +77,28 @@ There is no access modifer nor static
 
 ```xml
 <DEC>       -> <FINAL> <VAR_OBJ>
-<VAR_OBJ>    -> <OBJ_DEC> | dt <VAR_ARR>
-<VAR_ARR>   -> <ARR_DEC> | id <INIT> <LIST>
+<VAR_OBJ>   -> <OBJ_DEC> | dt <VAR_ARR>
+<VAR_ARR>   -> <ARR_DEC> | id = <INIT> <LIST>
 <FINAL>     -> const | null
-<INIT>      -> = <INIT2> | null
-<INIT2>     -> <ASSIGN_ID> <INIT> | <EXPR>
-<LIST>      -> , id <INIT> <LIST> | null
+<INIT>      -> id <POS> <INIT2> | <EXPR>
+<INIT2>     -> <ASSIGN_OP> <INIT> | null
+<LIST>      -> , id = <INIT> <LIST> | null
+<ASSIGN_OP> -> = | cma
 ```
 
 ```
 Example:
-const int x = y = a + 5, t = 3;         r
-const str y = "str" ;
-int x = y = int <- a + 5, t = q = 2;    r
-int x = int <- y = a + 5, t = q = 2;    w
-x = y = a + 5, t = 3;                   w
+const int x = y.b = a + 5, t = 3;           r
+const str y = "str" ;                       r
+int x = y = convt(int) a + 5, t = q = 2;    r
+int x = convt(int) y = a + 5, t = q = 2;    w
+x = y = a + 5, t = 3;                       w
 ```
-
-
-
 
 ### Assignment
 ```xml
-<ASSIGN>        -> <ASSIGN_ID> <ASSIGN_OP> <OBJ_PRIMITIVE> 
-<OBJ_PRIMITIVE> -> <NEW_OBJ> | <ASSIGN_LIST>
-<ASSIGN_LIST>   -> <ASSIGN_ID> <ASSIGN1> | <EXPR>
-<ASSIGN1>       -> <ASSIGN_OP> <ASSIGN_LIST> | null  
-<ASSIGN_OP>     -> = | cma
+<ASSIGN>        -> id <POS> <ASSIGN_OP> <OBJ_PRIMITIVE> 
+<OBJ_PRIMITIVE> -> <NEW_OBJ> | <INIT>
 ```
 
 ```
@@ -123,14 +118,15 @@ x = y = a + 5, t = 3;   w
 ### Identifer, Function call, array subscript (IDNFRS)
 
 ```xml
-<POS>           -> id <AF>
-<AF>            -> <SUBSCRIPT> | <FN_BRACKETS> | null
-<SUBSCRIPT>     -> [ <EXPR> <SLICE> ]
+<POS>           -> <DOT_ID> | <SUBSCRIPT> <DOT_ID> | <FN_BRACKETS> dot id <POS>
+<SUBSCRIPT>     -> [ <EXPR> ]
 <FN_BRACKETS>   -> ( <ARG> )
-<SLICE>         -> : <EXPR> | null
 <ARG>           -> <EXPR> <ARG_LIST> | null
 <ARG_LIST>      -> , <EXPR> <ARG_LIST> | null
+<DOT_ID>        -> dot id <POS> | null
 ```
+<!--Access Part can end with ID, array subscript, and function call
+These are all used after equal sign-->
 ```
 Example:
 ID              | var_1 
@@ -144,12 +140,7 @@ array subscript | arr[2]          | arr[2:3]
 
 ### Dot Separated Identifers
 
-- Access Part can end with ID, array subscript, and function call
-These are all used after equal sign
-```xml
-<ACCESS_ID>     -> <IDNFRS> <AP_DOT_LIST>
-<AP_DOT_LIST>   -> dot <IDNFRS> <AP_DOT_LIST> | null
-```
+
 
 ```
 Example:
@@ -326,8 +317,8 @@ Unary   'convt(dt) !'
 ### Operands
 
 ```xml
-<OPERAND>   -> id <>    | <INC_DEC> id <POS>    | ( <EXPR> ) | 
-              <CONST>   | <UNARY> <OPERAND>     | <NEW_STR_CONST> <!--new String()-->
+<OPERAND>   -> id <DOT_ID>      | <INC_DEC> id <POS>    | ( <EXPR> ) | 
+               <UNARY> <OPERAND>        | <CONST>               | <NEW_STR_CONST> <!--new String()-->
 
 <UNARY>     -> typeCast ( dt ) | not
 ```
