@@ -271,14 +271,10 @@ Throw
 ### Operands
 
 ```xml
-
-
-
 <OPERAND>   -> id <>    | <INC_DEC> id <POS>    | ( <EXPR> ) | 
               <CONST>   | <UNARY> <OPERAND>     | <NEW_STR_CONST> <!--new String()-->
 
-
-<UNARY>     -> typeCast ( dt ) | not <UNARY>
+<UNARY>     -> typeCast | not
 ```
 <hr>
 
