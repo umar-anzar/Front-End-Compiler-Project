@@ -36,7 +36,7 @@ public final class testingOmer {
         int q=0;
         int g=0;
         final XYZ qqqq = new XYZ();
-        qqqq.a
+        
         boolean aa = (boolean)!true;
         boolean aag = !(boolean)(boolean)!(boolean)(boolean)true;
         boolean aaa = !!!!!!(boolean)(boolean)!!!( (int) 1.0 < 3) ;
@@ -44,7 +44,7 @@ public final class testingOmer {
         
         int x = g = (int)c + 5, t = q = 2;
         x += g -= 2;
-        int y = x += g;
+        int y = x += g++ - 4;
         boolean qre = 6*5<3+2 && !(3>5);
         
         for (final int xx=0;x<4;g++) {

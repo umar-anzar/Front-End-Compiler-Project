@@ -89,7 +89,7 @@ There is no access modifer nor static
 ```
 Example:
 const int x = y.b = a + 5, t = 3;           r
-const str y = "str" ;                       r
+const str y = "str";                        r
 int x = y = convt(int) a + 5, t = q = 2;    r
 int x = convt(int) y = a + 5, t = q = 2;    w
 x = y = a + 5, t = 3;                       w
@@ -97,7 +97,8 @@ x = y = a + 5, t = 3;                       w
 
 ### Assignment
 ```xml
-<ASSIGN>        -> id <POS> <ASSIGN_OP> <OBJ_PRIMITIVE> 
+<ASSIGN>        -> id <POS> <TWO_TYPE_OP>
+<ASSIGN_OP>     -> <INC_DEC> | <ASSIGN_OP> <OBJ_PRIMITIVE> 
 <OBJ_PRIMITIVE> -> <NEW_OBJ> | <INIT>
 ```
 
@@ -106,7 +107,7 @@ Example:
 x += 2 + 3 * a          r
 x = y -= a + 5;         r
 x += y *= int <- a + 5; r
-x = new Q(x,y)          r
+x = new Q(x,y);         r
 x = int <- y = a + 5;   w
 x = y = a + 5, t = 3;   w
 ```
@@ -124,6 +125,10 @@ x = y = a + 5, t = 3;   w
 <ARG>           -> <EXPR> <ARG_LIST> | null
 <ARG_LIST>      -> , <EXPR> <ARG_LIST> | null
 <DOT_ID>        -> dot id <POS> | null
+
+<POS2>          -> <INC_DEC_DOT> | <SUBSCRIPT> <INC_DEC_DOT> | <FN_BRACKETS> <DOT_ID2>
+<INC_DEC_DOT>   -> <INC_DEC> | <DOT_ID2> 
+<DOT_ID2>       -> dot id <POS2> | null
 ```
 <!--Access Part can end with ID, array subscript, and function call
 These are all used after equal sign-->
@@ -317,8 +322,8 @@ Unary   'convt(dt) !'
 ### Operands
 
 ```xml
-<OPERAND>   -> id <DOT_ID>      | <INC_DEC> id <POS>    | ( <EXPR> ) | 
-               <UNARY> <OPERAND>        | <CONST>               | <NEW_STR_CONST> <!--new String()-->
+<OPERAND>   -> id <POS2>            | <INC_DEC> id <POS>    | ( <EXPR> ) | 
+               <UNARY> <OPERAND>    | <CONST>               | <NEW_STR_CONST> <!--new String()-->
 
 <UNARY>     -> typeCast ( dt ) | not
 ```
