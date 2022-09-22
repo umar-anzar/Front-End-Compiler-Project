@@ -47,10 +47,14 @@ function_id (p1,p2,p3)
 ```
 
 - Function Statement
-
+```xml
+<RET_TYPE>      -> <TYPE> <ARR_TYPE> | null <!--Here null is void-->
+<TYPE>          -> id | dt | str 
+<ARR_TYPE>      -> [ ] <MUL_ARR_DIM> | null
+<MUL_ARR_DIM>   -> [ ] <MUL_ARR_DIM> | null
+```
 ```xml
 <FN_DEC>    -> def <RET_TYPE> id <FN_ST> <THROWS> { <MST> }
-<RET_TYPE>  -> id | dt | str | null   <!--Here null is void-->
 <FN_ST>     -> ( <PAR> )
 <PAR>       -> <DT_ID> id <PAR_LIST>   | null
 <PAR_LIST>  -> , <DT_ID> id <PAR_LIST> | null
@@ -268,7 +272,7 @@ Throw
 
 ```xml
 <OPERAND>   -> <CONST> | <INC_DEC> <ASSIGN_ID> | <ASSIGN_ID> <OP1> | <ACCESS_ID> |
-...            <OBJ_AC_PROP> | <NEW_OBJ> <!--new String()-->
+...            <OBJ_AC_PROP> | <NEW_STR_CONST> <!--new String()-->
 
 <OP1>       -> <INC_DEC> | null
 ```
@@ -288,9 +292,7 @@ Throw
 ### Constant
 ```xml
 <CONST>         -> intConst | floatConst | charConst | boolConst | 
-                   strConst | <ARR_CONST>
-<ARR_CONST>     -> { <EXPR> <EXPR_LIST> }
-<EXPR_LIST>     -> , <EXPR>| null
+                   strConst
 ```
 <hr>
 
@@ -417,16 +419,16 @@ With Brackets
 
 - Not in Class
 ```xml
-<OBJ_DEC>   -> id <IS_ARR>      <!--2nd rule is in string declaration-->
-<IS_ARR>    -> <ARR_DEC> | id = <NEW_OBJ> 
-<NEW_OBJ>   -> new <STR_ID> <FN_BRACKETS> 
-<STR_ID>    -> str | id
+<OBJ_DEC>       -> id <IS_ARR>      <!--2nd rule is in string declaration-->
+<IS_ARR>        -> <ARR_DEC> | id = <NEW_OBJ> 
+<NEW_OBJ>       -> new <TYPE> 
+<CONSTR_ARR>    -> <FN_BRACKETS> | [ ] <MUL_ARR_DIM> 
 ```
 
 - In Class
 ```xml
 <OBJ_CLASS_DEC> -> id <IS_ARR_CLASS>   <!--2nd rule is in string declaration-->
-<IS_ARR_CLASS>  -> <ARR_DEC> | <ACCESSMOD> id = <NEW_OBJ> 
+<IS_ARR_CLASS>  -> <ARR_CLASS_DEC> | <ACCESSMOD> id = <NEW_OBJ> 
 ```
 
 <hr>
@@ -452,13 +454,20 @@ With Brackets
 ### Array Declaration
 
 ```xml
-<ARR_DEC>       -> [ ] <MUL_ARR_LIST> id = <CHOICE>
-<CHOICE>        -> <ARR_CONST> | new <IS_OBJ_DT> [ <EXPR> ] <MUL_ARR_DEC> 
-<MUL_ARR_LIST>  -> [ ] <MUL_ARR_LIST> | null
-<IS_OBJ_DT>     -> id | dt | str
-<MUL_ARR_DEC>   -> [ <EXPR> ] <MUL_ARR_DEC> | null
-```
+<ARR_CLASS_DEC> -> [ ] <MUL_ARR_DIM> <ACCESSMOD> id = <CHOICE>
+<ARR_DEC>       -> [ ] <MUL_ARR_DIM> id = <CHOICE>
+<CHOICE>        -> new <TYPE> [ <DIM_PASS>
+<DIM_PASS>      -> <EXPR> ] <MUL_ARR_DEC> | ] <EMP_ARR_DEC> <ARR_CONST>
 
+<MUL_ARR_DEC>   -> [ <LEN_OF_ARR> ] <MUL_ARR_DEC> | null
+<EMP_ARR_DEC>   -> [ ] <EMP_ARR_DEC> | null
+<LEN_OF_ARR>    -> <EXPR> | null
+
+<ARR_CONST>     -> [ <ARR_ELEMT> ]
+<ARR_ELEMT>     -> <EXPR> <EXPR_LIST>  | <ARR_CONST> <EXPR_LIST> | null 
+<EXPR_LIST>     -> , <ARR_ELEMT> <EXPR_LIST> | null
+```
+  
 <br>
 <hr><hr><hr>
 
@@ -469,6 +478,7 @@ With Brackets
 -->
 
 ```xml
+<TYPE>          -> id | dt | str 
 <FINAL>         -> const | null
 <ACCESSMOD>     -> protected | private | null
 <ABS_FINAL>     -> Abstract | const | null

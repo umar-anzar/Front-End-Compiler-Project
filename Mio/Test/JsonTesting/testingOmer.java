@@ -11,18 +11,21 @@ import java.util.regex.Pattern;
  *
  * @author omera
  */
+class XYZ{}
 
 public final class testingOmer {
     private class X{}
     private final int a=3;
     private int y=3;
+    private static final XYZ qqqq = new XYZ();
     
-    
+    public static void AAA(int [] a){}
     public testingOmer() {
         int h=0;
         int c=0;
         int q=0;
         int g=0;
+        final XYZ qqqq = new XYZ();
         
         boolean aa = (boolean)!true;
         boolean aag = !(boolean)(boolean)!(boolean)(boolean)true;
@@ -82,9 +85,10 @@ public final class testingOmer {
         xxx += new String() + "asd";
         boolean qre = 6*5<3+2 && !(3>5);
         
-        
         new String();
-        
+        AAA(new int[3]);
+        int [][] qqq;
+        qqq = new int[][] {{},{}};
         for (final int xx=0;x<4;g++) {
             
         }
