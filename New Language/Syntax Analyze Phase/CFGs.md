@@ -72,6 +72,9 @@ def object function_id (p1,p2,p3) {}
 In Main Function
 There is no access modifer nor static
 
+This Cfg take transistion to **primitive** and **object** type **variable** and **array**, and also towards
+**assignment** and **function call**.
+
 ```xml
 <DEC>           -> const <VAR_OBJ>
 <DEC>           -> dt <VAR_ARR> | id <ASSIGN_OBJ>
@@ -100,8 +103,8 @@ x = y = a + 5, t = 3;                       w
 
 ### Assignment
 ```xml
-<ASSIGN>        -> <POS> <TWO_TYPE_OP>
-<ASSIGN_OP>     -> <INC_DEC> | <ASSIGN_OP> <OBJ_PRIMITIVE> 
+<ASSIGN>        -> <DOT_ID> <TWO_ASSIGN> | <SUBSCRIPT> <DOT_ID> <TWO_ASSIGN> | <FN_BRACKETS> <DOT_ID>
+<TWO_ASSIGN>    -> <INC_DEC> | <ASSIGN_OP> <OBJ_PRIMITIVE> 
 <OBJ_PRIMITIVE> -> <NEW_OBJ> | <INIT>
 ```
 
@@ -115,8 +118,6 @@ x = int <- y = a + 5;   w
 x = y = a + 5, t = 3;   w
 ```
 <hr>
-
-
 
 
 ### Dot Separated Identifers , Function calls, array subscripts
