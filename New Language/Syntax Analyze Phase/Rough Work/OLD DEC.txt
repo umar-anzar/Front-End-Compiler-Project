@@ -1,0 +1,10 @@
+```xml
+<DEC>       -> <FINAL> <VAR_OBJ>
+<VAR_OBJ>   -> <OBJ_DEC> | dt <VAR_ARR>
+<VAR_ARR>   -> <ARR_DEC> | id = <INIT> <LIST>
+<FINAL>     -> const | null
+<INIT>      -> id <POS> <INIT2> | <EXPR>
+<INIT2>     -> <ASSIGN_OP> <INIT> | null
+<LIST>      -> , id = <INIT> <LIST> | null
+<ASSIGN_OP> -> = | cma
+```

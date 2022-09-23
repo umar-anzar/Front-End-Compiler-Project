@@ -76,16 +76,25 @@ In Main Function
 There is no access modifer nor static
 
 ```xml
-<DEC>       -> <FINAL> <VAR_OBJ>
-<VAR_OBJ>   -> <OBJ_DEC> | dt <VAR_ARR>
-<VAR_ARR>   -> <ARR_DEC> | id = <INIT> <LIST>
-<FINAL>     -> const | null
-<INIT>      -> id <POS> <INIT2> | <EXPR>
-<INIT2>     -> <ASSIGN_OP> <INIT> | null
-<LIST>      -> , id = <INIT> <LIST> | null
-<ASSIGN_OP> -> = | cma
+<DEC>           -> <FINAL> <VAR_OBJ>
+<VAR_OBJ>       -> <OBJ_DEC> | dt <VAR_ARR>
+<VAR_ARR>       -> <ARR_DEC> | id = <INIT> <LIST>
+<FINAL>         -> const | null
+<INIT>          -> id <X> | <EXPR>
+<X>             -> <LIST_EXPR>  | <SUBSCRIPT> <LIST_EXPR> | <FN_BRACKETS> <Y>
+<LIST_EXPR>     -> <INC_DEC> | dot id <X>   | <ASSIGN_OP> <INIT> | <ID_TO_EXPR> | null
+<Y>             -> dot id <X>   | <ID_TO_EXPR> | null
+<ID_TO_EXPR>    -> <J1><I1><H1><G1><F1><EXPR>
+<LIST>          -> , id = <INIT> <LIST> | null
+<ASSIGN_OP>     -> = | cma
 ```
+<!--ROUGH-->
 
+
+
+
+
+<!--ROUGH-->
 ```
 Example:
 const int x = y.b = a + 5, t = 3;           r
