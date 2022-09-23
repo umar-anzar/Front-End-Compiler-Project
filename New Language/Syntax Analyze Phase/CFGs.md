@@ -250,7 +250,7 @@ Unary   'convt(dt) !'
 
 if-else CFG
 ```xml
-<IF_ELSE>   -> if(<EXPR>) <body> <OELSE>
+<IF_ELSE>   -> if ( <EXPR> ) <body> <OELSE>
 <OELSE>     -> else <body> | null
 ```
 
