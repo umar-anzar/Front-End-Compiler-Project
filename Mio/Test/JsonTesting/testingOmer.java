@@ -38,6 +38,10 @@ public final class testingOmer {
         int c=0;
         int q=0;
         int g=0;
+        XYZ p;
+        int[] hh = {2,3};
+        int[] j = hh;
+        XYZ o = p=new XYZ();
         
         final XYZ qqqq = new XYZ();
         
