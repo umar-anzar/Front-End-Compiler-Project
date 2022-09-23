@@ -22,8 +22,7 @@ w: wrong
 ```xml
 <SST>   -> <IF_ELSE>        | <SWITCH>          | <INC_DEC_ST> ;    | <DEC> ;       |  
  ...       <LOOP>           | <DO_WHILE> ;      | <BREAK> ;         | <RET_ST> ;    |
- ...       <CONTINUE> ;     | <THROW> ;         | <ASSIGN> ;        | <TRY_CATCH>   | 
- ...       <FN_CALL> ;
+ ...       <CONTINUE> ;     | <THROW> ;         | <ASSIGN> ;        | <TRY_CATCH>   |
            
 
 <MST>   -> <SST> <MST> | null 
@@ -35,10 +34,6 @@ w: wrong
 ### Function Not in Class
 - Function call
 
-```xml
-<FN_CALL>    -> id <FN_BRACKETS>
-```
-
 ```
 Example:
 function_id ()
@@ -47,18 +42,20 @@ function_id (p1,p2,p3)
 ```
 
 - Function Statement
-```xml
-<RET_TYPE>      -> <TYPE> <ARR_TYPE> | null <!--Here null is void-->
-<TYPE>          -> id | dt | str 
-<ARR_TYPE>      -> [ ] <MUL_ARR_DIM> | null
-<MUL_ARR_DIM>   -> [ ] <MUL_ARR_DIM> | null
-```
+
 ```xml
 <FN_DEC>    -> def <RET_TYPE> id <FN_ST> <THROWS> { <MST> }
 <FN_ST>     -> ( <PAR> )
 <PAR>       -> <DT_ID> id <PAR_LIST>   | null
 <PAR_LIST>  -> , <DT_ID> id <PAR_LIST> | null
 ```
+```xml
+<RET_TYPE>      -> <TYPE> <ARR_TYPE> | null <!--Here null is void-->
+<TYPE>          -> id | dt | str 
+<ARR_TYPE>      -> [ ] <MUL_ARR_DIM> | null
+<MUL_ARR_DIM>   -> [ ] <MUL_ARR_DIM> | null
+```
+
 ```
 Example:
 def function_id () { }
@@ -78,7 +75,7 @@ There is no access modifer nor static
 ```xml
 <DEC>           -> const <VAR_OBJ>
 <DEC>           -> dt <VAR_ARR> | id <ASSIGN_OBJ>
-<ASSIGN_OBJ>    -> <ASSIGN> | <OBJ_DEC> <!--DEC TO ASSIGNMENT-->
+<ASSIGN_OBJ>    -> <ASSIGN> | <OBJ_DEC>             <!--DEC TO ASSIGNMENT-->
 <VAR_OBJ>       -> <OBJ_DEC> | dt <VAR_ARR>
 <VAR_ARR>       -> <ARR_DEC> | id = <INIT> <LIST>
 <FINAL>         -> const | null
