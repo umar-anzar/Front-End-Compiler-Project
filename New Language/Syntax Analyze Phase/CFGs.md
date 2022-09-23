@@ -72,7 +72,7 @@ def object function_id (p1,p2,p3) {}
 In Main Function
 There is no access modifer nor static
 
-This Cfg take transistion to **primitive** and **object** type **variable** and **array**, and also towards
+This Cfg take transistion to declaration of **primitive** and **object** type **variable** and **array**, and also towards variable 
 **assignment** and **function call**.
 
 ```xml
