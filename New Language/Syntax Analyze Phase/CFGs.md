@@ -80,21 +80,16 @@ There is no access modifer nor static
 <VAR_OBJ>       -> <OBJ_DEC> | dt <VAR_ARR>
 <VAR_ARR>       -> <ARR_DEC> | id = <INIT> <LIST>
 <FINAL>         -> const | null
-<INIT>          -> id <X> | <EXPR>
-<X>             -> <LIST_EXPR>  | <SUBSCRIPT> <LIST_EXPR> | <FN_BRACKETS> <Y>
-<LIST_EXPR>     -> <INC_DEC> | dot id <X>   | <ASSIGN_OP> <INIT> | <ID_TO_EXPR> | null
-<Y>             -> dot id <X>   | <ID_TO_EXPR> | null
-<ID_TO_EXPR>    -> <J1><I1><H1><G1><F1><EXPR>
+<INIT>          -> id <ASSIGN_EXPR> | <EXPR>
+<ASSIGN_EXPR>   -> <LIST_EXPR> | <SUBSCRIPT> <LIST_EXPR> | <FN_BRACKETS> <DOT_EXPR>
+<LIST_EXPR>     -> <ASSIGN_OP> <INIT> | <INC_DEC> <Y> | <DOT_EXPR>
+<Y>             -> <ID_TO_EXPR> | null
+<DOT_EXPR>      -> dot id <ASSIGN_EXPR> | <ID_TO_EXPR> | null
+<ID_TO_EXPR>    -> <J1> <I1> <H1> <G1> <F1> <EXPR>
 <LIST>          -> , id = <INIT> <LIST> | null
 <ASSIGN_OP>     -> = | cma
 ```
-<!--ROUGH-->
 
-
-
-
-
-<!--ROUGH-->
 ```
 Example:
 const int x = y.b = a + 5, t = 3;           r
@@ -196,6 +191,70 @@ func() =                w
 
 <!--------------------------------------------------------------------------------------->
 
+### Expression
+
+Precedance of Operators Low to High
+```
+Binary OP
+or      '||'
+and     '&&'
+rop     '> < >= <= == !='
+pm      '+ -' 
+mdm     '* \ %' 
+power   '^'
+
+Unary OP
+Unary   'convt(dt) !'
+```
+
+- Left Recursive 
+```xml
+<EXPR>      -> <EXPR> or <F>
+<EXPR>      -> <F>
+<F>         -> <F> and <G>
+<F>         -> <G>
+<G>         -> <G> rop <H>
+<G>         -> <H>
+<H>         -> <H> pm <I>
+<H>         -> <I>
+<I>         -> <I> mdm <J>
+<I>         -> <J>
+<J>         -> <J> power <K>
+<J>         -> <K>
+<K>         -> <OPERANDS>
+```
+- Right Recursive 
+```xml
+<EXPR>      -> <F> <EXPR1>
+<EXPR1>     -> or <F> <EXPR1> | null
+<F>         -> <G> <F1>
+<F1>        -> and <G> <F1>   | null
+<G>         -> <H> <G1>
+<G1>        -> rop <H> <G1>   | null
+<H>         -> <I> <H1>  
+<H1>        -> pm <I> <H1>    | null  
+<I>         -> <J> <I1> 
+<I1>        -> mdm <J> <I1>   | null
+<J>         -> <K> <J1> 
+<J1>        -> power <K> <J1> | null
+<K>         -> <OPERANDS>
+```
+<hr>
+
+<!--------------------------------------------------------------------------------------->
+### Operands
+
+```xml
+<OPERAND>   -> id <POS2>            | <INC_DEC> id <POS>    | ( <EXPR> ) | 
+               <UNARY> <OPERAND>    | <CONST>               | <NEW_STR_CONST> <!--new String()-->
+
+<UNARY>     -> typeCast ( dt ) | not
+```
+<hr>
+
+
+<!--------------------------------------------------------------------------------------->
+
 
 ### Conditional Statements
 
@@ -277,69 +336,7 @@ Throw
 
 
 
-### Expression
 
-Precedance of Operators Low to High
-```
-Binary OP
-or      '||'
-and     '&&'
-rop     '> < >= <= == !='
-pm      '+ -' 
-mdm     '* \ %' 
-power   '^'
-
-Unary OP
-Unary   'convt(dt) !'
-```
-
-- Left Recursive 
-```xml
-<EXPR>      -> <EXPR> or <F>
-<EXPR>      -> <F>
-<F>         -> <F> and <G>
-<F>         -> <G>
-<G>         -> <G> rop <H>
-<G>         -> <H>
-<H>         -> <H> pm <I>
-<H>         -> <I>
-<I>         -> <I> mdm <J>
-<I>         -> <J>
-<J>         -> <J> power <K>
-<J>         -> <K>
-<K>         -> <OPERANDS>
-```
-- Right Recursive 
-```xml
-<EXPR>      -> <F> <EXPR1>
-<EXPR1>     -> or <F> <EXPR1> | null
-<F>         -> <G> <F1>
-<F1>        -> and <G> <F1>   | null
-<G>         -> <H> <G1>
-<G1>        -> rop <H> <G1>   | null
-<H>         -> <I> <H1>  
-<H1>        -> pm <I> <H1>    | null  
-<I>         -> <J> <I1> 
-<I1>        -> mdm <J> <I1>   | null
-<J>         -> <K> <J1> 
-<J1>        -> power <K> <J1> | null
-<K>         -> <OPERANDS>
-```
-<hr>
-
-<!--------------------------------------------------------------------------------------->
-### Operands
-
-```xml
-<OPERAND>   -> id <POS2>            | <INC_DEC> id <POS>    | ( <EXPR> ) | 
-               <UNARY> <OPERAND>    | <CONST>               | <NEW_STR_CONST> <!--new String()-->
-
-<UNARY>     -> typeCast ( dt ) | not
-```
-<hr>
-
-
-<!--------------------------------------------------------------------------------------->
 
 ###  Increment Decrement
 
