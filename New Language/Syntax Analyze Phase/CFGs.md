@@ -134,8 +134,7 @@ x = y = a + 5, t = 3;   w
 <INC_DEC_DOT>   -> <INC_DEC> | <DOT_ID2> 
 <DOT_ID2>       -> dot id <POS2> | null
 ```
-<!--Access Part can end with ID, array subscript, and function call
-These are all used after equal sign-->
+
 ```
 Example:
 ID              | var_1 
@@ -149,8 +148,8 @@ array subscript | arr[2]          | arr[2:3]
 
 ### Dot Separated Identifers
 
-
-
+- Access Part can end with ID, array subscript, and function call
+These are all used after equal sign
 ```
 Example:
 Equal sign not included in this cfg, its only their to explain 
@@ -163,18 +162,9 @@ which word this cfg going to parse
 = func().b[7].c.a[2]    r
 ```
 
-
-
 - Assignment Part end only with ID, array subscript
 These are all used before equal sign
-```xml
-<ASSIGN_ID>     -> id <IS_ARR_FUNC> 
-<IS_ARR_FUNC>   -> <IS_DOT> | <SUBSCRIPT> <IS_DOT> | <FN_BRACKETS> dot <ASP_DOT_LIST>
-<IS_DOT>        -> dot <ASP_DOT_LIST> | null
-<ASP_DOT_LIST>  -> <IDNFRS> dot <ASP_DOT_LIST> | <LAST_ID_ARR>
-<LAST_ID_ARR>   -> id <ARRAY_NULL>
-<ARRAY_NULL>    -> <SUBSCRIPT> | null
-```
+
 
 ```
 Example:
@@ -390,11 +380,9 @@ Throw
 
 ```xml
 <ATTR_CLASS_DEC>    -> <STATIC> <FINAL> <IS_OBJ>
-<IS_OBJ>            -> <OBJ_CLASS_DEC> | dt <ACCESSMOD> id <INIT> <LIST>
+<IS_OBJ>            -> <OBJ_CLASS_DEC> | dt <ACCESSMOD> id <INIT> <LIST_C>
 <FINAL>             -> const | null
-<INIT>              -> = <INIT2> | null
-<INIT2>             -> <ASSIGN_ID> <INIT> | <EXPR>
-<LIST>              -> , <ACCESSMOD> id <INIT> <LIST> | ;
+<LIST_C>            -> , <ACCESSMOD> id <INIT> <LIST_C> | null
 ```
 <hr>
 
