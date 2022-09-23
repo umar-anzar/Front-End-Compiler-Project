@@ -28,13 +28,17 @@ public final class testingOmer {
     private final int a=3;
     private int y=3;
     private static final XYZ qqqq = new XYZ();
+    int ab=0;
+    
     
     public static void AAA(int [] a){}
+    public void BBB(){this.ab=2;}
     public testingOmer() {
         int h=0;
         int c=0;
         int q=0;
         int g=0;
+        
         final XYZ qqqq = new XYZ();
         
         boolean aa = (boolean)!true;
@@ -46,7 +50,7 @@ public final class testingOmer {
         x += g -= 2;
         int y = x += g++ - 4;
         boolean qre = 6*5<3+2 && !(3>5);
-        
+        AAA(new int[2]);
         for (final int xx=0;x<4;g++) {
             
         }

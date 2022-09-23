@@ -76,7 +76,9 @@ In Main Function
 There is no access modifer nor static
 
 ```xml
-<DEC>           -> <FINAL> <VAR_OBJ>
+<DEC>           -> const <VAR_OBJ>
+<DEC>           -> dt <VAR_ARR> | id <ASSIGN_OBJ>
+<ASSIGN_OBJ>    -> <ASSIGN> | <OBJ_DEC> <!--DEC TO ASSIGNMENT-->
 <VAR_OBJ>       -> <OBJ_DEC> | dt <VAR_ARR>
 <VAR_ARR>       -> <ARR_DEC> | id = <INIT> <LIST>
 <FINAL>         -> const | null
@@ -101,7 +103,7 @@ x = y = a + 5, t = 3;                       w
 
 ### Assignment
 ```xml
-<ASSIGN>        -> id <POS> <TWO_TYPE_OP>
+<ASSIGN>        -> <POS> <TWO_TYPE_OP>
 <ASSIGN_OP>     -> <INC_DEC> | <ASSIGN_OP> <OBJ_PRIMITIVE> 
 <OBJ_PRIMITIVE> -> <NEW_OBJ> | <INIT>
 ```
@@ -122,49 +124,22 @@ x = y = a + 5, t = 3;   w
 
 ### Dot Separated Identifers , Function calls, array subscripts
 
-```xml
-<POS>           -> <DOT_ID> | <SUBSCRIPT> <DOT_ID> | <FN_BRACKETS> dot id <POS>
-<SUBSCRIPT>     -> [ <EXPR> ]
-<FN_BRACKETS>   -> ( <ARG> )
-<ARG>           -> <EXPR> <ARG_LIST> | null
-<ARG_LIST>      -> , <EXPR> <ARG_LIST> | null
-<DOT_ID>        -> dot id <POS> | null
-
-<POS2>          -> <INC_DEC_DOT> | <SUBSCRIPT> <INC_DEC_DOT> | <FN_BRACKETS> <DOT_ID2>
-<INC_DEC_DOT>   -> <INC_DEC> | <DOT_ID2> 
-<DOT_ID2>       -> dot id <POS2> | null
-```
-
 ```
 Example:
 ID              | var_1 
 Function call   | func(par1,par2) | helo_q()
 array subscript | arr[2]          | arr[2:3]
 ```
-<hr>
 
-
-
-
-### Dot Separated Identifers
-
-- Access Part can end with ID, array subscript, and function call
-These are all used after equal sign
+- End only with ID, array subscript.
+```xml
+<POS>           -> <DOT_ID> | <SUBSCRIPT> <DOT_ID> | <FN_BRACKETS> dot id <POS>
+<SUBSCRIPT>     -> [ <EXPR> ]
+<FN_BRACKETS>   -> ( <ARG> )
+<ARG>           -> <EXPR> <ARG_LIST> | <NEW_OBJ> | null
+<ARG_LIST>      -> , <EXPR> <ARG_LIST> | null
+<DOT_ID>        -> dot id <POS> | null
 ```
-Example:
-Equal sign not included in this cfg, its only their to explain 
-which word this cfg going to parse
-= a                     r
-= a[2]                  r
-= func()                r
-= a.b.func()            r
-= a[2].b.c.func()       r
-= func().b[7].c.a[2]    r
-```
-
-- Assignment Part end only with ID, array subscript
-These are all used before equal sign
-
 
 ```
 Example:
@@ -176,6 +151,29 @@ func().b[7].c.a[2] =    r
 a[2].b.c.func() =       w
 func() =                w
 ```
+
+- End with ID and array subscript with posibility of pos increment decrement in the end, 
+and function call ends with null.
+
+```xml
+<POS2>          -> <INC_DEC_DOT> | <SUBSCRIPT> <INC_DEC_DOT> | <FN_BRACKETS> <DOT_ID2>
+<INC_DEC_DOT>   -> <INC_DEC> | <DOT_ID2> 
+<DOT_ID2>       -> dot id <POS2> | null
+```
+```
+Example:
+Equal sign not included in this cfg, its only their to explain 
+which word this cfg going to parse
+= a                     r
+= a[2] ++               r
+= func()                r
+= a.b.func()            r
+= func().b[7].c.a[2]    r
+= a[2].b.c.func()--     w
+= func().b[7].c++.a[2]  w
+= func().b[7].c.a[2]    r
+```
+
 <hr>
 
 
@@ -236,7 +234,7 @@ Unary   'convt(dt) !'
 
 ```xml
 <OPERAND>   -> id <POS2>            | <INC_DEC> id <POS>    | ( <EXPR> ) | 
-               <UNARY> <OPERAND>    | <CONST>               | <NEW_STR_CONST> <!--new String()-->
+               <UNARY> <OPERAND>    | <CONST>
 
 <UNARY>     -> typeCast ( dt ) | not
 ```
@@ -406,7 +404,7 @@ Throw
 <OBJ_DEC>       -> id <IS_ARR>      <!--2nd rule is in string declaration-->
 <IS_ARR>        -> <ARR_DEC> | id = <NEW_OBJ> 
 <NEW_OBJ>       -> new <TYPE> <CONSTR_ARR> 
-<CONSTR_ARR>    -> <FN_BRACKETS> | [ ] <MUL_ARR_DIM> 
+<CONSTR_ARR>    -> <FN_BRACKETS> | [ <DIM_PASS>
 ```
 
 - In Class
@@ -440,14 +438,14 @@ Throw
 ```xml
 <ARR_CLASS_DEC> -> [ ] <MUL_ARR_DIM> <ACCESSMOD> id = <CHOICE>
 <ARR_DEC>       -> [ ] <MUL_ARR_DIM> id = <CHOICE>
-<CHOICE>        -> new <TYPE> [ <DIM_PASS>
+<CHOICE>        -> id <POS> | new <TYPE> [ <DIM_PASS>
 <DIM_PASS>      -> <EXPR> ] <MUL_ARR_DEC> | ] <EMP_ARR_DEC> <ARR_CONST>
 
 <MUL_ARR_DEC>   -> [ <LEN_OF_ARR> ] <MUL_ARR_DEC> | null
 <EMP_ARR_DEC>   -> [ ] <EMP_ARR_DEC> | null
 <LEN_OF_ARR>    -> <EXPR> | null
 
-<ARR_CONST>     -> [ <ARR_ELEMT> ]
+<ARR_CONST>     -> { <ARR_ELEMT> }
 <ARR_ELEMT>     -> <EXPR> <EXPR_LIST>  | <ARR_CONST> <EXPR_LIST> | null 
 <EXPR_LIST>     -> , <ARR_ELEMT> <EXPR_LIST> | null
 ```

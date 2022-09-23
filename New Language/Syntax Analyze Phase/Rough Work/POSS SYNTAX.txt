@@ -2,3 +2,17 @@ new String()
 
 new String().asd.asd
 <NEW_OBJ>   -> new id <FN_CALL> 
+
+
+
+
+this.a = 4 ASSIGNMNET      id.id	id<POSLIKE> Q
+a x = new a(); OBJ    id	id dt
+this.a()                   id.id     id<POSLIKE> Q
+ASSIGNMNET DIVERGES TO OBJ DEC AND FUNCTION CALL
+
+a = 4 ASSIGNMNET      id.id	id<POSLIKE> Q
+a x = new a(); OBJ    id	id dt
+a()                   id.id     id<POSLIKE> Q
+
+
