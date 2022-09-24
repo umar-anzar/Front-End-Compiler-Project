@@ -203,6 +203,128 @@ x = y = a + 5, t = 3;   w
 
 <!--------------------------------------------------------------------------------------->
 
+### Class Declaration
+
+```xml
+<OUTER_CLASS_DEC>   -> <ABS_FINAL> <CLASS_DEC>
+<CLASS_DEC>         -> Class <ACCESSMOD> id <CLASS_PAR> ( <INHERIT> ) { <CLASS_BODY> }
+<CLASS_PAR>         -> < id > | null
+<INHERIT>           -> id <MULTI_INHERIT>   | null
+<MULTI_INHERIT>     -> , id <MULTI_INHERIT> | null
+```
+
+### Class Body 
+
+```xml
+<CLASS_BODY>    -> <ATTR_FUNC> <CLASS_BODY> | null
+<ATTR_FUNC>     -> <FN_CLASS_DEC> | <ATTR_CLASS_DEC> ; 
+```
+
+
+### Attribute Declaration in class
+
+This CFG take transition to primitive and object type variable and array declaration and also inner class declarartion
+
+```xml
+<ATTR_CLASS_DEC>    -> <STATIC> <ABS_FINAL>
+<ABS_FINAL>         -> Abstract <CLASS_DEC> | const <CLASS_OBJ_PRIM>  | <CLASS_OBJ_PRIM> 
+<CLASS_OBJ_PRIM>    -> <CLASS_DEC> | dt <VAR_ARR2> | id <OBJ_CLASS_DEC>
+
+<VAR_ARR2>          -> <ARR_CLASS_DEC> | id = <INIT> <LIST_C> 
+<LIST_C>            -> , <ACCESSMOD> id = <INIT> <LIST_C> | null <!--Using DEC init but now list has access modifier-->
+
+
+```
+
+<hr>
+
+<!--------------------------------------------------------------------------------------->
+
+
+
+### Object Declaration
+
+- Not in Class
+```xml
+<OBJ_DEC>       -> id <IS_ARR>      <!--2nd rule is in string declaration-->
+<IS_ARR>        -> <ARR_DEC> | id = <REF_NEWOBJ>
+<REF_NEWOBJ>    -> id <POSOBJ> | <NEW_OBJ> 
+<POSOBJ>        -> <DOT_OBJ> <MORE_REF> | <SUBSCRIPT> <DOT_OBJ> <MORE_REF> | 
+...                <FN_BRACKETS> <DOT_OBJ> 
+<DOT_OBJ>       -> dot id <POSOBJ> | null
+<MORE_REF>      -> = <REF_NEWOBJ>  | null
+<NEW_OBJ>       -> new <TYPE> <CONSTR_ARR> 
+<CONSTR_ARR>    -> <FN_BRACKETS> | [ <DIM_PASS>
+```
+
+- In Class
+```xml
+<OBJ_CLASS_DEC> -> id <IS_ARR_CLASS>   <!--2nd rule is in string declaration-->
+<IS_ARR_CLASS>  -> <ARR_CLASS_DEC> | <ACCESSMOD> id = <REF_NEWOBJ>
+```
+
+<hr>
+
+
+<!--------------------------------------------------------------------------------------->
+
+### String Declaration
+- Not in Class
+```xml
+<OBJ_DEC>       -> str <ARR_STR>
+<ARR_STR>       -> <ARR_DEC> | id = <REF_NEWSTR> 
+<REF_NEWSTR>    -> id <POSSTR> | <NEW_STR_CONST>
+<POSSTR>        -> <DOT_STR> <MORE_REF_STR> | <SUBSCRIPT> <DOT_STR> <MORE_REF_STR> | 
+...                <FN_BRACKETS> <DOT_STR> 
+<DOT_STR>       -> dot id <POSSTR> | null
+<MORE_REF_STR>  -> = <REF_NEWSTR>  | null
+
+<NEW_STR_CONST> -> new str <FN_BRACKETS> | strConst
+```
+
+- In Class
+```xml
+<OBJ_CLASS_DEC> -> str <ARR_STR_CLASS> 
+<ARR_STR_CLASS> -> <ARR_CLASS_DEC> | <ACCESSMOD> id = <REF_NEWSTR> 
+```
+<hr>
+
+<!--------------------------------------------------------------------------------------->
+
+### Array Declaration
+- Not in Class
+```xml
+<ARR_DEC>       -> [ ] <ARR_TYPE> id = <CHOICE>
+
+<CHOICE>        -> <REF_NEWARR> | <NEW_ARR_CONST>
+<NEW_ARR_CONST> -> new <TYPE> [ <DIM_PASS>
+
+<REF_NEWARR>    -> id <POSARR> | <NEW_ARR_CONST>
+<POSARR>        -> <DOT_ARR> <MORE_REF_STR> | <SUBSCRIPT> <DOT_ARR> <MORE_REF_ARR> | 
+...                <FN_BRACKETS> <DOT_ARR> 
+<DOT_ARR>       -> dot id <POSARR> | null
+<MORE_REF_STR>  -> = <REF_NEWARR>  | null 
+
+<DIM_PASS>      -> <EXPR> ] <MUL_ARR_DEC> | ] <EMP_ARR_DEC> <ARR_CONST>
+
+<MUL_ARR_DEC>   -> [ <LEN_OF_ARR> ] <MUL_ARR_DEC> | null
+<EMP_ARR_DEC>   -> [ ] <EMP_ARR_DEC> | null
+<LEN_OF_ARR>    -> <EXPR> | null
+
+<ARR_CONST>     -> { <ARR_ELEMT> }
+<ARR_ELEMT>     -> <EXPR> <EXPR_LIST>  | <ARR_CONST> <EXPR_LIST> | null 
+<EXPR_LIST>     -> , <ARR_ELEMT> <EXPR_LIST> | null
+```
+- In Class
+
+```xml
+<ARR_CLASS_DEC> -> [ ] <ARR_TYPE> <ACCESSMOD> id = <CHOICE>
+```
+
+<hr>
+
+<!--------------------------------------------------------------------------------------->
+
 ### Expression
 
 Precedance of Operators Low to High
@@ -254,6 +376,7 @@ Unary   'convt(dt) !'
 <hr>
 
 <!--------------------------------------------------------------------------------------->
+
 ### Operands
 
 ```xml
@@ -375,120 +498,7 @@ Throw
 
 <!--------------------------------------------------------------------------------------->
 
-### Class Declaration
 
-```xml
-<OUTER_CLASS_DEC>   -> <ABS_FINAL> <CLASS_DEC>
-<CLASS_DEC>         -> Class <ACCESSMOD> id <CLASS_PAR> ( <INHERIT> ) { <CLASS_BODY> }
-<CLASS_PAR>         -> < id > | null
-<INHERIT>           -> id <MULTI_INHERIT>   | null
-<MULTI_INHERIT>     -> , id <MULTI_INHERIT> | null
-```
-
-### Class Body 
-
-```xml
-<CLASS_BODY>    -> <ATTR_FUNC> <CLASS_BODY> | null
-<ATTR_FUNC>     -> <FN_CLASS_DEC> | <ATTR_CLASS_DEC> ; 
-```
-
-
-### Attribute Declaration in class
-
-This CFG take transition to primitive and object type variable and array declaration and also inner class declarartion
-
-```xml
-<ATTR_CLASS_DEC>    -> <STATIC> <ABS_FINAL>
-<ABS_FINAL>         -> Abstract <CLASS_DEC> | const <CLASS_OBJ_PRIM>  | <CLASS_OBJ_PRIM> 
-<CLASS_OBJ_PRIM>    -> <CLASS_DEC> | dt <VAR_ARR2> | id <OBJ_CLASS_DEC>
-
-<VAR_ARR2>          -> <ARR_CLASS_DEC> | id = <INIT> <LIST_C> 
-<LIST_C>            -> , <ACCESSMOD> id = <INIT> <LIST_C> | null <!--Using DEC init but now list has access modifier-->
-
-
-```
-
-<hr>
-
-<!--------------------------------------------------------------------------------------->
-
-
-
-### Object Declaration
-
-- Not in Class
-```xml
-<OBJ_DEC>       -> id <IS_ARR>      <!--2nd rule is in string declaration-->
-<IS_ARR>        -> <ARR_DEC> | id = <REF_NEWOBJ>
-<REF_NEWOBJ>    -> id <POSOBJ> | <NEW_OBJ> 
-<POSOBJ>        -> <DOT_OBJ> <MORE_REF> | <SUBSCRIPT> <DOT_OBJ> <MORE_REF> | 
-...                <FN_BRACKETS> <DOT_OBJ> 
-<DOT_OBJ>       -> dot id <POSOBJ> | null
-<MORE_REF>      -> = <REF_NEWOBJ>  | null
-<NEW_OBJ>       -> new <TYPE> <CONSTR_ARR> 
-<CONSTR_ARR>    -> <FN_BRACKETS> | [ <DIM_PASS>
-```
-
-- In Class
-```xml
-<OBJ_CLASS_DEC> -> id <IS_ARR_CLASS>   <!--2nd rule is in string declaration-->
-<IS_ARR_CLASS>  -> <ARR_CLASS_DEC> | <ACCESSMOD> id = <REF_NEWOBJ>
-```
-
-<hr>
-
-
-<!--------------------------------------------------------------------------------------->
-
-### String Declaration
-- Not in Class
-```xml
-<OBJ_DEC>       -> str id = <REF_NEWSTR> 
-
-<REF_NEWSTR>    -> id <POSSTR> | <NEW_STR_CONST>
-<POSSTR>        -> <DOT_STR> <MORE_REF_STR> | <SUBSCRIPT> <DOT_STR> <MORE_REF_STR> | 
-...                <FN_BRACKETS> <DOT_STR> 
-<DOT_STR>       -> dot id <POSSTR> | null
-<MORE_REF_STR>  -> = <REF_NEWSTR>  | null
-
-<NEW_STR_CONST> -> new str <FN_BRACKETS> | strConst
-```
-
-- In Class
-```xml
-<OBJ_CLASS_DEC> -> str <ACCESSMOD> id = <REF_NEWSTR> 
-```
-<hr>
-
-<!--------------------------------------------------------------------------------------->
-
-### Array Declaration UNDER CONSTR  =a=b=c
-
-```xml
-<ARR_DEC>       -> [ ] <ARR_TYPE> id = <CHOICE>
-<ARR_CLASS_DEC> -> [ ] <ARR_TYPE> <ACCESSMOD> id = <CHOICE>
-
-<CHOICE>        -> <REF_NEWARR> | <NEW_ARR_CONST>
-<NEW_ARR_CONST> -> new <TYPE> [ <DIM_PASS>
-
-
-<REF_NEWARR>    -> id <POSARR> | <NEW_ARR_CONST>
-<POSARR>        -> <DOT_ARR> <MORE_REF_STR> | <SUBSCRIPT> <DOT_ARR> <MORE_REF_ARR> | 
-...                <FN_BRACKETS> <DOT_ARR> 
-<DOT_ARR>       -> dot id <POSARR> | null
-<MORE_REF_STR>  -> = <REF_NEWARR>  | null 
-
-
-<DIM_PASS>      -> <EXPR> ] <MUL_ARR_DEC> | ] <EMP_ARR_DEC> <ARR_CONST>
-
-<MUL_ARR_DEC>   -> [ <LEN_OF_ARR> ] <MUL_ARR_DEC> | null
-<EMP_ARR_DEC>   -> [ ] <EMP_ARR_DEC> | null
-<LEN_OF_ARR>    -> <EXPR> | null
-
-<ARR_CONST>     -> { <ARR_ELEMT> }
-<ARR_ELEMT>     -> <EXPR> <EXPR_LIST>  | <ARR_CONST> <EXPR_LIST> | null 
-<EXPR_LIST>     -> , <ARR_ELEMT> <EXPR_LIST> | null
-```
   
 <br>
 <hr><hr><hr>
