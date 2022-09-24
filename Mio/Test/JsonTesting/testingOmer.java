@@ -16,7 +16,7 @@ class XYZ{
     int a=0;
     int ab=a+=3;
 
-    public XYZ P(){
+    public XYZ P(int[][]x){
         return new XYZ();
     }
 }

@@ -279,8 +279,9 @@ if-else CFG
 switch-case statement:
 ```xml
 <SWITCH>    -> shift ( <EXPR> ) { <STATE> }
-<STATE>     -> state <EXPR> : <BODY> <STATE> | <DEFAULT> 
-<DEFAULT>   -> default : <BODY> | null 
+<STATE>     -> state <EXPR> : <TWO_MST> <STATE> | <DEFAULT> 
+<DEFAULT>   -> default : <TWO_MST> | null 
+<TWO_MST>   -> <MST> | { <MST> }
 ```
 <hr>
 
@@ -377,10 +378,11 @@ Throw
 ### Class Declaration
 
 ```xml
-<CLASS_DEC>     -> <ABS_FINAL> Class <ACCESSMOD> id <CLASS_PAR> ( <INHERIT> ) { <CLASS_BODY> }
-<CLASS_PAR>     -> < id > | null
-<INHERIT>       -> id <MULTI_INHERIT>   | null
-<MULTI_INHERIT> -> , id <MULTI_INHERIT> | null
+<OUTER_CLASS_DEC>   -> <ABS_FINAL> <CLASS_DEC>
+<CLASS_DEC>         -> Class <ACCESSMOD> id <CLASS_PAR> ( <INHERIT> ) { <CLASS_BODY> }
+<CLASS_PAR>         -> < id > | null
+<INHERIT>           -> id <MULTI_INHERIT>   | null
+<MULTI_INHERIT>     -> , id <MULTI_INHERIT> | null
 ```
 
 ### Class Body 
@@ -393,6 +395,8 @@ Throw
 
 ### Attribute Declaration in class
 
+This CFG take transition to primitive and object type variable and array declaration and also inner class declarartion
+
 ```xml
 <ATTR_CLASS_DEC>    -> <STATIC> <FINAL> <IS_OBJ>
 <IS_OBJ>            -> <OBJ_CLASS_DEC> | dt <ACCESSMOD> id <INIT> <LIST_C>
@@ -404,12 +408,6 @@ Throw
 <ATTR_CLASS_DEC>    -> <STATIC> <ABS_FINAL>
 <ABS_FINAL>         -> Abstract <CLASS_DEC> | const <CLASS_OBJ_PRIM>  | <CLASS_OBJ_PRIM> 
 <CLASS_OBJ_PRIM>    -> <CLASS_DEC> | dt <VAR_ARR2> | id <OBJ_CLASS_DEC>
-
-<CLASS_DEC>         -> Class <ACCESSMOD> id <CLASS_PAR> ( <INHERIT> ) { <CLASS_BODY> }
-<CLASS_PAR>         -> < id > | null
-<INHERIT>           -> id <MULTI_INHERIT>   | null
-<MULTI_INHERIT>     -> , id <MULTI_INHERIT> | null
-
 
 <VAR_ARR2>          -> <ARR_CLASS_DEC> | id = <INIT> <LIST_C> 
 <LIST_C>            -> , <ACCESSMOD> id = <INIT> <LIST_C> | null <!--Using DEC init but now list has access modifier-->
