@@ -1,4 +1,4 @@
-# Syntax Analyze Phase
+## Syntax Analyze Phase
 
 Writing context free grammar
 
@@ -6,7 +6,7 @@ r: right
 w: wrong
 
 
-## Functional Part
+
 
 
 
@@ -31,18 +31,30 @@ w: wrong
 
 <!--------------------------------------------------------------------------------------->
 
-### Function Not in Class
 
-- Function call
+### Access Modifier, Static and Abstract
 
+```xml
+<ACCESSMOD>     -> protected | private | null  <!--Here null is public-->
+<ABS_FINAL>     -> Abstract | const | null
+<STATIC>        -> static | null
+```
+<hr>
+
+<!--------------------------------------------------------------------------------------->
+
+
+### Function
+
+- Function call is in `<DEC>` CFG.
 ```
 Example:
 function_id ()
-function_id (p1)
-function_id (p1,p2,p3)
+arr[3].function_id (p1)
+x.y.functio().function_id (p1,p2,p3)
 ```
 
-- Function Statement
+- Function Statement in function
 
 ```xml
 <FN_DEC>    -> def <RET_TYPE> id <FN_ST> <THROWS> { <MST> }
@@ -62,6 +74,22 @@ def function_id () { }
 def int function_id (p1)  { }
 def object function_id (p1,p2,p3) {}
 ```
+
+- Function Statement in class
+
+```xml
+<FN_CLASS_DEC>  -> def <RET_TYPE> <IS_ABSTRACT> 
+<IS_ABSTRACT>   -> Abstract <ACCESSMOD> id <FN_ST> <THROWS> ; | 
+...                <FINAL> <ACCESSMOD> id <FN_ST> <THROWS> { <MST> }
+```
+```
+Example:
+def function_id () { }
+def Abstract $function_id ();
+def int[] $$function_id (p1)  { }
+def object const $function_id (p1,p2,p3) {}
+```
+
 <hr>
 
 
@@ -351,14 +379,7 @@ Throw
 
 ## Object Oriented Programming PART
 
-### Access Modifier, Static and Abstract
 
-```xml
-<ACCESSMOD>     -> protected | private | null  <!--Here null is public-->
-<ABS_FINAL>     -> Abstract | const | null
-<STATIC>        -> static | null
-```
-<hr>
 
 <!--------------------------------------------------------------------------------------->
 
@@ -391,16 +412,7 @@ Throw
 
 <!--------------------------------------------------------------------------------------->
 
-### Function Statement in class
 
-```xml
-<FN_CLASS_DEC>  -> def <RET_TYPE> <IS_ABSTRACT> 
-<IS_ABSTRACT>   -> Abstract <ACCESSMOD> id <FN_ST> <THROWS> ; | 
-...                <FINAL> <ACCESSMOD> id <FN_ST> <THROWS> { <MST> }
-```
-<hr>
-
-<!--------------------------------------------------------------------------------------->
 
 ### Object Declaration
 
