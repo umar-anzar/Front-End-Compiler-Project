@@ -32,6 +32,7 @@ w: wrong
 <!--------------------------------------------------------------------------------------->
 
 ### Function Not in Class
+
 - Function call
 
 ```
@@ -52,8 +53,7 @@ function_id (p1,p2,p3)
 ```xml
 <RET_TYPE>      -> <TYPE> <ARR_TYPE> | null <!--Here null is void-->
 <TYPE>          -> id | dt | str 
-<ARR_TYPE>      -> [ ] <MUL_ARR_DIM> | null
-<MUL_ARR_DIM>   -> [ ] <MUL_ARR_DIM> | null
+<ARR_TYPE>      -> [ ] <ARR_TYPE> | null
 ```
 
 ```
@@ -65,62 +65,9 @@ def object function_id (p1,p2,p3) {}
 <hr>
 
 
+
 <!--------------------------------------------------------------------------------------->
-
-### Declaration and Initialization
-
-In Main Function
-There is no access modifer nor static
-
-This Cfg take transistion to declaration of **primitive** and **object** type **variable** and **array**, and also towards variable 
-**assignment** and **function call**.
-
-```xml
-<DEC>           -> const <VAR_OBJ>
-<DEC>           -> dt <VAR_ARR> | id <ASSIGN_OBJ>
-<ASSIGN_OBJ>    -> <ASSIGN> | <OBJ_DEC>             <!--DEC TO ASSIGNMENT-->
-<VAR_OBJ>       -> <OBJ_DEC> | dt <VAR_ARR>
-<VAR_ARR>       -> <ARR_DEC> | id = <INIT> <LIST>
-<FINAL>         -> const | null
-<INIT>          -> id <ASSIGN_EXPR> | <EXPR>
-<ASSIGN_EXPR>   -> <LIST_EXPR> | <SUBSCRIPT> <LIST_EXPR> | <FN_BRACKETS> <DOT_EXPR>
-<LIST_EXPR>     -> <ASSIGN_OP> <INIT> | <INC_DEC> <Y> | <DOT_EXPR>
-<Y>             -> <ID_TO_EXPR> | null
-<DOT_EXPR>      -> dot id <ASSIGN_EXPR> | <ID_TO_EXPR> | null
-<ID_TO_EXPR>    -> <J1> <I1> <H1> <G1> <F1> <EXPR>
-<LIST>          -> , id = <INIT> <LIST> | null
-<ASSIGN_OP>     -> = | cma
-```
-
-```
-Example:
-const int x = y.b = a + 5, t = 3;           r
-const str y = "str";                        r
-int x = y = convt(int) a + 5, t = q = 2;    r
-int x = convt(int) y = a + 5, t = q = 2;    w
-x = y = a + 5, t = 3;                       w
-```
-
-### Assignment
-```xml
-<ASSIGN>        -> <DOT_ID> <TWO_ASSIGN> | <SUBSCRIPT> <DOT_ID> <TWO_ASSIGN> | <FN_BRACKETS> <DOT_ID>
-<TWO_ASSIGN>    -> <INC_DEC> | <ASSIGN_OP> <OBJ_PRIMITIVE> 
-<OBJ_PRIMITIVE> -> <NEW_OBJ> | <INIT>
-```
-
-```
-Example:
-x += 2 + 3 * a          r
-x = y -= a + 5;         r
-x += y *= int <- a + 5; r
-x = new Q(x,y);         r
-x = int <- y = a + 5;   w
-x = y = a + 5, t = 3;   w
-```
-<hr>
-
-
-### Dot Separated Identifers , Function calls, array subscripts
+### Dot Separated Identifers, Function calls, array subscripts
 
 ```
 Example:
@@ -173,6 +120,66 @@ which word this cfg going to parse
 ```
 
 <hr>
+
+<!--------------------------------------------------------------------------------------->
+
+### Declaration and Initialization
+
+In Main Function
+There is no access modifer nor static
+
+This Cfg take transistion to declaration of **primitive** and **object** type **variable** and **array**, and also towards variable 
+**assignment** and **function call**.
+
+```xml
+<DEC>           -> const <VAR_OBJ>
+<DEC>           -> dt <VAR_ARR> | id <ASSIGN_OBJ>
+<ASSIGN_OBJ>    -> <ASSIGN> | <OBJ_DEC>             <!--DEC TO ASSIGNMENT-->
+<VAR_OBJ>       -> <OBJ_DEC> | dt <VAR_ARR>
+<VAR_ARR>       -> <ARR_DEC> | id = <INIT> <LIST>
+<FINAL>         -> const | null
+<INIT>          -> id <ASSIGN_EXPR> | <EXPR>
+<ASSIGN_EXPR>   -> <LIST_EXPR> | <SUBSCRIPT> <LIST_EXPR> | <FN_BRACKETS> <DOT_EXPR>
+<LIST_EXPR>     -> <ASSIGN_OP> <INIT> | <INC_DEC> <Y> | <DOT_EXPR>
+<Y>             -> <ID_TO_EXPR> | null
+<DOT_EXPR>      -> dot id <ASSIGN_EXPR> | <ID_TO_EXPR> | null
+<ID_TO_EXPR>    -> <J1> <I1> <H1> <G1> <F1> <EXPR>
+<LIST>          -> , id = <INIT> <LIST> | null
+<ASSIGN_OP>     -> = | cma
+```
+
+```
+Example:
+const int x = y.b = a + 5, t = 3;           r
+const str y = "str";                        r
+int x = y = convt(int) a + 5, t = q = 2;    r
+int x = convt(int) y = a + 5, t = q = 2;    w
+x = y = a + 5, t = 3;                       w
+```
+
+### Assignment
+
+This Cfg is called by `<DEC>` and it handles assignment and function call.
+
+```xml
+<ASSIGN>        -> <DOT_ID3> <TWO_ASSIGN> | <SUBSCRIPT> <DOT_ID3> <TWO_ASSIGN> | 
+...                <FN_BRACKETS> <DOT_ID3>
+<DOT_ID3>       -> dot id <ASSIGN> | null
+<TWO_ASSIGN>    -> <INC_DEC> | <ASSIGN_OP> <OBJ_PRIMITIVE> 
+<OBJ_PRIMITIVE> -> <NEW_OBJ> | <INIT>
+```
+
+```
+Example:
+x += 2 + 3 * a          r
+x = y -= a + 5;         r
+x += y *= int <- a + 5; r
+x = new Q(x,y);         r
+x = int <- y = a + 5;   w
+x = y = a + 5, t = 3;   w
+```
+<hr>
+
 
 
 <!--------------------------------------------------------------------------------------->
@@ -434,8 +441,9 @@ Throw
 ### Array Declaration
 
 ```xml
-<ARR_CLASS_DEC> -> [ ] <MUL_ARR_DIM> <ACCESSMOD> id = <CHOICE>
-<ARR_DEC>       -> [ ] <MUL_ARR_DIM> id = <CHOICE>
+<ARR_DEC>       -> [ ] <ARR_TYPE> id = <CHOICE>
+<ARR_CLASS_DEC> -> [ ] <ARR_TYPE> <ACCESSMOD> id = <CHOICE>
+
 <CHOICE>        -> id <POS> | new <TYPE> [ <DIM_PASS>
 <DIM_PASS>      -> <EXPR> ] <MUL_ARR_DEC> | ] <EMP_ARR_DEC> <ARR_CONST>
 
