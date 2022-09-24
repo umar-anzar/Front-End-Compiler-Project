@@ -72,6 +72,7 @@ def object function_id (p1,p2,p3) {}
 <FN_CLASS_DEC>  -> def <RET_TYPE> <IS_ABSTRACT> 
 <IS_ABSTRACT>   -> Abstract <ACCESSMOD> id <FN_ST> <THROWS> ; | 
 ...                <FINAL> <ACCESSMOD> id <FN_ST> <THROWS> { <MST> }
+<FINAL>         -> const | null
 ```
 ```
 Example:
@@ -156,7 +157,6 @@ This Cfg take transistion to declaration of **primitive** and **object** type **
 <ASSIGN_OBJ>    -> <ASSIGN> | <OBJ_DEC>             <!--DEC TO ASSIGNMENT-->
 <VAR_OBJ>       -> <OBJ_DEC> | dt <VAR_ARR>
 <VAR_ARR>       -> <ARR_DEC> | id = <INIT> <LIST>
-<FINAL>         -> const | null
 <INIT>          -> id <ASSIGN_EXPR> | <EXPR>
 <ASSIGN_EXPR>   -> <LIST_EXPR> | <SUBSCRIPT> <LIST_EXPR> | <FN_BRACKETS> <DOT_EXPR>
 <LIST_EXPR>     -> <ASSIGN_OP> <INIT> | <INC_DEC> <Y> | <DOT_EXPR>
@@ -398,13 +398,6 @@ Throw
 This CFG take transition to primitive and object type variable and array declaration and also inner class declarartion
 
 ```xml
-<ATTR_CLASS_DEC>    -> <STATIC> <FINAL> <IS_OBJ>
-<IS_OBJ>            -> <OBJ_CLASS_DEC> | dt <ACCESSMOD> id <INIT> <LIST_C>
-<FINAL>             -> const | null
-<LIST_C>            -> , <ACCESSMOD> id <INIT> <LIST_C> | null
-```
-
-```xml
 <ATTR_CLASS_DEC>    -> <STATIC> <ABS_FINAL>
 <ABS_FINAL>         -> Abstract <CLASS_DEC> | const <CLASS_OBJ_PRIM>  | <CLASS_OBJ_PRIM> 
 <CLASS_OBJ_PRIM>    -> <CLASS_DEC> | dt <VAR_ARR2> | id <OBJ_CLASS_DEC>
@@ -421,13 +414,16 @@ This CFG take transition to primitive and object type variable and array declara
 
 
 
-### Object Declaration UNDER CONSTR  =a=b=c
+### Object Declaration
 
 - Not in Class
 ```xml
 <OBJ_DEC>       -> id <IS_ARR>      <!--2nd rule is in string declaration-->
 <IS_ARR>        -> <ARR_DEC> | id = <REF_NEWOBJ>
-<REF_NEWOBJ>    -> id <POS> <MORE_REF> | <NEW_OBJ> 
+<REF_NEWOBJ>    -> id <POSOBJ> | <NEW_OBJ> 
+<POSOBJ>        -> <DOT_OBJ> <MORE_REF> | <SUBSCRIPT> <DOT_OBJ> <MORE_REF> | 
+...                <FN_BRACKETS> <DOT_OBJ> 
+<DOT_OBJ>       -> dot id <POSOBJ> | null
 <MORE_REF>      -> = <REF_NEWOBJ>  | null
 <NEW_OBJ>       -> new <TYPE> <CONSTR_ARR> 
 <CONSTR_ARR>    -> <FN_BRACKETS> | [ <DIM_PASS>
@@ -436,7 +432,7 @@ This CFG take transition to primitive and object type variable and array declara
 - In Class
 ```xml
 <OBJ_CLASS_DEC> -> id <IS_ARR_CLASS>   <!--2nd rule is in string declaration-->
-<IS_ARR_CLASS>  -> <ARR_CLASS_DEC> | <ACCESSMOD> id = <NEW_OBJ> 
+<IS_ARR_CLASS>  -> <ARR_CLASS_DEC> | <ACCESSMOD> id = <REF_NEWOBJ>
 ```
 
 <hr>
@@ -444,16 +440,23 @@ This CFG take transition to primitive and object type variable and array declara
 
 <!--------------------------------------------------------------------------------------->
 
-### String Declaration UNDER CONSTR  =a=b=c
+### String Declaration
 - Not in Class
 ```xml
-<OBJ_DEC>       -> str id = <NEW_STR_CONST>
+<OBJ_DEC>       -> str id = <REF_NEWSTR> 
+
+<REF_NEWSTR>    -> id <POSSTR> | <NEW_STR_CONST>
+<POSSTR>        -> <DOT_STR> <MORE_REF_STR> | <SUBSCRIPT> <DOT_STR> <MORE_REF_STR> | 
+...                <FN_BRACKETS> <DOT_STR> 
+<DOT_STR>       -> dot id <POSSTR> | null
+<MORE_REF_STR>  -> = <REF_NEWSTR>  | null
+
 <NEW_STR_CONST> -> new str <FN_BRACKETS> | strConst
 ```
 
 - In Class
 ```xml
-<OBJ_CLASS_DEC> -> str <ACCESSMOD> id = <NEW_STR_CONST>
+<OBJ_CLASS_DEC> -> str <ACCESSMOD> id = <REF_NEWSTR> 
 ```
 <hr>
 
@@ -465,7 +468,17 @@ This CFG take transition to primitive and object type variable and array declara
 <ARR_DEC>       -> [ ] <ARR_TYPE> id = <CHOICE>
 <ARR_CLASS_DEC> -> [ ] <ARR_TYPE> <ACCESSMOD> id = <CHOICE>
 
-<CHOICE>        -> id <POS> | new <TYPE> [ <DIM_PASS>
+<CHOICE>        -> <REF_NEWARR> | <NEW_ARR_CONST>
+<NEW_ARR_CONST> -> new <TYPE> [ <DIM_PASS>
+
+
+<REF_NEWARR>    -> id <POSARR> | <NEW_ARR_CONST>
+<POSARR>        -> <DOT_ARR> <MORE_REF_STR> | <SUBSCRIPT> <DOT_ARR> <MORE_REF_ARR> | 
+...                <FN_BRACKETS> <DOT_ARR> 
+<DOT_ARR>       -> dot id <POSARR> | null
+<MORE_REF_STR>  -> = <REF_NEWARR>  | null 
+
+
 <DIM_PASS>      -> <EXPR> ] <MUL_ARR_DEC> | ] <EMP_ARR_DEC> <ARR_CONST>
 
 <MUL_ARR_DEC>   -> [ <LEN_OF_ARR> ] <MUL_ARR_DEC> | null
