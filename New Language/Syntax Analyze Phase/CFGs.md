@@ -203,6 +203,17 @@ x = y = a + 5, t = 3;   w
 
 <!--------------------------------------------------------------------------------------->
 
+### Access Modifier, Static and Abstract
+
+```xml
+<ACCESSMOD>     -> protected | private | null  <!--Here null is public-->
+<ABS_FINAL>     -> Abstract | const | null
+<STATIC>        -> Static | null
+```
+<hr>
+
+<!--------------------------------------------------------------------------------------->
+
 ### Class Declaration
 
 ```xml
@@ -487,16 +498,7 @@ Throw
 
 
 <!--------------------------------------------------------------------------------------->
-### Access Modifier, Static and Abstract
 
-```xml
-<ACCESSMOD>     -> protected | private | null  <!--Here null is public-->
-<ABS_FINAL>     -> Abstract | const | null
-<STATIC>        -> Static | null
-```
-<hr>
-
-<!--------------------------------------------------------------------------------------->
 
 
   
