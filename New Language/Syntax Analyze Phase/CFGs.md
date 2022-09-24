@@ -32,16 +32,6 @@ w: wrong
 <!--------------------------------------------------------------------------------------->
 
 
-### Access Modifier, Static and Abstract
-
-```xml
-<ACCESSMOD>     -> protected | private | null  <!--Here null is public-->
-<ABS_FINAL>     -> Abstract | const | null
-<STATIC>        -> static | null
-```
-<hr>
-
-<!--------------------------------------------------------------------------------------->
 
 
 ### Function
@@ -63,7 +53,8 @@ x.y.functio().function_id (p1,p2,p3)
 <PAR_LIST>  -> , <DT_ID> id <PAR_LIST> | null
 ```
 ```xml
-<RET_TYPE>      -> <TYPE> <ARR_TYPE> | null <!--Here null is void-->
+<DT_ID>         -> <TYPE> <ARR_TYPE>
+<RET_TYPE>      -> <DT_ID> | null <!--Here null is void-->
 <TYPE>          -> id | dt | str 
 <ARR_TYPE>      -> [ ] <ARR_TYPE> | null
 ```
@@ -354,11 +345,6 @@ Throw
 <!--------------------------------------------------------------------------------------->
 
 
-
-
-
-
-
 ###  Increment Decrement
 
 ```xml
@@ -374,12 +360,17 @@ Throw
 <hr>
 
 
+
+
 <!--------------------------------------------------------------------------------------->
+### Access Modifier, Static and Abstract
 
-
-## Object Oriented Programming PART
-
-
+```xml
+<ACCESSMOD>     -> protected | private | null  <!--Here null is public-->
+<ABS_FINAL>     -> Abstract | const | null
+<STATIC>        -> Static | null
+```
+<hr>
 
 <!--------------------------------------------------------------------------------------->
 
@@ -408,18 +399,38 @@ Throw
 <FINAL>             -> const | null
 <LIST_C>            -> , <ACCESSMOD> id <INIT> <LIST_C> | null
 ```
+
+```xml
+<ATTR_CLASS_DEC>    -> <STATIC> <ABS_FINAL>
+<ABS_FINAL>         -> Abstract <CLASS_DEC> | const <CLASS_OBJ_PRIM>  | <CLASS_OBJ_PRIM> 
+<CLASS_OBJ_PRIM>    -> <CLASS_DEC> | dt <VAR_ARR2> | id <OBJ_CLASS_DEC>
+
+<CLASS_DEC>         -> Class <ACCESSMOD> id <CLASS_PAR> ( <INHERIT> ) { <CLASS_BODY> }
+<CLASS_PAR>         -> < id > | null
+<INHERIT>           -> id <MULTI_INHERIT>   | null
+<MULTI_INHERIT>     -> , id <MULTI_INHERIT> | null
+
+
+<VAR_ARR2>          -> <ARR_CLASS_DEC> | id = <INIT> <LIST_C> 
+<LIST_C>            -> , <ACCESSMOD> id = <INIT> <LIST_C> | null <!--Using DEC init but now list has access modifier-->
+
+
+```
+
 <hr>
 
 <!--------------------------------------------------------------------------------------->
 
 
 
-### Object Declaration
+### Object Declaration UNDER CONSTR  =a=b=c
 
 - Not in Class
 ```xml
 <OBJ_DEC>       -> id <IS_ARR>      <!--2nd rule is in string declaration-->
-<IS_ARR>        -> <ARR_DEC> | id = <NEW_OBJ> 
+<IS_ARR>        -> <ARR_DEC> | id = <REF_NEWOBJ>
+<REF_NEWOBJ>    -> id <POS> <MORE_REF> | <NEW_OBJ> 
+<MORE_REF>      -> = <REF_NEWOBJ>  | null
 <NEW_OBJ>       -> new <TYPE> <CONSTR_ARR> 
 <CONSTR_ARR>    -> <FN_BRACKETS> | [ <DIM_PASS>
 ```
@@ -435,7 +446,7 @@ Throw
 
 <!--------------------------------------------------------------------------------------->
 
-### String Declaration
+### String Declaration UNDER CONSTR  =a=b=c
 - Not in Class
 ```xml
 <OBJ_DEC>       -> str id = <NEW_STR_CONST>
@@ -450,7 +461,7 @@ Throw
 
 <!--------------------------------------------------------------------------------------->
 
-### Array Declaration
+### Array Declaration UNDER CONSTR  =a=b=c
 
 ```xml
 <ARR_DEC>       -> [ ] <ARR_TYPE> id = <CHOICE>
@@ -482,7 +493,7 @@ Throw
 <FINAL>         -> const | null
 <ACCESSMOD>     -> protected | private | null
 <ABS_FINAL>     -> Abstract | const | null
-<STATIC>        -> static | null
+<STATIC>        -> Static | null
 <FN_ST>         -> ( <PAR> ) <!--used in function declaration-->
 <FN_BRACKETS>   -> ( <ARG> ) <!--used in function calling-->
 <NEW_OBJ>       -> new <TYPE> <CONSTR_ARR>  <!--after = or cma(+= etc) also in array const-->

@@ -89,7 +89,7 @@ Same:
 
 | switch | case | break | continue | return | static |
 |--------|------|-------|----------|--------|--------|
-| switch | case | stop  | cont     | ret    | static |
+| switch | case | stop  | cont     | ret    | Static |
 
 | final | main  | in | default | new | abstract | super  | this |
 |-------|-------|----|---------|-----|----------|--------|------|

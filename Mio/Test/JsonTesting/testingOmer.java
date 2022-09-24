@@ -12,12 +12,10 @@ import java.util.regex.Pattern;
  * @author omera
  */
 class XYZ{
-    XYZ b;
-    int a=0;
 
-    XYZ() {
-        this.b = new XYZ();
-    }
+    int a=0;
+    int ab=a+=3;
+
     public XYZ P(){
         return new XYZ();
     }
@@ -28,7 +26,8 @@ public final class testingOmer {
     private final int a=3;
     private int y=3;
     private static final XYZ qqqq = new XYZ();
-    int ab=0;
+    int ab=y+=3;
+    
     
     
     public static void AAA(int [] a){}
@@ -107,33 +106,8 @@ public final class testingOmer {
         AAA(new int[3]);
         int [][] qqq;
         qqq = new int[][] {{},{}};
-        for (final int xx=0;x<4;g++) {
-            
-        }
+        
 
-        for (int i = 0; i < 10; i++)
-        if (true)
-            System.out.println("");
-            System.out.println("Izhan");
-
-//        A x = new A();
-//        
-//        int q = x.a;
-//        
-//        String z = "Tue";
-//        switch (z) {
-//            case "Mon":
-//                System.out.println("x");
-//                break;
-//            case "Tue":
-//                System.out.println("y");
-//                break;
-//            case "Wed":
-//                System.out.println("z");
-//                break;
-//            default:
-//                break;
-//        }
 
         
         
