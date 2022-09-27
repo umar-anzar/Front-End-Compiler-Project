@@ -1,3 +1,61 @@
+class CFG:
+    def __init__(self,start,cfg) -> None:
+        self.index = 0
+        self.word = []
+        self.start = start
+        self.cfg = cfg
+        self.isOr = True
+        self.theEnd = False
+
+    def reset(self):
+        self.index = 0
+        self.word = []
+        self.isOr = True
+        self.theEnd = False
+
+    def validate(self,word):
+        self.word = word
+        result = False
+        if self.parser("<X>"):
+            if len(word)-1 == self.index:
+                result = True
+        self.reset() #Reset parameters to parse more
+        return result,word[:-1]
+
+    def parser(self,start):
+        accept = False
+        rule = self.cfg[start]
+        for OR in rule:
+            for k,terminal in enumerate(OR):
+                #print(rule)
+                accept = False
+                if terminal[0] == '<':#if non terminal
+                    accept = self.parser(terminal)
+                    if not(accept):
+                        if k>0: 
+                            self.theEnd = True
+                            #We have enter in a production rule and there is no BACKTRACK then no BACK
+                            #Because it failed to parse the other terminal
+                        break
+                elif terminal == self.word[self.index]:
+                    self.index += 1
+                    accept = True
+                else:
+                    if terminal == 'null':
+                        accept = True
+                        return True
+                    break
+            
+            if self.theEnd:
+                return False
+                
+            if accept:
+                return True
+
+            
+        return False
+
+
 """
 { dt id = id } ;
 { dt id { dt id } } ;
@@ -9,67 +67,20 @@
 4B -> = | += | *=
 5C -> intConst | floatConst
 """
+A = CFG("<X>",
+        {
+            "<X>" : [ ["<S>",";"] ],
+            "<S>" : [ ["{","<A>","}"] ],
+            "<A>" : [ ["dt","id","<D>"] ],
+            "<D>" : [ ["<B>","<C>"], ["<S>"],["null"] ],
+            "<B>" : [ ["="],["+="],["*="] ],
+            "<C>" : [ ["intConst"], ["floatConst"] ]
+        }
+    )
+x= "{ dt id { dt id { dt id { dt id { dt id *= floatConst } } }  } } ;"
 
-class CFG:
-    def __init__(self) -> None:
-        self.index = 0
-        self.word = []
-        self.cfg = [
-            [ ["? 1 S",";"] ],
-            [ ["{","? 2 A","}"] ],
-            [ ["dt","id","? 3 D"] ],
-            [ ["? 4 B","? 5 C"], ["? 1 S"],["null"] ],
-            [ ["="],["+="],["*="] ],
-            [ ["intConst"], ["floatConst"] ]
-        ]
-        self.isOr = True
-        self.theEnd = False
+print(A.validate(x.split()+["$"]))
 
-    def validate(self,word):
-        self.word = word
-        result = False
-        if self.parser(0):
-            if len(word)-1 == self.index:
-                result = True
-        self.word = ""
-        self.index = 0
-        return result,word[:-1]
-
-    def parser(self,start):
-        F = False
-        rule = self.cfg[start]
-        for OR in rule:
-            for k,terminal in enumerate(OR):
-                #print(rule)
-                F = False
-                if terminal[0] == '?':#if non terminal
-                    F = self.parser(int(terminal.split(" ")[1]))
-                    if not(F):
-                        if k>0: #IF we have enter in a prodcutuin rule and there is no BACKTRACK then no BACK U END HERE
-                            #Because u faild to pass the other terminal
-                            self.theEnd = True
-                        break
-                elif terminal == self.word[self.index]:
-                    self.index += 1
-                    F = True
-                else:
-                    if terminal == 'null':
-                        F = True
-                        return True
-
-                    break
-            
-            if self.theEnd:
-                return False
-            if F:
-                return True
-            if (len(self.word) - 2 <= self.index) and F:
-                return True
-            
-
-        return False
-
-A = CFG()
-x= "{ dt = intConst } ;"
+x= "{ dt id += { dt id = intConst } ;"
 
 print(A.validate(x.split()+["$"]))
