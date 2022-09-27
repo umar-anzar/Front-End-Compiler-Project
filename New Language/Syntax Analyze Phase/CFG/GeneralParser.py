@@ -23,6 +23,7 @@ class CFG:
             [ ["intConst"], ["floatConst"] ]
         ]
         self.isOr = True
+        self.theEnd = False
 
     def validate(self,word):
         self.word = word
@@ -38,10 +39,16 @@ class CFG:
         F = False
         rule = self.cfg[start]
         for OR in rule:
-            for terminal in OR:
+            for k,terminal in enumerate(OR):
+                #print(rule)
                 F = False
                 if terminal[0] == '?':#if non terminal
                     F = self.parser(int(terminal.split(" ")[1]))
+                    if not(F):
+                        if k>0: #IF we have enter in a prodcutuin rule and there is no BACKTRACK then no BACK U END HERE
+                            #Because u faild to pass the other terminal
+                            self.theEnd = True
+                        break
                 elif terminal == self.word[self.index]:
                     self.index += 1
                     F = True
@@ -49,16 +56,20 @@ class CFG:
                     if terminal == 'null':
                         F = True
                         return True
+
                     break
             
+            if self.theEnd:
+                return False
             if F:
                 return True
-            if len(self.word) - 1 <= self.index:
+            if (len(self.word) - 2 <= self.index) and F:
                 return True
+            
 
         return False
 
 A = CFG()
-x= "{ dt id { dt id { dt id } } } ;"
+x= "{ dt = intConst } ;"
 
-print(A.validate(x.split(" ")+["$"]))
+print(A.validate(x.split()+["$"]))
