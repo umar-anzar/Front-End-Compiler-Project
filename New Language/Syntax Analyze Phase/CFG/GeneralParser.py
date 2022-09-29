@@ -84,21 +84,26 @@ class CFG:
 { dt id = id } ;
 { dt id { dt id } } ;
 
-0X -> S ;
-1S -> { <A> }
-2A -> dt id <D> 
-3D -> <B> <C> | <S> | null
-4B -> = | += | *=
-5C -> intConst | floatConst
+<X> -> S ;
+<S> -> { <A> }
+<A> -> dt id <D> 
+<D> -> <B> <C> | <S> | null
+<B> -> = | += | *=
+<C> -> intConst | floatConst
 """
 A = CFG("<X>",
         {
-            "<X>" : [ ["<S>",";"] ],
-            "<S>" : [ ["{","<A>","}"] ],
-            "<A>" : [ ["dt","id","<D>"] ],
-            "<D>" : [ ["<B>","<C>"], ["<S>"],["null"] ],
-            "<B>" : [ ["="],["+="],["*="] ],
-            "<C>" : [ ["intConst"], ["floatConst"] ]
+            "<X>" : [   ["<S>",";"] ],
+
+            "<S>" : [   ["{","<A>","}"] ],
+
+            "<A>" : [   ["dt","id","<D>"] ],
+
+            "<D>" : [   ["<B>","<C>"], ["<S>"], ["null"] ],
+
+            "<B>" : [   ["="], ["+="], ["*="] ],
+
+            "<C>" : [   ["intConst"], ["floatConst"] ]
         }
     )
 x= "{ dt id { dt id { dt id { dt id { dt id *= floatConst } } }  } } ;"
