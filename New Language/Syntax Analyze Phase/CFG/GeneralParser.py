@@ -6,14 +6,12 @@ class CFG:
         self.word = []
         self.start = start
         self.cfg = cfg
-        self.isOr = True
         self.theEnd = False
 
     def reset(self):
 
         self.index = 0
         self.word = []
-        self.isOr = True
         self.theEnd = False
 
     def validate(self,word):
@@ -60,7 +58,7 @@ class CFG:
                 else: # If word doesn't match with Terminal in a rule
 
                     # Word can be neglected if the terminal is null else break to find other rule of same Non terminal
-                    if terminal == 'null': #return True because it is end condition
+                    if terminal == 'null': #return True instead break because it is end condition hence just returns True
                         return True
 
                     #First set of rule is true for word then second or further word false so no backtrack, Failed to parse
