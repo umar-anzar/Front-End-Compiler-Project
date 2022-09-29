@@ -39,34 +39,42 @@ class CFG:
             for k,terminal in enumerate(OR):
 
                 accept = False
-                if terminal[0] == '<':#if non terminal
+                if terminal[0] == '<': # if word is non-terminal
 
-                    accept = self.parser(terminal)
-                    if not(accept): # break to find other rule of same non terminal
+                    accept = self.parser(terminal) # Recursion starts
+
+                    if not(accept): # Non Terminal failed to parse hence *break* to find other rule of same non terminal
+
                         if k>0: 
                             self.theEnd = True
-                            #We have enter in a production rule and there is no BACKTRACK then no BACK
-                            #Because it failed to parse the other terminal
+                            #First Non Terminal return true this production rule is selected then second 
+                            # or further Non Terminal returns false so no backtrack, Failed to parse
+
                         break
 
-                elif terminal == self.word[self.index]:
+                elif terminal == self.word[self.index]: # If word match with Terminal in a rule
 
                     self.index += 1
                     accept = True
 
-                else:
+                else: # If word doesn't match with Terminal in a rule
 
+                    # Word can be neglected if the terminal is null else break to find other rule of same Non terminal
                     if terminal == 'null': #return True because it is end condition
                         return True
 
-                    if k>0: #First set is true then second word false so no backtrack Faild to parse
+                    #First set of rule is true for word then second or further word false so no backtrack, Failed to parse
+                    if k>0: 
                         self.theEnd = True
-
+                    
                     break
             
+            # This condition is on mean word wont parse so straightly Return False
             if self.theEnd:
                 return False
                 
+            # this return True in order to skip searching in Next OR (production rule of same Non Terminal)
+            # and it is also the here to give True if word parse correctly
             if accept:
                 return True
 
