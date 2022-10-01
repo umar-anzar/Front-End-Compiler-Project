@@ -47,16 +47,25 @@ x.y.functio().function_id (p1,p2,p3)
 - Function Statement in function
 
 ```xml
-<FN_DEC>    -> def <RET_TYPE> id <FN_ST> <THROWS> { <MST> }
+<FN_DEC>    -> def <RET_TYPE> <FN_ST> <THROWS> { <MST> }
+
 <FN_ST>     -> ( <PAR> )
 <PAR>       -> <DT_ID> id <PAR_LIST>   | null
 <PAR_LIST>  -> , <DT_ID> id <PAR_LIST> | null
 ```
 ```xml
-<DT_ID>         -> <TYPE> <ARR_TYPE>
+<RET_TYPE>  -> <DT_STR> <ARR_TYPE_LIST> id | id <RT_OBJ>
+<DT_STR>    -> dt | str
+<RT_OBJ>    -> <ARR_TYPE> id | id | null
+
+
+
 <RET_TYPE>      -> <DT_ID> | null <!--Here null is void-->
+
+<DT_ID>         -> <TYPE> <ARR_TYPE_LIST>
 <TYPE>          -> id | dt | str 
-<ARR_TYPE>      -> [ ] <ARR_TYPE> | null
+<ARR_TYPE>      -> [ ] <ARR_TYPE_LIST>
+<ARR_TYPE_LIST> -> [ ] <ARR_TYPE_LIST> | null
 ```
 
 ```
@@ -69,11 +78,26 @@ def object function_id (p1,p2,p3) {}
 - Function Statement in class
 
 ```xml
-<FN_CLASS_DEC>  -> def <RET_TYPE> <IS_ABSTRACT> 
-<IS_ABSTRACT>   -> Abstract <ACCESSMOD> id <FN_ST> <THROWS> ; | 
-...                <FINAL> <ACCESSMOD> id <FN_ST> <THROWS> { <MST> }
+<FN_CLASS_DEC>  -> def <IS_ABSTRACT>
+<IS_ABSTRACT>   -> Abstract <RET_TYPE_C> <FN_ST> <THROWS> ; | 
+...                <FINAL> <RET_TYPE> <FN_ST> <THROWS> { <MST> }
+
+<FN_ST>         -> ( <PAR> )
+<PAR>           -> <DT_ID> id <PAR_LIST>   | null
+<PAR_LIST>      -> , <DT_ID> id <PAR_LIST> | null
+```
+```xml
+<RET_TYPE-C>    -> <DT_STR> <ARR_TYPE_LIST> <ACCESSMOD> id | 
+                   id <RT_OBJ_C> | <ACCESSMOD_C> id
+
+<RT_OBJ_C>      -> <ARR_TYPE> <ACCESSMOD> id | <ACCESSMOD_C> id | 
+                   id <!--void and no access modifer--> | 
+                   null <!--no return no access modifier-->
+
+<ACCESSMOD_C>   -> private | protected
 <FINAL>         -> const | null
 ```
+
 ```
 Example:
 def function_id () { }
@@ -304,7 +328,7 @@ This CFG take transition to primitive and object type variable and array declara
 ### Array Declaration
 - Not in Class
 ```xml
-<ARR_DEC>       -> [ ] <ARR_TYPE> id = <CHOICE>
+<ARR_DEC>       -> <ARR_TYPE> id = <CHOICE>
 
 <CHOICE>        -> <REF_NEWARR> | <NEW_ARR_CONST>
 <NEW_ARR_CONST> -> new <TYPE> [ <DIM_PASS>
@@ -328,7 +352,7 @@ This CFG take transition to primitive and object type variable and array declara
 - In Class
 
 ```xml
-<ARR_CLASS_DEC> -> [ ] <ARR_TYPE> <ACCESSMOD> id = <CHOICE>
+<ARR_CLASS_DEC> -> <ARR_TYPE> <ACCESSMOD> id = <CHOICE>
 ```
 
 <hr>
