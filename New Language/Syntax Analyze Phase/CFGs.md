@@ -31,8 +31,27 @@ w: wrong
 
 <!--------------------------------------------------------------------------------------->
 
+```xml
+<IMPORTS>       -> import id <IMP_DOT> 
+<IMP_DOT>       -> dot id | null
 
+<TYPE>          -> id | dt | str 
+<ARR_TYPE>      -> [ ] <ARR_TYPE_LIST>
+<ARR_TYPE_LIST> -> [ ] <ARR_TYPE_LIST> | null
+<ACCESS_METH>   -> Parent dot | Self dot
+```
+<!--------------------------------------------------------------------------------------->
+### Access Modifier, Static and Abstract
 
+```xml
+<ACCESSMOD>     -> protected | private | null  <!--Here null is public-->
+<ABS_FINAL>     -> Abstract | const | null
+<STATIC>        -> Static
+<FINAL>         -> const | null
+```
+<hr>
+
+<!--------------------------------------------------------------------------------------->
 
 ### Function
 
@@ -52,17 +71,14 @@ x.y.functio().function_id (p1,p2,p3)
 <FN_ST>     -> ( <PAR> )
 <PAR>       -> <DT_ID> id <PAR_LIST>   | null
 <PAR_LIST>  -> , <DT_ID> id <PAR_LIST> | null
+<DT_ID>     -> <TYPE> <ARR_TYPE_LIST>
 ```
 ```xml
 <RET_TYPE>  -> <DT_STR> <ARR_TYPE_LIST> id | id <RT_OBJ>
 <DT_STR>    -> dt | str
 <RT_OBJ>    -> <ARR_TYPE> id | id | null
-
-<DT_ID>         -> <TYPE> <ARR_TYPE_LIST>
-<TYPE>          -> id | dt | str 
-<ARR_TYPE>      -> [ ] <ARR_TYPE_LIST>
-<ARR_TYPE_LIST> -> [ ] <ARR_TYPE_LIST> | null
 ```
+
 
 ```
 Example:
@@ -91,7 +107,6 @@ def object function_id (p1,p2,p3) {}
                    null <!--no return no access modifier-->
 
 <ACCESSMOD_C>   -> private | protected
-<FINAL>         -> const | null
 ```
 
 ```
@@ -172,12 +187,14 @@ This Cfg take cares of transistion to declaration of **primitive/object** type *
 **assignment** and **function call**.
 
 ```xml
-<DEC>           -> const <VAR_OBJ> | dt <VAR_ARR> | id <ASSIGN_OBJ>
+<DEC>           -> const <VAR_OBJ> | dt <VAR_ARR> | id <ASSIGN_OBJ> | <ACCESS_METH> id <ASSIGN> 
 <ASSIGN_OBJ>    -> <ASSIGN> | <VAR_ARR>            <!--DEC TO ASSIGNMENT-->
 <VAR_OBJ>       -> <TYPE> <VAR_ARR>
 
+<IS_ACMETH>     -> <ACCESS_METH> | null
+
 <VAR_ARR>       -> <ARR_DEC> | id = <INIT> <LIST>
-<INIT>          -> id <ASSIGN_EXPR> | <NEW_OBJ> | <EXPR>
+<INIT>          -> <IS_ACMETH> id <ASSIGN_EXPR> | <NEW_OBJ> | <EXPR>
 <ASSIGN_EXPR>   -> <LIST_EXPR> | <SUBSCRIPT> <LIST_EXPR> | <FN_BRACKETS> <DOT_EXPR>
 <LIST_EXPR>     -> <DOT_EXPR>  | <ASSIGN_OP> <INIT> | <INC_DEC> <Y> | <NEW_OBJ>
 <Y>             -> <ID_TO_EXPR> | null
@@ -187,8 +204,7 @@ This Cfg take cares of transistion to declaration of **primitive/object** type *
 <ASSIGN_OP>     -> = | cma
 
 
-<DEC_CLASS>     -> const <VAR_OBJ_C> | dt <VAR_ARR_C> | id <ASSIGN_OBJ_C>
-<ASSIGN_OBJ_C>  -> <ASSIGN> | <VAR_ARR_C>          
+<DEC_CLASS>     -> const <VAR_OBJ_C> | dt <VAR_ARR_C> | id <VAR_ARR_C>        
 <VAR_OBJ_C>     -> <TYPE> <VAR_ARR_C>
 <VAR_ARR_C>     -> <ARR_CLASS_DEC> | <ACCESSMOD> id = <INIT> <LIST_C>
 <LIST_C>        -> , id = <INIT> <LIST_C> | null
@@ -278,21 +294,13 @@ int [][] var = new int [2][]                    r
 <hr>
 <!--------------------------------------------------------------------------------------->
 
-### Access Modifier, Static and Abstract
 
-```xml
-<ACCESSMOD>     -> protected | private | null  <!--Here null is public-->
-<ABS_FINAL>     -> Abstract | const | null
-<STATIC>        -> Static | null
-```
-<hr>
-
-<!--------------------------------------------------------------------------------------->
 
 ### Class Declaration
 
 ```xml
 <OUTER_CLASS_DEC>   -> <ABS_FINAL> <CLASS_DEC>
+<ABS_FINAL>         -> Abstract | const | null
 <CLASS_DEC>         -> Class <ACCESSMOD> id <CLASS_PAR> ( <INHERIT> ) { <CLASS_BODY> }
 <CLASS_PAR>         -> < id > | null
 <INHERIT>           -> id <MULTI_INHERIT>   | null
@@ -312,18 +320,14 @@ int [][] var = new int [2][]                    r
 This CFG take transition to primitive and object type variable and array declaration and also inner class declarartion
 
 ```xml
-<ATTR_CLASS_DEC>    -> <STATIC> <ABS_FINAL>
-<ABS_FINAL>         -> Abstract <CLASS_DEC> | const <CLASS_OBJ_PRIM>  | <CLASS_OBJ_PRIM> 
-<CLASS_OBJ_PRIM>    -> <CLASS_DEC> | dt <VAR_ARR2> | id <OBJ_CLASS_DEC>
-
-<VAR_ARR2>          -> <ARR_CLASS_DEC> | id = <INIT> <LIST_C> 
+<ATTR_CLASS_DEC>    -> <STATIC> <IS_FINAL>
+<IS_FINAL>          -> const <VAR_OBJ_C> | dt <VAR_ARR_C> | id <VAR_ARR_C>   
+<VAR_OBJ_C>         -> <TYPE> <VAR_ARR_C>
+<VAR_ARR_C>         -> <ARR_CLASS_DEC> | <ACCESSMOD> id = <INIT> <LIST_C>
 <LIST_C>            -> , <ACCESSMOD> id = <INIT> <LIST_C> | null <!--Using DEC init but now list has access modifier-->
-
-
 ```
 
 <hr>
-
 
 
 <!--------------------------------------------------------------------------------------->
@@ -383,12 +387,11 @@ Unary   'convt(dt) !'
 ### Operands
 
 ```xml
-<OPERAND>   -> <ACCESS_METH> id <POS2> | <INC_DEC> id <POS> | ( <EXPR> ) | 
+<OPERAND>   -> <IS_ACMETH> id <POS2> | <INC_DEC> id <POS> | ( <EXPR> ) | 
                <UNARY> <OPERAND> | <CONST>
 
 <UNARY>         -> typeCast ( dt ) | not
 <FLAG>          -> pm | null
-<ACCESS_METH>   -> Parent dot | Self dot | null 
 ```
 <hr>
 
@@ -521,17 +524,3 @@ Throw
 <STR_ID>        -> str | id 
 <ASSIGN_OP>     -> = | cma
 ```
-
-this super 
-no inner class
-imports
-
-
--for loop fixed
--Declaration is combine for object too
--array dec is different
--DEC class is handled
--function statement in both is corrected
--Assignment is corrected
--finally is added
--first + - is added in expression for eg  a = +3 - 4 and a = 4 + + + - + + 3 + + 4 * 4

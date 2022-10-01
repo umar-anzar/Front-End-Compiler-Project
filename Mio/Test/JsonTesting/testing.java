@@ -8,6 +8,10 @@ class XYZ{
     
 }
 public class testing {  
+    int b =3;
+    void p(){
+        
+    }
     public static void main(String[] args){
         XYZ y = new XYZ();
         XYZ x = y = new XYZ();
