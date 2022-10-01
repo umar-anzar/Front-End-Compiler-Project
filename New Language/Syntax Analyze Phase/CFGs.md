@@ -6,10 +6,6 @@ r: right
 w: wrong
 
 
-
-
-
-
 ### Body
 
 ```xml
@@ -20,9 +16,9 @@ w: wrong
 ### Single and Multi Statements
 
 ```xml
-<SST>   -> <IF_ELSE>        | <SWITCH>          | <INC_DEC_ST> ;    | <DEC> ;       |  
- ...       <LOOP>           | <DO_WHILE> ;      | <BREAK> ;         | <RET_ST> ;    |
- ...       <CONTINUE> ;     | <THROW> ;         | <ASSIGN> ;        | <TRY_CATCH>   |
+<SST>   -> <IF_ELSE>        | <SWITCH>          | <DEC> ;       | <TRY_CATCH>   |
+ ...       <LOOP>           | <DO_WHILE> ;      | <BREAK> ;     | <RET_ST> ;    |
+ ...       <CONTINUE> ;     | <THROW> ;
            
 
 <MST>   -> <SST> <MST> | null 
@@ -300,7 +296,6 @@ int [][] var = new int [2][]                    r
 
 ```xml
 <OUTER_CLASS_DEC>   -> <ABS_FINAL> <CLASS_DEC>
-<ABS_FINAL>         -> Abstract | const | null
 <CLASS_DEC>         -> Class <ACCESSMOD> id <CLASS_PAR> ( <INHERIT> ) { <CLASS_BODY> }
 <CLASS_PAR>         -> < id > | null
 <INHERIT>           -> id <MULTI_INHERIT>   | null
@@ -314,6 +309,11 @@ int [][] var = new int [2][]                    r
 <ATTR_FUNC>     -> <FN_CLASS_DEC> | <ATTR_CLASS_DEC> ; 
 ```
 
+### Object Declaration
+```xml
+<NEW_OBJ>       -> new <TYPE> <CONSTR_ARR> 
+<CONSTR_ARR>    -> <FN_BRACKETS> | [ <DIM_PASS>
+```
 
 ### Attribute Declaration in class
 
@@ -496,13 +496,9 @@ Throw
 <hr>
 
 
-
-
 <!--------------------------------------------------------------------------------------->
 
 
-
-  
 <br>
 <hr><hr><hr>
 
@@ -513,14 +509,8 @@ Throw
 -->
 
 ```xml
-<TYPE>          -> id | dt | str 
-<FINAL>         -> const | null
-<ACCESSMOD>     -> protected | private | null
-<ABS_FINAL>     -> Abstract | const | null
-<STATIC>        -> Static | null
 <FN_ST>         -> ( <PAR> ) <!--used in function declaration-->
 <FN_BRACKETS>   -> ( <ARG> ) <!--used in function calling-->
 <NEW_OBJ>       -> new <TYPE> <CONSTR_ARR>  <!--after = or cma(+= etc) also in array const-->
-<STR_ID>        -> str | id 
 <ASSIGN_OP>     -> = | cma
 ```
