@@ -28,6 +28,7 @@ public final class testingOmer {
         cfg.put("<D>" , new String[][] { {"<B>","<C>"}, {"<S>"},{"null"} } );
         cfg.put("<B>", new String[][] { {"="},{"+="},{"*="} } );
         cfg.put("<C>", new String[][] { {"intConst"}, {"floatConst"} } );
+          
 
         
 
