@@ -58,10 +58,6 @@ x.y.functio().function_id (p1,p2,p3)
 <DT_STR>    -> dt | str
 <RT_OBJ>    -> <ARR_TYPE> id | id | null
 
-
-
-<RET_TYPE>      -> <DT_ID> | null <!--Here null is void-->
-
 <DT_ID>         -> <TYPE> <ARR_TYPE_LIST>
 <TYPE>          -> id | dt | str 
 <ARR_TYPE>      -> [ ] <ARR_TYPE_LIST>
@@ -80,14 +76,14 @@ def object function_id (p1,p2,p3) {}
 ```xml
 <FN_CLASS_DEC>  -> def <IS_ABSTRACT>
 <IS_ABSTRACT>   -> Abstract <RET_TYPE_C> <FN_ST> <THROWS> ; | 
-...                <FINAL> <RET_TYPE> <FN_ST> <THROWS> { <MST> }
+...                <FINAL> <RET_TYPE_C> <FN_ST> <THROWS> { <MST> }
 
 <FN_ST>         -> ( <PAR> )
 <PAR>           -> <DT_ID> id <PAR_LIST>   | null
 <PAR_LIST>      -> , <DT_ID> id <PAR_LIST> | null
 ```
 ```xml
-<RET_TYPE-C>    -> <DT_STR> <ARR_TYPE_LIST> <ACCESSMOD> id | 
+<RET_TYPE_C>    -> <DT_STR> <ARR_TYPE_LIST> <ACCESSMOD> id | 
                    id <RT_OBJ_C> | <ACCESSMOD_C> id
 
 <RT_OBJ_C>      -> <ARR_TYPE> <ACCESSMOD> id | <ACCESSMOD_C> id | 
@@ -176,14 +172,13 @@ This Cfg take transistion to declaration of **primitive** and **object** type **
 **assignment** and **function call**.
 
 ```xml
-<DEC>           -> const <VAR_OBJ>
-<DEC>           -> dt <VAR_ARR> | id <ASSIGN_OBJ>
+<DEC>           -> const <VAR_OBJ> | dt <VAR_ARR> | id <ASSIGN_OBJ>
 <ASSIGN_OBJ>    -> <ASSIGN> | <OBJ_DEC>             <!--DEC TO ASSIGNMENT-->
 <VAR_OBJ>       -> <OBJ_DEC> | dt <VAR_ARR>
 <VAR_ARR>       -> <ARR_DEC> | id = <INIT> <LIST>
 <INIT>          -> id <ASSIGN_EXPR> | <EXPR>
 <ASSIGN_EXPR>   -> <LIST_EXPR> | <SUBSCRIPT> <LIST_EXPR> | <FN_BRACKETS> <DOT_EXPR>
-<LIST_EXPR>     -> <ASSIGN_OP> <INIT> | <INC_DEC> <Y> | <DOT_EXPR>
+<LIST_EXPR>     -> <DOT_EXPR>  | <ASSIGN_OP> <INIT> | <INC_DEC> <Y>
 <Y>             -> <ID_TO_EXPR> | null
 <DOT_EXPR>      -> dot id <ASSIGN_EXPR> | <ID_TO_EXPR> | null
 <ID_TO_EXPR>    -> <J1> <I1> <H1> <G1> <F1> <EXPR>
@@ -341,13 +336,21 @@ This CFG take transition to primitive and object type variable and array declara
 
 <DIM_PASS>      -> <EXPR> ] <MUL_ARR_DEC> | ] <EMP_ARR_DEC> <ARR_CONST>
 
-<MUL_ARR_DEC>   -> [ <LEN_OF_ARR> ] <MUL_ARR_DEC> | null
+<MUL_ARR_DEC>   -> [ <LEN_OF_ARR> | null
 <EMP_ARR_DEC>   -> [ ] <EMP_ARR_DEC> | null
-<LEN_OF_ARR>    -> <EXPR> | null
+<LEN_OF_ARR>    -> <EXPR> ] <MUL_ARR_DEC> | ] <EMP_ARR_DEC>
 
 <ARR_CONST>     -> { <ARR_ELEMT> }
 <ARR_ELEMT>     -> <EXPR> <EXPR_LIST>  | <ARR_CONST> <EXPR_LIST> | null 
 <EXPR_LIST>     -> , <ARR_ELEMT> <EXPR_LIST> | null
+```
+```
+Example:
+int [][] var = new int [][] {{1},{2,4}}     r
+int [][] var = new int [][] {{1},{2,4}}     r
+int [][] var = new int [2][]                r
+int [][][] var = new int [2][3][]           r
+int [][][] var = new int [2][][1]           w
 ```
 - In Class
 
