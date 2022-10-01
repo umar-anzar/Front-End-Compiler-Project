@@ -30,7 +30,9 @@ public class ValidWords {
     
     //{{value, classpart}}
     static String[][] keyword = {
-            
+        
+        {"def", "def"}, 
+        
         {"convt", "typeCast"},
                 
         {"if", "if"}, 

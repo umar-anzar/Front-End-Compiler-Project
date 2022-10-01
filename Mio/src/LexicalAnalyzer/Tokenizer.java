@@ -392,7 +392,7 @@ public class Tokenizer {
                 token.setError("Invalid dot");
            }
         }
-        else if (match("[;,:{([})]]", String.valueOf(tokenString.charAt(0)))){
+        else if (match("[;,:{(})]|(\\[)|(\\])", String.valueOf(tokenString.charAt(0)))){
             if(ValidWords.isPunctuator(tokenString)){
                 token = new TokenClass(tokenString, tokenString, line);
             }

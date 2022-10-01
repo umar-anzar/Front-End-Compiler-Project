@@ -26,8 +26,8 @@ public class TokenClass {
     static List <TokenClass> tokenList;
     
     // Object Attributes
-    String classPart;
-    String valuePart;
+    String classP;
+    String valueP;
     int line;
     String error;
     
@@ -35,11 +35,11 @@ public class TokenClass {
     //Constructor--------------------------------------------------------------
         public TokenClass(String classPart, String valuePart, int line) {
 
-            this.classPart = classPart;
+            this.classP = classPart;
             this.line = line;
             // Class part is not equal to value then add value else Dont
             if ( !(classPart.equals(valuePart)) ) {
-                this.valuePart = valuePart;
+                this.valueP = valuePart;
             }
         }
     
@@ -116,7 +116,7 @@ public class TokenClass {
         // When Print Show attributes
         @Override
         public String toString() {
-            String returnString = this.classPart+"-"+this.valuePart+"-"+this.line;
+            String returnString = this.classP+"-"+this.valueP+"-"+this.line;
             if (this.error != null){
                 returnString += "-"+this.error;
             }

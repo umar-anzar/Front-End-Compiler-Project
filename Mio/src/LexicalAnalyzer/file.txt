@@ -1,3 +1,4 @@
+@@ 
 Class $Izhan (omer) {
     "\\"ad
 xa'\\'y
@@ -7,9 +8,9 @@ a<=<<4::3
     point n = 34.05;
     bool var = true;
     
-    @@ methods which are awesome
+    methods which are awesome
 
-    and I LOVE METHODS@@
+    and I LOVE METHODS
     char c = '\''
     String const $Hey = "hello hello how are you sir \"Muqsit\\ \" ";
 
@@ -22,4 +23,9 @@ a<=<<4::3
         return this.Hello * ( n * .6)/ 4.8
     
     }
+}
+@@
+
+def str[][] $var ( int p ) {
+
 }

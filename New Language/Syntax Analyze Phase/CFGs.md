@@ -496,9 +496,10 @@ Throw
 ### Exception Handler
 
 ```xml
-<TRY_CATCH>     -> test { <MST> } except <ERROR_TYPE> { <MST> }
+<TRY_CATCH>     -> test { <MST> } except <ERROR_TYPE> { <MST> } <FINALLY>
 <ERROR_TYPE>    -> ( id id )
 <THROWS>        -> raises id | null
+<FINALLY>       -> finally { <MST> } | null
 ```
 <hr>
 
