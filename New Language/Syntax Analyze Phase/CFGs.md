@@ -165,25 +165,33 @@ which word this cfg going to parse
 
 ### Declaration and Initialization
 
-In Main Function
+- Not in Class
 There is no access modifer nor static
 
-This Cfg take transistion to declaration of **primitive** and **object** type **variable** and **array**, and also towards variable 
+This Cfg take cares of transistion to declaration of **primitive/object** type **variable** and **array**, and also towards variable 
 **assignment** and **function call**.
 
 ```xml
 <DEC>           -> const <VAR_OBJ> | dt <VAR_ARR> | id <ASSIGN_OBJ>
-<ASSIGN_OBJ>    -> <ASSIGN> | <OBJ_DEC>             <!--DEC TO ASSIGNMENT-->
-<VAR_OBJ>       -> <OBJ_DEC> | dt <VAR_ARR>
+<ASSIGN_OBJ>    -> <ASSIGN> | <VAR_ARR>            <!--DEC TO ASSIGNMENT-->
+<VAR_OBJ>       -> <TYPE> <VAR_ARR>
+
 <VAR_ARR>       -> <ARR_DEC> | id = <INIT> <LIST>
-<INIT>          -> id <ASSIGN_EXPR> | <EXPR>
+<INIT>          -> id <ASSIGN_EXPR> | <NEW_OBJ> | <EXPR>
 <ASSIGN_EXPR>   -> <LIST_EXPR> | <SUBSCRIPT> <LIST_EXPR> | <FN_BRACKETS> <DOT_EXPR>
-<LIST_EXPR>     -> <DOT_EXPR>  | <ASSIGN_OP> <INIT> | <INC_DEC> <Y>
+<LIST_EXPR>     -> <DOT_EXPR>  | <ASSIGN_OP> <INIT> | <INC_DEC> <Y> | <NEW_OBJ>
 <Y>             -> <ID_TO_EXPR> | null
 <DOT_EXPR>      -> dot id <ASSIGN_EXPR> | <ID_TO_EXPR> | null
 <ID_TO_EXPR>    -> <J1> <I1> <H1> <G1> <F1> <EXPR>
 <LIST>          -> , id = <INIT> <LIST> | null
 <ASSIGN_OP>     -> = | cma
+
+
+<DEC_CLASS>     -> const <VAR_OBJ_C> | dt <VAR_ARR_C> | id <ASSIGN_OBJ_C>
+<ASSIGN_OBJ_C>  -> <ASSIGN> | <VAR_ARR_C>          
+<VAR_OBJ_C>     -> <TYPE> <VAR_ARR_C>
+<VAR_ARR_C>     -> <ARR_CLASS_DEC> | <ACCESSMOD> id = <INIT> <LIST_C>
+<LIST_C>        -> , id = <INIT> <LIST_C> | null
 ```
 
 ```
@@ -200,11 +208,11 @@ x = y = a + 5, t = 3;                       w
 This Cfg is called by `<DEC>` and it handles assignment and function call.
 
 ```xml
-<ASSIGN>        -> <DOT_ID3> <TWO_ASSIGN> | <SUBSCRIPT> <DOT_ID3> <TWO_ASSIGN> | 
-...                <FN_BRACKETS> <DOT_ID3>
-<DOT_ID3>       -> dot id <ASSIGN> | null
-<TWO_ASSIGN>    -> <INC_DEC> | <ASSIGN_OP> <OBJ_PRIMITIVE> 
-<OBJ_PRIMITIVE> -> <NEW_OBJ> | <INIT>
+<ASSIGN>        -> <DOT_ID3> | <SUBSCRIPT> <DOT_ID3> | 
+...                <FN_BRACKETS> <DOT_ID4>
+<DOT_ID3>       -> dot id <ASSIGN> | <TWO_ASSIGN>
+<DOT_ID4>       -> dot id <ASSIGN> | null
+<TWO_ASSIGN>    -> <INC_DEC> | <ASSIGN_OP> <INIT>
 ```
 
 ```
@@ -213,12 +221,61 @@ x += 2 + 3 * a          r
 x = y -= a + 5;         r
 x += y *= int <- a + 5; r
 x = new Q(x,y);         r
+x = y = z = new Q(x,y); r
+x = z = new Q(x,y); = y w
 x = int <- y = a + 5;   w
 x = y = a + 5, t = 3;   w
 ```
+
 <hr>
 
+<!--------------------------------------------------------------------------------------->
 
+### Array Declaration
+
+```xml
+<ARR_DEC>       -> <ARR_TYPE> id = <CHOICE>
+<ARR_CLASS_DEC> -> <ARR_TYPE> <ACCESSMOD> id = <CHOICE>
+
+<CHOICE>        -> <REF_NEWARR> | <NEW_ARR_CONST>
+<NEW_ARR_CONST> -> new <TYPE> [ <DIM_PASS>
+
+<REF_NEWARR>    -> id <POSARR> | <NEW_ARR_CONST>
+<POSARR>        -> <DOT_ARR> <MORE_REF_STR> | <SUBSCRIPT> <DOT_ARR> <MORE_REF_ARR> | 
+...                <FN_BRACKETS> <DOT_ARR> 
+<DOT_ARR>       -> dot id <POSARR> | null
+<MORE_REF_STR>  -> = <REF_NEWARR>  | null 
+
+<DIM_PASS>      -> <EXPR> ] <MUL_ARR_DEC> | ] <EMP_ARR_DEC> <ARR_CONST>
+
+<MUL_ARR_DEC>   -> [ <LEN_OF_ARR> | null
+<EMP_ARR_DEC>   -> [ ] <EMP_ARR_DEC> | null
+<LEN_OF_ARR>    -> <EXPR> ] <MUL_ARR_DEC> | ] <EMP_ARR_DEC>
+
+<ARR_CONST>     -> { <ARR_ELEMT> }
+<ARR_ELEMT>     -> <EXPR> <EXPR_LIST>  | <ARR_CONST> <EXPR_LIST> | null 
+<EXPR_LIST>     -> , <ARR_ELEMT> <EXPR_LIST> | null
+```
+
+- Not in Class
+```
+Example:
+int [][] var = new int [][] {{1},{2,4}}     r
+int [][] var = new int [][] {{1},{2,4}}     r
+int [][] var = new int [2][]                r
+int [][][] var = new int [2][3][]           r
+int [][][] var = new int [2][][1]           w
+int [][] var = new int [2][]  {}            w
+```
+- In Class
+```
+Example:
+int [][] $var = new int [][] {{1},{2,4}}        r
+int [][] $$var = new int [][] {{1},{2,4}}       r
+int [][] var = new int [2][]                    r
+```
+
+<hr>
 <!--------------------------------------------------------------------------------------->
 
 ### Access Modifier, Static and Abstract
@@ -267,98 +324,7 @@ This CFG take transition to primitive and object type variable and array declara
 
 <hr>
 
-<!--------------------------------------------------------------------------------------->
 
-
-
-### Object Declaration
-
-- Not in Class
-```xml
-<OBJ_DEC>       -> id <IS_ARR>      <!--2nd rule is in string declaration-->
-<IS_ARR>        -> <ARR_DEC> | id = <REF_NEWOBJ>
-<REF_NEWOBJ>    -> id <POSOBJ> | <NEW_OBJ> 
-<POSOBJ>        -> <DOT_OBJ> <MORE_REF> | <SUBSCRIPT> <DOT_OBJ> <MORE_REF> | 
-...                <FN_BRACKETS> <DOT_OBJ> 
-<DOT_OBJ>       -> dot id <POSOBJ> | null
-<MORE_REF>      -> = <REF_NEWOBJ>  | null
-<NEW_OBJ>       -> new <TYPE> <CONSTR_ARR> 
-<CONSTR_ARR>    -> <FN_BRACKETS> | [ <DIM_PASS>
-```
-
-- In Class
-```xml
-<OBJ_CLASS_DEC> -> id <IS_ARR_CLASS>   <!--2nd rule is in string declaration-->
-<IS_ARR_CLASS>  -> <ARR_CLASS_DEC> | <ACCESSMOD> id = <REF_NEWOBJ>
-```
-
-<hr>
-
-
-<!--------------------------------------------------------------------------------------->
-
-### String Declaration
-- Not in Class
-```xml
-<OBJ_DEC>       -> str <ARR_STR>
-<ARR_STR>       -> <ARR_DEC> | id = <REF_NEWSTR> 
-<REF_NEWSTR>    -> id <POSSTR> | <NEW_STR_CONST>
-<POSSTR>        -> <DOT_STR> <MORE_REF_STR> | <SUBSCRIPT> <DOT_STR> <MORE_REF_STR> | 
-...                <FN_BRACKETS> <DOT_STR> 
-<DOT_STR>       -> dot id <POSSTR> | null
-<MORE_REF_STR>  -> = <REF_NEWSTR>  | null
-
-<NEW_STR_CONST> -> new str <FN_BRACKETS> | strConst
-```
-
-- In Class
-```xml
-<OBJ_CLASS_DEC> -> str <ARR_STR_CLASS> 
-<ARR_STR_CLASS> -> <ARR_CLASS_DEC> | <ACCESSMOD> id = <REF_NEWSTR> 
-```
-<hr>
-
-<!--------------------------------------------------------------------------------------->
-
-### Array Declaration
-- Not in Class
-```xml
-<ARR_DEC>       -> <ARR_TYPE> id = <CHOICE>
-
-<CHOICE>        -> <REF_NEWARR> | <NEW_ARR_CONST>
-<NEW_ARR_CONST> -> new <TYPE> [ <DIM_PASS>
-
-<REF_NEWARR>    -> id <POSARR> | <NEW_ARR_CONST>
-<POSARR>        -> <DOT_ARR> <MORE_REF_STR> | <SUBSCRIPT> <DOT_ARR> <MORE_REF_ARR> | 
-...                <FN_BRACKETS> <DOT_ARR> 
-<DOT_ARR>       -> dot id <POSARR> | null
-<MORE_REF_STR>  -> = <REF_NEWARR>  | null 
-
-<DIM_PASS>      -> <EXPR> ] <MUL_ARR_DEC> | ] <EMP_ARR_DEC> <ARR_CONST>
-
-<MUL_ARR_DEC>   -> [ <LEN_OF_ARR> | null
-<EMP_ARR_DEC>   -> [ ] <EMP_ARR_DEC> | null
-<LEN_OF_ARR>    -> <EXPR> ] <MUL_ARR_DEC> | ] <EMP_ARR_DEC>
-
-<ARR_CONST>     -> { <ARR_ELEMT> }
-<ARR_ELEMT>     -> <EXPR> <EXPR_LIST>  | <ARR_CONST> <EXPR_LIST> | null 
-<EXPR_LIST>     -> , <ARR_ELEMT> <EXPR_LIST> | null
-```
-```
-Example:
-int [][] var = new int [][] {{1},{2,4}}     r
-int [][] var = new int [][] {{1},{2,4}}     r
-int [][] var = new int [2][]                r
-int [][][] var = new int [2][3][]           r
-int [][][] var = new int [2][][1]           w
-```
-- In Class
-
-```xml
-<ARR_CLASS_DEC> -> <ARR_TYPE> <ACCESSMOD> id = <CHOICE>
-```
-
-<hr>
 
 <!--------------------------------------------------------------------------------------->
 
@@ -408,7 +374,7 @@ Unary   'convt(dt) !'
 <I1>        -> mdm <J> <I1>   | null
 <J>         -> <K> <J1> 
 <J1>        -> power <K> <J1> | null
-<K>         -> <OPERANDS>
+<K>         -> <FLAG> <OPERANDS>
 ```
 <hr>
 
@@ -417,12 +383,32 @@ Unary   'convt(dt) !'
 ### Operands
 
 ```xml
-<OPERAND>   -> id <POS2>            | <INC_DEC> id <POS>    | ( <EXPR> ) | 
-               <UNARY> <OPERAND>    | <CONST>
+<OPERAND>   -> <ACCESS_METH> id <POS2> | <INC_DEC> id <POS> | ( <EXPR> ) | 
+               <UNARY> <OPERAND> | <CONST>
 
-<UNARY>     -> typeCast ( dt ) | not
+<UNARY>         -> typeCast ( dt ) | not
+<FLAG>          -> pm | null
+<ACCESS_METH>   -> Parent dot | Self dot | null 
 ```
 <hr>
+
+<!--------------------------------------------------------------------------------------->
+
+
+###  Increment Decrement
+
+```xml
+<INC_DEC> -> ++ | --
+```
+
+
+### Constant
+```xml
+<CONST> -> intConst | floatConst | charConst | boolConst | 
+           strConst
+```
+<hr>
+
 
 
 <!--------------------------------------------------------------------------------------->
@@ -463,8 +449,11 @@ While/do-while loop
 
 For-loop
 ```xml
-<FOR_ST>    -> thru ( dt id in <F1> ) <BODY>
-<F1>        -> id | ( <EXPR> , <EXPR> , <EXPR> )
+<FOR_ST>    -> thru ( dt id in <FOR_ARG> ) <BODY>
+<FOR_ARG>   -> id <POS3> | ( <EXPR> , <EXPR> , <EXPR> )
+
+<POS3>      -> <DOT_ID5> | <SUBSCRIPT> <DOT_ID5> | <FN_BRACKETS> <DOT_ID5>
+<DOT_ID5>   -> dot id <POS3> | null
 ```
 <hr>
 
@@ -504,24 +493,6 @@ Throw
 <hr>
 
 
-<!--------------------------------------------------------------------------------------->
-
-
-###  Increment Decrement
-
-```xml
-<INC_DEC> -> ++ | --
-```
-
-
-### Constant
-```xml
-<CONST> -> intConst | floatConst | charConst | boolConst | 
-           strConst
-```
-<hr>
-
-
 
 
 <!--------------------------------------------------------------------------------------->
@@ -550,3 +521,17 @@ Throw
 <STR_ID>        -> str | id 
 <ASSIGN_OP>     -> = | cma
 ```
+
+this super 
+no inner class
+imports
+
+
+-for loop fixed
+-Declaration is combine for object too
+-array dec is different
+-DEC class is handled
+-function statement in both is corrected
+-Assignment is corrected
+-finally is added
+-first + - is added in expression for eg  a = +3 - 4 and a = 4 + + + - + + 3 + + 4 * 4

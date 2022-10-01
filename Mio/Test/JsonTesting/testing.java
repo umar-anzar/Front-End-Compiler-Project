@@ -4,15 +4,17 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-
+class XYZ{
+    
+}
 public class testing {  
     public static void main(String[] args){
+        XYZ y = new XYZ();
+        XYZ x = y = new XYZ();
+        int a = 4;
+        int b = 4 + + + - + + 3 + + 4 * 4;
         
-    int i=1;    
-    do
-        System.out.println(i);    
-    
-    while(i<=10);  
+        
     }
 }  
 
