@@ -5,6 +5,11 @@ string = """
 <FN_ST>     -> ( <PAR> )
 <PAR>       -> <DT_ID> id <PAR_LIST>   | null
 <PAR_LIST>  -> , <DT_ID> id <PAR_LIST> | null
+
+<DT_ID>         -> <TYPE> <ARR_TYPE>
+<RET_TYPE>      -> <DT_ID> | null
+<TYPE>          -> id | dt | str 
+<ARR_TYPE>      -> [ ] <ARR_TYPE> | null
 """
 
 for strx in string.split('\n'):
@@ -38,12 +43,12 @@ for strx in string.split('\n'):
             Z+=i
 
 
-        print('put(\"'+str(y[0]).strip()+'\",',end="")
+        print('cfg.put(\"'+str(y[0]).strip()+'\",',end="")
         print(' new String[][]',end=" ")
         print(Z,end=" );")
         print()
         #("<X>", new String[][] { {"<S>",";"} } );
 
     except IndexError:
-        pass
+        print()
     
