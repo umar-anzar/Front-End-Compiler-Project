@@ -27,5 +27,6 @@ a<=<<4::3
 @@
 
 def str[][] $var ( int p ) {
-
+    const ABC b = NaN;
+    int[] b = new int[3][];
 }

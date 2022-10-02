@@ -64,6 +64,7 @@ public class ValidWords {
  
         {"true",BOOLEANCONST},
         {"false",BOOLEANCONST},
+        {"NaN","NaN"},
         
         {"Class", "Class"},
         {"Abstract", "Abstract"},

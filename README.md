@@ -12,22 +12,22 @@ Project: Front End Compiler Project
 
 
 ## Language New Keywords
-| Java/C#  | Mio        | Java/C#           | Mio                    |
-|----------|------------|-------------------|------------------------|
-| if       | if         | int               | int                    |
-| else     | else       | double            | point                  |
-| while    | loop till  | char              | char                   |
-| do       | do till    | byte              | excluded               |
-| for      | excluded   | float             | excluded               |
-| forEach  | loop thru  | string            | str                    |
-| switch   | shift      | boolean           | bool                   |
-| case     | state      | long              | excluded               |
-| default  | default    | dynamic /var      | val                    |
-| continue | cont       | comment           | @comment               |
-| break    | stop       | comment           | @@multi-line comment@@ |
-| return   | ret        | line terminator;  | ;                      |
-| void     | implicit   |                   | def                    |
-| main     | begin      |                   |                        |
+| Java/C#  | Mio       | Java/C#          | Mio                    |
+|----------|-----------|------------------|------------------------|
+| if       | if        | int              | int                    |
+| else     | else      | double           | point                  |
+| while    | loop till | char             | char                   |
+| do       | do till   | byte             | excluded               |
+| for      | excluded  | float            | excluded               |
+| forEach  | loop thru | string           | str                    |
+| switch   | shift     | boolean          | bool                   |
+| case     | state     | long             | excluded               |
+| default  | default   | dynamic /var     | val                    |
+| continue | cont      | comment          | @comment               |
+| break    | stop      | comment          | @@multi-line comment@@ |
+| return   | ret       | line terminator; | ;                      |
+| void     | implicit  |                  | def                    |
+| main     | begin     | true/false       | true/false             |
 
 | Java/C#    | Mio                         | Java/C# | Mio     |
 |------------|-----------------------------|---------|---------|
@@ -39,7 +39,7 @@ Project: Front End Compiler Project
 | implements | no interface                |         | in      |
 | this       | Self                        | import  | import  |
 | super      | Parent                      | package | package |
-| public     | implicit                    |         |         |
+| public     | implicit                    | null    | NaN     |
 | private    | $$identiferName             |         |         |
 | protected  | $identiferName              |         |         |
 | static     | static                      |         |         |
@@ -83,9 +83,9 @@ Same:
 | val   |        |   |
 | bool  |        |   |
 
-| if | else | loop | till | thru | do | class |
-|----|------|------|------|------|----|-------|
-| if | else | loop | till | thru | do | Class |
+| if | else | loop | till | thru | do | class | boolConst  | null |
+|----|------|------|------|------|----|-------|------------|------|
+| if | else | loop | till | thru | do | Class | true/false | NaN  |
 
 | switch | case | break | continue | return | static |
 |--------|------|-------|----------|--------|--------|

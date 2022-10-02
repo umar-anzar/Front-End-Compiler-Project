@@ -1,0 +1,3 @@
+NaN Added DONE
+CHECK A[] x ;  DONE
+
