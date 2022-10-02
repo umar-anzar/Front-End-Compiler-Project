@@ -224,8 +224,7 @@ which word this cfg going to parse
 - Not in Class
 There is no access modifer nor static
 
-This Cfg take cares of transistion to declaration of **primitive/object** type **variable** and **array**, and also towards variable 
-**assignment** and **function call**.
+This CFG take cares of declaration of **primitive/object** type **variable** and takes transistion to **array** `<ARR_DEC>`, and also towards **assignment** `<ASSIGN>`.
 
 ```xml
 <DEC>           -> const <TYPE> <VAR_ARR> | dt <VAR_ARR> | id <ASSIGN_OBJ> | <ACCESS_METH> id <ASSIGN> 
@@ -265,7 +264,7 @@ x = y = a + 5, t = 3;                       w
 
 ### Assignment
 
-- This Cfg is called by `<DEC>` and it handles assignment and function call.
+- This CFG is called by `<DEC>` and it handles **assignment** and **function call**.
 
 ```xml
 <ASSIGN>        -> <DOT_ID3> | <SUBSCRIPT> <DOT_ID3> | 
@@ -475,13 +474,13 @@ Unary   'convt(dt) !'
 
 ### Conditional Statements
 
-if-else CFG
+if-else
 ```xml
 <IF_ELSE>   -> if ( <EXPR> ) <body> <OELSE>
 <OELSE>     -> else <body> | null
 ```
 
-switch-case statement:
+switch-case
 ```xml
 <SWITCH>    -> shift ( <EXPR> ) { <STATE> }
 <STATE>     -> state <EXPR> : <TWO_MST> <STATE> | <DEFAULT> 
