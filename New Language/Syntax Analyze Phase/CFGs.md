@@ -224,7 +224,7 @@ which word this cfg going to parse
 - Not in Class
 There is no access modifer nor static
 
-This CFG take cares of declaration of **primitive/object** type **variable** and takes transistion to **array** `<ARR_DEC>`, and also towards **assignment** `<ASSIGN>`.
+This CFG take cares of declaration of **primitive/object** type **variable** and takes transistion to **array declaration** `<ARR_DEC>`, and also towards **assignment** `<ASSIGN>`.
 
 ```xml
 <DEC>           -> const <TYPE> <VAR_ARR> | dt <VAR_ARR> | id <ASSIGN_OBJ> | <ACCESS_METH> id <ASSIGN> 
