@@ -23,7 +23,6 @@ r: right
 w: wrong
 
 
-
 ### Start Structure
 ```xml
 <START>     -> <PACKAGE> <ST1> <ST_BODY>
@@ -111,9 +110,9 @@ w: wrong
 ```xml
 <FN_DEC>    -> def <RET_TYPE> <FN_ST> <THROWS> { <MST> }
 
-<FN_ST>     -> ( <PAR> )
-<PAR>       -> <DT_ID> id <PAR_LIST>   | null
-<PAR_LIST>  -> , <DT_ID> id <PAR_LIST> | null
+<FN_ST>     -> ( <PAR>
+<PAR>       -> <DT_ID> id <PAR_LIST>   | )
+<PAR_LIST>  -> , <DT_ID> id <PAR_LIST> | )
 <DT_ID>     -> <TYPE> <ARR_TYPE_LIST>
 ```
 ```xml
@@ -165,17 +164,17 @@ def const object $function_id (p1,p2,p3) {}
 ```xml
 <OUTER_CLASS_DEC>   -> <CLASS_DEC> | Abstract <CLASS_DEC> | const <CLASS_GLOBAL>
 <CLASS_GLOBAL>      -> <CLASS_DEC> | <VAR_OBJ_G>
-<CLASS_DEC>         -> Class <NO_PRIVATE> id <CLASS_PAR> ( <INHERIT> ) { <CLASS_BODY> }
+<CLASS_DEC>         -> Class <NO_PRIVATE> id <CLASS_PAR> ( <INHERIT>
 <NO_PRIVATE>        -> protected | null
 <CLASS_PAR>         -> < id > | null
-<INHERIT>           -> id <MULTI_INHERIT>   | null
-<MULTI_INHERIT>     -> , id <MULTI_INHERIT> | null
+<INHERIT>           -> id <MULTI_INHERIT>   | )  { <CLASS_BODY> 
+<MULTI_INHERIT>     -> , id <MULTI_INHERIT> | )  { <CLASS_BODY> 
 ```
 
 ### Class Body 
 
 ```xml
-<CLASS_BODY>    -> <ATTR_FUNC> <CLASS_BODY> | null
+<CLASS_BODY>    -> <ATTR_FUNC> <CLASS_BODY> | }
 <ATTR_FUNC>     -> <FN_CLASS_DEC> | <ATTR_CLASS_DEC>
 ```
 
@@ -254,18 +253,17 @@ This CFG take cares of declaration of **primitive/object** type **variable** and
 
 <VAR_ARR>       -> <ARR_DEC> | id <IS_INIT>
 <IS_INIT>       -> = <INIT> <LIST> | ;
-<INIT>          -> <IS_ACMETH> id <ASSIGN_EXPR> | <NEW_OBJ> | <OPER_TO_EXPR>
+<INIT>          -> <IS_ACMETH> id <ASSIGN_EXPR> | <NEW_OBJ> | <OPER_TO_EXPR> | <FLAG> <OPERAND>
 <IS_ACMETH>     -> <ACCESS_METH> | null
 
-<OPER_TO_EXPR>  -> <FLAG> <INC_DEC> id <POS> <Y>    | <FLAG> ( <EXPR> ) <Y> | 
-                   <FLAG> <UNARY> <OPERAND> <Y>     | <FLAG> <CONST> <Y>    | 
-                   pm <IS_ACMETH> id <POS2> <Y>     <!--compulsory flag pm-->
+<OPER_TO_EXPR>  -> <INC_DEC> id <POS> <ID_TO_EXPR>    | ( <EXPR> ) <ID_TO_EXPR> | 
+                   <UNARY> <OPERAND> <ID_TO_EXPR>     | <CONST> <ID_TO_EXPR>   | 
+                   <FLAG> <IS_ACMETH> id <POS2> <ID_TO_EXPR>    <!--compulsory flag pm-->
 
-<ASSIGN_EXPR>   -> <LIST_EXPR> | <SUBSCRIPT> <LIST_EXPR> | <FN_BRACKETS> <DOT_EXPR>
-<LIST_EXPR>     -> <DOT_EXPR>  | <ASSIGN_OP> <INIT> | <INC_DEC> <Y> | <NEW_OBJ>
-<Y>             -> <ID_TO_EXPR> | null
-<DOT_EXPR>      -> dot id <ASSIGN_EXPR> | <ID_TO_EXPR> | null
-<ID_TO_EXPR>    -> <J1> <I1> <H1> <G1> <F1> <EXPR>
+<ASSIGN_EXPR>   -> <DOT_EXPR> | <SUBSCRIPT> <DOT_EXPR> | <FN_BRACKETS> <DOT_EXPR2>
+<DOT_EXPR>      -> dot id <ASSIGN_EXPR> | <ASSIGN_OP> <INIT> | <INC_DEC> <ID_TO_EXPR> | <NEW_OBJ> | <ID_TO_EXPR> 
+<DOT_EXPR2>     -> dot id <ASSIGN_EXPR> | <ID_TO_EXPR> | null
+<ID_TO_EXPR>    -> <J1> <I1> <H1> <G1> <F1> <EXPR1>
 <LIST>          -> , id = <INIT> <LIST> | ;
 <ASSIGN_OP>     -> = | cma
 ```
@@ -454,7 +452,8 @@ Unary   'convt(dt) !'
 <I1>        -> mdm <J> <I1>   | null
 <J>         -> <K> <J1> 
 <J1>        -> power <K> <J1> | null
-<K>         -> <FLAG> <OPERANDS>
+<K>         -> <IS_FLAG>
+<IS_FLAG>   -> <FLAG> <OPERANDS> | <OPERANDS>
 ```
 
 
@@ -468,8 +467,8 @@ Unary   'convt(dt) !'
 <OPERAND>   -> <IS_ACMETH> id <POS2> | <INC_DEC> id <POS> | ( <EXPR> ) | 
                <UNARY> <OPERAND> | <CONST>
 
-<UNARY>         -> typeCast ( dt ) | not
-<FLAG>          -> pm | null
+<UNARY>     -> typeCast ( dt ) | not
+<FLAG>      -> pm 
 ```
 
 <hr>
@@ -504,9 +503,9 @@ if-else
 
 switch-case
 ```xml
-<SWITCH>    -> shift ( <EXPR> ) { <STATE> }
-<STATE>     -> state <EXPR> : <TWO_MST> <STATE> | <DEFAULT> 
-<DEFAULT>   -> default : <TWO_MST> | null 
+<SWITCH>    -> shift ( <EXPR> ) { <STATE> 
+<STATE>     -> state <EXPR> : <TWO_MST> <STATE> | <DEFAULT> | }
+<DEFAULT>   -> default : <TWO_MST>
 <TWO_MST>   -> <MST> | { <MST> }
 ```
 
@@ -569,7 +568,8 @@ Throw
 
 ```xml
 <TRY_CATCH>     -> test { <MST> } except <ERROR_TYPE> { <MST> } <FINALLY>
-<ERROR_TYPE>    -> ( id id )
+<ERROR_TYPE>    -> ( id <ERR_DOT> )
+<ERR_DOT>       -> dot id | id
 <THROWS>        -> raises id | null
 <FINALLY>       -> finally { <MST> } | null
 ```
