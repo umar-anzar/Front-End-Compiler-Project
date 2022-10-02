@@ -5,7 +5,15 @@ Writing context free grammar
 r: right
 w: wrong
 
-
+### Start Structure
+```xml
+<START>     -> <PACKAGE> <ST1> <ST_BODY>
+<ST1>       -> <IMPORTS> <ST1> | null
+<ST_BODY>   -> <MAIN> <ST_BODY2> | <FN_DEC> <ST_BODY> | <OUTER_CLASS_DEC> <ST_BODY> | 
+...            <GLOBAL_DEC> <ST_BODY> | null
+<ST_BODY2>  -> <FN_DEC> <ST_BODY2> | <OUTER_CLASS_DEC> <ST_BODY2> | 
+...            <GLOBAL_DEC> <ST_BODY2> | null
+```
 ### Body
 
 ```xml
@@ -25,23 +33,38 @@ w: wrong
 ```
 <hr>
 
+### Begin the Main Function
+```xml
+<MAIN>  -> Begin { <MST> }
+```
+
 <!--------------------------------------------------------------------------------------->
 
+### Package and Import
 ```xml
-<IMPORTS>       -> import id <IMP_DOT> 
-<IMP_DOT>       -> dot id | null
+<PACKAGE>   -> package id <IMP_DOT> ;
+<IMPORTS>   -> import id <IMP_DOT> 
+<IMP_DOT>   -> dot id | ;
+```
 
+<hr>
+ 
+<!--------------------------------------------------------------------------------------->
+
+### Reusable CFG
+```xml
 <TYPE>          -> id | dt | str 
+<DT_STR>        -> dt | str
 <ARR_TYPE>      -> [ ] <ARR_TYPE_LIST>
 <ARR_TYPE_LIST> -> [ ] <ARR_TYPE_LIST> | null
 <ACCESS_METH>   -> Parent dot | Self dot
 ```
+
 <!--------------------------------------------------------------------------------------->
 ### Access Modifier, Static and Abstract
 
 ```xml
 <ACCESSMOD>     -> protected | private | null  <!--Here null is public-->
-<ABS_FINAL>     -> Abstract | const | null
 <STATIC>        -> Static
 <FINAL>         -> const | null
 ```
@@ -71,7 +94,6 @@ x.y.functio().function_id (p1,p2,p3)
 ```
 ```xml
 <RET_TYPE>  -> <DT_STR> <ARR_TYPE_LIST> id | id <RT_OBJ>
-<DT_STR>    -> dt | str
 <RT_OBJ>    -> <ARR_TYPE> id | id | null
 ```
 
@@ -89,11 +111,8 @@ def object function_id (p1,p2,p3) {}
 <FN_CLASS_DEC>  -> def <IS_ABSTRACT>
 <IS_ABSTRACT>   -> Abstract <RET_TYPE_C> <FN_ST> <THROWS> ; | 
 ...                <FINAL> <RET_TYPE_C> <FN_ST> <THROWS> { <MST> }
-
-<FN_ST>         -> ( <PAR> )
-<PAR>           -> <DT_ID> id <PAR_LIST>   | null
-<PAR_LIST>      -> , <DT_ID> id <PAR_LIST> | null
 ```
+
 ```xml
 <RET_TYPE_C>    -> <DT_STR> <ARR_TYPE_LIST> <ACCESSMOD> id | 
                    id <RT_OBJ_C> | <ACCESSMOD_C> id
@@ -183,14 +202,18 @@ This Cfg take cares of transistion to declaration of **primitive/object** type *
 **assignment** and **function call**.
 
 ```xml
-<DEC>           -> const <VAR_OBJ> | dt <VAR_ARR> | id <ASSIGN_OBJ> | <ACCESS_METH> id <ASSIGN> 
-<ASSIGN_OBJ>    -> <ASSIGN> | <VAR_ARR>            <!--DEC TO ASSIGNMENT-->
-<VAR_OBJ>       -> <TYPE> <VAR_ARR>
-
-<IS_ACMETH>     -> <ACCESS_METH> | null
+<DEC>           -> const <TYPE> <VAR_ARR> | dt <VAR_ARR> | id <ASSIGN_OBJ> | <ACCESS_METH> id <ASSIGN> 
+<ASSIGN_OBJ>    -> [ <ARR_SUBSCRIPT> | id = <INIT> <LIST> | <ASSIGN> <!--DEC TO ASSIGNMENT-->
+<ARR_SUBSCRIPT> -> ] <ARR_TYPE_LIST> <ARR_INIT> | <EXPR> ] <DOT_ID3>
 
 <VAR_ARR>       -> <ARR_DEC> | id = <INIT> <LIST>
-<INIT>          -> <IS_ACMETH> id <ASSIGN_EXPR> | <NEW_OBJ> | <EXPR>
+<INIT>          -> <IS_ACMETH> id <ASSIGN_EXPR> | <NEW_OBJ> | <OPER_TO_EXPR>
+<IS_ACMETH>     -> <ACCESS_METH> | null
+
+<OPER_TO_EXPR>  -> <FLAG> <INC_DEC> id <POS> <Y>    | <FLAG> ( <EXPR> ) <Y> | 
+                   <FLAG> <UNARY> <OPERAND> <Y>     | <FLAG> <CONST> <Y>    | 
+                   pm <IS_ACMETH> id <POS2> <Y>     <!--compulsory flag pm-->
+
 <ASSIGN_EXPR>   -> <LIST_EXPR> | <SUBSCRIPT> <LIST_EXPR> | <FN_BRACKETS> <DOT_EXPR>
 <LIST_EXPR>     -> <DOT_EXPR>  | <ASSIGN_OP> <INIT> | <INC_DEC> <Y> | <NEW_OBJ>
 <Y>             -> <ID_TO_EXPR> | null
@@ -198,7 +221,6 @@ This Cfg take cares of transistion to declaration of **primitive/object** type *
 <ID_TO_EXPR>    -> <J1> <I1> <H1> <G1> <F1> <EXPR>
 <LIST>          -> , id = <INIT> <LIST> | null
 <ASSIGN_OP>     -> = | cma
-
 
 <DEC_CLASS>     -> const <VAR_OBJ_C> | dt <VAR_ARR_C> | id <VAR_ARR_C>        
 <VAR_OBJ_C>     -> <TYPE> <VAR_ARR_C>
@@ -243,12 +265,22 @@ x = y = a + 5, t = 3;   w
 
 <!--------------------------------------------------------------------------------------->
 
+### Object Declaration
+```xml
+<NEW_OBJ>       -> new <TYPE> <CONSTR_ARR> 
+<CONSTR_ARR>    -> <FN_BRACKETS> | [ <DIM_PASS>
+```
+
+<hr>
+<!--------------------------------------------------------------------------------------->
+
 ### Array Declaration
 
 ```xml
-<ARR_DEC>       -> <ARR_TYPE> id = <CHOICE>
-<ARR_CLASS_DEC> -> <ARR_TYPE> <ACCESSMOD> id = <CHOICE>
+<ARR_DEC>       -> <ARR_TYPE> <ARR_INIT> 
+<ARR_CLASS_DEC> -> <ARR_TYPE> <ACCESSMOD> <ARR_INIT>
 
+<ARR_INIT>      -> id = <CHOICE>
 <CHOICE>        -> <REF_NEWARR> | <NEW_ARR_CONST>
 <NEW_ARR_CONST> -> new <TYPE> [ <DIM_PASS>
 
@@ -290,12 +322,20 @@ int [][] var = new int [2][]                    r
 <hr>
 <!--------------------------------------------------------------------------------------->
 
-
+### Global Variable Declaration
+```xml
+<GLOBAL_DEC>    -> <STATIC> <IS_FINAL_G>
+<IS_FINAL_G>    -> const <VAR_OBJ_G> | dt <VAR_ARR_G> | id <VAR_ARR_G>   
+<VAR_OBJ_G>     -> <TYPE> <VAR_ARR_G>
+<VAR_ARR_G>     -> <ARR_CLASS_DEC> | id = <INIT> <LIST_G>
+<LIST_G>        -> , id = <INIT> <LIST_G> | ;
+```
 
 ### Class Declaration
 
 ```xml
-<OUTER_CLASS_DEC>   -> <ABS_FINAL> <CLASS_DEC>
+<OUTER_CLASS_DEC>   -> <CLASS_DEC> | Abstract <CLASS_DEC> | const <CLASS_GLOBAL>
+<CLASS_GLOBAL>      -> <CLASS_DEC> | <VAR_OBJ_G>
 <CLASS_DEC>         -> Class <ACCESSMOD> id <CLASS_PAR> ( <INHERIT> ) { <CLASS_BODY> }
 <CLASS_PAR>         -> < id > | null
 <INHERIT>           -> id <MULTI_INHERIT>   | null
@@ -306,18 +346,13 @@ int [][] var = new int [2][]                    r
 
 ```xml
 <CLASS_BODY>    -> <ATTR_FUNC> <CLASS_BODY> | null
-<ATTR_FUNC>     -> <FN_CLASS_DEC> | <ATTR_CLASS_DEC> ; 
+<ATTR_FUNC>     -> <FN_CLASS_DEC> | <ATTR_CLASS_DEC> ;
 ```
 
-### Object Declaration
-```xml
-<NEW_OBJ>       -> new <TYPE> <CONSTR_ARR> 
-<CONSTR_ARR>    -> <FN_BRACKETS> | [ <DIM_PASS>
-```
 
 ### Attribute Declaration in class
 
-This CFG take transition to primitive and object type variable and array declaration and also inner class declarartion
+This CFG take care of primitive and object type variable and array declaration.
 
 ```xml
 <ATTR_CLASS_DEC>    -> <STATIC> <IS_FINAL>
@@ -362,7 +397,7 @@ Unary   'convt(dt) !'
 <I>         -> <J>
 <J>         -> <J> power <K>
 <J>         -> <K>
-<K>         -> <OPERANDS>
+<K>         -> <FLAG> <OPERANDS>
 ```
 - Right Recursive 
 ```xml
