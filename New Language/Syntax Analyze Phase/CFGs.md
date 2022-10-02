@@ -349,9 +349,9 @@ int [][] var = new int [2][]  {}            w
 - In Class
 ```
 Example:
-int [][] $var = new int [][] {{1},{2,4}}        r
-int [][] $$var = new int [][] {{1},{2,4}}       r
-int [][] var = new int [2][]                    r
+int [][] $var = new int [][] {{1},{2,4}}    r
+int [][] $$var = new int [][] {{1},{2,4}}   r
+int [][] var = new int [2][]                r
 ```
 
 <hr>
