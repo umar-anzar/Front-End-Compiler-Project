@@ -47,9 +47,9 @@ w: wrong
 ### Single and Multi Statements
 
 ```xml
-<SST>   -> <IF_ELSE>        | <SWITCH>          | <DEC> ;       | <TRY_CATCH>   |
-...        <LOOP>           | <DO_WHILE> ;      | <BREAK> ;     | <RET_ST> ;    |
-...        <CONTINUE> ;     | <THROW> ;
+<SST>   -> <IF_ELSE>    | <SWITCH>      | <DEC>     | <TRY_CATCH>   |
+...        <LOOP>       | <DO_WHILE>    | <BREAK>   | <RET_ST>      |
+...        <CONTINUE>   | <THROW>
            
 
 <MST>   -> <SST> <MST> | null 
@@ -176,7 +176,7 @@ def const object $function_id (p1,p2,p3) {}
 
 ```xml
 <CLASS_BODY>    -> <ATTR_FUNC> <CLASS_BODY> | null
-<ATTR_FUNC>     -> <FN_CLASS_DEC> | <ATTR_CLASS_DEC> ;
+<ATTR_FUNC>     -> <FN_CLASS_DEC> | <ATTR_CLASS_DEC>
 ```
 
 <hr>
@@ -196,9 +196,10 @@ array subscript | arr[2]          | arr[2:3]
 ```xml
 <POS>           -> <DOT_ID> | <SUBSCRIPT> <DOT_ID> | <FN_BRACKETS> dot id <POS>
 <SUBSCRIPT>     -> [ <EXPR> ]
-<FN_BRACKETS>   -> ( <ARG> )
-<ARG>           -> <EXPR> <ARG_LIST> | <NEW_OBJ> | null
-<ARG_LIST>      -> , <EXPR> <ARG_LIST> | null
+<FN_BRACKETS>   -> ( <ARG> 
+<ARG>           -> <EXPR_OBJ> <ARG_LIST> | )
+<ARG_LIST>      -> , <EXPR_OBJ> <ARG_LIST> | )
+<EXPR_OBJ>      -> <EXPR> | <NEW_OBJ>
 <DOT_ID>        -> dot id <POS> | null
 ```
 
@@ -245,14 +246,14 @@ which word this cfg going to parse
 There is no access modifer nor static
 
 This CFG take cares of declaration of **primitive/object** type **variable** and takes transistion to **array declaration** `<ARR_DEC>`, and also towards **assignment** `<ASSIGN>`.
-<!--null in list and is_init is ';' but it is used in either class body or SST-->
+
 ```xml
 <DEC>           -> const <TYPE> <VAR_ARR> | dt <VAR_ARR> | id <ASSIGN_OBJ> | <ACCESS_METH> id <ASSIGN> 
 <ASSIGN_OBJ>    -> [ <ARR_SUBSCRIPT> | id = <INIT> <LIST> | <ASSIGN> <!--DEC TO ASSIGNMENT-->
 <ARR_SUBSCRIPT> -> ] <ARR_TYPE_LIST> <ARR_INIT> | <EXPR> ] <DOT_ID3>
 
 <VAR_ARR>       -> <ARR_DEC> | id <IS_INIT>
-<IS_INIT>       -> = <INIT> <LIST> | null
+<IS_INIT>       -> = <INIT> <LIST> | ;
 <INIT>          -> <IS_ACMETH> id <ASSIGN_EXPR> | <NEW_OBJ> | <OPER_TO_EXPR>
 <IS_ACMETH>     -> <ACCESS_METH> | null
 
@@ -265,7 +266,7 @@ This CFG take cares of declaration of **primitive/object** type **variable** and
 <Y>             -> <ID_TO_EXPR> | null
 <DOT_EXPR>      -> dot id <ASSIGN_EXPR> | <ID_TO_EXPR> | null
 <ID_TO_EXPR>    -> <J1> <I1> <H1> <G1> <F1> <EXPR>
-<LIST>          -> , id = <INIT> <LIST> | null
+<LIST>          -> , id = <INIT> <LIST> | ;
 <ASSIGN_OP>     -> = | cma
 ```
 
@@ -286,8 +287,8 @@ x = y = a + 5, t = 3;                       w
 <ASSIGN>        -> <DOT_ID3> | <SUBSCRIPT> <DOT_ID3> | 
 ...                <FN_BRACKETS> <DOT_ID4>
 <DOT_ID3>       -> dot id <ASSIGN> | <TWO_ASSIGN>
-<DOT_ID4>       -> dot id <ASSIGN> | null
-<TWO_ASSIGN>    -> <INC_DEC> | <ASSIGN_OP> <INIT>
+<DOT_ID4>       -> dot id <ASSIGN> | ;              <!--function call-->
+<TWO_ASSIGN>    -> <INC_DEC> ; | <ASSIGN_OP> <INIT> ;
 ```
 
 ```
@@ -325,31 +326,32 @@ x.y.functio().function_id (p1,p2,p3)
 <!--------------------------------------------------------------------------------------->
 
 ### Array Declaration
-<!--null in list and is_init is ';' but it is used in either class body or SST-->
+
 ```xml
 <ARR_DEC>       -> <ARR_TYPE> <ARR_INIT> 
 <ARR_CLASS_DEC> -> <ARR_TYPE> <ACCESSMOD> <ARR_INIT>
 
 <ARR_INIT>      -> id <IS_ARR_INIT>
-<IS_ARR_INIT>   -> = <CHOICE> | null
+<IS_ARR_INIT>   -> = <CHOICE> | ;
 <CHOICE>        -> <REF_NEWARR> | <NEW_ARR_CONST>
 <NEW_ARR_CONST> -> new <TYPE> [ <DIM_PASS>
 
 <REF_NEWARR>    -> id <POSARR> | <NEW_ARR_CONST>
 <POSARR>        -> <DOT_ARR> <MORE_REF_STR> | <SUBSCRIPT> <DOT_ARR> <MORE_REF_ARR> | 
-...                <FN_BRACKETS> <DOT_ARR> 
+...                <FN_BRACKETS> <DOT_ARR_TRMIN>
 <DOT_ARR>       -> dot id <POSARR> | null
-<MORE_REF_STR>  -> = <REF_NEWARR>  | null 
+<DOT_ARR_TRMIN> -> <DOT_ARR> | ;
+<MORE_REF_STR>  -> = <REF_NEWARR>  | ; 
 
-<DIM_PASS>      -> <EXPR> ] <MUL_ARR_DEC> | ] <EMP_ARR_DEC> <ARR_CONST>
+<DIM_PASS>      -> <EXPR> ] <MUL_ARR_DEC> | ] <EMP_ARR_DEC> 
 
-<MUL_ARR_DEC>   -> [ <LEN_OF_ARR> | null
-<EMP_ARR_DEC>   -> [ ] <EMP_ARR_DEC> | null
+<MUL_ARR_DEC>   -> [ <LEN_OF_ARR> | ;
+<EMP_ARR_DEC>   -> [ ] <EMP_ARR_DEC> | <ARR_CONST>
 <LEN_OF_ARR>    -> <EXPR> ] <MUL_ARR_DEC> | ] <EMP_ARR_DEC>
 
-<ARR_CONST>     -> { <ARR_ELEMT> }
-<ARR_ELEMT>     -> <EXPR> <EXPR_LIST>  | <ARR_CONST> <EXPR_LIST> | null 
-<EXPR_LIST>     -> , <ARR_ELEMT> <EXPR_LIST> | null
+<ARR_CONST>     -> { <ARR_ELEMT>
+<ARR_ELEMT>     -> <EXPR> <EXPR_LIST>  | <ARR_CONST> <EXPR_LIST> | } ;
+<EXPR_LIST>     -> , <ARR_ELEMT> <EXPR_LIST> | } ;
 ```
 
 - Not in Class
@@ -397,8 +399,8 @@ This CFG take care of primitive and object type variable and array declaration.
 <IS_FINAL>          -> const <VAR_OBJ_C> | dt <VAR_ARR_C> | id <VAR_ARR_C>   
 <VAR_OBJ_C>         -> <TYPE> <VAR_ARR_C>
 <VAR_ARR_C>         -> <ARR_CLASS_DEC> | <ACCESSMOD> id <IS_INIT_C>
-<IS_INIT_C>         -> = <INIT> <LIST_C> | null
-<LIST_C>            -> , <ACCESSMOD> id = <INIT> <LIST_C> | null 
+<IS_INIT_C>         -> = <INIT> <LIST_C> | ;
+<LIST_C>            -> , <ACCESSMOD> id = <INIT> <LIST_C> | ; 
                     <!--Using DEC init but now list has access modifier-->
 ```
 
@@ -523,7 +525,7 @@ Loop
 While/do-while loop
 ```xml
 <WHILE_ST>  -> till ( <EXPR> ) <body>
-<DO_WHILE>  -> do <BODY> till ( <EXPR> )
+<DO_WHILE>  -> do <BODY> till ( <EXPR> ) ;
 ```
 
 For-loop
@@ -545,17 +547,17 @@ Break-continue
 ```xml
 <BREAK>     -> stop <L>
 <CONTINUE>  -> cont <L>
-<L>         -> id : | null
+<L>         -> id : | ;
 ```
 
 Return-statement
 ```xml
-<RET_ST>    -> ret <EXPR>
+<RET_ST>    -> ret <EXPR> ;
 ```
 
 Throw
 ```xml
-<THROW>     -> raise <NEW_OBJ>
+<THROW>     -> raise <NEW_OBJ> ;
 ```
 
 <hr>
