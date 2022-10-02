@@ -107,7 +107,7 @@ w: wrong
 
 <!--------------------------------------------------------------------------------------->
 
-### Function Declaration
+### Function Statement
 
 - Function Statement in Start
 
@@ -163,7 +163,7 @@ def object const $function_id (p1,p2,p3) {}
 
 <!--------------------------------------------------------------------------------------->
 
-### Class Declaration
+### Class Statement
 
 ```xml
 <OUTER_CLASS_DEC>   -> <CLASS_DEC> | Abstract <CLASS_DEC> | const <CLASS_GLOBAL>
