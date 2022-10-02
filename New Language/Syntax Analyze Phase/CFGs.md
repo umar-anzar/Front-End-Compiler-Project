@@ -72,17 +72,9 @@ w: wrong
 
 <!--------------------------------------------------------------------------------------->
 
-### Function
+### Function Declaration
 
-- Function call is in `<DEC>` CFG.
-```
-Example:
-function_id ()
-arr[3].function_id (p1)
-x.y.functio().function_id (p1,p2,p3)
-```
-
-- Function Statement in function
+- Function Statement in Start
 
 ```xml
 <FN_DEC>    -> def <RET_TYPE> <FN_ST> <THROWS> { <MST> }
@@ -134,7 +126,25 @@ def object const $function_id (p1,p2,p3) {}
 
 <hr>
 
+### Class Declaration
 
+```xml
+<OUTER_CLASS_DEC>   -> <CLASS_DEC> | Abstract <CLASS_DEC> | const <CLASS_GLOBAL>
+<CLASS_GLOBAL>      -> <CLASS_DEC> | <VAR_OBJ_G>
+<CLASS_DEC>         -> Class <ACCESSMOD> id <CLASS_PAR> ( <INHERIT> ) { <CLASS_BODY> }
+<CLASS_PAR>         -> < id > | null
+<INHERIT>           -> id <MULTI_INHERIT>   | null
+<MULTI_INHERIT>     -> , id <MULTI_INHERIT> | null
+```
+
+### Class Body 
+
+```xml
+<CLASS_BODY>    -> <ATTR_FUNC> <CLASS_BODY> | null
+<ATTR_FUNC>     -> <FN_CLASS_DEC> | <ATTR_CLASS_DEC> ;
+```
+
+<hr>
 
 <!--------------------------------------------------------------------------------------->
 ### Dot Separated Identifers, Function calls, array subscripts
@@ -239,7 +249,7 @@ x = y = a + 5, t = 3;                       w
 
 ### Assignment
 
-This Cfg is called by `<DEC>` and it handles assignment and function call.
+- This Cfg is called by `<DEC>` and it handles assignment and function call.
 
 ```xml
 <ASSIGN>        -> <DOT_ID3> | <SUBSCRIPT> <DOT_ID3> | 
@@ -259,6 +269,14 @@ x = y = z = new Q(x,y); r
 x = z = new Q(x,y); = y w
 x = int <- y = a + 5;   w
 x = y = a + 5, t = 3;   w
+```
+
+- Function call is in `<ASSIGN>` CFG.
+```
+Example:
+function_id ()
+arr[3].function_id (p1)
+x.y.functio().function_id (p1,p2,p3)
 ```
 
 <hr>
@@ -330,25 +348,6 @@ int [][] var = new int [2][]                    r
 <VAR_ARR_G>     -> <ARR_CLASS_DEC> | id = <INIT> <LIST_G>
 <LIST_G>        -> , id = <INIT> <LIST_G> | ;
 ```
-
-### Class Declaration
-
-```xml
-<OUTER_CLASS_DEC>   -> <CLASS_DEC> | Abstract <CLASS_DEC> | const <CLASS_GLOBAL>
-<CLASS_GLOBAL>      -> <CLASS_DEC> | <VAR_OBJ_G>
-<CLASS_DEC>         -> Class <ACCESSMOD> id <CLASS_PAR> ( <INHERIT> ) { <CLASS_BODY> }
-<CLASS_PAR>         -> < id > | null
-<INHERIT>           -> id <MULTI_INHERIT>   | null
-<MULTI_INHERIT>     -> , id <MULTI_INHERIT> | null
-```
-
-### Class Body 
-
-```xml
-<CLASS_BODY>    -> <ATTR_FUNC> <CLASS_BODY> | null
-<ATTR_FUNC>     -> <FN_CLASS_DEC> | <ATTR_CLASS_DEC> ;
-```
-
 
 ### Attribute Declaration in class
 
