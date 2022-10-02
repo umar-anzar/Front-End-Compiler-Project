@@ -168,7 +168,8 @@ def object const $function_id (p1,p2,p3) {}
 ```xml
 <OUTER_CLASS_DEC>   -> <CLASS_DEC> | Abstract <CLASS_DEC> | const <CLASS_GLOBAL>
 <CLASS_GLOBAL>      -> <CLASS_DEC> | <VAR_OBJ_G>
-<CLASS_DEC>         -> Class <ACCESSMOD> id <CLASS_PAR> ( <INHERIT> ) { <CLASS_BODY> }
+<CLASS_DEC>         -> Class <NO_PRIVATE> id <CLASS_PAR> ( <INHERIT> ) { <CLASS_BODY> }
+<NO_PRIVATE>        -> protected | null
 <CLASS_PAR>         -> < id > | null
 <INHERIT>           -> id <MULTI_INHERIT>   | null
 <MULTI_INHERIT>     -> , id <MULTI_INHERIT> | null
@@ -381,7 +382,7 @@ int [][] var = new int [2][]                r
 
 ### Global Variable Declaration
 ```xml
-<GLOBAL_DEC>    -> <STATIC> <IS_FINAL_G>
+<GLOBAL_DEC>    -> <IS_FINAL_G>
 <IS_FINAL_G>    -> const <VAR_OBJ_G> | dt <VAR_ARR_G> | id <VAR_ARR_G>   
 <VAR_OBJ_G>     -> <TYPE> <VAR_ARR_G>
 <VAR_ARR_G>     -> <ARR_CLASS_DEC> | id = <INIT> <LIST_G>
