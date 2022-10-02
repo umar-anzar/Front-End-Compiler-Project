@@ -31,6 +31,11 @@ public class ValidWords {
     //{{value, classpart}}
     static String[][] keyword = {
         
+        {"package", "package"},
+        {"import", "import"},
+        
+        {"begin", "begin"},
+        
         {"def", "def"}, 
         
         {"convt", "typeCast"},
@@ -57,22 +62,25 @@ public class ValidWords {
         {"bool", DT},
         {"val", DT},
  
+        {"true",BOOLEANCONST},
+        {"false",BOOLEANCONST},
         
         {"Class", "Class"},
         {"Abstract", "Abstract"},
         {"$", "private"},
         {"$$", "protected"},
-        {"Const", "const"},
+        {"const", "const"},
         {"Self", "Self"},
         {"Parent", "Parent"},
         {"new", "new"},
+        
+        
         {"test", "test"},   // catch
         {"except", "except"},   
         {"finally", "finally"},
         {"raise", "raise"}, 
-        {"raises", "raises"},
-        {"true",BOOLEANCONST},
-        {"false",BOOLEANCONST}
+        {"raises", "raises"}
+
         
           
     };
