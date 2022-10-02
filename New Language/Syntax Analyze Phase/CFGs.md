@@ -1,20 +1,20 @@
 ## Syntax Analyze Phase
 
-| CFG no | Name                                | CFG no | Name                                |
-|--------|-------------------------------------|--------|-------------------------------------|
-| 1      | Start Structure                     | 14     | Object Declaration                  |
-| 2      | Body                                | 15     | Array Declaration                   |
-| 3      | Single and Multi Statements         | 16     | Global Variable Declaration         |
-| 4      | Begin the Main Function             | 17     | Attribute Declaration in class      |
-| 5      | Package and Import                  | 18     | Expression                          |
-| 6      | Reusable CFG                        | 19     | Operands                            |
-| 7      | Access Mod, Static and Abstract     | 20     | Increment Decrement                 |
-| 8      | Function Declaration                | 21     | Constant                            |
-| 9      | Class Declaration                   | 22     | Conditional Statements              |
-| 10     | Class Body                          | 23     | Loop Statements                     |
-| 11     | Dot Separated Id, FC, AR subscripts | 24     | Jump Statements                     |
-| 12     | Declaration and Initialization      | 25     | Exception Handler                   |
-| 13     | Assignment                          |
+| Heading no | Name                                | CFG no | Name                           |
+|------------|-------------------------------------|--------|--------------------------------|
+| 1          | Start Structure                     | 14     | Object Declaration             |
+| 2          | Body                                | 15     | Array Declaration              |
+| 3          | Single and Multi Statements         | 16     | Global Variable Declaration    |
+| 4          | Begin the Main Function             | 17     | Attribute Declaration in class |
+| 5          | Package and Import                  | 18     | Expression                     |
+| 6          | Reusable CFG                        | 19     | Operands                       |
+| 7          | Access Mod, Static and Abstract     | 20     | Increment Decrement            |
+| 8          | Function Declaration                | 21     | Constant                       |
+| 9          | Class Declaration                   | 22     | Conditional Statements         |
+| 10         | Class Body                          | 23     | Loop Statements                |
+| 11         | Dot Separated Id, FC, AR subscripts | 24     | Jump Statements                |
+| 12         | Declaration and Initialization      | 25     | Exception Handler              |
+| 13         | Assignment                          |        |                                |
 
 
 
