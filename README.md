@@ -37,8 +37,8 @@ Project: Front End Compiler Project
 | extends    | Class name(inherited class) | throw   | raise   |
 | final      | const                       | throws  | raises  |
 | implements | no interface                |         | in      |
-| this       | Self                        |         |         |
-| super      | Parent                      |         |         |
+| this       | Self                        | import  | import  |
+| super      | Parent                      | package | package |
 | public     | implicit                    |         |         |
 | private    | $$identiferName             |         |         |
 | protected  | $identiferName              |         |         |
@@ -95,11 +95,11 @@ Same:
 |-------|-------|----|---------|-----|----------|--------|------|
 | const | begin | in | default | new | abstract | Parent | Self |
 
-| Three ps  | try  | catch  | finally | throw  | throws |
-|-----------|------|--------|---------|--------|--------|
-| public    | test | except | finally | raise  | raises |
-| private   |      |        |         |        |        |
-| protected |      |        |         |        |        |
+| Three ps  | try  | catch  | finally | throw  | throws | package | import |
+|-----------|------|--------|---------|--------|--------|---------|--------|
+| public    | test | except | finally | raise  | raises | package | import |
+| private   |      |        |         |        |        |         |        |
+| protected |      |        |         |        |        |         |        |
 
 
 ## Syntax

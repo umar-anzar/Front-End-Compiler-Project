@@ -17,15 +17,12 @@
 | 13         | Assignment                          |        |                                |
 
 
-
-
-
-
-
 Writing context free grammar
 
 r: right
 w: wrong
+
+
 
 ### Start Structure
 ```xml
@@ -51,8 +48,8 @@ w: wrong
 
 ```xml
 <SST>   -> <IF_ELSE>        | <SWITCH>          | <DEC> ;       | <TRY_CATCH>   |
- ...       <LOOP>           | <DO_WHILE> ;      | <BREAK> ;     | <RET_ST> ;    |
- ...       <CONTINUE> ;     | <THROW> ;
+...        <LOOP>           | <DO_WHILE> ;      | <BREAK> ;     | <RET_ST> ;    |
+...        <CONTINUE> ;     | <THROW> ;
            
 
 <MST>   -> <SST> <MST> | null 
