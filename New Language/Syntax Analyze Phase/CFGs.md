@@ -14,12 +14,16 @@ w: wrong
 <ST_BODY2>  -> <FN_DEC> <ST_BODY2> | <OUTER_CLASS_DEC> <ST_BODY2> | 
 ...            <GLOBAL_DEC> <ST_BODY2> | null
 ```
+
+<hr>
+
+<!--------------------------------------------------------------------------------------->
+
 ### Body
 
 ```xml
 <BODY>  -> ; | <SST> | { <MST> }
 ```
-
 
 ### Single and Multi Statements
 
@@ -31,12 +35,17 @@ w: wrong
 
 <MST>   -> <SST> <MST> | null 
 ```
+
 <hr>
+
+<!--------------------------------------------------------------------------------------->
 
 ### Begin the Main Function
 ```xml
 <MAIN>  -> Begin { <MST> }
 ```
+
+<hr>
 
 <!--------------------------------------------------------------------------------------->
 
@@ -48,7 +57,7 @@ w: wrong
 ```
 
 <hr>
- 
+
 <!--------------------------------------------------------------------------------------->
 
 ### Reusable CFG
@@ -60,7 +69,10 @@ w: wrong
 <ACCESS_METH>   -> Parent dot | Self dot
 ```
 
+<hr>
+
 <!--------------------------------------------------------------------------------------->
+
 ### Access Modifier, Static and Abstract
 
 ```xml
@@ -68,6 +80,7 @@ w: wrong
 <STATIC>        -> Static
 <FINAL>         -> const | null
 ```
+
 <hr>
 
 <!--------------------------------------------------------------------------------------->
@@ -126,6 +139,8 @@ def object const $function_id (p1,p2,p3) {}
 
 <hr>
 
+<!--------------------------------------------------------------------------------------->
+
 ### Class Declaration
 
 ```xml
@@ -147,6 +162,7 @@ def object const $function_id (p1,p2,p3) {}
 <hr>
 
 <!--------------------------------------------------------------------------------------->
+
 ### Dot Separated Identifers, Function calls, array subscripts
 
 ```
@@ -290,6 +306,7 @@ x.y.functio().function_id (p1,p2,p3)
 ```
 
 <hr>
+
 <!--------------------------------------------------------------------------------------->
 
 ### Array Declaration
@@ -338,6 +355,7 @@ int [][] var = new int [2][]                    r
 ```
 
 <hr>
+
 <!--------------------------------------------------------------------------------------->
 
 ### Global Variable Declaration
@@ -348,6 +366,10 @@ int [][] var = new int [2][]                    r
 <VAR_ARR_G>     -> <ARR_CLASS_DEC> | id = <INIT> <LIST_G>
 <LIST_G>        -> , id = <INIT> <LIST_G> | ;
 ```
+
+<hr>
+
+<!--------------------------------------------------------------------------------------->
 
 ### Attribute Declaration in class
 
@@ -361,9 +383,8 @@ This CFG take care of primitive and object type variable and array declaration.
 <LIST_C>            -> , <ACCESSMOD> id = <INIT> <LIST_C> | null <!--Using DEC init but now list has access modifier-->
 ```
 
+
 <hr>
-
-
 <!--------------------------------------------------------------------------------------->
 
 ### Expression
@@ -414,6 +435,8 @@ Unary   'convt(dt) !'
 <J1>        -> power <K> <J1> | null
 <K>         -> <FLAG> <OPERANDS>
 ```
+
+
 <hr>
 
 <!--------------------------------------------------------------------------------------->
@@ -427,6 +450,7 @@ Unary   'convt(dt) !'
 <UNARY>         -> typeCast ( dt ) | not
 <FLAG>          -> pm | null
 ```
+
 <hr>
 
 <!--------------------------------------------------------------------------------------->
@@ -444,12 +468,10 @@ Unary   'convt(dt) !'
 <CONST> -> intConst | floatConst | charConst | boolConst | 
            strConst
 ```
+
 <hr>
 
-
-
 <!--------------------------------------------------------------------------------------->
-
 
 ### Conditional Statements
 
@@ -466,6 +488,7 @@ switch-case statement:
 <DEFAULT>   -> default : <TWO_MST> | null 
 <TWO_MST>   -> <MST> | { <MST> }
 ```
+
 <hr>
 
 <!--------------------------------------------------------------------------------------->
@@ -492,6 +515,7 @@ For-loop
 <POS3>      -> <DOT_ID5> | <SUBSCRIPT> <DOT_ID5> | <FN_BRACKETS> <DOT_ID5>
 <DOT_ID5>   -> dot id <POS3> | null
 ```
+
 <hr>
 
 <!--------------------------------------------------------------------------------------->
@@ -514,6 +538,7 @@ Throw
 ```xml
 <THROW>     -> raise <NEW_OBJ>
 ```
+
 <hr>
 
 <!--------------------------------------------------------------------------------------->
@@ -527,24 +552,7 @@ Throw
 <THROWS>        -> raises id | null
 <FINALLY>       -> finally { <MST> } | null
 ```
+
 <hr>
 
-
 <!--------------------------------------------------------------------------------------->
-
-
-<br>
-<hr><hr><hr>
-
-<!--
-*
-*
-*
--->
-
-```xml
-<FN_ST>         -> ( <PAR> ) <!--used in function declaration-->
-<FN_BRACKETS>   -> ( <ARG> ) <!--used in function calling-->
-<NEW_OBJ>       -> new <TYPE> <CONSTR_ARR>  <!--after = or cma(+= etc) also in array const-->
-<ASSIGN_OP>     -> = | cma
-```
