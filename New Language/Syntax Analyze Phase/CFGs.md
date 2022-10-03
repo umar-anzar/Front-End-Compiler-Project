@@ -465,8 +465,7 @@ Unary   'convt(dt) !'
 ### Operands
 
 ```xml
-<OPERAND>   -> <IS_ACMETH> id <POS2> | <INC_DEC> id <POS> | ( <EXPR> ) | 
-               <UNARY> <OPERAND> | <CONST>
+<OPERAND>   -> <IS_ACMETH> id <POS2> | <INC_DEC> id <POS> | ( <EXPR> ) | <UNARY> <OPERAND> | <CONST>
 
 <UNARY>     -> typeCast ( dt ) | not
 <FLAG>      -> pm 
@@ -486,8 +485,7 @@ Unary   'convt(dt) !'
 
 ### Constant
 ```xml
-<CONST> -> intConst | floatConst | charConst | boolConst | 
-           strConst
+<CONST> -> intConst | floatConst | charConst | boolConst | strConst
 ```
 
 <hr>
