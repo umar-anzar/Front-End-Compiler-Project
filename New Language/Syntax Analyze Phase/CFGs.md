@@ -27,9 +27,9 @@ w: wrong
 ```xml
 <START>     -> <PACKAGE> <ST1> <ST_BODY>
 <ST1>       -> <IMPORTS> <ST1> | null
-<ST_BODY>   -> <MAIN> <ST_BODY2> | <FN_DEC> <ST_BODY> | <OUTER_CLASS_DEC> <ST_BODY> | 
+<ST_BODY>   -> <MAIN> <ST_BODY2> | <FN_DEC> <ST_BODY> | <GLOBAL_CLASS> <ST_BODY> | 
 ...            <GLOBAL_DEC> <ST_BODY> | null
-<ST_BODY2>  -> <FN_DEC> <ST_BODY2> | <OUTER_CLASS_DEC> <ST_BODY2> | 
+<ST_BODY2>  -> <FN_DEC> <ST_BODY2> | <GLOBAL_CLASS> <ST_BODY2> | 
 ...            <GLOBAL_DEC> <ST_BODY2> | null
 ```
 
@@ -162,7 +162,7 @@ def const object $function_id (p1,p2,p3) {}
 ### Class Statement
 
 ```xml
-<OUTER_CLASS_DEC>   -> <CLASS_DEC> | Abstract <CLASS_DEC> | const <CLASS_GLOBAL>
+<GLOBAL_CLASS>   -> <CLASS_DEC> | Abstract <CLASS_DEC> | const <CLASS_GLOBAL>
 <CLASS_GLOBAL>      -> <CLASS_DEC> | <VAR_OBJ_G>
 <CLASS_DEC>         -> Class <NO_PRIVATE> id <CLASS_PAR> ( <INHERIT>
 <NO_PRIVATE>        -> protected | null
