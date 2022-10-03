@@ -342,8 +342,11 @@ x.y.functio().function_id (p1,p2,p3)
 <DIM_PASS>      -> <EXPR> ] <MUL_ARR_DEC> | ] <EMP_ARR_DEC> 
 
 <MUL_ARR_DEC>   -> [ <LEN_OF_ARR> | ;
+<LEN_OF_ARR>    -> <EXPR> ] <MUL_ARR_DEC2> | ] <EMP_ARR_DEC>
 <EMP_ARR_DEC>   -> [ ] <EMP_ARR_DEC> | <ARR_CONST>
-<LEN_OF_ARR>    -> <EXPR> ] <MUL_ARR_DEC> | ] <EMP_ARR_DEC>
+<MUL_ARR_DEC2>  -> [ <LEN_OF_ARR2> | ;
+<LEN_OF_ARR2>   -> <EXPR> ] <MUL_ARR_DEC2> | ] <EMP_ARR_DEC2>
+<EMP_ARR_DEC2>   -> [ ] <EMP_ARR_DEC2> | ;
 
 <ARR_CONST>     -> { <ARR_ELEMT>
 <ARR_ELEMT>     -> <EXPR> <EXPR_LIST>  | <ARR_CONST> <EXPR_LIST> | } ;
