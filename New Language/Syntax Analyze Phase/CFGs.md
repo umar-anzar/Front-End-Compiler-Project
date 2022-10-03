@@ -282,8 +282,7 @@ x = y = a + 5, t = 3;                       w
 - This CFG is called by `<DEC>` and it handles **assignment** and **function call**.
 
 ```xml
-<ASSIGN>        -> <DOT_ID3> | <SUBSCRIPT> <DOT_ID3> | 
-...                <FN_BRACKETS> <DOT_ID4>
+<ASSIGN>        -> <DOT_ID3> | <SUBSCRIPT> <DOT_ID3> | <FN_BRACKETS> <DOT_ID4>
 <DOT_ID3>       -> dot id <ASSIGN> | <TWO_ASSIGN>
 <DOT_ID4>       -> dot id <ASSIGN> | ;              <!--function call-->
 <TWO_ASSIGN>    -> <INC_DEC> ; | <ASSIGN_OP> <INIT> ;
@@ -335,8 +334,7 @@ x.y.functio().function_id (p1,p2,p3)
 <NEW_ARR_CONST> -> new <TYPE> [ <DIM_PASS>
 
 <REF_NEWARR>    -> id <POSARR> | <NEW_ARR_CONST>
-<POSARR>        -> <DOT_ARR> <MORE_REF_STR> | <SUBSCRIPT> <DOT_ARR> <MORE_REF_ARR> | 
-...                <FN_BRACKETS> <DOT_ARR_TRMIN>
+<POSARR>        -> <DOT_ARR> <MORE_REF_STR> | <SUBSCRIPT> <DOT_ARR> <MORE_REF_ARR> | <FN_BRACKETS> <DOT_ARR_TRMIN>
 <DOT_ARR>       -> dot id <POSARR> | null
 <DOT_ARR_TRMIN> -> <DOT_ARR> | ;
 <MORE_REF_STR>  -> = <REF_NEWARR>  | ; 
