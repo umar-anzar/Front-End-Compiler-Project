@@ -266,7 +266,6 @@ This CFG take cares of declaration of **primitive/object** type **variable** and
 
 <OPER_TO_EXPR>  -> <INC_DEC> id <POS> <ID_TO_EXPR>    | ( <EXPR> ) <ID_TO_EXPR> | 
                    <UNARY> <OPERAND> <ID_TO_EXPR>     | <CONST> <ID_TO_EXPR>   | 
-                   <FLAG> <IS_ACMETH> id <POS2> <ID_TO_EXPR>    <!--compulsory flag pm-->
 
 <ASSIGN_EXPR>   -> <DOT_EXPR> | <SUBSCRIPT> <DOT_EXPR> | <FN_BRACKETS> <DOT_EXPR2>
 <DOT_EXPR>      -> dot id <ASSIGN_EXPR> | <ASSIGN_OP> <INIT> | <INC_DEC> <ID_TO_EXPR> | <NEW_OBJ> | <ID_TO_EXPR> 
