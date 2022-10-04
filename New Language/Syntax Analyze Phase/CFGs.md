@@ -193,13 +193,14 @@ array subscript | arr[2]          | arr[2:3]
 
 - End only with ID, array subscript.
 ```xml
-<POS>           -> <DOT_ID> | <SUBSCRIPT> <DOT_ID> | <FN_BRACKETS> dot id <POS>
-<SUBSCRIPT>     -> [ <EXPR> ]
-<FN_BRACKETS>   -> ( <ARG> 
-<ARG>           -> <EXPR_OBJ> <ARG_LIST> | )
-<ARG_LIST>      -> , <EXPR_OBJ> <ARG_LIST> | )
-<EXPR_OBJ>      -> <EXPR> | <NEW_OBJ>
-<DOT_ID>        -> dot id <POS> | null
+<POS>               -> <DOT_ID> | <SUBSCRIPT> <DOT_ID> | <FN_BRACKETS> dot id <POS>
+<SUBSCRIPT>         -> [ <EXPR> ] <SUBSCRIPT_LIST>
+<SUBSCRIPT_LIST>    -> [ <EXPR> ] <SUBSCRIPT_LIST> | null
+<FN_BRACKETS>       -> ( <ARG> 
+<ARG>               -> <EXPR_OBJ> <ARG_LIST> | )
+<ARG_LIST>          -> , <EXPR_OBJ> <ARG_LIST> | )
+<EXPR_OBJ>          -> <EXPR> | <NEW_OBJ>
+<DOT_ID>            -> dot id <POS> | null
 ```
 
 ```
