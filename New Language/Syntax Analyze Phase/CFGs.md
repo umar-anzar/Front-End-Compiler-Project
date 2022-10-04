@@ -270,7 +270,7 @@ This CFG take cares of declaration of **primitive/object** type **variable** and
 
 <ASSIGN_EXPR>   -> <DOT_EXPR> | <SUBSCRIPT> <DOT_EXPR> | <FN_BRACKETS> <DOT_EXPR2>
 <DOT_EXPR>      -> dot id <ASSIGN_EXPR> | <ASSIGN_OP> <INIT> | <INC_DEC> <ID_TO_EXPR> | <NEW_OBJ> | <ID_TO_EXPR> 
-<DOT_EXPR2>     -> dot id <ASSIGN_EXPR> | <ID_TO_EXPR> | null
+<DOT_EXPR2>     -> dot id <ASSIGN_EXPR> | <ID_TO_EXPR>
 <ID_TO_EXPR>    -> <J1> <I1> <H1> <G1> <F1> <EXPR1>
 <LIST>          -> , id = <INIT> <LIST> | ;
 <ASSIGN_OP>     -> = | cma
