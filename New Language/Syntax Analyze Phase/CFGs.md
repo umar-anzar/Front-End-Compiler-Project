@@ -71,9 +71,15 @@ w: wrong
 ```xml
 <PACKAGE>   -> package id <IMP_DOT> ;
 <IMPORTS>   -> import id <IMP_DOT> 
-<IMP_DOT>   -> dot id | ;
+<IMP_DOT>   -> dot <ID_STAR> | ;
+<ID_STAR>   -> id <IMP_DOT> | power ; | ;
 ```
-
+```
+Example:
+import id.^;
+import id.id.id.^;
+import id.id;
+```
 <hr>
 
 <!--------------------------------------------------------------------------------------->
