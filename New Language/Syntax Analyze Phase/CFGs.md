@@ -95,8 +95,6 @@ w: wrong
 
 ```xml
 <ACCESSMOD>     -> protected | private | null  <!--Here null is public-->
-<STATIC>        -> Static
-<FINAL>         -> const | null
 ```
 
 <hr>
@@ -132,8 +130,11 @@ def object function_id (p1,p2,p3) {}
 
 ```xml
 <FN_CLASS_DEC>  -> def <IS_ABSTRACT>
-<IS_ABSTRACT>   -> Abstract <RET_TYPE_C> <FN_ST> <THROWS> ; | 
-...                <FINAL> <RET_TYPE_C> <FN_ST> <THROWS> { <MST> }
+<IS_ABSTRACT>   -> Abstract <WITH_STATIC>  ; | 
+...                const <WITH_STATIC>  { <MST> } |
+                   <WITH_STATIC>  { <MST> }
+<RET_TO_THROW>  -> <RET_TYPE_C> <FN_ST> <THROWS>
+<WITH_STATIC>   -> Static <RET_TO_THROW> | <RET_TO_THROW>
 ```
 
 ```xml
@@ -162,7 +163,7 @@ def const object $function_id (p1,p2,p3) {}
 ### Class Statement
 
 ```xml
-<GLOBAL_CLASS>   -> <CLASS_DEC> | Abstract <CLASS_DEC> | const <CLASS_GLOBAL>
+<GLOBAL_CLASS>      -> <CLASS_DEC> | Abstract <CLASS_DEC> | const <CLASS_GLOBAL>
 <CLASS_GLOBAL>      -> <CLASS_DEC> | <VAR_OBJ_G>
 <CLASS_DEC>         -> Class <NO_PRIVATE> id <CLASS_PAR> ( <INHERIT>
 <NO_PRIVATE>        -> protected | null
@@ -395,7 +396,7 @@ int [][] var = new int [2][]                r
 This CFG take care of primitive and object type variable and array declaration.
 <!--null in list and is_init is ';' but it is used in either class body or SST-->
 ```xml
-<ATTR_CLASS_DEC>    -> <STATIC> <IS_FINAL>
+<ATTR_CLASS_DEC>    -> Static <IS_FINAL> | <IS_FINAL>
 <IS_FINAL>          -> const <VAR_OBJ_C> | dt <VAR_ARR_C> | id <VAR_ARR_C>   
 <VAR_OBJ_C>         -> <TYPE> <VAR_ARR_C>
 <VAR_ARR_C>         -> <ARR_CLASS_DEC> | <ACCESSMOD> id <IS_INIT_C>
