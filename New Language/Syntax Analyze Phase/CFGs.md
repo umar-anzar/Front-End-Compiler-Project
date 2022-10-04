@@ -332,7 +332,7 @@ x.y.functio().function_id (p1,p2,p3)
 
 <ARR_INIT>      -> id <IS_ARR_INIT>
 <IS_ARR_INIT>   -> = <CHOICE> | ;
-<CHOICE>        -> <REF_NEWARR> | <NEW_ARR_CONST>
+<CHOICE>        -> id <POSARR> | <NEW_ARR_CONST>
 <NEW_ARR_CONST> -> new <TYPE> [ <DIM_PASS>
 
 <REF_NEWARR>    -> id <POSARR> | <NEW_ARR_CONST>
