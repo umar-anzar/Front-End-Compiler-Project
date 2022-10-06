@@ -25,8 +25,8 @@ w: wrong
 
 ### Start Structure
 ```xml
-<START>     -> <PACKAGE> <ST1> <ST_BODY>
-<ST1>       -> <IMPORTS> <ST1> | null
+<START>     -> <PACKAGE> <ST1> 
+<ST1>       -> <IMPORTS> <ST1> | <ST_BODY>
 <ST_BODY>   -> <MAIN> <ST_BODY2> | <FN_DEC> <ST_BODY> | <GLOBAL_CLASS> <ST_BODY> | 
 ...            <GLOBAL_DEC> <ST_BODY> | null
 <ST_BODY2>  -> <FN_DEC> <ST_BODY2> | <GLOBAL_CLASS> <ST_BODY2> | 
@@ -97,7 +97,7 @@ import id.id;
 
 <!--------------------------------------------------------------------------------------->
 
-### Access Modifier, Static and Abstract
+### Access Modifier
 
 ```xml
 <ACCESSMOD>     -> protected | private | null  <!--Here null is public-->
@@ -200,14 +200,14 @@ array subscript | arr[2]          | arr[2:3]
 
 - End only with ID, array subscript.
 ```xml
-<POS>               -> <DOT_ID> | <SUBSCRIPT> <DOT_ID> | <FN_BRACKETS> dot id <POS>
+<POS>               -> <DOT_ID> | <SUBSCRIPT> <DOT_ID> | <FN_BRACKETS> dot id <POS> | null
 <SUBSCRIPT>         -> [ <EXPR> ] <SUBSCRIPT_LIST>
 <SUBSCRIPT_LIST>    -> [ <EXPR> ] <SUBSCRIPT_LIST> | null
 <FN_BRACKETS>       -> ( <ARG> 
 <ARG>               -> <EXPR_OBJ> <ARG_LIST> | )
 <ARG_LIST>          -> , <EXPR_OBJ> <ARG_LIST> | )
 <EXPR_OBJ>          -> <EXPR> | <NEW_OBJ>
-<DOT_ID>            -> dot id <POS> | null
+<DOT_ID>            -> dot id <POS>
 ```
 
 ```
@@ -225,9 +225,9 @@ func() =                w
 and function call ends with null.
 
 ```xml
-<POS2>          -> <INC_DEC_DOT> | <SUBSCRIPT> <INC_DEC_DOT> | <FN_BRACKETS> <DOT_ID2>
+<POS2>          -> <INC_DEC_DOT> | <SUBSCRIPT> <INC_DEC_DOT> | <FN_BRACKETS> <DOT_ID2> | null
 <INC_DEC_DOT>   -> <INC_DEC> | <DOT_ID2> 
-<DOT_ID2>       -> dot id <POS2> | null
+<DOT_ID2>       -> dot id <POS2>
 ```
 ```
 Example:
@@ -384,8 +384,8 @@ int [][] var = new int [2][]                r
 
 ### Global Variable Declaration
 ```xml
-<GLOBAL_DEC>    -> <IS_FINAL_G>
-<IS_FINAL_G>    -> const <VAR_OBJ_G> | dt <VAR_ARR_G> | id <VAR_ARR_G>   
+<GLOBAL_DEC>    -> <IS_OBJ_G>
+<IS_OBJ_G>      -> dt <VAR_ARR_G> | id <VAR_ARR_G>   
 <VAR_OBJ_G>     -> <TYPE> <VAR_ARR_G>
 <VAR_ARR_G>     -> <ARR_CLASS_DEC> | id <IS_INIT_G>
 <IS_INIT_G>     -> = <INIT> <LIST_G> | ;
@@ -486,7 +486,7 @@ Unary   'convt(dt) !'
 ###  Increment Decrement
 
 ```xml
-<INC_DEC> -> ++ | --
+<INC_DEC> -> inc_dec
 ```
 
 
@@ -503,8 +503,8 @@ Unary   'convt(dt) !'
 
 if-else
 ```xml
-<IF_ELSE>   -> if ( <EXPR> ) <body> <OELSE>
-<OELSE>     -> else <body> | null
+<IF_ELSE>   -> if ( <EXPR> ) <BODY> <OELSE>
+<OELSE>     -> else <BODY> | null
 ```
 
 switch-case

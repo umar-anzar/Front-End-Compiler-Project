@@ -54,7 +54,7 @@ Same:
 - Associativity
 - Syntactically replaceable
 
-| Relation   Operator | inc-dec | not | pm | mdm | power |
+| Relation   Operator | inc_dec | not | pm | mdm | power |
 |---------------------|---------|-----|----|-----|-------|
 | <                   | ++      | !   | +  | *   | ^     |
 | >                   | --      |     | -  | /   |       |
