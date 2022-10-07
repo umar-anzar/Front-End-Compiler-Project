@@ -262,11 +262,11 @@ This CFG take cares of declaration of **primitive/object** type **variable** and
 
 <VAR_ARR>       -> <ARR_DEC> | id <IS_INIT>
 <IS_INIT>       -> = <INIT> <LIST> | ;
-<INIT>          -> <IS_ACMETH> id <ASSIGN_EXPR> | <NEW_OBJ> | <OPER_TO_EXPR> | <FLAG> <OPERAND>
+<INIT>          -> <IS_ACMETH> id <ASSIGN_EXPR> | <NEW_OBJ> | <OPER_TO_EXPR> | <FLAG> <OPERANDS>
 <IS_ACMETH>     -> <ACCESS_METH> | null
 
 <OPER_TO_EXPR>  -> <INC_DEC> id <POS> <ID_TO_EXPR>    | ( <EXPR> ) <ID_TO_EXPR> | 
-                   <UNARY> <OPERAND> <ID_TO_EXPR>     | <CONST> <ID_TO_EXPR>   | 
+                   <UNARY> <OPERANDS> <ID_TO_EXPR>     | <CONST> <ID_TO_EXPR>   | 
 
 <ASSIGN_EXPR>   -> <DOT_EXPR> | <SUBSCRIPT> <DOT_EXPR> | <FN_BRACKETS> <DOT_EXPR2>
 <DOT_EXPR>      -> dot id <ASSIGN_EXPR> | <ASSIGN_OP> <INIT> | <INC_DEC> <ID_TO_EXPR> | <NEW_OBJ> | <ID_TO_EXPR> 
@@ -341,11 +341,11 @@ x.y.functio().function_id (p1,p2,p3)
 <CHOICE>        -> id <POSARR> | <NEW_ARR_CONST>
 <NEW_ARR_CONST> -> new <TYPE> [ <DIM_PASS>
 
-<REF_NEWARR>    -> id <POSARR> | <NEW_ARR_CONST>
-<POSARR>        -> <DOT_ARR> <MORE_REF_STR> | <SUBSCRIPT> <DOT_ARR> <MORE_REF_ARR> | <FN_BRACKETS> <DOT_ARR_TRMIN>
-<DOT_ARR>       -> dot id <POSARR> | null
+<REF_NEWARR>    -> id <POSARR> <MORE_REF_STR> | <NEW_ARR_CONST>
+<POSARR>        -> <DOT_ARR> | <SUBSCRIPT> <DOT_ARR> | <FN_BRACKETS> <DOT_ARR_TRMIN> | null
+<DOT_ARR>       -> dot id <POSARR>
 <DOT_ARR_TRMIN> -> <DOT_ARR> | ;
-<MORE_REF_STR>  -> = <REF_NEWARR>  | ; 
+<MORE_REF_STR>  -> = <REF_NEWARR> | ; 
 
 <DIM_PASS>      -> <EXPR> ] <MUL_ARR_DEC> | ] <EMP_ARR_DEC> 
 
@@ -431,22 +431,6 @@ Unary OP
 Unary   'convt(dt) !'
 ```
 
-- Left Recursive 
-```xml
-<EXPR>      -> <EXPR> or <F>
-<EXPR>      -> <F>
-<F>         -> <F> and <G>
-<F>         -> <G>
-<G>         -> <G> rop <H>
-<G>         -> <H>
-<H>         -> <H> pm <I>
-<H>         -> <I>
-<I>         -> <I> mdm <J>
-<I>         -> <J>
-<J>         -> <J> power <K>
-<J>         -> <K>
-<K>         -> <FLAG> <OPERANDS>
-```
 - Right Recursive 
 ```xml
 <EXPR>      -> <F> <EXPR1>
@@ -473,7 +457,7 @@ Unary   'convt(dt) !'
 ### Operands
 
 ```xml
-<OPERAND>   -> <IS_ACMETH> id <POS2> | <INC_DEC> id <POS> | ( <EXPR> ) | <UNARY> <OPERAND> | <CONST>
+<OPERANDS>  -> <IS_ACMETH> id <POS2> | <INC_DEC> id <POS> | ( <EXPR> ) | <UNARY> <OPERANDS> | <CONST>
 
 <UNARY>     -> typeCast ( dt ) | not
 <FLAG>      -> pm 
@@ -539,8 +523,9 @@ For-loop
 <FOR_ST>    -> thru ( dt id in <FOR_ARG> ) <BODY>
 <FOR_ARG>   -> id <POS3> | ( <EXPR> , <EXPR> , <EXPR> )
 
-<POS3>      -> <DOT_ID5> | <SUBSCRIPT> <DOT_ID5> | <FN_BRACKETS> <DOT_ID5>
-<DOT_ID5>   -> dot id <POS3> | null
+<!--POS3 end with anything subscript id and function-->
+<POS3>      -> <DOT_ID5> | <SUBSCRIPT> <DOT_ID5> | <FN_BRACKETS> <DOT_ID5> | null
+<DOT_ID5>   -> dot id <POS3>
 ```
 
 <hr>
