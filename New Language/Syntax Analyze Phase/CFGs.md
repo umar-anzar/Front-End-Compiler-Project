@@ -146,9 +146,9 @@ def object function_id (p1,p2,p3) {}
 
 ```xml
 <RET_TYPE_C>    -> <DT_STR> <ARR_TYPE_LIST> <ACCESSMOD> id | 
-                   id <RT_OBJ_C> | <ACCESSMOD_C> id <!--void and no access modifer--> |
+                   id <RET_OBJ_C> | <ACCESSMOD_C> id <!--void and no access modifer--> |
 
-<RT_OBJ_C>      -> <ARR_TYPE> <ACCESSMOD> id | <ACCESSMOD_C> id | 
+<RET_OBJ_C>     -> <ARR_TYPE> <ACCESSMOD> id | <ACCESSMOD_C> id | 
                    id <!--return type but no access modifer--> | 
                    null <!--void no access modifier-->
 
