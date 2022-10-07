@@ -511,9 +511,9 @@ if-else
 switch-case
 ```xml
 <SWITCH>        -> shift ( <EXPR> ) { <STATE> 
-<STATE>         -> state <EXPR> : <SWITCH_BODY> <STATE> | <DEFAULT> | }
-<DEFAULT>       -> default : <SWITCH_BODY>
-<SWITCH_BODY>   -> <MST> | { <MST> } | ;
+<STATE>         -> state <EXPR> : <SWITCH_BODY> | <DEFAULT> | }
+<DEFAULT>       -> default : <MST> }
+<SWITCH_BODY>   -> { <MST> } <STATE> | ; <STATE> | <MST> <STATE> 
 ```
 
 <hr>
