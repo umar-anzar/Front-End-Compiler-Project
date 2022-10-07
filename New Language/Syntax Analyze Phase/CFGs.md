@@ -24,6 +24,7 @@ w: wrong
 
 
 ### Start Structure
+
 ```xml
 <START>     -> <PACKAGE> <ST1> 
 <ST1>       -> <IMPORTS> <ST1> | <ST_BODY>
@@ -509,13 +510,15 @@ if-else
 
 switch-case
 ```xml
-<SWITCH>    -> shift ( <EXPR> ) { <STATE> 
-<STATE>     -> state <EXPR> : <TWO_MST> <STATE> | <DEFAULT> | }
-<DEFAULT>   -> default : <TWO_MST>
-<TWO_MST>   -> <MST> | { <MST> }
+<SWITCH>        -> shift ( <EXPR> ) { <STATE> 
+<STATE>         -> state <EXPR> : <SWITCH_BODY> <STATE> | <DEFAULT> | }
+<DEFAULT>       -> default : <SWITCH_BODY>
+<SWITCH_BODY>   -> <MST> | { <MST> } | ;
 ```
 
 <hr>
+
+case : body
 
 <!--------------------------------------------------------------------------------------->
 
@@ -529,7 +532,7 @@ Loop
 
 While/do-while loop
 ```xml
-<WHILE_ST>  -> till ( <EXPR> ) <body>
+<WHILE_ST>  -> till ( <EXPR> ) <BODY>
 <DO_WHILE>  -> do <BODY> till ( <EXPR> ) ;
 ```
 
@@ -573,11 +576,12 @@ Throw
 ### Exception Handler
 
 ```xml
-<TRY_CATCH>     -> test { <MST> } except <ERROR_TYPE> { <MST> } <FINALLY>
-<ERROR_TYPE>    -> ( id <ERR_DOT> )
-<ERR_DOT>       -> dot id | id
-<THROWS>        -> raises id | null
-<FINALLY>       -> finally { <MST> } | null
+<TRY_CATCH>         -> test { <MST> } except <ERROR_TYPE> { <MST> } <EXCEPT_FINALLY>
+<EXCEPT_FINALLY>    -> except <ERROR_TYPE> { <MST> } <EXCEPT> | <FINALLY> | null
+<ERROR_TYPE>        -> ( id <ERR_DOT> )
+<ERR_DOT>           -> dot id | id
+<THROWS>            -> raises id | null
+<FINALLY>           -> finally { <MST> }
 ```
 
 <hr>

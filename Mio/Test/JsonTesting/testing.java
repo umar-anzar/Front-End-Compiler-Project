@@ -18,7 +18,18 @@ public class testing {
         int a = 4;
         int b = 4 + + + - + + 3 + + 4 * 4;
         
+        try {
+            
+        } catch (Exception e) {
+        }
+        finally{
+            
+        }
         
+        switch (b) {
+            default:
+                ;
+        }
     }
 }  
 
