@@ -25,6 +25,7 @@ class CFG:
             if len(word)-1 == self.index:
                 result = True
 
+        print(self.word[self.index], self.index)
         self.reset() #Reset parameters to parse more
         return result,word[:-1]
 
@@ -64,9 +65,8 @@ class CFG:
 
                     # Word can be neglected if the terminal is null else break to find other rule of same Non terminal
                     if terminal == 'null': #return True instead break because it is end condition hence just returns True
-                        if self.word[self.index] in selectionSet:
-                            return True
-                        return False
+                        return True
+
     
 
                     #First set of rule is true for word then second or further word false so no backtrack, Failed to parse

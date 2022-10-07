@@ -1,15 +1,10 @@
 import json
 
 string = """
-<FN_DEC>    -> def <RET_TYPE> id <FN_ST> <THROWS> { <MST> }
-<FN_ST>     -> ( <PAR> )
-<PAR>       -> <DT_ID> id <PAR_LIST>   | null
-<PAR_LIST>  -> , <DT_ID> id <PAR_LIST> | null
-
-<DT_ID>         -> <TYPE> <ARR_TYPE>
-<RET_TYPE>      -> <DT_ID> | null
-<TYPE>          -> id | dt | str 
-<ARR_TYPE>      -> [ ] <ARR_TYPE> | null
+<PACKAGE>   -> package id <IMP_DOT> ;
+<IMPORTS>   -> import id <IMP_DOT> 
+<IMP_DOT>   -> dot <ID_STAR> | ;
+<ID_STAR>   -> id <IMP_DOT> | power ; | ;
 """
 
 for strx in string.split('\n'):

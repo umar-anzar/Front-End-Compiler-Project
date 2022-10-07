@@ -98,7 +98,7 @@ public class Tokenizer {
             // AFTER LOOP CHECKING IF TEMP IS FILL WITH SOMETHING
             if (temp.isEmpty()) {
             } else {
-                System.out.println(temp+" op line:" + line);//operator token
+                //System.out.println(temp+" op line:" + line);//operator token
                 tokenDecidier(temp);
                 temp = "";
             }
@@ -115,6 +115,9 @@ public class Tokenizer {
         
         
         
+        // Before saving add END marker in the last of token list
+        TokenClass.addToken(new TokenClass("~","~",line));
+        
         // Save Token List In txt
         TokenClass.saveToken();
             
@@ -125,7 +128,7 @@ public class Tokenizer {
             
             if (!str) {
                 if (temp.length() != 1) {
-                    System.out.println(temp.substring(0, temp.length()-1));//TOKEN
+                    //System.out.println(temp.substring(0, temp.length()-1));//TOKEN
                     tokenDecidier(temp.substring(0, temp.length()-1));
                 }
                 temp = "";
@@ -148,7 +151,7 @@ public class Tokenizer {
         if (c == character) {
             try {
                 if (temp.length() != 1) {
-                    System.out.println(temp.substring(0, temp.length() - 1));
+                    //System.out.println(temp.substring(0, temp.length() - 1));
                     tokenDecidier(temp.substring(0, temp.length() - 1));
                 }
                 temp = "";
@@ -172,7 +175,7 @@ public class Tokenizer {
                     }
 
                 }
-                System.out.println(temp+" String");//Token
+                //System.out.println(temp+" String");//Token
                 tokenDecidier(temp);
                 temp = "";
                 return true;
@@ -186,7 +189,7 @@ public class Tokenizer {
     public static boolean commentBreaker() {
         if (character == '@') {
             if (temp.length() != 1) { 
-                System.out.println(temp.substring(0, temp.length() - 1));
+                //System.out.println(temp.substring(0, temp.length() - 1));
             }
             temp = "";
             try {
@@ -222,7 +225,7 @@ public class Tokenizer {
     public static boolean spaceAndTab() {
         if (' ' == character || '\t' == character) {
             if (temp.length() != 1) { 
-                System.out.println(temp.substring(0, temp.length() - 1));//TOKEN
+                //System.out.println(temp.substring(0, temp.length() - 1));//TOKEN
                 tokenDecidier(temp.substring(0, temp.length() - 1));
             }
             temp = "";
@@ -235,12 +238,12 @@ public class Tokenizer {
         for (int i = 0; i < bPunctuator.length; i++) {
             if (bPunctuator[i].charAt(0) == character){
                 if (temp.length() != 1) { 
-                    System.out.println(temp.substring(0, temp.length() - 1)); //word token
+                    //System.out.println(temp.substring(0, temp.length() - 1)); //word token
                     tokenDecidier(temp.substring(0, temp.length() - 1));
                     temp = "";
                     temp += character;
                 }
-                System.out.println(temp+" punc line:" + line);//punctuator token
+                //System.out.println(temp+" punc line:" + line);//punctuator token
                 tokenDecidier(temp);
                 temp = "";
                 break;
@@ -252,7 +255,7 @@ public class Tokenizer {
         for (int i = 0; i < bOperator.length; i++) {
             if (bOperator[i][0].charAt(0) == character){
                 if (temp.length() != 1) { 
-                    System.out.println(temp.substring(0, temp.length() - 1)); //word token
+                    //System.out.println(temp.substring(0, temp.length() - 1)); //word token
                     tokenDecidier(temp.substring(0, temp.length() - 1));
                     temp = "";
                     temp += character;
@@ -276,7 +279,7 @@ public class Tokenizer {
                     }
                 }
             }
-            System.out.println(temp+" op line:" + line);//operator token
+            //System.out.println(temp+" op line:" + line);//operator token
             tokenDecidier(temp);
             temp = "";
             len2Op = false;
@@ -295,7 +298,7 @@ public class Tokenizer {
                 //Read then
             } else {
                 // Its not a float, its a indentifer or other breaker
-                System.out.println(temp.charAt(0)); //word token DOT
+                //System.out.println(temp.charAt(0)); //word token DOT
                 tokenDecidier(String.valueOf(temp.charAt(0)));
                 temp = "";
             }
@@ -315,10 +318,10 @@ public class Tokenizer {
                 } else {
                     //Then this might be identifier or other thing so BREAK IT
                     //NOT A FLOAT SO BREAKING MUST
-                    System.out.println(temp);//TOKEN
+                    //System.out.println(temp);//TOKEN
                     tokenDecidier(temp);
                     temp = ""+character;
-                    System.out.println(temp);//TOKEN
+                    //System.out.println(temp);//TOKEN
                     tokenDecidier(temp);
                     temp = "";
                     return true;

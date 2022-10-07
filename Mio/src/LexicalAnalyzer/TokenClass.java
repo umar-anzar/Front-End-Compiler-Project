@@ -23,7 +23,7 @@ import java.util.List;
 public class TokenClass {
     
     // Class Attribute
-    static List <TokenClass> tokenList;
+    public static List <TokenClass> tokenList;
     
     // Object Attributes
     public String classP;
@@ -51,12 +51,12 @@ public class TokenClass {
         }
 
         // Add Token
-        static void addToken(TokenClass t) {
+        public static void addToken(TokenClass t) {
             TokenClass.tokenList.add(t);
         }
 
         // Save Token in Json File
-        static void saveToken() {
+        public static void saveToken() {
             GsonBuilder builder = new GsonBuilder(); 
             //builder.setPrettyPrinting(); 
             Gson gson = builder.create(); 
@@ -93,7 +93,7 @@ public class TokenClass {
         }
         
         // Load Token from Json File
-        static void loadToken(){
+        public static void loadToken(){
             try {
             Reader reader = Files.newBufferedReader(Paths.get("src\\LexicalAnalyzer\\Tokens.txt"));
              // convert JSON array to list of users
