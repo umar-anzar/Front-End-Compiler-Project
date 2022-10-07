@@ -20,7 +20,7 @@ class CFG:
         self.word = word
         result = False
 
-        if self.parser("<X>"):
+        if self.parser(self.start):
 
             if len(word)-1 == self.index:
                 result = True
@@ -35,7 +35,6 @@ class CFG:
 
         selectionSet = self.ss[start]
         if self.word[self.index] not in selectionSet:
-            print(self.word[self.index],self.word[self.index] in selectionSet)
             return False
 
         for OR in rule:
@@ -66,12 +65,9 @@ class CFG:
                     # Word can be neglected if the terminal is null else break to find other rule of same Non terminal
                     if terminal == 'null': #return True instead break because it is end condition hence just returns True
                         if self.word[self.index] in selectionSet:
-                            
                             return True
-                        else:
-                            
-                            self.theEnd = True
-                            return False
+                        return False
+    
 
                     #First set of rule is true for word then second or further word false so no backtrack, Failed to parse
                     if k>0: 

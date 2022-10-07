@@ -19,7 +19,7 @@ class CFG:
         self.word = word
         result = False
 
-        if self.parser("<X>"):
+        if self.parser(self.start):
 
             if len(word)-1 == self.index:
                 result = True
