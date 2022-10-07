@@ -13,6 +13,9 @@ public class testing {
         
     }
     public static void main(String[] args){
+        
+        System.out.println("a".substring(0, 1));
+        
         XYZ y = new XYZ();
         XYZ x = y = new XYZ();
         int a = 4;

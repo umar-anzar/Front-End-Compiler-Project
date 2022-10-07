@@ -26,10 +26,10 @@ public class TokenClass {
     static List <TokenClass> tokenList;
     
     // Object Attributes
-    String classP;
-    String valueP;
-    int line;
-    String error;
+    public String classP;
+    public String valueP;
+    public int line;
+    public String error;
     
     
     //Constructor--------------------------------------------------------------
