@@ -14,6 +14,8 @@ public class testing {
     }
     public static void main(String[] args){
         
+        if (2>3);
+        
         System.out.println("a".substring(0, 1));
         
         XYZ y = new XYZ();
@@ -30,8 +32,9 @@ public class testing {
         }
         
         switch (b) {
-            default:
-                ;
+            case 3:
+            case 6:
+                break;
         }
     }
 }  
