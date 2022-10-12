@@ -118,7 +118,7 @@ public class ValidWords {
         
         {"^", "power"},
         
-        {"=", "assignOp"}
+        {"=", "="}
            
     };
 

@@ -379,7 +379,7 @@ public class Tokenizer {
             }
         else if ( match("[.]", String.valueOf(tokenString.charAt(0))) ) {
            if (tokenString.length() == 1){
-                token = new TokenClass(tokenString, tokenString, line);
+                token = new TokenClass(ValidWords.DOT, tokenString, line);
             } 
            else if(tokenString.length() > 1){
                if(ValidWords.isFltConst(tokenString)){

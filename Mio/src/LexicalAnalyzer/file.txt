@@ -31,4 +31,6 @@ def str[][] $var ( int p ) {
     int[] b = new int[3][];
 }
 @@
-{int helo{point bye{bool man{val damn{int lol}}}}};
+package hello;
+import asd.qwre.asd.^;
+import asd.a_.asd.^;

@@ -26,7 +26,7 @@ w: wrong
 ### Start Structure
 
 ```xml
-<START>     -> <PACKAGE> <ST1> 
+<START>     -> <PACKAGE> <ST1> | null
 <ST1>       -> <IMPORTS> <ST1> | <ST_BODY>
 <ST_BODY>   -> <MAIN> <ST_BODY2> | <FN_DEC> <ST_BODY> | <GLOBAL_CLASS> <ST_BODY> | 
 ...            <GLOBAL_DEC> <ST_BODY> | null
@@ -70,7 +70,7 @@ w: wrong
 
 ### Package and Import
 ```xml
-<PACKAGE>   -> package id <IMP_DOT> ;
+<PACKAGE>   -> package id <IMP_DOT>
 <IMPORTS>   -> import id <IMP_DOT> 
 <IMP_DOT>   -> dot <ID_STAR> | ;
 <ID_STAR>   -> id <IMP_DOT> | power ; | ;
@@ -354,7 +354,7 @@ x.y.functio().function_id (p1,p2,p3)
 <EMP_ARR_DEC>   -> [ ] <EMP_ARR_DEC> | <ARR_CONST>
 <MUL_ARR_DEC2>  -> [ <LEN_OF_ARR2> | ;
 <LEN_OF_ARR2>   -> <EXPR> ] <MUL_ARR_DEC2> | ] <EMP_ARR_DEC2>
-<EMP_ARR_DEC2>   -> [ ] <EMP_ARR_DEC2> | ;
+<EMP_ARR_DEC2>  -> [ ] <EMP_ARR_DEC2> | ;
 
 <ARR_CONST>     -> { <ARR_ELEMT>
 <ARR_ELEMT>     -> <EXPR> <EXPR_LIST>  | <ARR_CONST> <EXPR_LIST> | } ;
