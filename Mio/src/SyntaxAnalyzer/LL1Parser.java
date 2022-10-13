@@ -5,6 +5,7 @@
 package SyntaxAnalyzer;
 
 import LexicalAnalyzer.TokenClass;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -86,6 +87,13 @@ public class LL1Parser {
         return false;
     }
     
+    //Selection Set
+    HashMap<String, String[]> selectionSet;
+    
+    private void initializeSelectionSet(){
+        selectionSet.put("START", new String[] {"a"});
+        selectionSet.put("START", new String[] { "import", "Begin", "def", "Class", "Abstract", "const", "dt", "id" });
+    }
     
     // CFG
     
