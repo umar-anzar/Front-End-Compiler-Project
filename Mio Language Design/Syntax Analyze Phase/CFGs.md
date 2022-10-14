@@ -22,7 +22,7 @@ Writing context free grammar
 r: right
 w: wrong
 
-
+<!--COUNT:4-->
 ### Start Structure
 
 ```xml
@@ -37,13 +37,13 @@ w: wrong
 <hr>
 
 <!--------------------------------------------------------------------------------------->
-
+<!--COUNT:1-->
 ### Body
 
 ```xml
 <BODY>  -> ; | <SST> | { <MST> }
 ```
-
+<!--COUNT:2-->
 ### Single and Multi Statements
 
 ```xml
@@ -58,7 +58,7 @@ w: wrong
 <hr>
 
 <!--------------------------------------------------------------------------------------->
-
+<!--COUNT:1-->
 ### Begin the Main Function
 ```xml
 <MAIN>  -> Begin { <MST> }
@@ -67,7 +67,7 @@ w: wrong
 <hr>
 
 <!--------------------------------------------------------------------------------------->
-
+<!--COUNT:4-->
 ### Package and Import
 ```xml
 <PACKAGE>   -> package id <IMP_DOT>
@@ -84,7 +84,7 @@ import id.id;
 <hr>
 
 <!--------------------------------------------------------------------------------------->
-
+<!--COUNT:5-->
 ### Reusable CFG
 ```xml
 <TYPE>          -> id | dt | str 
@@ -97,7 +97,7 @@ import id.id;
 <hr>
 
 <!--------------------------------------------------------------------------------------->
-
+<!--COUNT:1-->
 ### Access Modifier
 
 ```xml
@@ -107,7 +107,7 @@ import id.id;
 <hr>
 
 <!--------------------------------------------------------------------------------------->
-
+<!--COUNT:14-->
 ### Function Statement
 
 - Function Statement in Start
@@ -166,7 +166,7 @@ def const object $function_id (p1,p2,p3) {}
 <hr>
 
 <!--------------------------------------------------------------------------------------->
-
+<!--COUNT:7-->
 ### Class Statement
 
 ```xml
@@ -178,7 +178,7 @@ def const object $function_id (p1,p2,p3) {}
 <INHERIT>           -> id <MULTI_INHERIT>   | )  { <CLASS_BODY> 
 <MULTI_INHERIT>     -> , id <MULTI_INHERIT> | )  { <CLASS_BODY> 
 ```
-
+<!--COUNT:2-->
 ### Class Body 
 
 ```xml
@@ -189,7 +189,7 @@ def const object $function_id (p1,p2,p3) {}
 <hr>
 
 <!--------------------------------------------------------------------------------------->
-
+<!--COUNT:11-->
 ### Dot Separated Identifers, Function calls, array subscripts
 
 ```
@@ -247,7 +247,7 @@ which word this cfg going to parse
 <hr>
 
 <!--------------------------------------------------------------------------------------->
-
+<!--COUNT:14-->
 ### Declaration and Initialization
 
 - Not in Class
@@ -284,7 +284,7 @@ int x = y = convt(int) a + 5, t = q = 2;    r
 int x = convt(int) y = a + 5, t = q = 2;    w
 x = y = a + 5, t = 3;                       w
 ```
-
+<!--COUNT:4-->
 ### Assignment
 
 - This CFG is called by `<DEC>` and it handles **assignment** and **function call**.
@@ -319,7 +319,7 @@ x.y.functio().function_id (p1,p2,p3)
 <hr>
 
 <!--------------------------------------------------------------------------------------->
-
+<!--COUNT:2-->
 ### Object Declaration
 ```xml
 <NEW_OBJ>       -> new <TYPE> <CONSTR_ARR> | NaN
@@ -329,7 +329,7 @@ x.y.functio().function_id (p1,p2,p3)
 <hr>
 
 <!--------------------------------------------------------------------------------------->
-
+<!--COUNT:21-->
 ### Array Declaration
 
 ```xml
@@ -382,7 +382,7 @@ int [][] var = new int [2][]                r
 <hr>
 
 <!--------------------------------------------------------------------------------------->
-
+<!--COUNT:6-->
 ### Global Variable Declaration
 ```xml
 <GLOBAL_DEC>    -> <IS_OBJ_G>
@@ -396,7 +396,7 @@ int [][] var = new int [2][]                r
 <hr>
 
 <!--------------------------------------------------------------------------------------->
-
+<!--COUNT:6-->
 ### Attribute Declaration in class
 
 This CFG take care of primitive and object type variable and array declaration.
@@ -414,7 +414,7 @@ This CFG take care of primitive and object type variable and array declaration.
 
 <hr>
 <!--------------------------------------------------------------------------------------->
-
+<!--COUNT:14-->
 ### Expression
 
 Precedance of Operators Low to High
@@ -453,7 +453,7 @@ Unary   'convt(dt) !'
 <hr>
 
 <!--------------------------------------------------------------------------------------->
-
+<!--COUNT:3-->
 ### Operands
 
 ```xml
@@ -467,14 +467,14 @@ Unary   'convt(dt) !'
 
 <!--------------------------------------------------------------------------------------->
 
-
+<!--COUNT:1-->
 ###  Increment Decrement
 
 ```xml
 <INC_DEC> -> inc_dec
 ```
 
-
+<!--COUNT:1-->
 ### Constant
 ```xml
 <CONST> -> intConst | floatConst | charConst | boolConst | strConst
@@ -483,7 +483,7 @@ Unary   'convt(dt) !'
 <hr>
 
 <!--------------------------------------------------------------------------------------->
-
+<!--COUNT:6-->
 ### Conditional Statements
 
 if-else
@@ -503,7 +503,7 @@ switch-case
 <hr>
 
 <!--------------------------------------------------------------------------------------->
-
+<!--COUNT:8-->
 ### Loop Statements
 
 Loop
@@ -531,7 +531,7 @@ For-loop
 <hr>
 
 <!--------------------------------------------------------------------------------------->
-
+<!--COUNT:5-->
 ### Jump Statements
 
 Break-continue
@@ -555,7 +555,7 @@ Throw
 
 <!--------------------------------------------------------------------------------------->
 
-
+<!--COUNT:6-->
 ### Exception Handler
 
 ```xml

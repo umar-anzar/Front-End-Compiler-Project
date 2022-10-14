@@ -1,7 +1,17 @@
 import json
 
 string = """
-if ? shift ? const ? dt ? id ? Parent ? Self ? test ? loop ? do ? stop ?Ret ? Cont ? raise
+package
+
+import
+
+dot ? ;
+
+id ? power ? ;
+
+
+
+
 
 
 
@@ -39,6 +49,6 @@ for x in arr:
                 continue
         Z+=i
 
-    print("selectionSet.put(\"\", new String[] "+Z+");")
+    print("sSet.put(\"\", new String[][] {"+Z+"});")
 
 

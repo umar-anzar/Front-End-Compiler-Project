@@ -5,7 +5,6 @@
 package SyntaxAnalyzer;
 
 import LexicalAnalyzer.TokenClass;
-import java.util.HashMap;
 
 /**
  *
