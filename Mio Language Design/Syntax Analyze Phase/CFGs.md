@@ -9,8 +9,8 @@
 | 5          | Package and Import                  | 18     | Expression                     |
 | 6          | Reusable CFG                        | 19     | Operands                       |
 | 7          | Access Mod, Static and Abstract     | 20     | Increment Decrement            |
-| 8          | Function Declaration                | 21     | Constant                       |
-| 9          | Class Declaration                   | 22     | Conditional Statements         |
+| 8          | Function Statement                  | 21     | Constant                       |
+| 9          | Class Statement                     | 22     | Conditional Statements         |
 | 10         | Class Body                          | 23     | Loop Statements                |
 | 11         | Dot Separated Id, FC, AR subscripts | 24     | Jump Statements                |
 | 12         | Declaration and Initialization      | 25     | Exception Handler              |
@@ -414,6 +414,7 @@ This CFG take care of primitive and object type variable and array declaration.
 
 <hr>
 <!--------------------------------------------------------------------------------------->
+
 <!--COUNT:14-->
 ### Expression
 

@@ -174,7 +174,7 @@ public class LL1Parser {
         return false;
     }
     
-    //Start Structure-----------------------------------------------------------
+    //Start Structure-----------------------------------------------------------?
     
     private boolean START() {
         if (searchFirstSet("PACKAGE")) {
@@ -206,8 +206,16 @@ public class LL1Parser {
 
         return false;
     }
+    private boolean ST_BODY(){return false;}
+    private boolean ST_BODY2(){return false;}
     
-    //Package and Import--------------------------------------------------------
+    //Body----------------------------------------------------------------------?
+    
+    //Single and Multi Statements-----------------------------------------------?
+    
+    //Begin the Main Function---------------------------------------------------?
+    
+    //Package and Import--------------------------------------------------------?
     private boolean PACKAGE() {
         if (match("package")) {
             if (match("id"))
@@ -217,8 +225,6 @@ public class LL1Parser {
         
         return false;
     }
-
-    
     private boolean IMPORTS() {
         if (match("import")) {
             if (match("id"))
@@ -228,7 +234,6 @@ public class LL1Parser {
         
         return false;
     }
-    
     private boolean IMP_DOT() {
         if (match("dot")) {
             if (ID_STAR())
@@ -241,7 +246,6 @@ public class LL1Parser {
 
         return false;
     }
-
     private boolean ID_STAR() {
 
         if (match("id")){
@@ -261,4 +265,43 @@ public class LL1Parser {
         return false;
     }
 
+    //Reusable CFG--------------------------------------------------------------?
+    
+    //Access Modifier-----------------------------------------------------------?
+    
+    //Function Statement--------------------------------------------------------?
+    
+    //Class Statement-----------------------------------------------------------?
+    
+    //Class Body----------------------------------------------------------------?
+    
+    //Dot Separated Identifers, Function calls, array subscripts----------------?
+    
+    //Declaration and Initialization--------------------------------------------?
+    
+    //Assignment----------------------------------------------------------------?
+    
+    //Object Declaration--------------------------------------------------------?
+    
+    //Array Declaration---------------------------------------------------------?
+    
+    //Global Variable Declaration-----------------------------------------------?
+    
+    //Attribute Declaration in class--------------------------------------------?
+    
+    //Expression----------------------------------------------------------------?
+    
+    //Operands------------------------------------------------------------------?
+    
+    //Increment Decrement-------------------------------------------------------?
+    
+    //Constant------------------------------------------------------------------?
+    
+    //Conditional Statements----------------------------------------------------?
+    
+    //Loop Statements-----------------------------------------------------------?
+    
+    //Jump Statements-----------------------------------------------------------?
+    
+    //Exception Handler---------------------------------------------------------?
 }
