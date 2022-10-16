@@ -61,7 +61,7 @@ w: wrong
 <!--COUNT:1-->
 ### Begin the Main Function
 ```xml
-<MAIN>  -> Begin { <MST> }
+<MAIN>  -> begin { <MST> }
 ```
 
 <hr>

@@ -30,13 +30,13 @@ public class LL1Parser {
     /**
      * Validate function takes TokenList and parse through CFG
      * @param wordList TokenList
-     * @return 
+     * @return true if syntax/ TokenList match with Grammar
      */
     public boolean validate(List<TokenClass> wordList) {
         this.tokenList = wordList;
         boolean result = false;
         
-        if (searchFirstSet("START")){
+        if (searchSelectionSet("START")){
             if ( START() ) 
                 result = ( this.index == this.tokenList.size()-1);
         }
@@ -82,9 +82,14 @@ public class LL1Parser {
      * @param selectionSet
      * @return 
      */
-    private boolean searchFirstSet(String selectionSet) {
+    private boolean searchSelectionSet(String selectionSet) {
         String word = getTokenCP();
         for (String cp : sSet.get(selectionSet)[0]) {
+            if ( word.equals(cp)) {
+                return true;
+            }
+        }
+        for (String cp : sSet.get(selectionSet)[1]) {
             if ( word.equals(cp)) {
                 return true;
             }
@@ -111,7 +116,7 @@ public class LL1Parser {
      * If token match with the grammar word then index is incremented and
      * function return true.
      * @param nonTerminal
-     * @return 
+     * @return Boolean value, true if match
      */
     private boolean match(String nonTerminal) {
         if (getTokenCP().equals(nonTerminal)) {
@@ -154,40 +159,45 @@ public class LL1Parser {
     private boolean DUMMY() {
         //IF PRODUCTION RULES START FROM NON TERMINAL THEN SEARCHFIRSTSET FUNCTION IS USED
         //IF THERE IS NULL THEN IN THE ELSE BLOCK SEARCHFOLLOWSET IS USED
-        if (searchFirstSet("NONTERMINAL")) 
+        if (searchSelectionSet("NONTERMINAL")) 
         {
             //Recursive descent code
         } else {
-            if (searchFollowSet("NONTERMINAL"))
+            if (searchFollowSet("NONTERMINAL")) {
                 return true;
+            }
         }
         
         return false;
     }
     
-    //Start Structure-----------------------------------------------------------?
+    //Start Structure-----------------------------------------------------------&
     
     private boolean START() {
-        if (searchFirstSet("PACKAGE")) {
-            if (PACKAGE()) 
-                if (ST1()) 
-                    return true;
-                
+        if (searchSelectionSet("PACKAGE")) {
+            if (PACKAGE()) { 
+                if (ST1()) { 
+                    return true;  
+                }
+            }
         } 
         else {
-            if (searchFollowSet("START")) 
+            if (searchFollowSet("START"))  {
                 return true;
+            }
         }
 
         return false;
     }
     private boolean ST1() {
-        if (searchFirstSet("IMPORTS")) {
-            if (IMPORTS())
-                if (ST1())
+        if (searchSelectionSet("IMPORTS")) {
+            if (IMPORTS()) {
+                if (ST1()) {
                     return true;
+                }
+            }
         }
-        else if (searchFirstSet("ST_BODY")) {
+        else if (searchSelectionSet("ST_BODY")) {
             if (ST_BODY()) {
                 return true;
             }
@@ -195,46 +205,167 @@ public class LL1Parser {
         
         return false;
     }
-    private boolean ST_BODY(){return false;}
-    private boolean ST_BODY2(){return false;}
+    private boolean ST_BODY() {
+        if (searchSelectionSet("MAIN")) {
+            if (MAIN()) {
+                if (searchSelectionSet("ST_BODY2")) {
+                    if (ST_BODY2()) {
+                        return true; 
+                    }
+                }
+            }
+        }
+        else if (searchSelectionSet("FN_DEC")) {
+            if (FN_DEC()) {
+                if (searchSelectionSet("ST_BODY")) {
+                    if (ST_BODY()) {
+                        return true;
+                    }
+                }
+            }
+        }
+        else if (searchSelectionSet("GLOBAL_CLASS")) {
+            if (FN_DEC()) {
+                if (searchSelectionSet("ST_BODY")) {
+                    if (ST_BODY()) {
+                        return true;
+                    }
+                }
+            }
+        }
+        else if (searchSelectionSet("GLOBAL_DEC")) {
+            if (GLOBAL_DEC()) {
+                if (searchSelectionSet("ST_BODY")) {
+                    if (ST_BODY()) {
+                        return true;
+                    }
+                }
+            }
+        }
+        else {
+            if (searchFollowSet("ST_BODY")) {
+                return true;
+            }
+        }
+        return false;
+    }
+    private boolean ST_BODY2() {
+        if (searchSelectionSet("FN_DEC")) {
+            if (FN_DEC()) {
+                if (searchSelectionSet("ST_BODY2")) {
+                    if (ST_BODY2()) {
+                        return true;
+                    }
+                }
+            }
+        }
+        else if (searchSelectionSet("GLOBAL_CLASS")) {
+            if (FN_DEC()) {
+                if (searchSelectionSet("ST_BODY2")) {
+                    if (ST_BODY2()) {
+                        return true;
+                    }
+                }
+            }
+        }
+        else if (searchSelectionSet("GLOBAL_DEC")) {
+            if (GLOBAL_DEC()) {
+                if (searchSelectionSet("ST_BODY2")) {
+                    if (ST_BODY2()) {
+                        return true;
+                    }
+                }
+            }
+        }
+        else {
+            if (searchFollowSet("ST_BODY2")) {
+                return true;
+            }
+        }
+        return false;
+    }
     
-    //Body----------------------------------------------------------------------?
-    private boolean BODY(){return false;}
+    //Body----------------------------------------------------------------------$
+    private boolean BODY() { 
+        if (match(";")) {
+            return true;
+        }
+        else if (searchSelectionSet("SST")) {
+            if (SST()) {
+                return true;
+            }
+        }
+        else if (match("{")) {
+            if (searchSelectionSet("MST")) {
+                if (MST()) {
+                    if (match("}")) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
     
     //Single and Multi Statements-----------------------------------------------?
-    private boolean SST(){return false;}
-    private boolean MST(){return false;}
+    private boolean SST() {return false;}
+    private boolean MST() {return false;}
     
-    //Begin the Main Function---------------------------------------------------?
-    private boolean MAIN(){return false;}
+    //Begin the Main Function---------------------------------------------------$
+    private boolean MAIN() {
+        if (match("begin")) {
+            if (match("{")) {
+                if (searchSelectionSet("MST")) {
+                    if (MST()) {
+                        if (match("}")) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
     
-    //Package and Import--------------------------------------------------------?
+    //Package and Import--------------------------------------------------------$
     private boolean PACKAGE() {
         if (match("package")) {
-            if (match("id"))
-                if (IMP_DOT()) 
-                    return true; 
+            if (match("id")) {
+                if (searchSelectionSet("IMP_DOT")) {
+                    if (IMP_DOT()) { 
+                        return true; 
+                    }
+                }
+                
+            }
         }
         
         return false;
     }
     private boolean IMPORTS() {
         if (match("import")) {
-            if (match("id"))
-                if (IMP_DOT())
-                    return true;
+            if (match("id")) {
+                if (searchSelectionSet("IMP_DOT")) {
+                    if (IMP_DOT()) { 
+                        return true; 
+                    }
+                }
+            }
         }
         
         return false;
     }
     private boolean IMP_DOT() {
         if (match("dot")) {
-            if (ID_STAR())
-                return true;
-            
+            if (searchSelectionSet("ID_STAR")) {
+                if (ID_STAR()) {
+                    return true;
+                }
+            }
         } 
-        else if (match(";"))
+        else if (match(";")) {
             return true;
+        }
         
 
         return false;
@@ -242,46 +373,48 @@ public class LL1Parser {
     private boolean ID_STAR() {
 
         if (match("id")){
-            if (IMP_DOT()) 
-                return true;
-            
+            if (searchSelectionSet("IMP_DOT")) {
+                if (IMP_DOT()) { 
+                    return true; 
+                }
+            }
         } 
         else if (match("power")) {
-            if (match(";"))
+            if (match(";")) {
                 return true;
+            }
         } 
         else if (match(";")){
             return true;
         }
-        
-        
+          
         return false;
     }
 
     //Reusable CFG--------------------------------------------------------------?
-    private boolean TYPE(){return false;}
-    private boolean DT_STR(){return false;}
-    private boolean ARR_TYPE(){return false;}
-    private boolean ARR_TYPE_LIST(){return false;}
-    private boolean ACCESS_METH(){return false;}
+    private boolean TYPE() {return false;}
+    private boolean DT_STR() {return false;}
+    private boolean ARR_TYPE() {return false;}
+    private boolean ARR_TYPE_LIST() {return false;}
+    private boolean ACCESS_METH() {return false;}
     
     //Access Modifier-----------------------------------------------------------?
-    private boolean ACCESSMOD(){return false;}
+    private boolean ACCESSMOD() {return false;}
     
     //Function Statement--------------------------------------------------------?
-    private boolean FN_DEC(){return false;}
-    private boolean FN_ST(){return false;}
-    private boolean PAR(){return false;}
-    private boolean PAR_LIST(){return false;}
-    private boolean DT_ID(){return false;}
+    private boolean FN_DEC() {return false;}
+    private boolean FN_ST() {return false;}
+    private boolean PAR() {return false;}
+    private boolean PAR_LIST() {return false;}
+    private boolean DT_ID() {return false;}
     
-    private boolean RET_TYPE(){return false;}
-    private boolean RT_OBJ(){return false;}
+    private boolean RET_TYPE() {return false;}
+    private boolean RT_OBJ() {return false;}
     
-    private boolean FN_CLASS_DEC(){return false;}
-    private boolean IS_ABSTRACT(){return false;}
-    private boolean RET_TO_THROW(){return false;}
-    private boolean WITH_STATIC(){return false;}
+    private boolean FN_CLASS_DEC() {return false;}
+    private boolean IS_ABSTRACT() {return false;}
+    private boolean RET_TO_THROW() {return false;}
+    private boolean WITH_STATIC() {return false;}
     
     private boolean RET_TYPE_C(){return false;}
     private boolean RET_OBJ_C(){return false;}
@@ -439,6 +572,7 @@ public class LL1Parser {
     private boolean RET_ST(){return false;}
     
     private boolean THROW(){return false;}
+    
     //Exception Handler---------------------------------------------------------?
     private boolean TRY_CATCH(){return false;}
     private boolean EXCEPT_FINALLY(){return false;}
