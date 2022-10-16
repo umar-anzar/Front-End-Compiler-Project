@@ -148,16 +148,7 @@ public class LL1Parser {
         sSet.put("ID_STAR", new String[][] {{"id", "power", ";"}});
     }
                 
-    // CFG
-    
-    // DUMMY NON TERMINAL FUNCTION    
-    // CFG
-    
-    // DUMMY NON TERMINAL FUNCTION        
-    // CFG
-    
-    // DUMMY NON TERMINAL FUNCTION    
-    // CFG
+    // CFG______________________________________________________________________
     
     // DUMMY NON TERMINAL FUNCTION
     private boolean DUMMY() {
@@ -195,25 +186,27 @@ public class LL1Parser {
             if (IMPORTS())
                 if (ST1())
                     return true;
-        } 
-                
-                
-
-        else {
-            if (searchFollowSet("ST1"))
-                return true;
         }
-
+        else if (searchFirstSet("ST_BODY")) {
+            if (ST_BODY()) {
+                return true;
+            }
+        }
+        
         return false;
     }
     private boolean ST_BODY(){return false;}
     private boolean ST_BODY2(){return false;}
     
     //Body----------------------------------------------------------------------?
+    private boolean BODY(){return false;}
     
     //Single and Multi Statements-----------------------------------------------?
+    private boolean SST(){return false;}
+    private boolean MST(){return false;}
     
     //Begin the Main Function---------------------------------------------------?
+    private boolean MAIN(){return false;}
     
     //Package and Import--------------------------------------------------------?
     private boolean PACKAGE() {
@@ -266,42 +259,192 @@ public class LL1Parser {
     }
 
     //Reusable CFG--------------------------------------------------------------?
+    private boolean TYPE(){return false;}
+    private boolean DT_STR(){return false;}
+    private boolean ARR_TYPE(){return false;}
+    private boolean ARR_TYPE_LIST(){return false;}
+    private boolean ACCESS_METH(){return false;}
     
     //Access Modifier-----------------------------------------------------------?
+    private boolean ACCESSMOD(){return false;}
     
     //Function Statement--------------------------------------------------------?
+    private boolean FN_DEC(){return false;}
+    private boolean FN_ST(){return false;}
+    private boolean PAR(){return false;}
+    private boolean PAR_LIST(){return false;}
+    private boolean DT_ID(){return false;}
+    
+    private boolean RET_TYPE(){return false;}
+    private boolean RT_OBJ(){return false;}
+    
+    private boolean FN_CLASS_DEC(){return false;}
+    private boolean IS_ABSTRACT(){return false;}
+    private boolean RET_TO_THROW(){return false;}
+    private boolean WITH_STATIC(){return false;}
+    
+    private boolean RET_TYPE_C(){return false;}
+    private boolean RET_OBJ_C(){return false;}
+    private boolean ACCESSMOD_C(){return false;}
     
     //Class Statement-----------------------------------------------------------?
+    private boolean GLOBAL_CLASS(){return false;}
+    private boolean CLASS_GLOBAL(){return false;}
+    private boolean CLASS_DEC(){return false;}
+    private boolean NO_PRIVATE(){return false;}
+    private boolean CLASS_PAR(){return false;}
+    private boolean INHERIT(){return false;}
+    private boolean MULTI_INHERIT(){return false;}
     
     //Class Body----------------------------------------------------------------?
+    private boolean CLASS_BODY(){return false;}
+    private boolean ATTR_FUNC(){return false;}
     
     //Dot Separated Identifers, Function calls, array subscripts----------------?
+    private boolean POS(){return false;}
+    private boolean SUBSCRIPT(){return false;}
+    private boolean SUBSCRIPT_LIST(){return false;}
+    private boolean FN_BRACKETS(){return false;}
+    private boolean ARG(){return false;}
+    private boolean ARG_LIST(){return false;}
+    private boolean EXPR_OBJ(){return false;}
+    private boolean DOT_ID(){return false;}
+    
+    private boolean POS2(){return false;}
+    private boolean INC_DEC_DOT(){return false;}
+    private boolean DOT_ID2(){return false;}
     
     //Declaration and Initialization--------------------------------------------?
+    private boolean DEC(){return false;}
+    private boolean ASSIGN_OBJ(){return false;}
+    private boolean ARR_SUBSCRIPT(){return false;}
+    private boolean VAR_ARR(){return false;}
+    private boolean IS_INIT(){return false;}
+    private boolean INIT(){return false;}
+    private boolean IS_ACMETH(){return false;}
+    private boolean OPER_TO_EXPR(){return false;}
+    private boolean ASSIGN_EXPR(){return false;}
+    private boolean DOT_EXPR(){return false;}
+    private boolean DOT_EXPR2(){return false;}
+    private boolean ID_TO_EXPR(){return false;}
+    private boolean LIST(){return false;}
+    private boolean ASSIGN_OP(){return false;}
     
     //Assignment----------------------------------------------------------------?
+    private boolean ASSIGN(){return false;}
+    private boolean DOT_ID3(){return false;}
+    private boolean DOT_ID4(){return false;}
+    private boolean TWO_ASSIGN(){return false;}
     
     //Object Declaration--------------------------------------------------------?
+    private boolean NEW_OBJ(){return false;}
+    private boolean CONSTR_ARR(){return false;}
     
     //Array Declaration---------------------------------------------------------?
+    private boolean ARR_DEC(){return false;}
+    private boolean ARR_CLASS_DEC(){return false;}
+    private boolean ARR_INIT(){return false;}
+    private boolean IS_ARR_INIT(){return false;}
+    private boolean CHOICE(){return false;}
+    private boolean NEW_ARR_CONST(){return false;}
+    private boolean REF_NEWARR(){return false;}
+    private boolean POSARR(){return false;}
+    private boolean DOT_ARR(){return false;}
+    private boolean DOT_ARR_TRMIN(){return false;}
+    private boolean MORE_REF_STR(){return false;}
+    
+    private boolean DIM_PASS(){return false;}
+    
+    private boolean MUL_ARR_DEC(){return false;}
+    private boolean LEN_OF_ARR(){return false;}
+    private boolean EMP_ARR_DEC(){return false;}
+    private boolean MUL_ARR_DEC2(){return false;}
+    private boolean LEN_OF_ARR2(){return false;}
+    private boolean EMP_ARR_DEC2(){return false;}
+    
+    private boolean ARR_CONST(){return false;}
+    private boolean ARR_ELEMT(){return false;}
+    private boolean EXPR_LIST(){return false;}
     
     //Global Variable Declaration-----------------------------------------------?
+    private boolean GLOBAL_DEC(){return false;}
+    private boolean IS_OBJ_G(){return false;}
+    private boolean VAR_OBJ_G(){return false;}
+    private boolean VAR_ARR_G(){return false;}
+    private boolean IS_INIT_G(){return false;}
+    private boolean LIST_G(){return false;}
     
     //Attribute Declaration in class--------------------------------------------?
+    private boolean ATTR_CLASS_DEC(){return false;}
+    private boolean IS_FINAL(){return false;}
+    private boolean VAR_OBJ_C(){return false;}
+    private boolean VAR_ARR_C(){return false;}
+    private boolean IS_INIT_C(){return false;}
+    private boolean LIST_C(){return false;}
     
     //Expression----------------------------------------------------------------?
+    private boolean EXPR(){return false;}
+    private boolean EXPR1(){return false;}
+    private boolean F(){return false;}
+    private boolean F1(){return false;}
+    private boolean G(){return false;}
+    private boolean G1(){return false;}
+    private boolean H(){return false;}
+    private boolean H1(){return false;}
+    private boolean I(){return false;}
+    private boolean I1(){return false;}
+    private boolean J(){return false;}
+    private boolean J1(){return false;}
+    private boolean K(){return false;}
+    private boolean IS_FLAG(){return false;}
     
     //Operands------------------------------------------------------------------?
+    private boolean OPERANDS(){return false;}
+    private boolean UNARY(){return false;}
+    private boolean FLAG(){return false;}
     
     //Increment Decrement-------------------------------------------------------?
+    private boolean INC_DEC(){return false;}
     
     //Constant------------------------------------------------------------------?
+    private boolean CONST(){return false;}
     
     //Conditional Statements----------------------------------------------------?
+    private boolean IF_ELSE(){return false;}
+    private boolean OELSE(){return false;}
+    
+    private boolean SWITCH(){return false;}
+    private boolean STATE(){return false;}
+    private boolean DEFAULT(){return false;}
+    private boolean SWITCH_BODY(){return false;}
     
     //Loop Statements-----------------------------------------------------------?
+    private boolean LOOP(){return false;}
+    private boolean LT(){return false;}
+    
+    private boolean WHILE_ST(){return false;}
+    private boolean DO_WHILE(){return false;}
+    
+    private boolean FOR_ST(){return false;}
+    private boolean FOR_ARG(){return false;}
+    
+    private boolean POS3(){return false;}
+    private boolean DOT_ID5(){return false;}
     
     //Jump Statements-----------------------------------------------------------?
+    private boolean BREAK(){return false;}
+    private boolean CONTINUE(){return false;}
+    private boolean L(){return false;}
     
+    private boolean RET_ST(){return false;}
+    
+    private boolean THROW(){return false;}
     //Exception Handler---------------------------------------------------------?
+    private boolean TRY_CATCH(){return false;}
+    private boolean EXCEPT_FINALLY(){return false;}
+    private boolean ERROR_TYPE(){return false;}
+    private boolean ERR_DOT(){return false;}
+    private boolean THROWS(){return false;}
+    private boolean FINALLY(){return false;}
+    
 }
