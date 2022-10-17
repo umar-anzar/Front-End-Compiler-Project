@@ -32,5 +32,10 @@ def str[][] $var ( int p ) {
 }
 @@
 package hello;
-import asd.qwre.asd.^;
-import asd.a_.asd.^;
+@import asd.qwre.asd.^;
+@import asd.a_.asd.^;
+
+def function_id () { }
+def int function_id (int p1)  { }
+def str function_id (str abc)  { }
+def object function_id (float p1, int [] p2, ABC p3) {}

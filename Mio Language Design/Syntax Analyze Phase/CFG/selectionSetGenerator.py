@@ -1,7 +1,20 @@
 import json
 
 string = """
-id ?protected?private
+dt ? id
+
+dt ? id
+
+id ? dt ? str
+
+[ ? id ? =  ? ;
+
+=  ? ;
+
+, ?  ;
+
+
+
 
 
 
@@ -46,6 +59,6 @@ for x in arr:
                 continue
         Z+=i
 
-    print("sSet.put(\"\", new String[][] { "+Z+" });")
+    print("sSet.put(\"\", new String[][] { "+Z+", {} });")
 
 

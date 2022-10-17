@@ -8,7 +8,7 @@
 | 4          | Begin the Main Function             | 17     | Attribute Declaration in class |
 | 5          | Package and Import                  | 18     | Expression                     |
 | 6          | Reusable CFG                        | 19     | Operands                       |
-| 7          | Access Mod, Static and Abstract     | 20     | Increment Decrement            |
+| 7          | Access Modifier                     | 20     | Increment Decrement            |
 | 8          | Function Statement                  | 21     | Constant                       |
 | 9          | Class Statement                     | 22     | Conditional Statements         |
 | 10         | Class Body                          | 23     | Loop Statements                |
@@ -129,8 +129,9 @@ import id.id;
 ```
 Example:
 def function_id () { }
-def int function_id (p1)  { }
-def object function_id (p1,p2,p3) {}
+def int function_id (int p1)  { }
+def str function_id (str abc)  { }
+def object function_id (float p1, int [] p2, ABC p3) {}
 ```
 
 - Function Statement in class

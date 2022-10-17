@@ -442,7 +442,10 @@ public class Tokenizer {
                 token.setError("Invalid StringConst");
             }
         } 
-        
+        else {
+            token = new TokenClass("Unknown Token", tokenString, line); 
+            token.setError("Invalid Identifier");
+        }
 
         TokenClass.addToken(token);   
     }
