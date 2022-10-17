@@ -128,29 +128,37 @@ public class LL1Parser {
     
     //selectionSet
     private void initializeSelectionSet(){
-        //Start Structure
+        
         sSet = new HashMap<>();
         
+        //Start Structure
         sSet.put("START", new String[][] {{"package"},{"~"}});
         sSet.put("ST1", new String[][] {{"import", "Begin", "def", "Class", "Abstract", "const", "dt", "id"},{"~"}});
         sSet.put("ST_BODY", new String[][] {{"Begin", "def", "Class", "Abstract", "const", "dt", "id"},{"~"}});
         sSet.put("ST_BODY2", new String[][] {{"def", "Class", "Abstract", "const", "dt", "id"},{"~"}});
         
         //Body
-        sSet.put("BODY", new String[][] {{";", "if", "shift", "const", "dt", "id", "Parent", "Self", "test", "loop", "do", "stop", "Ret", "Cont", "raise", "{"}});
+        sSet.put("BODY", new String[][] {{";", "if", "shift", "const", "dt", "id", "Parent", "Self", "test", "loop", "do", "stop", "Ret", "Cont", "raise", "{"},{}});
         
         //Single and Multi Statements
-        sSet.put("SST", new String[][] {{"if", "shift", "const", "dt", "id", "Parent", "Self", "test", "loop", "do", "stop", "ret", "Cont", "raise"}});
-        sSet.put("MST", new String[][] {{"if", "shift", "const", "dt", "id", "Parent", "Self", "test", "loop", "do", "stop", "ret", "Cont", "raise"},{"state", "default", "}"}});
+        sSet.put("SST", new String[][] {{"if", "shift", "const", "dt", "id", "Parent", "Self", "test", "loop", "do", "stop", "ret", "Cont", "raise"},{}});
+        sSet.put("MST", new String[][] {{"if", "shift", "const", "dt", "id", "Parent", "Self", "test", "loop", "do", "stop", "ret", "Cont", "raise"},{"state", "default", "}"},{}});
 
         //Begin the Main Function
-        sSet.put("MAIN", new String[][] {{"begin"}});
+        sSet.put("MAIN", new String[][] {{"begin"},{}});
         
         //Package and Import
-        sSet.put("PACKAGE", new String[][] {{"package"}});
-        sSet.put("IMPORTS", new String[][] {{"import"}});
-        sSet.put("IMP_DOT", new String[][] {{"dot", ";"}});
-        sSet.put("ID_STAR", new String[][] {{"id", "power", ";"}});
+        sSet.put("PACKAGE", new String[][] {{"package"},{}});
+        sSet.put("IMPORTS", new String[][] {{"import"},{}});
+        sSet.put("IMP_DOT", new String[][] {{"dot", ";"},{}});
+        sSet.put("ID_STAR", new String[][] {{"id", "power", ";"},{}});
+        
+        //Reusable CFG
+        sSet.put("TYPE", new String[][] {{"id", "dt", "str"}});
+        sSet.put("DT_STR", new String[][] {{"dt", "str"}});
+        sSet.put("ARR_TYPE", new String[][] {{"["}});
+        sSet.put("ARR_TYPE_LIST", new String[][] { {"["},{"id", "protected", "private"} });
+        sSet.put("ACCESS_METH", new String[][] {{"Parent", "Self"}});
     }
                 
     // CFG______________________________________________________________________
@@ -208,37 +216,29 @@ public class LL1Parser {
     private boolean ST_BODY() {
         if (searchSelectionSet("MAIN")) {
             if (MAIN()) {
-                if (searchSelectionSet("ST_BODY2")) {
-                    if (ST_BODY2()) {
-                        return true; 
-                    }
+                if (ST_BODY2()) {
+                    return true; 
                 }
             }
         }
         else if (searchSelectionSet("FN_DEC")) {
             if (FN_DEC()) {
-                if (searchSelectionSet("ST_BODY")) {
-                    if (ST_BODY()) {
-                        return true;
-                    }
+                if (ST_BODY()) {
+                    return true;
                 }
             }
         }
         else if (searchSelectionSet("GLOBAL_CLASS")) {
-            if (FN_DEC()) {
-                if (searchSelectionSet("ST_BODY")) {
-                    if (ST_BODY()) {
-                        return true;
-                    }
+            if (GLOBAL_CLASS()) {
+                if (ST_BODY()) {
+                    return true;
                 }
             }
         }
         else if (searchSelectionSet("GLOBAL_DEC")) {
             if (GLOBAL_DEC()) {
-                if (searchSelectionSet("ST_BODY")) {
-                    if (ST_BODY()) {
-                        return true;
-                    }
+                if (ST_BODY()) {
+                    return true;
                 }
             }
         }
@@ -252,28 +252,22 @@ public class LL1Parser {
     private boolean ST_BODY2() {
         if (searchSelectionSet("FN_DEC")) {
             if (FN_DEC()) {
-                if (searchSelectionSet("ST_BODY2")) {
-                    if (ST_BODY2()) {
-                        return true;
-                    }
+                if (ST_BODY2()) {
+                    return true;
                 }
             }
         }
         else if (searchSelectionSet("GLOBAL_CLASS")) {
             if (FN_DEC()) {
-                if (searchSelectionSet("ST_BODY2")) {
-                    if (ST_BODY2()) {
-                        return true;
-                    }
+                if (ST_BODY2()) {
+                    return true;
                 }
             }
         }
         else if (searchSelectionSet("GLOBAL_DEC")) {
             if (GLOBAL_DEC()) {
-                if (searchSelectionSet("ST_BODY2")) {
-                    if (ST_BODY2()) {
-                        return true;
-                    }
+                if (ST_BODY2()) {
+                    return true;
                 }
             }
         }
@@ -315,11 +309,9 @@ public class LL1Parser {
     private boolean MAIN() {
         if (match("begin")) {
             if (match("{")) {
-                if (searchSelectionSet("MST")) {
-                    if (MST()) {
-                        if (match("}")) {
-                            return true;
-                        }
+                if (MST()) {
+                    if (match("}")) {
+                        return true;
                     }
                 }
             }
@@ -331,10 +323,8 @@ public class LL1Parser {
     private boolean PACKAGE() {
         if (match("package")) {
             if (match("id")) {
-                if (searchSelectionSet("IMP_DOT")) {
-                    if (IMP_DOT()) { 
-                        return true; 
-                    }
+                if (IMP_DOT()) { 
+                    return true; 
                 }
                 
             }
@@ -345,10 +335,8 @@ public class LL1Parser {
     private boolean IMPORTS() {
         if (match("import")) {
             if (match("id")) {
-                if (searchSelectionSet("IMP_DOT")) {
-                    if (IMP_DOT()) { 
-                        return true; 
-                    }
+                if (IMP_DOT()) { 
+                    return true; 
                 }
             }
         }
@@ -357,10 +345,8 @@ public class LL1Parser {
     }
     private boolean IMP_DOT() {
         if (match("dot")) {
-            if (searchSelectionSet("ID_STAR")) {
-                if (ID_STAR()) {
-                    return true;
-                }
+            if (ID_STAR()) {
+                return true;
             }
         } 
         else if (match(";")) {
@@ -373,10 +359,8 @@ public class LL1Parser {
     private boolean ID_STAR() {
 
         if (match("id")){
-            if (searchSelectionSet("IMP_DOT")) {
-                if (IMP_DOT()) { 
-                    return true; 
-                }
+            if (IMP_DOT()) { 
+                return true; 
             }
         } 
         else if (match("power")) {
@@ -412,7 +396,38 @@ public class LL1Parser {
     private boolean RT_OBJ() {return false;}
     
     private boolean FN_CLASS_DEC() {return false;}
-    private boolean IS_ABSTRACT() {return false;}
+    private boolean IS_ABSTRACT() {
+        if (match("Abstract")) {
+            if (WITH_STATIC()) {
+                if (match(";")) {
+                    return true;
+                }
+            }
+        }
+        else if (match("const")) {
+            if (WITH_STATIC()) {
+                if (match("{")) {
+                    if (MST()) {
+                        if (match("}")) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        else if (searchSelectionSet("WITH_STATIC")) {
+            if (WITH_STATIC()) {
+                if (match("{")) {
+                    if (MST()) {
+                        if (match("}")) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
     private boolean RET_TO_THROW() {return false;}
     private boolean WITH_STATIC() {return false;}
     
