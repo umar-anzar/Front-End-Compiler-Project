@@ -171,13 +171,13 @@ def const object $function_id (p1,p2,p3) {}
 ### Class Statement
 
 ```xml
-<GLOBAL_CLASS>      -> <CLASS_DEC> | Abstract <CLASS_DEC> | const <CLASS_GLOBAL>
-<CLASS_GLOBAL>      -> <CLASS_DEC> | <VAR_OBJ_G>
-<CLASS_DEC>         -> Class <NO_PRIVATE> id <CLASS_PAR> ( <INHERIT>
-<NO_PRIVATE>        -> protected | null
-<CLASS_PAR>         -> < id > | null
-<INHERIT>           -> id <MULTI_INHERIT>   | )  { <CLASS_BODY> 
-<MULTI_INHERIT>     -> , id <MULTI_INHERIT> | )  { <CLASS_BODY> 
+<GLOBAL_CLASS>  -> <CLASS_DEC> | Abstract <CLASS_DEC> | const <CLASS_GLOBAL>
+<CLASS_GLOBAL>  -> <CLASS_DEC> | <VAR_OBJ_G>
+<CLASS_DEC>     -> Class <NO_PRIVATE> id <CLASS_PAR> ( <INHERIT>
+<NO_PRIVATE>    -> protected | null
+<CLASS_PAR>     -> < id > | null
+<INHERIT>       -> id <MULTI_INHERIT>   | )  { <CLASS_BODY> 
+<MULTI_INHERIT> -> , id <MULTI_INHERIT> | )  { <CLASS_BODY> 
 ```
 <!--COUNT:2-->
 ### Class Body 

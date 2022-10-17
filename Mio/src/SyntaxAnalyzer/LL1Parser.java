@@ -125,6 +125,22 @@ public class LL1Parser {
         }
         return false;
     }
+    /**
+     * If token value part match with the grammar word then index is incremented and
+     * function return true.
+     * @param nonTerminal
+     * @return Boolean value, true if match
+     */
+    private boolean matchVp(String nonTerminal) {
+        String token = this.tokenList.get(index).valueP;
+        if (token != null) {
+            if (token.equals(nonTerminal)) {
+                index++;
+                return true;
+            }
+        }
+        return false;
+    }
     
     //selectionSet
     private void initializeSelectionSet(){
@@ -658,17 +674,140 @@ public class LL1Parser {
     private boolean ACCESSMOD_C(){return false;}
     
     //Class Statement-----------------------------------------------------------?
-    private boolean GLOBAL_CLASS(){return false;}
-    private boolean CLASS_GLOBAL(){return false;}
-    private boolean CLASS_DEC(){return false;}
-    private boolean NO_PRIVATE(){return false;}
-    private boolean CLASS_PAR(){return false;}
-    private boolean INHERIT(){return false;}
-    private boolean MULTI_INHERIT(){return false;}
+    private boolean GLOBAL_CLASS() {
+        if (searchSelectionSet("CLASS_DEC")) {
+            if (CLASS_DEC()) {
+                return true;
+            }
+        }
+        else if (match("Abstract")) {
+            if (CLASS_DEC()) {
+                return true;
+            }
+        }
+//        else if (match("const")) {
+//            if (CLASS_GLOBAL()) {
+//                return true;
+//            }
+//        }
+        return false;
+    }
+    private boolean CLASS_GLOBAL() {
+        if (searchSelectionSet("CLASS_DEC")) {
+            if (CLASS_DEC()) {
+                return true;
+            }
+        }
+        else if (searchSelectionSet("VAR_OBJ_G")) {
+            if (VAR_OBJ_G()) {
+                return true;
+            }
+        }
+        return false;
+    }
+    private boolean CLASS_DEC() {
+        if (match("Class")) {
+            if (NO_PRIVATE()) {
+                if (match("id")) {
+                    if (CLASS_PAR()) {
+                        if (match("(")) {
+                            if (INHERIT()) {
+                                return true;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
+    private boolean NO_PRIVATE() {
+        if (match("protected")) {
+            return true;
+        }
+        else {
+            if (searchFollowSet("NO_PRIVATE")) {
+                return true;
+            }
+        }
+        return false;
+    }
+    private boolean CLASS_PAR() {
+        if (matchVp("<")) {
+            if (match("id")) {
+                if (matchVp(">")) {
+                    return true;
+                }
+            }
+        }
+        else {
+            if (searchFollowSet("CLASS_PAR")) {
+                return true;
+            }
+        }
+        return false;
+    }
+    private boolean INHERIT(){
+        if (match("id")) {
+            if (MULTI_INHERIT()) {
+                return true;
+            }
+        }
+        else if (match(")")) {
+            if (match("{")) {
+                if (CLASS_BODY()) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    private boolean MULTI_INHERIT(){
+        if (match(",")) {
+            if (match("id")) {
+                if (MULTI_INHERIT()) {
+                    return true;
+                }
+            }
+        }
+        else if (match(")")) {
+            if (match("{")) {
+                if (CLASS_BODY()) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
     
     //Class Body----------------------------------------------------------------?
-    private boolean CLASS_BODY(){return false;}
-    private boolean ATTR_FUNC(){return false;}
+    private boolean CLASS_BODY(){
+//        if (searchSelectionSet("ATTR_FUNC")) {
+//            if (ATTR_FUNC()) {
+//                if (CLASS_BODY()) {
+//                    return true;
+//                }
+//            }
+//        }
+//        else 
+            if (match("}")) {
+                return true;
+        }
+        return false;
+    }
+    private boolean ATTR_FUNC(){
+        if (searchSelectionSet("FN_CLASS_DEC")) {
+            if (FN_CLASS_DEC()) {
+                return true;
+            }
+        }
+        else if (searchSelectionSet("ATTR_CLASS_DEC")) {
+            if (ATTR_CLASS_DEC()) {
+                return true;
+            }
+        }
+        return false;
+    }
     
     //Dot Separated Identifers, Function calls, array subscripts----------------?
     private boolean POS(){return false;}
