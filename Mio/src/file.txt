@@ -32,13 +32,25 @@ def str[][] $var ( int p ) {
 }
 @@
 package hello;
+
+@@
 import asd.qwre.asd.^;
 import asd.a_.asd.^;
+@@
 
-def function_id () { }
-def int function_id (int p1)  { }
-def str function_id (str abc)  { }
-def object[][][][][][] function_id (float p1, int [] p2, ABC p3) {}
+def function1 () { 
+if (); 
+if ();else;
+if () {;}else{;}
+shift (  ) { }
+}
+
+def int function2 (int p1)  { 
+  
+}
+@@
+def str function3 (str abc)  { }
+def object[][][][][][] function4 (float p1, int [] p2, ABC p3) {}
 
 Class Car () {}
 Class Car <T>() {}
@@ -48,3 +60,4 @@ Class Car (wheel,mirror) {}
 Class Car <T>(wheel,mirror) {}
 Class $$Car <T>(wheel,mirror,engine) {}
 Abstract Class $$Car <T>(wheel,mirror,engine) {}
+@@

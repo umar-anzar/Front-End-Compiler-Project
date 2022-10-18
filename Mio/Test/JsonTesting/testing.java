@@ -9,12 +9,13 @@ class XYZ{
 }
 public class testing {  
     int b =3,x;
+    int [][][] po = new int[1][][];
     void p(){
         
     }
     public static void main(String[] args){
         
-        if (2>3);
+        if (2>3) ;else;
         
         System.out.println("a".substring(0, 1));
         

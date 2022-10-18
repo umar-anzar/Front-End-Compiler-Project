@@ -149,16 +149,16 @@ public class LL1Parser {
         
         //$Start Structure
         sSet.put("START", new String[][] {{"package"},{"~"}});
-        sSet.put("ST1", new String[][] {{"import", "Begin", "def", "Class", "Abstract", "const", "dt", "id"},{"~"}});
-        sSet.put("ST_BODY", new String[][] {{"Begin", "def", "Class", "Abstract", "const", "dt", "id"},{"~"}});
-        sSet.put("ST_BODY2", new String[][] {{"def", "Class", "Abstract", "const", "dt", "id"},{"~"}});
+        sSet.put("ST1", new String[][] {{"import", "begin", "def", "Class", "Abstract", "const", "id", "dt","str"},{"~"}});
+        sSet.put("ST_BODY", new String[][] {{"begin", "def", "Class", "Abstract", "const", "id", "dt","str"},{"~"}});
+        sSet.put("ST_BODY2", new String[][] {{"def", "Class", "Abstract", "const", "id", "dt","str"},{"~"}});
         
         //$Body
-        sSet.put("BODY", new String[][] {{";", "if", "shift", "const", "dt", "id", "Parent", "Self", "test", "loop", "do", "stop", "Ret", "Cont", "raise", "{"},{}});
+        sSet.put("BODY", new String[][] {{";", "if", "shift", "const", "dt", "str", "id", "Parent", "Self", "test", "loop", "do", "stop", "ret", "cont", "raise", "{"},{}});
         
         //$Single and Multi Statements
-        sSet.put("SST", new String[][] {{"if", "shift", "const", "dt", "id", "Parent", "Self", "test", "loop", "do", "stop", "ret", "Cont", "raise"},{}});
-        sSet.put("MST", new String[][] {{"if", "shift", "const", "dt", "id", "Parent", "Self", "test", "loop", "do", "stop", "ret", "Cont", "raise"},{"state", "default", "}"},{}});
+        sSet.put("SST", new String[][] {{"if", "shift", "const", "dt", "str", "id", "Parent", "Self", "test", "loop", "do", "stop", "ret", "cont", "raise"},{}});
+        sSet.put("MST", new String[][] {{"if", "shift", "const", "dt", "str", "id", "Parent", "Self", "test", "loop", "do", "stop", "ret", "cont", "raise"},{"state", "default", "}"},{}});
 
         //$Begin the Main Function
         sSet.put("MAIN", new String[][] {{"begin"},{}});
@@ -215,7 +215,7 @@ public class LL1Parser {
         //?Object Declaration
         //?Array Declaration
         
-        //$Global Variable Declaration
+        //?Global Variable Declaration
         sSet.put("GLOBAL_DEC", new String[][] { {"dt", "id"}, {} });
         sSet.put("IS_OBJ_G", new String[][] { {"dt", "id"}, {} });
         sSet.put("VAR_OBJ_G", new String[][] { {"id", "dt", "str"}, {} });
@@ -224,14 +224,75 @@ public class LL1Parser {
         sSet.put("LIST_G", new String[][] { {",", ";"}, {} });
 
         //?Attribute Declaration in class
-        //?Expression
+        
+        //$Expression
+        sSet.put("EXPR", new String[][] { {"pm", "Parent", "Self", "id", "(", "typeCast", "not", "intConst", "floatConst", 
+            "charConst", "boolConst", "strConst"}, {} });
+        sSet.put("EXPR1", new String[][] { {"or"}, {"]", ")", ",", "}", ":", ";"} });
+        sSet.put("F", new String[][] { {"pm", "Parent", "Self", "id", "(", "typeCast", "not", "intConst", "floatConst", 
+            "charConst", "boolConst", "strConst"}, {} });
+        sSet.put("F1", new String[][] { {"and"}, {"or", "]", ")", ",", "}", ":", ";"} });
+        sSet.put("G", new String[][] { {"pm", "Parent", "Self", "id", "(", "typeCast", "not", "intConst", "floatConst", 
+            "charConst", "boolConst", "strConst"}, {} });
+        sSet.put("G1", new String[][] { {"rop"}, {"and", "or", "]", ")", ",", "}", ":", ";"} });
+        sSet.put("H", new String[][] { {"pm", "Parent", "Self", "id", "(", "typeCast", "not", "intConst", "floatConst", 
+            "charConst", "boolConst", "strConst"}, {} });
+        sSet.put("H1", new String[][] { {"pm"}, {"rop", "and", "or", "]", ")", ",", "}", ":", ";"} });
+        sSet.put("I", new String[][] { {"pm", "Parent", "Self", "id", "(", "typeCast", "not", "intConst", "floatConst", 
+            "charConst", "boolConst", "strConst"}, {} });
+        sSet.put("I1", new String[][] { {"mdm"}, {"pm", "rop", "and", "or", "]", ")", ",", "}", ":", ";"} });
+        sSet.put("J", new String[][] { {"pm", "Parent", "Self", "id", "(", "typeCast", "not", "intConst", "floatConst", 
+            "charConst", "boolConst", "strConst"}, {} });
+        sSet.put("J1", new String[][] { {"power"}, {"mdm", "pm", "rop", "and", "or", "]", ")", ",", "}", ":", ";"} });
+        sSet.put("K", new String[][] { {"pm", "Parent", "Self", "id", "(", "typeCast", "not", "intConst", "floatConst", 
+            "charConst", "boolConst", "strConst"}, {} });
+        sSet.put("IS_FLAG", new String[][] { {"pm", "Parent", "Self", "id", "(", "typeCast", "not", "intConst", "floatConst", 
+            "charConst", "boolConst", "strConst"}, {} });
+
         //?Operands
         //?Increment Decrement
         //?Constant
-        //?Conditional Statements
-        //?Loop Statements
-        //?Jump Statements
-        //?Exception Handler
+        
+        //$Conditional Statements
+        sSet.put("IF_ELSE", new String[][] { {"if"}, {} });
+        sSet.put("OELSE", new String[][] { {"else"}, {"if", "shift", "const", "dt", "str", "id", "Parent", "Self", "test", 
+            "loop", "do", "stop", "ret", "cont", "raise", "state", "default", "}", "else", "till"} });
+        
+        sSet.put("SWITCH", new String[][] { {"shift"}, {} });
+        sSet.put("STATE", new String[][] { {"state", "default", "}"}, {} });
+        sSet.put("DEFAULT", new String[][] { {"default"}, {} });
+        sSet.put("SWITCH_BODY", new String[][] { {"{", "; if", "shift", "const", "dt", "id", "Parent", "Self", "test", "loop", 
+            "do", "stop", "ret", "cont", "raise", "state", "default", "}"}, {} }); 
+
+        //$Loop Statements
+        sSet.put("LOOP", new String[][] { {"loop"}, {} });
+        sSet.put("LT", new String[][] { {"till", "thru"}, {} });
+        
+        sSet.put("WHILE_ST", new String[][] { {"till"}, {} });
+        sSet.put("DO_WHILE", new String[][] { {"do"}, {} });
+
+        sSet.put("FOR_ST", new String[][] { {"thru"}, {} });
+        sSet.put("FOR_ARG", new String[][] { {"id", "("}, {} });
+        sSet.put("POS3", new String[][] { {"dot", "[", "("}, {} });
+        sSet.put("DOT_ID5", new String[][] { {"dot"}, {} });
+        
+        //$Jump Statements
+        sSet.put("BREAK", new String[][] { {"stop"}, {} });
+        sSet.put("CONTINUE", new String[][] { {"cont"}, {} });
+        sSet.put("L", new String[][] { {"id", ";"}, {} });
+        
+        sSet.put("RET_ST", new String[][] { {"ret"}, {} });
+        
+        sSet.put("THROW", new String[][] { {"raise"}, {} });
+        
+        //$Exception Handler
+        sSet.put("TRY_CATCH", new String[][] { {"test"}, {} });
+        sSet.put("EXCEPT_FINALLY", new String[][] { {"except", "Finally"}, {"if", "shift", "const", "dt", "str", "id", "Parent", 
+            "Self", "test", "loop", "do", "stop", "ret", "cont", "raise", "state", "default", "}", "else", "till"} });
+        sSet.put("ERROR_TYPE", new String[][] { {"("}, {} });
+        sSet.put("ERR_DOT", new String[][] { {"dot", "id"}, {} });
+        sSet.put("THROWS", new String[][] { {"raises"}, {"{", ";"} });
+        sSet.put("FINALLY", new String[][] { {"finally"}, {} });
 
     }
 
@@ -388,11 +449,11 @@ public class LL1Parser {
                 return true;
             }
         }
-        else if (searchSelectionSet("DEC")) {
-            if (DEC()) {
-                return true;
-            }
-        }
+//        else if (searchSelectionSet("DEC")) {
+//            if (DEC()) {
+//                return true;
+//            }
+//        }
         else if (searchSelectionSet("TRY_CATCH")) {
             if (TRY_CATCH()) {
                 return true;
@@ -596,15 +657,15 @@ public class LL1Parser {
         if (match("def")) {
             if (RET_TYPE()) {
                 if (FN_ST()) {
-//                    if (THROWS()) {
+                    if (THROWS()) {
                         if (match("{")) {
-//                            if (MST()) {
+                            if (MST()) {
                                 if (match("}")) {
                                     return true;
                                 }
-//                            }
+                            }
                         }
-//                    }
+                    }
                 }
             }
         }
@@ -1293,7 +1354,7 @@ public class LL1Parser {
     private boolean IF_ELSE(){
         if (match("if")){
             if (match("(")){
-                if (EXPR()){
+//                if (EXPR()){
                     if (match(")")){
                         if (BODY()){
                             if (OELSE()){
@@ -1301,7 +1362,7 @@ public class LL1Parser {
                             }
                         }
                     }
-                }    
+//                }    
             }
         }     
         return false;
@@ -1323,7 +1384,7 @@ public class LL1Parser {
     private boolean SWITCH(){
         if (match("shift")){
             if (match("(")){
-                if (EXPR()){
+//                if (EXPR()){
                     if (match(")")){
                         if (match("{")){
                             if(STATE()){
@@ -1331,20 +1392,20 @@ public class LL1Parser {
                             }      
                         }                
                     }                   
-                }
+//                }
             }
         }  
         return false;
     }
     private boolean STATE(){
         if (match("shift")){
-            if(EXPR()){
+//            if(EXPR()){
                 if (match(":")){
                     if (SWITCH_BODY()){
                         return true;
                     }
                 }
-            }
+//            }
         }
         else if (searchSelectionSet("DEFAULT")){
             if (DEFAULT()){
@@ -1352,7 +1413,7 @@ public class LL1Parser {
             }
         }
         else if (match("}")){
-            
+            return true;
         }
         return false;
     }
