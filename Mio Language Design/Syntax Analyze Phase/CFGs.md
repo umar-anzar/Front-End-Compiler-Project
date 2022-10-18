@@ -172,7 +172,7 @@ def const object $function_id (p1,p2,p3) {}
 
 ```xml
 <GLOBAL_CLASS>  -> <CLASS_DEC> | Abstract <CLASS_DEC> | const <CLASS_GLOBAL>
-<CLASS_GLOBAL>  -> <CLASS_DEC> | <VAR_OBJ_G>
+<CLASS_GLOBAL>  -> <CLASS_DEC> | <GLOBAL_DEC>
 <CLASS_DEC>     -> Class <NO_PRIVATE> id <CLASS_PAR> ( <INHERIT>
 <NO_PRIVATE>    -> protected | null
 <CLASS_PAR>     -> < id > | null
@@ -257,11 +257,11 @@ There is no access modifer nor static
 This CFG take cares of declaration of **primitive/object** type **variable** and takes transistion to **array declaration** `<ARR_DEC>`, and also towards **assignment** `<ASSIGN>`.
 
 ```xml
-<DEC>           -> const <TYPE> <VAR_ARR> | dt <VAR_ARR> | id <ASSIGN_OBJ> | <ACCESS_METH> id <ASSIGN> 
-<ASSIGN_OBJ>    -> [ <ARR_SUBSCRIPT> | id = <INIT> <LIST> | <ASSIGN> <!--DEC TO ASSIGNMENT-->
-<ARR_SUBSCRIPT> -> ] <ARR_TYPE_LIST> <ARR_INIT> | <EXPR> ] <DOT_ID3>
+<DEC>           -> const <TYPE> <VAR_ARR> | <DT_STR> <VAR_ARR> | id <ASSIGN_OBJ> | <ACCESS_METH> id <ASSIGN> 
+<ASSIGN_OBJ>    -> [ <ARR_SUBSCRIPT> | id <IS_INIT>  | <ASSIGN> <!--DEC TO ASSIGNMENT-->
+<ARR_SUBSCRIPT> -> ] <ARR_TYPE_LIST> id <IS_INIT> <!--DEC--> | <EXPR> ] <DOT_ID3> <!--ASSIGNMENT-->
 
-<VAR_ARR>       -> <ARR_DEC> | id <IS_INIT>
+<VAR_ARR>       -> <ARR_TYPE> id <IS_INIT> <!--ARR--> | id <IS_INIT> <!--VAR-->
 <IS_INIT>       -> = <INIT> <LIST> | ;
 <INIT>          -> <IS_ACMETH> id <ASSIGN_EXPR> | <NEW_OBJ> | <OPER_TO_EXPR> | <FLAG> <OPERANDS>
 <IS_ACMETH>     -> <ACCESS_METH> | null
@@ -320,11 +320,12 @@ x.y.functio().function_id (p1,p2,p3)
 <hr>
 
 <!--------------------------------------------------------------------------------------->
-<!--COUNT:2-->
+<!--COUNT:3-->
 ### Object Declaration
 ```xml
-<NEW_OBJ>       -> new <TYPE> <CONSTR_ARR> | NaN
-<CONSTR_ARR>    -> <FN_BRACKETS> | [ <DIM_PASS>
+<NEW_OBJ>       -> new <CONSTR_ARR> | NaN
+<CONSTR_ARR>    -> id <FN_ARR> | dt [ <DIM_PASS> | str <FN_ARR>
+<FN_ARR>        -> <FN_BRACKETS> | [ <DIM_PASS>
 ```
 
 <hr>
@@ -334,34 +335,35 @@ x.y.functio().function_id (p1,p2,p3)
 ### Array Declaration
 - Not in Class
 ```xml
-<ARR_DEC>       -> <ARR_TYPE> <ARR_INIT> 
+<!-- <ARR_DEC>       -> <ARR_TYPE> <ARR_INIT> 
 <ARR_CLASS_DEC> -> <ARR_TYPE> <ARR_INIT_C>
 
 <ARR_INIT>      -> id <IS_ARR_INIT>
 <IS_ARR_INIT>   -> = <CHOICE> | ;
-<CHOICE>        -> id <POSARR> | <NEW_ARR_CONST>
-<NEW_ARR_CONST> -> new <TYPE> [ <DIM_PASS>
+<CHOICE>        -> id <POSARR> | <NEW_ARR_CONST> -->
 
-<REF_NEWARR>    -> id <POSARR> | <NEW_ARR_CONST>
+<!-- <NEW_ARR_CONST> -> new <TYPE> [ <DIM_PASS> -->
+
+<!-- <REF_NEWARR>    -> id <POSARR> | <NEW_ARR_CONST>
 <POSARR>        -> <DOT_ARR_REF> | <SUBSCRIPT> <DOT_ARR_REF> | <FN_BRACKETS> <DOT_ARR_TRMIN>
 <DOT_ARR>       -> dot id <POSARR>
 <DOT_ARR_REF>   -> <DOT_ARR> | <MORE_REF_STR>
 <DOT_ARR_TRMIN> -> <DOT_ARR> | <LIST_ARR>
 <MORE_REF_STR>  -> = <REF_NEWARR> | <LIST_ARR>
-<LIST_ARR>      -> , <ARR_INIT> | ;
+<LIST_ARR>      -> , <ARR_INIT> | ; -->
 
 <DIM_PASS>      -> <EXPR> ] <MUL_ARR_DEC> | ] <EMP_ARR_DEC> 
 
-<MUL_ARR_DEC>   -> [ <LEN_OF_ARR> | <LIST_ARR>
+<MUL_ARR_DEC>   -> [ <LEN_OF_ARR> | null
 <LEN_OF_ARR>    -> <EXPR> ] <MUL_ARR_DEC2> | ] <EMP_ARR_DEC>
 <EMP_ARR_DEC>   -> [ ] <EMP_ARR_DEC> | <ARR_CONST>
-<MUL_ARR_DEC2>  -> [ <LEN_OF_ARR2> | <LIST_ARR>
+<MUL_ARR_DEC2>  -> [ <LEN_OF_ARR2> | null
 <LEN_OF_ARR2>   -> <EXPR> ] <MUL_ARR_DEC2> | ] <EMP_ARR_DEC2>
-<EMP_ARR_DEC2>  -> [ ] <EMP_ARR_DEC2> | <LIST_ARR>
+<EMP_ARR_DEC2>  -> [ ] <EMP_ARR_DEC2> | null
 
 <ARR_CONST>     -> { <ARR_ELEMT>
-<ARR_ELEMT>     -> <EXPR> <EXPR_LIST>  | <ARR_CONST> <EXPR_LIST> | } <LIST_ARR>
-<EXPR_LIST>     -> , <ARR_ELEMT> <EXPR_LIST> | } <LIST_ARR>
+<ARR_ELEMT>     -> <EXPR> <EXPR_LIST>  | <ARR_CONST> <EXPR_LIST> | } 
+<EXPR_LIST>     -> , <ARR_ELEMT> <EXPR_LIST> | } 
 ```
 
 
@@ -375,33 +377,6 @@ int [][][] var = new int [2][][1]           w
 int [][] var = new int [2][]  {}            w
 ```
 - In Class
-```xml
-<ARR_INIT_C>        -> <ACCESSMOD> id <IS_ARR_INIT_C>
-<IS_ARR_INI_CT>     -> = <CHOICE_C> | ;
-<CHOICE_C>          -> id <POSARR_C> | <NEW_ARR_CONST>
-
-<REF_NEWARR_C>      -> id <POSARR_C> | <NEW_ARR_CONST>
-<POSARR_C>          -> <DOT_ARR_REF_C> | <SUBSCRIPT> <DOT_ARR_REF_C> | <FN_BRACKETS> <DOT_ARR_TRMIN_C>
-<DOT_ARR_C>         -> dot id <POSARR_C>
-<DOT_ARR_REF_C>     -> <DOT_ARR_C> | <MORE_REF_STR_C>
-<DOT_ARR_TRMIN_C>   -> <DOT_ARR_C> | <LIST_ARR_C>
-<MORE_REF_STR_C>    -> = <REF_NEWARR_C> | <LIST_ARR_C>
-<LIST_ARR_C>        -> , <ARR_INIT_C> | ;
-
-<DIM_PASS>      -> <EXPR> ] <MUL_ARR_DEC> | ] <EMP_ARR_DEC> 
-
-<MUL_ARR_DEC>   -> [ <LEN_OF_ARR> | <LIST_ARR>
-<LEN_OF_ARR>    -> <EXPR> ] <MUL_ARR_DEC2> | ] <EMP_ARR_DEC>
-<EMP_ARR_DEC>   -> [ ] <EMP_ARR_DEC> | <ARR_CONST>
-<MUL_ARR_DEC2>  -> [ <LEN_OF_ARR2> | <LIST_ARR>
-<LEN_OF_ARR2>   -> <EXPR> ] <MUL_ARR_DEC2> | ] <EMP_ARR_DEC2>
-<EMP_ARR_DEC2>  -> [ ] <EMP_ARR_DEC2> | <LIST_ARR>
-
-<ARR_CONST>     -> { <ARR_ELEMT>
-<ARR_ELEMT>     -> <EXPR> <EXPR_LIST>  | <ARR_CONST> <EXPR_LIST> | } <LIST_ARR>
-<EXPR_LIST>     -> , <ARR_ELEMT> <EXPR_LIST> | } <LIST_ARR>
-```
-
 ```
 Example:
 int [][] $var = new int [][] {{1},{2,4}}    r
@@ -415,10 +390,9 @@ int [][] var = new int [2][]                r
 <!--COUNT:6-->
 ### Global Variable Declaration
 ```xml
-<GLOBAL_DEC>    -> <IS_OBJ_G>
-<IS_OBJ_G>      -> <DT_STR> <VAR_ARR_G> | id <VAR_ARR_G>   
-<VAR_OBJ_G>     -> <TYPE> <VAR_ARR_G>
-<VAR_ARR_G>     -> <ARR_CLASS_DEC> | id <IS_INIT_G>
+<GLOBAL_DEC>    -> <TYPE> <VAR_ARR_G>
+<VAR_ARR_G>     -> <ARR_TYPE> <VAR_G>  <!--ARR--> | <VAR_G>  <!--VAR-->
+<VAR_G>         -> <ACCESSMOD> id <IS_INIT_G>
 <IS_INIT_G>     -> = <INIT> <LIST_G> | ;
 <LIST_G>        -> , id <IS_INIT_G> | ;
 ```
@@ -426,16 +400,17 @@ int [][] var = new int [2][]                r
 <hr>
 
 <!--------------------------------------------------------------------------------------->
-<!--COUNT:6-->
+<!--COUNT:7-->
 ### Attribute Declaration in class
 
 This CFG take care of primitive and object type variable and array declaration.
 <!--null in list and is_init is ';' but it is used in either class body or SST-->
 ```xml
 <ATTR_CLASS_DEC>    -> Static <IS_FINAL> | <IS_FINAL>
-<IS_FINAL>          -> const <VAR_OBJ_C> | dt <VAR_ARR_C> | id <VAR_ARR_C>   
-<VAR_OBJ_C>         -> <TYPE> <VAR_ARR_C>
-<VAR_ARR_C>         -> <ARR_CLASS_DEC> | <ACCESSMOD> id <IS_INIT_C>
+<IS_FINAL>          -> const <TYPE_VAR_ARR> | <TYPE_VAR_ARR> 
+<TYPE_VAR_ARR>      -> <TYPE> <VAR_ARR_C>
+<VAR_ARR_C>         -> <ARR_TYPE> <VAR_C>  <!--ARR--> | <VAR_C>  <!--VAR-->
+<VAR_C>             -> <ACCESSMOD> id <IS_INIT_C>
 <IS_INIT_C>         -> = <INIT> <LIST_C> | ;
 <LIST_C>            -> , <ACCESSMOD> id <IS_INIT_C> | ; 
                     <!--Using DEC init but now list has access modifier-->
