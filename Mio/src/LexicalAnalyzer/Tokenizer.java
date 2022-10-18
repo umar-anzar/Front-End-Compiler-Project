@@ -44,7 +44,7 @@ public class Tokenizer {
         // Initialize File Reader 
         try {
             //Creation of File Reader object
-            fr = new FileReader("src\\LexicalAnalyzer\\file.txt");
+            fr = new FileReader("src\\file.txt");
             //Creation of BufferedReader object ("Raw file Reader")
             br = new BufferedReader(fr);             
         } catch (FileNotFoundException ex) {

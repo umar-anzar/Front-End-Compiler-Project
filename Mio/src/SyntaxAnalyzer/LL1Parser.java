@@ -955,7 +955,7 @@ public class LL1Parser {
     private boolean ERROR_TYPE(){return false;}
     private boolean ERR_DOT(){return false;}
     private boolean THROWS(){
-        
+        System.out.println("asdasd");
         return false;
     }
     private boolean FINALLY(){
