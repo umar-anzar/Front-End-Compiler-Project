@@ -958,6 +958,8 @@ public class LL1Parser {
         
         return false;
     }
-    private boolean FINALLY(){return false;}
+    private boolean FINALLY(){
+        System.out.println(" nbgasg ");
+        return false;}
     
 }
