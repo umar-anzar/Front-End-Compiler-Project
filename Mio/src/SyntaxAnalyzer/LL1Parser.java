@@ -1199,8 +1199,61 @@ public class LL1Parser {
     }
     
     //Operands------------------------------------------------------------------?
-    private boolean OPERANDS(){return false;}
-    private boolean UNARY(){return false;}
+    private boolean OPERANDS(){
+        if (searchSelectionSet("IS_ACMETH")){
+            if (IS_ACMETH()){
+                if (match("id")) {
+                    if (POS2()){
+                        return true;
+                    }             
+                }
+            }
+        }
+        else if (searchSelectionSet("INC_DEC")){
+            if (INC_DEC()){
+                if (match("id")) {
+                    if (POS()){
+                        return true;
+                    }
+                }
+            }
+        }
+        else if (match("(")) {
+            if (EXPR()){
+                if (match(")")) {
+                    return true;
+                }
+            }          
+        }
+        else if (searchSelectionSet("UNARY")){
+            if (UNARY()){
+                if (OPERANDS()){
+                    return true;
+                }
+            }
+        }
+        else if (searchSelectionSet("CONST")){
+            if (CONST()){
+                return true;
+            }
+        }
+        return false;
+    }
+    private boolean UNARY(){
+        if (match("typeCast")) {
+            if (match("(")) {
+                if (match("dt")) {
+                    if (match(")")) {
+                        return true;
+                    }
+                }
+            }
+        }
+        else if (match("not")) {
+            return true;
+        }
+        return false;
+    }
     private boolean FLAG(){return false;}
     
     //Increment Decrement-------------------------------------------------------?
