@@ -8,7 +8,7 @@ class XYZ{
     
 }
 public class testing {  
-    int b =3;
+    int b =3,x;
     void p(){
         
     }

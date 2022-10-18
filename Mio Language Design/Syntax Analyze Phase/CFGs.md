@@ -273,7 +273,7 @@ This CFG take cares of declaration of **primitive/object** type **variable** and
 <DOT_EXPR>      -> dot id <ASSIGN_EXPR> | <ASSIGN_OP> <INIT> | <INC_DEC> <ID_TO_EXPR> | <NEW_OBJ> | <ID_TO_EXPR> 
 <DOT_EXPR2>     -> dot id <ASSIGN_EXPR> | <ID_TO_EXPR>
 <ID_TO_EXPR>    -> <J1> <I1> <H1> <G1> <F1> <EXPR1>
-<LIST>          -> , id = <INIT> <LIST> | ;
+<LIST>          -> , id <IS_INIT> | ;
 <ASSIGN_OP>     -> = | cma
 ```
 
@@ -330,7 +330,7 @@ x.y.functio().function_id (p1,p2,p3)
 <hr>
 
 <!--------------------------------------------------------------------------------------->
-<!--COUNT:21-->
+<!--COUNT:23-->
 ### Array Declaration
 
 ```xml
@@ -342,11 +342,13 @@ x.y.functio().function_id (p1,p2,p3)
 <CHOICE>        -> id <POSARR> | <NEW_ARR_CONST>
 <NEW_ARR_CONST> -> new <TYPE> [ <DIM_PASS>
 
-<REF_NEWARR>    -> id <POSARR> <MORE_REF_STR> | <NEW_ARR_CONST>
-<POSARR>        -> <DOT_ARR> | <SUBSCRIPT> <DOT_ARR> | <FN_BRACKETS> <DOT_ARR_TRMIN> | null
+<REF_NEWARR>    -> id <POSARR> | <NEW_ARR_CONST>
+<POSARR>        -> <DOT_ARR_REF> | <SUBSCRIPT> <DOT_ARR_REF> | <FN_BRACKETS> <DOT_ARR_TRMIN> | null
 <DOT_ARR>       -> dot id <POSARR>
-<DOT_ARR_TRMIN> -> <DOT_ARR> | ;
-<MORE_REF_STR>  -> = <REF_NEWARR> | ; 
+<DOT_ARR_REF>   -> <DOT_ARR> | <MORE_REF_STR>
+<DOT_ARR_TRMIN> -> <DOT_ARR> | <LIST_ARR>
+<MORE_REF_STR>  -> = <REF_NEWARR> | <LIST_ARR>
+<LIST_ARR>      -> , <ARR_INIT> | ;
 
 <DIM_PASS>      -> <EXPR> ] <MUL_ARR_DEC> | ] <EMP_ARR_DEC> 
 
@@ -387,11 +389,11 @@ int [][] var = new int [2][]                r
 ### Global Variable Declaration
 ```xml
 <GLOBAL_DEC>    -> <IS_OBJ_G>
-<IS_OBJ_G>      -> dt <VAR_ARR_G> | id <VAR_ARR_G>   
+<IS_OBJ_G>      -> <DT_STR> <VAR_ARR_G> | id <VAR_ARR_G>   
 <VAR_OBJ_G>     -> <TYPE> <VAR_ARR_G>
 <VAR_ARR_G>     -> <ARR_CLASS_DEC> | id <IS_INIT_G>
 <IS_INIT_G>     -> = <INIT> <LIST_G> | ;
-<LIST_G>        -> , id = <INIT> <LIST_G> | ;
+<LIST_G>        -> , id <IS_INIT_G> | ;
 ```
 
 <hr>
@@ -408,7 +410,7 @@ This CFG take care of primitive and object type variable and array declaration.
 <VAR_OBJ_C>         -> <TYPE> <VAR_ARR_C>
 <VAR_ARR_C>         -> <ARR_CLASS_DEC> | <ACCESSMOD> id <IS_INIT_C>
 <IS_INIT_C>         -> = <INIT> <LIST_C> | ;
-<LIST_C>            -> , <ACCESSMOD> id = <INIT> <LIST_C> | ; 
+<LIST_C>            -> , <ACCESSMOD> id <IS_INIT_C> | ; 
                     <!--Using DEC init but now list has access modifier-->
 ```
 

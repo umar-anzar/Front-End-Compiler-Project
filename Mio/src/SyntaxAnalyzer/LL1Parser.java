@@ -55,7 +55,7 @@ public class LL1Parser {
             
         }
         
-        reset();
+        emptyAndReset();
         return  result;
     }
     
@@ -63,7 +63,7 @@ public class LL1Parser {
      * Reset index and terminal list so that new terminal can be parse
      * @return  void
      */
-    private void reset() {
+    private void emptyAndReset() {
         index = 0;
         tokenList = null;
     }
@@ -938,12 +938,82 @@ public class LL1Parser {
     private boolean EXPR_LIST(){return false;}
     
     //Global Variable Declaration-----------------------------------------------?
-    private boolean GLOBAL_DEC(){return false;}
-    private boolean IS_OBJ_G(){return false;}
-    private boolean VAR_OBJ_G(){return false;}
-    private boolean VAR_ARR_G(){return false;}
-    private boolean IS_INIT_G(){return false;}
-    private boolean LIST_G(){return false;}
+    private boolean GLOBAL_DEC() {
+        if (searchSelectionSet("IS_OBJ_G")) {
+            if (IS_OBJ_G()) {
+                return true;
+            }
+        }
+        return false;
+    }
+    private boolean IS_OBJ_G() {
+        if (searchSelectionSet("DT_STR")) {
+            if (DT_STR()) {
+                if (VAR_ARR_G()) {
+                    return true;
+                }
+            }
+        }
+        else if (match("id")) {
+            if (VAR_ARR_G()) {
+                
+            }
+        }
+        return false;
+    }
+    private boolean VAR_OBJ_G() {
+        if (searchSelectionSet("TYPE")) {
+            if (TYPE()) {
+                if (VAR_ARR_G()) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    private boolean VAR_ARR_G() {
+        if (searchSelectionSet("ARR_CLASS_DEC")) {
+            if (ARR_CLASS_DEC()) {
+                return true;
+            }
+            else if (match("id")) {
+                if (IS_INIT_G()) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    private boolean IS_INIT_G() {
+        if (match("=")) {
+            if (INIT()) {
+                if (LIST_G()) {
+                    return true;
+                }
+            }
+        }
+        else if (match(";")) {
+            return true;
+        }
+        return false;
+    }
+    private boolean LIST_G(){
+        if (match(",")) {
+            if (match("id")) {
+                if (match("=")) {
+                    if (INIT()) {
+                        if (LIST_G()) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        else if (match(";")) {
+            return true;
+        }
+        return false;
+    }
     
     //Attribute Declaration in class--------------------------------------------?
     private boolean ATTR_CLASS_DEC(){return false;}
