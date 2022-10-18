@@ -1262,10 +1262,32 @@ public class LL1Parser {
     }
     
     //Increment Decrement-------------------------------------------------------?
-    private boolean INC_DEC(){return false;}
+    private boolean INC_DEC(){
+        if (match("inc_dec")) {
+            return true;
+        }
+        return false;
+    }
     
     //Constant------------------------------------------------------------------?
-    private boolean CONST(){return false;}
+    private boolean CONST(){
+        if (match("intConst")) {
+            return true;
+        }
+        else if (match("floatConst")) {
+            return true;
+        }
+        else if (match("charConst")) {
+            return true; 
+        }
+        else if (match("boolConst")) {
+            return true;
+        }
+        else if (match("strConst")) {
+            return true;
+        }
+        return false;
+    }
     
     //Conditional Statements----------------------------------------------------?
     private boolean IF_ELSE(){
