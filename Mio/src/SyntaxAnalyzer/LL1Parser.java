@@ -1152,17 +1152,130 @@ public class LL1Parser {
     }
     
     //Loop Statements-----------------------------------------------------------?
-    private boolean LOOP(){return false;}
-    private boolean LT(){return false;}
+    private boolean LOOP(){
+        if(match("loop")){
+            if (LT()){
+                return true;
+            }     
+        }
+        return false;
+    }
+    private boolean LT(){
+        if (searchSelectionSet("WHILE_ST")){
+            return true;
+        }
+        else if (searchSelectionSet("FOR_ST")){
+            return true;
+        }
+        return false;
+    }
     
-    private boolean WHILE_ST(){return false;}
-    private boolean DO_WHILE(){return false;}
+    private boolean WHILE_ST(){
+        if (match("till")){
+            if (match("(")){
+                if (EXPR()){
+                    if (match(")")){
+                        if (BODY()){
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
+    private boolean DO_WHILE(){
+        if (match("do")){
+            if (BODY()){
+                if (match("till")){
+                    if (match("(")){
+                        if (EXPR()){ 
+                            if (match(")")){
+                                return true;
+                            }
+                        }  
+                    }
+                }
+            }
+        }
+        return false;
+    }
     
-    private boolean FOR_ST(){return false;}
-    private boolean FOR_ARG(){return false;}
+    private boolean FOR_ST(){
+        if (match("thru")){
+            if (match("(")){
+                if (match("dt")){
+                    if (match("id")){
+                        if (match("in")){
+                            if (FOR_ARG()){
+                                if (match(")")){
+                                    if (BODY()){
+                                        return true;
+                                    }
+                                }  
+                            }
+                        }    
+                    }                   
+                }              
+            }
+        }
+        return false;
+    }
+    private boolean FOR_ARG(){
+        if (match("id")){
+            if (POS3()){
+                return true;
+            }            
+        }
+        else if (match("(")){
+            if (EXPR()){
+                if (match(",")){
+                    if (EXPR()){
+                        if (match(",")){
+                            if (EXPR()){
+                                if (match(")")){
+                                    return true;
+                                }                                
+                            }                            
+                        }
+                    }
+                }                
+            }           
+        }
+        return false;
+    }
     
-    private boolean POS3(){return false;}
-    private boolean DOT_ID5(){return false;}
+    private boolean POS3(){
+        if (searchSelectionSet("DOT_ID5")){
+            return true;
+        }
+        else if (searchSelectionSet("SUBSCRIPT")){
+            if (DOT_ID5()){
+                return true;
+            }
+        }
+        else if (searchSelectionSet("FN_BRACKETS")){
+            if (DOT_ID5()){
+                return true;
+            }
+        }
+        else{
+            if (searchFollowSet("POS3")) {
+                return true;
+            }
+        }
+        return false;
+    }
+    private boolean DOT_ID5(){
+        if (match("dot")){
+            if (match("id")){
+                if(POS3()){
+                    return true;
+                }               
+            }            
+        }
+        return false;
+    }
     
     //Jump Statements-----------------------------------------------------------?
     private boolean BREAK(){return false;}
