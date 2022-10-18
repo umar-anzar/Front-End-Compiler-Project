@@ -1108,7 +1108,9 @@ public class LL1Parser {
             }
         }
         else if (searchSelectionSet("DEFAULT")){
-            return true;
+            if (DEFAULT()){
+                return true;                
+            }
         }
         else if (match("}")){
             
@@ -1138,14 +1140,16 @@ public class LL1Parser {
                 }  
             }     
         }
-        else if (match(":")){
+        else if (match(";")){
             if(STATE()){
                 return true;
             }
         }
         else if (searchSelectionSet("MST")){
-            if (STATE()){
-                return true;
+            if (MST()){
+                if (STATE()){
+                    return true;
+                }
             }
         }
         return false;
@@ -1162,10 +1166,14 @@ public class LL1Parser {
     }
     private boolean LT(){
         if (searchSelectionSet("WHILE_ST")){
-            return true;
+            if (WHILE_ST()){
+                return true;                     
+            }
         }
         else if (searchSelectionSet("FOR_ST")){
-            return true;
+            if (FOR_ST()){
+                return true;
+            }        
         }
         return false;
     }
@@ -1247,16 +1255,22 @@ public class LL1Parser {
     
     private boolean POS3(){
         if (searchSelectionSet("DOT_ID5")){
-            return true;
-        }
-        else if (searchSelectionSet("SUBSCRIPT")){
             if (DOT_ID5()){
                 return true;
             }
         }
+        else if (searchSelectionSet("SUBSCRIPT")){
+            if (SUBSCRIPT()){
+                if (DOT_ID5()){
+                    return true;
+                }
+            }
+        }
         else if (searchSelectionSet("FN_BRACKETS")){
-            if (DOT_ID5()){
-                return true;
+            if (FN_BRACKETS()){
+                if (DOT_ID5()){
+                    return true;
+                }
             }
         }
         else{
@@ -1368,11 +1382,15 @@ public class LL1Parser {
             }
         }
         else if (searchSelectionSet("FINALLY")){
-            return true;
+            if (FINALLY()){
+                return true;
+            }
         }
         else{
             if (searchFollowSet("EXCEPT_FINALLY")){
-                return true;
+                if (EXCEPT_FINALLY()){
+                    return true;
+                }
             }
         }
         return false;
@@ -1390,15 +1408,39 @@ public class LL1Parser {
         return false;
     }
     private boolean ERR_DOT(){
-        
+        if (match("dot")){
+            if (match("id")){
+                return true;
+            }
+        }
+        else if (match("id")){
+            return true;
+        }
         return false;
     }
     private boolean THROWS(){
-        System.out.println("asdasd");
+        if (match("raises")){
+            if (match("id")){
+                return true;
+            }
+        }
+        else{
+            if (searchFollowSet("THROWS")){
+                return true;
+            }
+        }
         return false;
     }
     private boolean FINALLY(){
-        System.out.println(" nbgasg ");
+        if (match("finally")){
+            if (match("{")){
+                if(MST()){
+                    if (match("}")){
+                        return true;
+                    }
+                }
+            }  
+        }
         return false;}
     
-}
+} 
