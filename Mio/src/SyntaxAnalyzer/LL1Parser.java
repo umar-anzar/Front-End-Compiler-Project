@@ -1011,9 +1011,43 @@ public class LL1Parser {
         return false;
     }
     
-    private boolean SWITCH(){return false;}
-    private boolean STATE(){return false;}
-    private boolean DEFAULT(){return false;}
+    private boolean SWITCH(){
+        if (match("shift")){
+            if (match("(")){
+                if (EXPR()){
+                    if (match(")")){
+                        if (match("{")){
+                            if(STATE()){
+                                return true;
+                            }      
+                        }                
+                    }                   
+                }
+            }
+        }  
+        return false;
+    }
+    private boolean STATE(){
+        if (match("shift")){
+            if(EXPR()){
+                if (match(":")){
+                    if (SWITCH_BODY()){
+                        return true;
+                    }
+                }
+            }
+        }
+        else if (searchSelectionSet("DEFAULT")){
+            return true;
+        }
+        else if (match("}")){
+            
+        }
+        return false;
+    }
+    private boolean DEFAULT(){
+        return false;
+    }
     private boolean SWITCH_BODY(){return false;}
     
     //Loop Statements-----------------------------------------------------------?
