@@ -266,11 +266,11 @@ This CFG take cares of declaration of **primitive/object** type **variable** and
 <INIT>          -> <IS_ACMETH> id <ASSIGN_EXPR> | <NEW_OBJ> | <OPER_TO_EXPR> | <FLAG> <OPERANDS>
 <IS_ACMETH>     -> <ACCESS_METH> | null
 
-<OPER_TO_EXPR>  -> <INC_DEC> id <POS> <ID_TO_EXPR>    | ( <EXPR> ) <ID_TO_EXPR> | 
+<OPER_TO_EXPR>  -> <INC_DEC> id <POS> <ID_TO_EXPR>     | ( <EXPR> ) <ID_TO_EXPR> | 
                    <UNARY> <OPERANDS> <ID_TO_EXPR>     | <CONST> <ID_TO_EXPR>   | 
 
 <ASSIGN_EXPR>   -> <DOT_EXPR> | <SUBSCRIPT> <DOT_EXPR> | <FN_BRACKETS> <DOT_EXPR2>
-<DOT_EXPR>      -> dot id <ASSIGN_EXPR> | <ASSIGN_OP> <INIT> | <INC_DEC> <ID_TO_EXPR> | <NEW_OBJ> | <ID_TO_EXPR> 
+<DOT_EXPR>      -> dot id <ASSIGN_EXPR> | <ASSIGN_OP> <INIT> | <INC_DEC> <ID_TO_EXPR> | <ID_TO_EXPR> 
 <DOT_EXPR2>     -> dot id <ASSIGN_EXPR> | <ID_TO_EXPR>
 <ID_TO_EXPR>    -> <J1> <I1> <H1> <G1> <F1> <EXPR1>
 <LIST>          -> , id <IS_INIT> | ;
@@ -330,12 +330,12 @@ x.y.functio().function_id (p1,p2,p3)
 <hr>
 
 <!--------------------------------------------------------------------------------------->
-<!--COUNT:23-->
+<!--COUNT:33-->
 ### Array Declaration
-
+- Not in Class
 ```xml
 <ARR_DEC>       -> <ARR_TYPE> <ARR_INIT> 
-<ARR_CLASS_DEC> -> <ARR_TYPE> <ACCESSMOD> <ARR_INIT>
+<ARR_CLASS_DEC> -> <ARR_TYPE> <ARR_INIT_C>
 
 <ARR_INIT>      -> id <IS_ARR_INIT>
 <IS_ARR_INIT>   -> = <CHOICE> | ;
@@ -343,7 +343,7 @@ x.y.functio().function_id (p1,p2,p3)
 <NEW_ARR_CONST> -> new <TYPE> [ <DIM_PASS>
 
 <REF_NEWARR>    -> id <POSARR> | <NEW_ARR_CONST>
-<POSARR>        -> <DOT_ARR_REF> | <SUBSCRIPT> <DOT_ARR_REF> | <FN_BRACKETS> <DOT_ARR_TRMIN> | null
+<POSARR>        -> <DOT_ARR_REF> | <SUBSCRIPT> <DOT_ARR_REF> | <FN_BRACKETS> <DOT_ARR_TRMIN>
 <DOT_ARR>       -> dot id <POSARR>
 <DOT_ARR_REF>   -> <DOT_ARR> | <MORE_REF_STR>
 <DOT_ARR_TRMIN> -> <DOT_ARR> | <LIST_ARR>
@@ -352,19 +352,19 @@ x.y.functio().function_id (p1,p2,p3)
 
 <DIM_PASS>      -> <EXPR> ] <MUL_ARR_DEC> | ] <EMP_ARR_DEC> 
 
-<MUL_ARR_DEC>   -> [ <LEN_OF_ARR> | ;
+<MUL_ARR_DEC>   -> [ <LEN_OF_ARR> | <LIST_ARR>
 <LEN_OF_ARR>    -> <EXPR> ] <MUL_ARR_DEC2> | ] <EMP_ARR_DEC>
 <EMP_ARR_DEC>   -> [ ] <EMP_ARR_DEC> | <ARR_CONST>
-<MUL_ARR_DEC2>  -> [ <LEN_OF_ARR2> | ;
+<MUL_ARR_DEC2>  -> [ <LEN_OF_ARR2> | <LIST_ARR>
 <LEN_OF_ARR2>   -> <EXPR> ] <MUL_ARR_DEC2> | ] <EMP_ARR_DEC2>
-<EMP_ARR_DEC2>  -> [ ] <EMP_ARR_DEC2> | ;
+<EMP_ARR_DEC2>  -> [ ] <EMP_ARR_DEC2> | <LIST_ARR>
 
 <ARR_CONST>     -> { <ARR_ELEMT>
-<ARR_ELEMT>     -> <EXPR> <EXPR_LIST>  | <ARR_CONST> <EXPR_LIST> | } ;
-<EXPR_LIST>     -> , <ARR_ELEMT> <EXPR_LIST> | } ;
+<ARR_ELEMT>     -> <EXPR> <EXPR_LIST>  | <ARR_CONST> <EXPR_LIST> | } <LIST_ARR>
+<EXPR_LIST>     -> , <ARR_ELEMT> <EXPR_LIST> | } <LIST_ARR>
 ```
 
-- Not in Class
+
 ```
 Example:
 int [][] var = new int [][] {{1},{2,4}}     r
@@ -375,6 +375,33 @@ int [][][] var = new int [2][][1]           w
 int [][] var = new int [2][]  {}            w
 ```
 - In Class
+```xml
+<ARR_INIT_C>        -> <ACCESSMOD> id <IS_ARR_INIT_C>
+<IS_ARR_INI_CT>     -> = <CHOICE_C> | ;
+<CHOICE_C>          -> id <POSARR_C> | <NEW_ARR_CONST>
+
+<REF_NEWARR_C>      -> id <POSARR_C> | <NEW_ARR_CONST>
+<POSARR_C>          -> <DOT_ARR_REF_C> | <SUBSCRIPT> <DOT_ARR_REF_C> | <FN_BRACKETS> <DOT_ARR_TRMIN_C>
+<DOT_ARR_C>         -> dot id <POSARR_C>
+<DOT_ARR_REF_C>     -> <DOT_ARR_C> | <MORE_REF_STR_C>
+<DOT_ARR_TRMIN_C>   -> <DOT_ARR_C> | <LIST_ARR_C>
+<MORE_REF_STR_C>    -> = <REF_NEWARR_C> | <LIST_ARR_C>
+<LIST_ARR_C>        -> , <ARR_INIT_C> | ;
+
+<DIM_PASS>      -> <EXPR> ] <MUL_ARR_DEC> | ] <EMP_ARR_DEC> 
+
+<MUL_ARR_DEC>   -> [ <LEN_OF_ARR> | <LIST_ARR>
+<LEN_OF_ARR>    -> <EXPR> ] <MUL_ARR_DEC2> | ] <EMP_ARR_DEC>
+<EMP_ARR_DEC>   -> [ ] <EMP_ARR_DEC> | <ARR_CONST>
+<MUL_ARR_DEC2>  -> [ <LEN_OF_ARR2> | <LIST_ARR>
+<LEN_OF_ARR2>   -> <EXPR> ] <MUL_ARR_DEC2> | ] <EMP_ARR_DEC2>
+<EMP_ARR_DEC2>  -> [ ] <EMP_ARR_DEC2> | <LIST_ARR>
+
+<ARR_CONST>     -> { <ARR_ELEMT>
+<ARR_ELEMT>     -> <EXPR> <EXPR_LIST>  | <ARR_CONST> <EXPR_LIST> | } <LIST_ARR>
+<EXPR_LIST>     -> , <ARR_ELEMT> <EXPR_LIST> | } <LIST_ARR>
+```
+
 ```
 Example:
 int [][] $var = new int [][] {{1},{2,4}}    r
