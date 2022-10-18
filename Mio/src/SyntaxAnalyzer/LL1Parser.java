@@ -1278,13 +1278,55 @@ public class LL1Parser {
     }
     
     //Jump Statements-----------------------------------------------------------?
-    private boolean BREAK(){return false;}
-    private boolean CONTINUE(){return false;}
-    private boolean L(){return false;}
+    private boolean BREAK(){
+        if (match("stop")){
+            if (L()){
+                return true;
+            }
+        }
+        return false;
+    }
+    private boolean CONTINUE(){
+        if (match("cont")){
+            if(L()){
+                return true;
+            } 
+        }
+        return false;
+    }
+    private boolean L(){
+        if (match("id")){
+            if (match(":")){
+                return true;
+            }           
+        }
+        else if (match(";")){
+            return true;
+        }
+        return false;
+    }
     
-    private boolean RET_ST(){return false;}
+    private boolean RET_ST(){
+        if (match("ret")){
+            if(EXPR()){
+                if (match(";")){ 
+                  return true;
+                } 
+            }
+        }
+        return false;
+    }
     
-    private boolean THROW(){return false;}
+    private boolean THROW(){
+        if (match("raise")){
+            if (NEW_OBJ()){
+                if (match(";")){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
     
     //Exception Handler---------------------------------------------------------?
     private boolean TRY_CATCH(){return false;}
