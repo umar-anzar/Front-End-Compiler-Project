@@ -1024,20 +1024,179 @@ public class LL1Parser {
     private boolean LIST_C(){return false;}
     
     //Expression----------------------------------------------------------------?
-    private boolean EXPR(){return false;}
-    private boolean EXPR1(){return false;}
-    private boolean F(){return false;}
-    private boolean F1(){return false;}
-    private boolean G(){return false;}
-    private boolean G1(){return false;}
-    private boolean H(){return false;}
-    private boolean H1(){return false;}
-    private boolean I(){return false;}
-    private boolean I1(){return false;}
-    private boolean J(){return false;}
-    private boolean J1(){return false;}
-    private boolean K(){return false;}
-    private boolean IS_FLAG(){return false;}
+    private boolean EXPR(){
+        if (searchSelectionSet("F")){
+            if (F()){
+                if (EXPR1()){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    private boolean EXPR1(){
+        if (match("or")) {      
+            if (F()){
+                if (EXPR1()){
+                    return true;
+                }
+            }
+        }
+        else{
+            if (searchSelectionSet("EXPR1")){
+                return true;
+            }
+        }
+        return false;
+    }
+    private boolean F(){
+        if (searchSelectionSet("G")){
+            if (G()){
+                if (F1()){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    private boolean F1(){
+       if (match("and")) {
+           if (G()){
+               if (F1()){
+                   return true;
+               }
+           }      
+       }
+       else{
+           if (searchFollowSet("F1")){
+               return true;
+           }
+       }
+        return false;
+    }
+    private boolean G(){
+        if (searchSelectionSet("H")){
+            if (H()){
+                if (G1()){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    private boolean G1(){
+        if (match("rop")) {
+            if (H()){
+                if (G1()){
+                    return true;
+                }
+            }
+        }
+        else{
+            if (searchFollowSet("G1")){
+                return true;
+            }
+        }
+        return false;
+    }
+    private boolean H(){
+        if (searchSelectionSet("I")){
+            if (I()){
+                if (H()){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    private boolean H1(){
+        if (match("pm")) {
+            if (I()){
+                if (H1()){
+                    return true;
+                }
+            }
+        }
+        else{
+            if (searchFollowSet("H1")){
+                return true;
+            }
+        }
+        return false;
+    }
+    private boolean I(){
+        if (searchSelectionSet("J")){
+            if (J()){
+                if (I1()){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    private boolean I1(){
+        if (match("mdm")) {
+            if (J()){
+                if (I1()){
+                    return true;
+                }
+            }
+        }
+        else{
+            if (searchFollowSet("I1")){
+                return true;
+            }
+        }
+        return false;
+    }
+    private boolean J(){
+        if (searchSelectionSet("K")){
+            if (K()){
+                if (J1()){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    private boolean J1(){
+        if (match("power")) {
+            if (K()){
+                if (J1()){
+                    return true;
+                }
+            }
+        }
+        else{
+            if (searchFollowSet("J1")){
+                return true;
+            }
+        }
+        return false;
+    }
+    private boolean K(){
+        if (searchSelectionSet("IS_FLAG")){
+            if (IS_FLAG()){
+                return true;
+            }
+        }
+        return false;
+    }
+    private boolean IS_FLAG(){
+        if ( searchSelectionSet("FLAG")){
+            if (FLAG()){
+                if (OPERANDS()){
+                    return true;
+                }
+            }
+        }
+        else if (searchSelectionSet("OPERANDS")){
+            if (OPERANDS()){
+                return true;
+            }
+        }
+        return false;
+    }
     
     //Operands------------------------------------------------------------------?
     private boolean OPERANDS(){return false;}
