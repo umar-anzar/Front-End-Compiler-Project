@@ -157,8 +157,8 @@ public class LL1Parser {
         sSet.put("BODY", new String[][] {{";", "if", "shift", "const", "dt", "str", "id", "Parent", "Self", "test", "loop", "do", "stop", "ret", "cont", "raise", "{"},{}});
         
         //$Single and Multi Statements
-        sSet.put("SST", new String[][] {{"if", "shift", "const", "dt", "str", "id", "Parent", "Self", "test", "loop", "do", "stop", "ret", "cont", "raise"},{}});
-        sSet.put("MST", new String[][] {{"if", "shift", "const", "dt", "str", "id", "Parent", "Self", "test", "loop", "do", "stop", "ret", "cont", "raise"},{"state", "default", "}"},{}});
+        sSet.put("SST", new String[][] {{";", "if", "shift", "const", "dt", "str", "id", "Parent", "Self", "test", "loop", "do", "stop", "ret", "cont", "raise"},{}});
+        sSet.put("MST", new String[][] {{";", "if", "shift", "const", "dt", "str", "id", "Parent", "Self", "test", "loop", "do", "stop", "ret", "cont", "raise"},{"state", "default", "}"},{}});
 
         //$Begin the Main Function
         sSet.put("MAIN", new String[][] {{"begin"},{}});
@@ -255,7 +255,7 @@ public class LL1Parser {
         
         //$Conditional Statements
         sSet.put("IF_ELSE", new String[][] { {"if"}, {} });
-        sSet.put("OELSE", new String[][] { {"else"}, {"if", "shift", "const", "dt", "str", "id", "Parent", "Self", "test", 
+        sSet.put("OELSE", new String[][] { {"else"}, {";", "if", "shift", "const", "dt", "str", "id", "Parent", "Self", "test", 
             "loop", "do", "stop", "ret", "cont", "raise", "state", "default", "}", "else", "till"} });
         
         sSet.put("SWITCH", new String[][] { {"shift"}, {} });
@@ -287,7 +287,7 @@ public class LL1Parser {
         
         //$Exception Handler
         sSet.put("TRY_CATCH", new String[][] { {"test"}, {} });
-        sSet.put("EXCEPT_FINALLY", new String[][] { {"except", "Finally"}, {"if", "shift", "const", "dt", "str", "id", "Parent", 
+        sSet.put("EXCEPT_FINALLY", new String[][] { {"except", "Finally"}, {";", "if", "shift", "const", "dt", "str", "id", "Parent", 
             "Self", "test", "loop", "do", "stop", "ret", "cont", "raise", "state", "default", "}", "else", "till"} });
         sSet.put("ERROR_TYPE", new String[][] { {"("}, {} });
         sSet.put("ERR_DOT", new String[][] { {"dot", "id"}, {} });
@@ -488,6 +488,9 @@ public class LL1Parser {
             if (THROW()) {
                 return true;
             }
+        }
+        else if (match(";")) {
+            return true;
         }
         return false;
     }
@@ -1398,7 +1401,7 @@ public class LL1Parser {
         return false;
     }
     private boolean STATE(){
-        if (match("shift")){
+        if (match("state")){
 //            if(EXPR()){
                 if (match(":")){
                     if (SWITCH_BODY()){
@@ -1439,11 +1442,6 @@ public class LL1Parser {
                     }
                 }  
             }     
-        }
-        else if (match(";")){
-            if(STATE()){
-                return true;
-            }
         }
         else if (searchSelectionSet("MST")){
             if (MST()){

@@ -1,0 +1,18 @@
+
+def function1 () {}
+def int function2 (int p1){}
+begin {}
+def str function3 (str abc)  { }
+def object[][][][][][] function4 (float p1, int [] p2, ABC p3) {}
+
+
+
+
+Class Car () {}
+Class Car <T>() {}
+Class $$Car <T>() {}
+Abstract Class $$Car <T>() {}
+Class Car (wheel,mirror) {}
+Class Car <T>(wheel,mirror) {}
+Class $$Car <T>(wheel,mirror,engine) {}
+Abstract Class $$Car <T>(wheel,mirror,engine) {}

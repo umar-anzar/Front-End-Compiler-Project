@@ -1,63 +1,44 @@
-@@ 
-Class $Izhan (omer) {
-    "\\"ad
-xa'\\'y
-a<=<<4::3
-    @ Attributes
-    int $$variable_name = convt(int)5.6;
-    point n = 34.05;
-    bool var = true;
-    
-    methods which are awesome
-
-    and I LOVE METHODS
-    char c = '\''
-    String const $Hey = "hello hello how are you sir \"Muqsit\\ \" ";
-
-    @ METHODS ARE BEST OF THE BEST
-    String Method_name_(int i, char x) {
-        this.n ^= 3.5;
-        this.n++;
-        p = this.n;
-        if (p == 4 || p != 3){;}
-        return this.Hello * ( n * .6)/ 4.8
-    
-    }
-}
-@@
-@@
-def str[][] $var ( int p ) {
-    const ABC b = NaN;
-    int[] b = new int[3][];
-}
-@@
 package hello;
 
-@@
-import asd.qwre.asd.^;
-import asd.a_.asd.^;
-@@
-
 def function1 () { 
-if (); 
-if ();else;
-if () {;}else{;}
-shift (  ) { }
+
+    ;;;;
+    if ();else;
+
+    if () {;}else{;}
+
+    shift (  ) { }
+
+    shift (  ) { 
+        state :
+            ;
+        state :
+            ;
+            if ();else;
+    }
+    shift (  ) { 
+            default :
+                ;
+                ;
+                if ();else;
+    }
+    shift (  ) { 
+        state :{
+            ;}
+        state :{
+            ;
+            if ();else;}
+        default :
+            ;
+            ;
+            if ();else;
+    } 
+
+    
 }
 
-def int function2 (int p1)  { 
-  
-}
-@@
-def str function3 (str abc)  { }
-def object[][][][][][] function4 (float p1, int [] p2, ABC p3) {}
+begin {}
 
-Class Car () {}
-Class Car <T>() {}
-Class $$Car <T>() {}
-Abstract Class $$Car <T>() {}
-Class Car (wheel,mirror) {}
-Class Car <T>(wheel,mirror) {}
-Class $$Car <T>(wheel,mirror,engine) {}
-Abstract Class $$Car <T>(wheel,mirror,engine) {}
-@@
+
+
+

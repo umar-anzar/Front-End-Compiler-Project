@@ -41,7 +41,7 @@ w: wrong
 ### Body
 
 ```xml
-<BODY>  -> ; | <SST> | { <MST> }
+<BODY>  -> <SST> | { <MST> }
 ```
 <!--COUNT:2-->
 ### Single and Multi Statements
@@ -49,7 +49,7 @@ w: wrong
 ```xml
 <SST>   -> <IF_ELSE>    | <SWITCH>      | <DEC>     | <TRY_CATCH>   |
 ...        <LOOP>       | <DO_WHILE>    | <BREAK>   | <RET_ST>      |
-...        <CONTINUE>   | <THROW>
+...        <CONTINUE>   | <THROW>       | ;
            
 
 <MST>   -> <SST> <MST> | null 
@@ -502,7 +502,7 @@ switch-case
 <SWITCH>        -> shift ( <EXPR> ) { <STATE> 
 <STATE>         -> state <EXPR> : <SWITCH_BODY> | <DEFAULT> | }
 <DEFAULT>       -> default : <MST> }
-<SWITCH_BODY>   -> { <MST> } <STATE> | ; <STATE> | <MST> <STATE> 
+<SWITCH_BODY>   -> { <MST> } <STATE> | <MST> <STATE> 
 ```
 
 <hr>

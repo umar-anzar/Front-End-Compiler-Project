@@ -34,6 +34,8 @@ public class testing {
         
         switch (b) {
             case 3:
+                ;
+                System.out.println("a");
             case 6:
                 break;
         }

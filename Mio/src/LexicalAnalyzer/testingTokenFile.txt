@@ -1,0 +1,30 @@
+
+Class $Izhan (omer) {
+    "\\"ad
+xa'\\'y
+a<=<<4::3
+    @ Attributes
+    int $$variable_name = convt(int)5.6;
+    point n = 34.05;
+    bool var = true;
+    
+    methods which are awesome
+
+    and I LOVE METHODS
+    char c = '\''
+    String const $Hey = "hello hello how are you sir \"Muqsit\\ \" ";
+
+    @ METHODS ARE BEST OF THE BEST
+    String Method_name_(int i, char x) {
+        this.n ^= 3.5;
+        this.n++;
+        p = this.n;
+        if (p == 4 || p != 3){;}
+        return this.Hello * ( n * .6)/ 4.8
+    
+    }
+}
+
+def str[][] $var ( int p ) {
+    const ABC b = NaN;
+    int[] b = new int[3][];
