@@ -1254,7 +1254,12 @@ public class LL1Parser {
         }
         return false;
     }
-    private boolean FLAG(){return false;}
+    private boolean FLAG(){
+        if (match("pm")) {
+            return true;
+        }
+        return false;
+    }
     
     //Increment Decrement-------------------------------------------------------?
     private boolean INC_DEC(){return false;}
