@@ -202,14 +202,15 @@ array subscript | arr[2]          | arr[2:3]
 
 - End only with ID, array subscript.
 ```xml
-<POS>               -> <DOT_ID> | <SUBSCRIPT> <DOT_ID> | <FN_BRACKETS> dot id <POS> | null
+<POS>               -> <DOT_ID> | <SUBSCRIPT> <DOT_ID_S> | <FN_BRACKETS> dot id <POS> | null
 <SUBSCRIPT>         -> [ <EXPR> ] <SUBSCRIPT_LIST>
-<SUBSCRIPT_LIST>    -> [ <EXPR> ] <SUBSCRIPT_LIST> | null
+<SUBSCRIPT_LIST>    -> <SUBSCRIPT> | null
 <FN_BRACKETS>       -> ( <ARG> 
 <ARG>               -> <EXPR_OBJ> <ARG_LIST> | )
 <ARG_LIST>          -> , <EXPR_OBJ> <ARG_LIST> | )
 <EXPR_OBJ>          -> <EXPR> | <NEW_OBJ>
 <DOT_ID>            -> dot id <POS>
+<DOT_ID_S>          -> <DOT_ID> | null
 ```
 
 ```
@@ -227,9 +228,10 @@ func() =                w
 and function call ends with null.
 
 ```xml
-<POS2>          -> <INC_DEC_DOT> | <SUBSCRIPT> <INC_DEC_DOT> | <FN_BRACKETS> <DOT_ID2> | null
+<POS2>          -> <INC_DEC_DOT> | <SUBSCRIPT> <INC_DEC_DOT_S> | <FN_BRACKETS> <DOT_ID2> | null
 <INC_DEC_DOT>   -> <INC_DEC> | <DOT_ID2> 
 <DOT_ID2>       -> dot id <POS2>
+<INC_DEC_DOT_S> -> <INC_DEC_DOT> | null
 ```
 ```
 Example:
@@ -262,12 +264,13 @@ This CFG take cares of declaration of **primitive/object** type **variable** and
 <ARR_SUBSCRIPT> -> ] <ARR_TYPE_LIST> id <IS_INIT> <!--DEC--> | <EXPR> ] <DOT_ID3> <!--ASSIGNMENT-->
 
 <VAR_ARR>       -> <ARR_TYPE> id <IS_INIT> <!--ARR--> | id <IS_INIT> <!--VAR-->
-<IS_INIT>       -> = <INIT> <LIST> | ;
-<INIT>          -> <IS_ACMETH> id <ASSIGN_EXPR> | <NEW_OBJ> | <OPER_TO_EXPR> | <FLAG> <OPERANDS>
+<IS_INIT>       -> = <INIT> <LIST> | <LIST> 
+<INIT>          -> <IS_ACMETH> id <ASSIGN_EXPR> | <NEW_OBJ> | <OPER_TO_EXPR>
 <IS_ACMETH>     -> <ACCESS_METH> | null
 
 <OPER_TO_EXPR>  -> <INC_DEC> id <POS> <ID_TO_EXPR>     | ( <EXPR> ) <ID_TO_EXPR> | 
-                   <UNARY> <OPERANDS> <ID_TO_EXPR>     | <CONST> <ID_TO_EXPR>   | 
+                   <UNARY> <OPERANDS> <ID_TO_EXPR>     | <CONST> <ID_TO_EXPR>    | 
+                   <FLAG> <OPERANDS> <ID_TO_EXPR>
 
 <ASSIGN_EXPR>   -> <DOT_EXPR> | <SUBSCRIPT> <DOT_EXPR> | <FN_BRACKETS> <DOT_EXPR2>
 <DOT_EXPR>      -> dot id <ASSIGN_EXPR> | <ASSIGN_OP> <INIT> | <INC_DEC> <ID_TO_EXPR> | <ID_TO_EXPR> 
@@ -392,7 +395,7 @@ int [][] var = new int [2][]                r
 <GLOBAL_DEC>    -> <TYPE> <VAR_ARR_G>
 <VAR_ARR_G>     -> <ARR_TYPE> <VAR_G>  <!--ARR--> | <VAR_G>  <!--VAR-->
 <VAR_G>         -> id <IS_INIT_G>
-<IS_INIT_G>     -> = <INIT> <LIST_G> | ;
+<IS_INIT_G>     -> = <INIT> <LIST_G> | <LIST_G>
 <LIST_G>        -> , id <IS_INIT_G> | ;
 ```
 
@@ -451,7 +454,7 @@ Unary   'convt(dt) !'
 <J>         -> <K> <J1> 
 <J1>        -> power <K> <J1> | null
 <K>         -> <IS_FLAG>
-<IS_FLAG>   -> <FLAG> <OPERANDS> | <OPERANDS>
+<IS_FLAG>   -> <OPERANDS>
 ```
 
 
@@ -462,7 +465,7 @@ Unary   'convt(dt) !'
 ### Operands
 
 ```xml
-<OPERANDS>  -> <IS_ACMETH> id <POS2> | <INC_DEC> id <POS> | ( <EXPR> ) | <UNARY> <OPERANDS> | <CONST>
+<OPERANDS>  -> <IS_ACMETH> id <POS2> | <INC_DEC> id <POS> | ( <EXPR> ) | <UNARY> <OPERANDS> | <CONST> | <FLAG> <OPERANDS>
 
 <UNARY>     -> typeCast ( dt ) | not
 <FLAG>      -> pm 
@@ -528,9 +531,9 @@ For-loop
 <FOR_ST>    -> thru ( dt id in <FOR_ARG> ) <BODY>
 <FOR_ARG>   -> id <POS3> | ( <EXPR> , <EXPR> , <EXPR> )
 
-<!--POS3 end with anything subscript id and function-->
-<POS3>      -> <DOT_ID5> | <SUBSCRIPT> <DOT_ID5> | <FN_BRACKETS> <DOT_ID5> | null
-<DOT_ID5>   -> dot id <POS3>
+<!--POS3 end with anything subscript, id and function-->
+<POS3>      -> <SUBSCRIPT> <DOT_ID5> | <FN_BRACKETS> <DOT_ID5> | <DOT_ID5> 
+<DOT_ID5>   -> dot id <POS3> | null
 ```
 
 <hr>
@@ -567,7 +570,7 @@ Throw
 <TRY_CATCH>         -> test { <MST> } except <ERROR_TYPE> { <MST> } <EXCEPT_FINALLY>
 <EXCEPT_FINALLY>    -> except <ERROR_TYPE> { <MST> } <EXCEPT> | <FINALLY> | null
 <ERROR_TYPE>        -> ( id <ERR_DOT> )
-<ERR_DOT>           -> dot id | id
+<ERR_DOT>           -> dot id <ERR_DOT> | id
 <THROWS>            -> raises id | null
 <FINALLY>           -> finally { <MST> }
 ```

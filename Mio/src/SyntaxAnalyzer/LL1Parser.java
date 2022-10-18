@@ -84,16 +84,23 @@ public class LL1Parser {
      */
     private boolean searchSelectionSet(String selectionSet) {
         String word = getTokenCP();
-        for (String cp : sSet.get(selectionSet)[0]) {
-            if ( word.equals(cp)) {
-                return true;
+        try {
+            for (String cp : sSet.get(selectionSet)[0]) {
+                if ( word.equals(cp)) {
+                    return true;
+                }
             }
-        }
-        for (String cp : sSet.get(selectionSet)[1]) {
-            if ( word.equals(cp)) {
-                return true;
+            for (String cp : sSet.get(selectionSet)[1]) {
+                if ( word.equals(cp)) {
+                    return true;
+                }
             }
+        } catch (NullPointerException e) {
+            System.out.println(word);
+            System.out.println(selectionSet);
+            String[] error = sSet.get(selectionSet)[0];
         }
+        
         return false;
     }
     
@@ -104,10 +111,16 @@ public class LL1Parser {
      */
     private boolean searchFollowSet(String selectionSet) {
         String word = getTokenCP();
-        for (String cp : sSet.get(selectionSet)[1]) {
-            if ( word.equals(cp)) {
-                return true;
+        try {
+            for (String cp : sSet.get(selectionSet)[1]) {
+                if ( word.equals(cp)) {
+                    return true;
+                }
             }
+        } catch (NullPointerException e) {
+            System.out.println(word);
+            System.out.println(selectionSet);
+            String[] error = sSet.get(selectionSet)[1];
         }
         return false;
     }
@@ -209,18 +222,38 @@ public class LL1Parser {
         sSet.put("MULTI_INHERIT", new String[][] { {",", ")"}, {} });
         
         //?Class Body
+        
         //?Dot Separated Id, FC, AR subscripts
+        sSet.put("POS", new String[][] { {"dot", "[", "("}, {"power", "mdm", "pm", "Rop", "And", "Or", "]", ")", 
+            ",", "}", ":", ";"} });
+        sSet.put("SUBSCRIPT", new String[][] { {"["}, {} });
+        sSet.put("SUBSCRIPT_LIST", new String[][] { {"["}, {"dot", "=", "Cma", "inc_dec", "new", "NaN", "power", "mdm", "pm", 
+            "Rop", "And", "Or", ",", ";"} });
+        sSet.put("FN_BRACKETS", new String[][] { {"("}, {} });
+        sSet.put("ARG", new String[][] { {"pm", "Parent", "Self", "id", "(", "typeCast", "not", "intConst", "floatConst", 
+            "charConst", "boolConst", "strConst", "new", "NaN", ")"}, {} });
+        sSet.put("ARG_LIST", new String[][] { {",", ")"}, {} });
+        sSet.put("EXPR_OBJ", new String[][] { {"pm", "Parent", "Self", "id", "(", "typeCast", "not", "intConst", "floatConst", 
+            "charConst", "boolConst", "strConst", "new", "NaN"}, {} });
+        sSet.put("DOT_ID", new String[][] { {"dot"}, {} });
+        
+        sSet.put("POS2", new String[][] { {"inc_dec", "dot", "[", "("}, {"power", "mdm", "pm", "Rop", "And", "Or", "]", ")", ",", 
+            "}", ":", ";"} });
+        sSet.put("INC_DEC_DOT", new String[][] { {"inc_dec", "dot"}, {} });
+        sSet.put("DOT_ID2", new String[][] { {"dot"}, {} });
+        
         //?Declaration and Initialization
+        sSet.put("IS_ACMETH", new String[][] { {"Parent", "Self", "id"}, {"id"} });
+
         //?Assignment
         //?Object Declaration
         //?Array Declaration
         
         //?Global Variable Declaration
-        sSet.put("GLOBAL_DEC", new String[][] { {"dt", "id"}, {} });
-        sSet.put("IS_OBJ_G", new String[][] { {"dt", "id"}, {} });
-        sSet.put("VAR_OBJ_G", new String[][] { {"id", "dt", "str"}, {} });
-        sSet.put("VAR_ARR_G", new String[][] { {"[", "id", "=", ";"}, {} });
-        sSet.put("IS_INIT_G", new String[][] { {"=", ";"}, {} });
+        sSet.put("GLOBAL_DEC", new String[][] { {"dt", "id", "str"}, {} });
+        sSet.put("VAR_ARR_G", new String[][] { {"[", "id"}, {} });
+        sSet.put("VAR_G", new String[][] { {"id"}, {} });
+        sSet.put("IS_INIT_G", new String[][] { {"=", ",", ";"}, {} });
         sSet.put("LIST_G", new String[][] { {",", ";"}, {} });
 
         //?Attribute Declaration in class
@@ -249,9 +282,17 @@ public class LL1Parser {
         sSet.put("IS_FLAG", new String[][] { {"pm", "Parent", "Self", "id", "(", "typeCast", "not", "intConst", "floatConst", 
             "charConst", "boolConst", "strConst"}, {} });
 
-        //?Operands
-        //?Increment Decrement
-        //?Constant
+        //$Operands
+        sSet.put("OPERANDS", new String[][] { {"Parent", "Self", "id", "(", "typeCast", "not", "intConst", "floatConst", "charConst", 
+            "boolConst", "strConst", "pm"}, {} });
+        sSet.put("UNARY", new String[][] { {"typeCast", "not"}, {} });
+        sSet.put("FLAG", new String[][] { {"pm"}, {} });
+        
+        //$Increment Decrement
+        sSet.put("INC_DEC", new String[][] { {"inc_dec"}, {} });
+        
+        //$Constant
+        sSet.put("CONST", new String[][] { {"intConst", "floatConst", "charConst", "boolConst", "strConst"}, {} });
         
         //$Conditional Statements
         sSet.put("IF_ELSE", new String[][] { {"if"}, {} });
@@ -824,8 +865,8 @@ public class LL1Parser {
                 return true;
             }
         }
-        else if (searchSelectionSet("VAR_OBJ_G")) {
-            if (VAR_OBJ_G()) {
+        else if (searchSelectionSet("GLOBAL_DEC")) {
+            if (GLOBAL_DEC()) {
                 return true;
             }
         }
@@ -936,18 +977,170 @@ public class LL1Parser {
     }
     
     //Dot Separated Identifers, Function calls, array subscripts----------------?
-    private boolean POS(){return false;}
-    private boolean SUBSCRIPT(){return false;}
-    private boolean SUBSCRIPT_LIST(){return false;}
-    private boolean FN_BRACKETS(){return false;}
-    private boolean ARG(){return false;}
-    private boolean ARG_LIST(){return false;}
-    private boolean EXPR_OBJ(){return false;}
-    private boolean DOT_ID(){return false;}
+    private boolean POS() {
+        if (searchSelectionSet("DOT_ID")) {
+            if (DOT_ID()) {
+                return true;
+            }
+        }
+        else if (searchSelectionSet("SUBSCRIPT")) {
+            if (SUBSCRIPT()) {
+                if (DOT_ID()) {
+                    return true;
+                }
+            }
+        }
+        else if (searchSelectionSet("FN_BRACKETS")) {
+            if (FN_BRACKETS()) {
+                if (match("dot")) {
+                    if (match("id")) {
+                        if (POS()) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        else {
+            if (searchFollowSet("POS")) {
+                return true;
+            }
+        }
+        return false;
+    }
+    private boolean SUBSCRIPT() {
+        if (match("[")) {
+            if (EXPR()) {
+                if (match("]")) {
+                    if (SUBSCRIPT_LIST()) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+    private boolean SUBSCRIPT_LIST() {
+        if (searchSelectionSet("SUBSCRIPT")) {
+            if (SUBSCRIPT()) {
+                return true;
+            }
+        }
+        else {
+            if (searchFollowSet("SUBSCRIPT_LIST")) {
+                return true;
+            }
+        }
+        return false;
+    }
+    private boolean FN_BRACKETS() {
+        if (match("(")) {
+            if (ARG()) {
+                return true;
+            }
+        }
+        return false;
+    }
+    private boolean ARG() {
+        if (searchSelectionSet("EXPR_OBJ")) {
+            if (EXPR_OBJ()) {
+                if (ARG_LIST()) {
+                    return true;
+                }
+            }
+        }
+        else if (match(")")) {
+            return true;
+        }
+        return false;
+    }
+    private boolean ARG_LIST() {
+        if (match(",")) {
+            if (EXPR_OBJ()) {
+                if (ARG_LIST()) {
+                    return true;
+                }
+            }
+        }
+        else if (match(")")) {
+            return true;
+        }
+        return false;
+    }
+    private boolean EXPR_OBJ() {
+        if (searchSelectionSet("EXPR")) {
+            if (EXPR()) {
+                return true;
+            }
+        }
+        else if (searchSelectionSet("NEW_OBJ")) {
+            if (NEW_OBJ()) {
+                return true;
+            }
+        }
+        return false;
+    }
+    private boolean DOT_ID() {
+        if (match("dot")) {
+            if (match("id")) {
+                if (POS()) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
     
-    private boolean POS2(){return false;}
-    private boolean INC_DEC_DOT(){return false;}
-    private boolean DOT_ID2(){return false;}
+    private boolean POS2() {
+        if (searchSelectionSet("INC_DEC_DOT")) {
+            if (INC_DEC_DOT()) {
+                return true;
+            }
+        }
+        else if (searchSelectionSet("SUBSCRIPT")) {
+            if (SUBSCRIPT()) {
+                if (INC_DEC_DOT()) {
+                    return true;
+                }
+            }
+        }
+        else if (searchSelectionSet("FN_BRACKETS")) {
+            if (FN_BRACKETS()) {
+                if (DOT_ID2()) {
+                    return true;
+                }
+            }
+        }
+        else {
+            if (searchFollowSet("POS2")) {
+                return true;
+            }
+        }
+        return false;
+    }
+    private boolean INC_DEC_DOT() {
+        if (searchSelectionSet("INC_DEC")) {
+            if (INC_DEC()) {
+                return true;
+            }
+        }
+        else if (searchSelectionSet("DOT_ID2")) {
+            if (DOT_ID2()) {
+                return true;
+            }
+        }
+        return false;
+    }
+    private boolean DOT_ID2() {
+        if (match("dot")) {
+            if (match("id")) {
+                if (POS()) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
     
     //Declaration and Initialization--------------------------------------------?
     private boolean DEC(){return false;}
@@ -956,7 +1149,19 @@ public class LL1Parser {
     private boolean VAR_ARR(){return false;}
     private boolean IS_INIT(){return false;}
     private boolean INIT(){return false;}
-    private boolean IS_ACMETH(){return false;}
+    private boolean IS_ACMETH() {
+        if (searchSelectionSet("ACCESS_METH")) {
+            if (ACCESS_METH()) {
+                return true;
+            }
+        }
+        else {
+            if (searchFollowSet("IS_ACMETH")) {
+                return true;
+            }
+        }
+        return false;
+    }
     private boolean OPER_TO_EXPR(){return false;}
     private boolean ASSIGN_EXPR(){return false;}
     private boolean DOT_EXPR(){return false;}
@@ -1001,31 +1206,8 @@ public class LL1Parser {
     private boolean ARR_ELEMT(){return false;}
     private boolean EXPR_LIST(){return false;}
     
-    //Global Variable Declaration-----------------------------------------------?
+    //Global Variable Declaration-----------------------------------------------$
     private boolean GLOBAL_DEC() {
-        if (searchSelectionSet("IS_OBJ_G")) {
-            if (IS_OBJ_G()) {
-                return true;
-            }
-        }
-        return false;
-    }
-    private boolean IS_OBJ_G() {
-        if (searchSelectionSet("DT_STR")) {
-            if (DT_STR()) {
-                if (VAR_ARR_G()) {
-                    return true;
-                }
-            }
-        }
-        else if (match("id")) {
-            if (VAR_ARR_G()) {
-                
-            }
-        }
-        return false;
-    }
-    private boolean VAR_OBJ_G() {
         if (searchSelectionSet("TYPE")) {
             if (TYPE()) {
                 if (VAR_ARR_G()) {
@@ -1036,14 +1218,24 @@ public class LL1Parser {
         return false;
     }
     private boolean VAR_ARR_G() {
-        if (searchSelectionSet("ARR_CLASS_DEC")) {
-            if (ARR_CLASS_DEC()) {
-                return true;
-            }
-            else if (match("id")) {
-                if (IS_INIT_G()) {
+        if (searchSelectionSet("ARR_TYPE")) {
+            if (ARR_TYPE()) {
+                if (VAR_G()) {
                     return true;
                 }
+            }
+        }
+        else if (searchSelectionSet("VAR_G")) {
+            if (VAR_G()) {
+                return true;
+            }
+        }
+        return false;
+    }
+    private boolean VAR_G() {
+        if (match("id")) {
+            if (IS_INIT_G()) {
+                return true;
             }
         }
         return false;
@@ -1056,20 +1248,18 @@ public class LL1Parser {
                 }
             }
         }
-        else if (match(";")) {
-            return true;
+        else if (searchSelectionSet("LIST_G")) {
+            if (LIST_G()) {
+                return true;
+            }
         }
         return false;
     }
     private boolean LIST_G(){
         if (match(",")) {
             if (match("id")) {
-                if (match("=")) {
-                    if (INIT()) {
-                        if (LIST_G()) {
-                            return true;
-                        }
-                    }
+                if (IS_INIT_G()) {
+                    return true;
                 }
             }
         }
@@ -1166,7 +1356,7 @@ public class LL1Parser {
     private boolean H(){
         if (searchSelectionSet("I")){
             if (I()){
-                if (H()){
+                if (H1()){
                     return true;
                 }
             }
@@ -1247,14 +1437,7 @@ public class LL1Parser {
         return false;
     }
     private boolean IS_FLAG(){
-        if ( searchSelectionSet("FLAG")){
-            if (FLAG()){
-                if (OPERANDS()){
-                    return true;
-                }
-            }
-        }
-        else if (searchSelectionSet("OPERANDS")){
+        if (searchSelectionSet("OPERANDS")){
             if (OPERANDS()){
                 return true;
             }
@@ -1299,6 +1482,13 @@ public class LL1Parser {
         else if (searchSelectionSet("CONST")){
             if (CONST()){
                 return true;
+            }
+        }
+        else if (searchSelectionSet("FLAG")){
+            if (FLAG()){
+                if (OPERANDS()){
+                    return true;
+                }
             }
         }
         return false;
@@ -1357,7 +1547,7 @@ public class LL1Parser {
     private boolean IF_ELSE(){
         if (match("if")){
             if (match("(")){
-//                if (EXPR()){
+                if (EXPR()){
                     if (match(")")){
                         if (BODY()){
                             if (OELSE()){
@@ -1365,7 +1555,7 @@ public class LL1Parser {
                             }
                         }
                     }
-//                }    
+                }    
             }
         }     
         return false;
@@ -1686,9 +1876,7 @@ public class LL1Parser {
         }
         else{
             if (searchFollowSet("EXCEPT_FINALLY")){
-                if (EXCEPT_FINALLY()){
-                    return true;
-                }
+                return true;
             }
         }
         return false;
@@ -1708,7 +1896,9 @@ public class LL1Parser {
     private boolean ERR_DOT(){
         if (match("dot")){
             if (match("id")){
-                return true;
+                if (ERR_DOT()) {
+                    return true;   
+                }
             }
         }
         else if (match("id")){

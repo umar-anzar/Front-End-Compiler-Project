@@ -1,11 +1,13 @@
 package hello;
 
+int x,y,o;  
+
 def function1 () { 
-
+    
     ;;;;
-    if ();else;
+    if ( a[ 3 ] );else;
 
-    if () {;}else{;}
+    if (34+3) {;}else{;}
 
     shift (  ) { }
 
@@ -14,30 +16,41 @@ def function1 () {
             ;
         state :
             ;
-            if ();else;
+            if (3);else;
     }
     shift (  ) { 
             default :
                 ;
                 ;
-                if ();else;
+                if (4);else;
     }
     shift (  ) { 
         state :{
             ;}
         state :{
             ;
-            if ();else;}
+            if (4);else;}
         default :
             ;
             ;
-            if ();else;
+            if (2);else;
     } 
 
     
 }
 
-begin {}
+begin {
+    test {
+        ;
+    } except (java.lang.NullPointerException e  ) {
+        
+    } except (NullPointerException e  ) {
+        
+    } finally {
+        ;
+    }
+
+}
 
 
 

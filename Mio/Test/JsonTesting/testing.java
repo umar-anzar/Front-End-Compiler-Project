@@ -9,7 +9,8 @@ class XYZ{
 }
 public class testing {  
     int b =3,x;
-    int [][][] po = new int[1][][];
+    static int [][][] po = new int[1][][];
+    
     void p(){
         
     }
