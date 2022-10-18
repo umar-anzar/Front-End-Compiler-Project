@@ -1329,10 +1329,70 @@ public class LL1Parser {
     }
     
     //Exception Handler---------------------------------------------------------?
-    private boolean TRY_CATCH(){return false;}
-    private boolean EXCEPT_FINALLY(){return false;}
-    private boolean ERROR_TYPE(){return false;}
-    private boolean ERR_DOT(){return false;}
+    private boolean TRY_CATCH(){
+        if (match("test")){
+            if (match("{")){
+                if(MST()){
+                    if (match("}")){
+                        if (match("except")){
+                            if (ERROR_TYPE()){
+                                if (match("{")){
+                                    if(MST()){
+                                        if (match("}")){
+                                            if (EXCEPT_FINALLY()){
+                                                return true;
+                                            }    
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }          
+        }
+        return false;
+    }
+    private boolean EXCEPT_FINALLY(){
+        if (match("except")){
+            if (ERROR_TYPE()){
+                if (match("{")){
+                    if (MST()){
+                        if (match("}")){
+                            if (EXCEPT_FINALLY()){
+                                return true;
+                            }               
+                        } 
+                    }
+                }
+            }
+        }
+        else if (searchSelectionSet("FINALLY")){
+            return true;
+        }
+        else{
+            if (searchFollowSet("EXCEPT_FINALLY")){
+                return true;
+            }
+        }
+        return false;
+    }
+    private boolean ERROR_TYPE(){
+        if (match("(")){
+            if (match("id")){
+                if (ERR_DOT()){
+                    if (match(")")){
+                        return true;
+                    }
+                }          
+            }  
+        }
+        return false;
+    }
+    private boolean ERR_DOT(){
+        
+        return false;
+    }
     private boolean THROWS(){
         System.out.println("asdasd");
         return false;
