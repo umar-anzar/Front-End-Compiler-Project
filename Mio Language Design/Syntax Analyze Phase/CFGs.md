@@ -331,7 +331,7 @@ x.y.functio().function_id (p1,p2,p3)
 <hr>
 
 <!--------------------------------------------------------------------------------------->
-<!--COUNT:33-->
+<!--COUNT:10-->
 ### Array Declaration
 - Not in Class
 ```xml
@@ -387,7 +387,7 @@ int [][] var = new int [2][]                r
 <hr>
 
 <!--------------------------------------------------------------------------------------->
-<!--COUNT:6-->
+<!--COUNT:5-->
 ### Global Variable Declaration
 ```xml
 <GLOBAL_DEC>    -> <TYPE> <VAR_ARR_G>
