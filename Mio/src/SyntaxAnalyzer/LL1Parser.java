@@ -919,8 +919,35 @@ public class LL1Parser {
     private boolean CONST(){return false;}
     
     //Conditional Statements----------------------------------------------------?
-    private boolean IF_ELSE(){return false;}
-    private boolean OELSE(){return false;}
+    private boolean IF_ELSE(){
+        if (match("if")){
+            if (match("(")){
+                if (EXPR()){
+                    if (match(")")){
+                        if (BODY()){
+                            if (OELSE()){
+                                return true;                             
+                            }
+                        }
+                    }
+                }    
+            }
+        }     
+        return false;
+    }
+    private boolean OELSE(){
+        if (match("else")){
+            if (BODY()){
+                return true;
+            }
+        }
+        else{
+            if (searchFollowSet("OELSE")){
+                return true;
+            }
+        }       
+        return false;
+    }
     
     private boolean SWITCH(){return false;}
     private boolean STATE(){return false;}
