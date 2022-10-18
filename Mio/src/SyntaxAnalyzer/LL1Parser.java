@@ -1046,9 +1046,40 @@ public class LL1Parser {
         return false;
     }
     private boolean DEFAULT(){
+        if (match("default")){
+            if (match(":")){
+                if (MST()){
+                    if (match("}")){
+                        return true;
+                    }
+                }
+            }
+        }
+       
         return false;
     }
-    private boolean SWITCH_BODY(){return false;}
+    private boolean SWITCH_BODY(){
+        if (match("{")){
+            if (MST()){
+                if (match("}")){
+                    if (STATE()){
+                        return true;                        
+                    }
+                }  
+            }     
+        }
+        else if (match(":")){
+            if(STATE()){
+                return true;
+            }
+        }
+        else if (searchSelectionSet("MST")){
+            if (STATE()){
+                return true;
+            }
+        }
+        return false;
+    }
     
     //Loop Statements-----------------------------------------------------------?
     private boolean LOOP(){return false;}
