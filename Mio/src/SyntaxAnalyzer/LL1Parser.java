@@ -367,20 +367,84 @@ public class LL1Parser {
             }
         }
         else if (match("{")) {
-            if (searchSelectionSet("MST")) {
-                if (MST()) {
-                    if (match("}")) {
-                        return true;
-                    }
+            if (MST()) {
+                if (match("}")) {
+                    return true;
                 }
             }
         }
         return false;
     }
     
-    //Single and Multi Statements-----------------------------------------------?
-    private boolean SST() {return false;}
-    private boolean MST() {return false;}
+    //Single and Multi Statements-----------------------------------------------$
+    private boolean SST() {
+        if (searchSelectionSet("IF_ELSE")) {
+            if (IF_ELSE()) {
+                return true;
+            }
+        }
+        else if (searchSelectionSet("SWITCH")) {
+            if (SWITCH()) {
+                return true;
+            }
+        }
+        else if (searchSelectionSet("DEC")) {
+            if (DEC()) {
+                return true;
+            }
+        }
+        else if (searchSelectionSet("TRY_CATCH")) {
+            if (TRY_CATCH()) {
+                return true;
+            }
+        }
+        else if (searchSelectionSet("LOOP")) {
+            if (LOOP()) {
+                return true;
+            }
+        }
+        else if (searchSelectionSet("DO_WHILE")) {
+            if (DO_WHILE()) {
+                return true;
+            }
+        }
+        else if (searchSelectionSet("BREAK")) {
+            if (BREAK()) {
+                return true;
+            }
+        }
+        else if (searchSelectionSet("RET_ST")) {
+            if (RET_ST()) {
+                return true;
+            }
+        }
+        else if (searchSelectionSet("CONTINUE")) {
+            if (CONTINUE()) {
+                return true;
+            }
+        }
+        else if (searchSelectionSet("THROW")) {
+            if (THROW()) {
+                return true;
+            }
+        }
+        return false;
+    }
+    private boolean MST() {
+        if (searchSelectionSet("SST")) {
+            if (SST()) {
+                if (MST()) {
+                    return true;
+                }
+            }
+        }
+        else {
+            if (searchFollowSet("MST")) {
+                return true;
+            }
+        }
+        return false;
+    }
     
     //Begin the Main Function---------------------------------------------------$
     private boolean MAIN() {
@@ -429,8 +493,6 @@ public class LL1Parser {
         else if (match(";")) {
             return true;
         }
-        
-
         return false;
     }
     private boolean ID_STAR() {
