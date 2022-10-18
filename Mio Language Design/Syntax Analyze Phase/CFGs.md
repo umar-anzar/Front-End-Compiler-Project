@@ -29,7 +29,7 @@ w: wrong
 <START>     -> <PACKAGE> <ST1> | null
 <ST1>       -> <IMPORTS> <ST1> | <ST_BODY>
 <ST_BODY>   -> <MAIN> <ST_BODY2> | <FN_DEC> <ST_BODY> | <GLOBAL_CLASS> <ST_BODY> | 
-...            <GLOBAL_DEC> <ST_BODY> | null
+...            <GLOBAL_DEC> <ST_BODY> | nullTHROW
 <ST_BODY2>  -> <FN_DEC> <ST_BODY2> | <GLOBAL_CLASS> <ST_BODY2> | 
 ...            <GLOBAL_DEC> <ST_BODY2> | null
 ```
@@ -244,7 +244,7 @@ which word this cfg going to parse
 = func().b[7].c++.a[2]  w
 = func().b[7].c.a[2]    r
 ```
-
+NEW_OBJ
 <hr>
 
 <!--------------------------------------------------------------------------------------->
@@ -333,8 +333,7 @@ x.y.functio().function_id (p1,p2,p3)
 <!--------------------------------------------------------------------------------------->
 <!--COUNT:10-->
 ### Array Declaration
-- Not in Class
-```xml
+
 <!-- <ARR_DEC>       -> <ARR_TYPE> <ARR_INIT> 
 <ARR_CLASS_DEC> -> <ARR_TYPE> <ARR_INIT_C>
 
@@ -351,7 +350,7 @@ x.y.functio().function_id (p1,p2,p3)
 <DOT_ARR_TRMIN> -> <DOT_ARR> | <LIST_ARR>
 <MORE_REF_STR>  -> = <REF_NEWARR> | <LIST_ARR>
 <LIST_ARR>      -> , <ARR_INIT> | ; -->
-
+```xml
 <DIM_PASS>      -> <EXPR> ] <MUL_ARR_DEC> | ] <EMP_ARR_DEC> 
 
 <MUL_ARR_DEC>   -> [ <LEN_OF_ARR> | null
@@ -366,7 +365,7 @@ x.y.functio().function_id (p1,p2,p3)
 <EXPR_LIST>     -> , <ARR_ELEMT> <EXPR_LIST> | } 
 ```
 
-
+- Not in Class
 ```
 Example:
 int [][] var = new int [][] {{1},{2,4}}     r
@@ -392,7 +391,7 @@ int [][] var = new int [2][]                r
 ```xml
 <GLOBAL_DEC>    -> <TYPE> <VAR_ARR_G>
 <VAR_ARR_G>     -> <ARR_TYPE> <VAR_G>  <!--ARR--> | <VAR_G>  <!--VAR-->
-<VAR_G>         -> <ACCESSMOD> id <IS_INIT_G>
+<VAR_G>         -> id <IS_INIT_G>
 <IS_INIT_G>     -> = <INIT> <LIST_G> | ;
 <LIST_G>        -> , id <IS_INIT_G> | ;
 ```
