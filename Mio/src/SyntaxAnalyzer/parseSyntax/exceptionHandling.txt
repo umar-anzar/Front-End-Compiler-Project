@@ -1,0 +1,12 @@
+test {
+        ;
+        loop thru (int x in (0,10,2)){}
+    } except (java.lang.NullPointerException e  ) {
+       
+    } except (NullPointerException e  ) {
+        
+    } finally {
+        ;
+    }
+
+def f() raises Exeption{}

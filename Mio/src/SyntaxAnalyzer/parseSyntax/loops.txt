@@ -1,0 +1,6 @@
+loop till(cond*5&&b){};
+    do{}till(cond*5&&b);
+       loop thru (int x in a){cont;}
+        loop thru (int x in a.func()){}
+        loop thru (int x in a.a()[3]){}
+        loop thru (int x in a.b.c[3]){stop;}

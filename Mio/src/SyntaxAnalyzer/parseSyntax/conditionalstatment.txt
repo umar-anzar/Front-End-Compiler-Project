@@ -1,0 +1,31 @@
+if ( ++a / 'a');else;
+
+    if (34+3) {;}else{;}
+
+    shift (  ) { }
+
+    shift (  ) { 
+        state :
+            ;
+        state :
+            ;
+            if (3);else;
+    }
+    shift (  ) { 
+            default :
+                ;
+                ;
+                if (4);else;
+    }
+    shift (  ) { 
+        state :{
+            ;}
+        state :{
+            ;
+            if (4);else;}
+        default :
+            ;
+            ;
+            loop thru (int x in (0,10,2)){}
+            if (2);else;
+    } 

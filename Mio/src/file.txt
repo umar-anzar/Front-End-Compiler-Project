@@ -2,60 +2,18 @@ package x;
 
 @int x,y,o;  
 
+def f() raises Exeption{}
+
 def f () { 
-    if ( ++a / 'a');else;
-
-    if (34+3) {;}else{;}
-
-    shift (  ) { }
-
-    shift (  ) { 
-        state :
-            ;
-        state :
-            ;
-            if (3);else;
-    }
-    shift (  ) { 
-            default :
-                ;
-                ;
-                if (4);else;
-    }
-    shift (  ) { 
-        state :{
-            ;}
-        state :{
-            ;
-            if (4);else;}
-        default :
-            ;
-            ;
-            loop thru (int x in (0,10,2)){}
-            if (2);else;
-    } 
+    
 
     
 }
 
 begin {
 
-    test {
-        ;
-        loop thru (int x in (0,10,2)){}
-    } except (java.lang.NullPointerException e  ) {
-        
-    } except (NullPointerException e  ) {
-        
-    } finally {
-        ;
-    }
-    loop till(cond*5&&b){};
-    do{}till(cond*5&&b);
-       loop thru (int x in a){cont;}
-        loop thru (int x in a.func()){}
-        loop thru (int x in a.a()[3]){}
-        loop thru (int x in a.b.c[3]){stop;}
+    
+    
 
     
 }

@@ -1631,7 +1631,7 @@ public class LL1Parser {
         return false;
     }
     
-    //Loop Statements-----------------------------------------------------------?
+    //Loop Statements-----------------------------------------------------------$
     private boolean LOOP(){
         if(match("loop")){
             if (LT()){
@@ -1820,7 +1820,7 @@ public class LL1Parser {
         return false;
     }
     
-    //Exception Handler---------------------------------------------------------?
+    //Exception Handler---------------------------------------------------------$
     private boolean TRY_CATCH(){
         if (match("test")){
             if (match("{")){
