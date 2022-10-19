@@ -1675,7 +1675,9 @@ public class LL1Parser {
                     if (match("(")){
                         if (EXPR()){ 
                             if (match(")")){
-                                return true;
+                                if (match(";")) {
+                                    return true;
+                                }
                             }
                         }  
                     }

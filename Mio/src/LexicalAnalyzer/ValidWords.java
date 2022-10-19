@@ -46,6 +46,7 @@ public class ValidWords {
         
         {"till", "till"},
         {"thru", "thru"},
+        {"do", "do"},
         
         {"in", "in"},
         {"shift", "shift"}, // shift

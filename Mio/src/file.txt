@@ -39,6 +39,7 @@ def f () {
 }
 
 begin {
+
     test {
         ;
         loop thru (int x in (0,10,2)){}
@@ -49,10 +50,12 @@ begin {
     } finally {
         ;
     }
-       loop thru (int x in a){}
-loop thru (int x in a.func()){}
-loop thru (int x in a.a()[3]){}
-loop thru (int x in a.b.c[3]){}
+    loop till(cond*5&&b){};
+    do{}till(cond*5&&b);
+       loop thru (int x in a){cont;}
+        loop thru (int x in a.func()){}
+        loop thru (int x in a.a()[3]){}
+        loop thru (int x in a.b.c[3]){stop;}
 
     
 }
