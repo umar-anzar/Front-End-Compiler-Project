@@ -285,14 +285,16 @@ int x = y = convt(int) a + 5, t = q = 2;    r
 int x = convt(int) y = a + 5, t = q = 2;    w
 x = y = a + 5, t = 3;                       w
 ```
-<!--COUNT:4-->
+<!--COUNT:6-->
 ### Assignment
 
 - This CFG is called by `<DEC>` and it handles **assignment** and **function call**.
 
 ```xml
-<ASSIGN>        -> <DOT_ID3>  | <FN_BRACKETS> <DOT_ID4> | <TWO_ASSIGN>
-<DOT_ID3>       -> dot id <ASSIGN> | <SUBSCRIPT> <ASSIGN>
+<ASSIGN>        -> dot id <ASSIGN2> | <FN_TWO_ASSIGN>
+<ASSIGN2>       -> <DOT_ID3> | <FN_TWO_ASSIGN>
+<FN_TWO_ASSIGN> -> <FN_BRACKETS> <DOT_ID4> | <TWO_ASSIGN>
+<DOT_ID3>       -> dot id <ASSIGN2> | <SUBSCRIPT> <ASSIGN2>
 <DOT_ID4>       -> <DOT_ID3>    | ;              <!--function call-->
 <TWO_ASSIGN>    -> <INC_DEC> ;  | <ASSIGN_OP> <INIT> ;
 ```
@@ -410,7 +412,7 @@ This CFG take care of primitive and object type variable and array declaration.
 <TYPE_VAR_ARR>      -> <TYPE> <VAR_ARR_C>
 <VAR_ARR_C>         -> <ARR_TYPE> <VAR_C>  <!--ARR--> | <VAR_C>  <!--VAR-->
 <VAR_C>             -> <ACCESSMOD> id <IS_INIT_C>
-<IS_INIT_C>         -> = <INIT> <LIST_C> | ;
+<IS_INIT_C>         -> = <INIT> <LIST_C> | <LIST_C>
 <LIST_C>            -> , <ACCESSMOD> id <IS_INIT_C> | ; 
                     <!--Using DEC init but now list has access modifier-->
 ```
