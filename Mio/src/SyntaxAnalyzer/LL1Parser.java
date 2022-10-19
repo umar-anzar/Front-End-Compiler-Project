@@ -1303,7 +1303,11 @@ public class LL1Parser {
         if (searchSelectionSet("INC_DEC")) {
             if (INC_DEC()) {
                 if (match("id")) {
-                    return true;
+                    if (POS()) {
+                        if (ID_TO_EXPR()) {
+                            return true;
+                        }
+                    }
                 }
             }
         }
@@ -1316,33 +1320,158 @@ public class LL1Parser {
                 }
             }
         }
-        else if (searchSelectionSet(selectionSet)) {
-            
+        else if (searchSelectionSet("UNARY")) {
+            if (UNARY()) {
+                if (OPERANDS()) {
+                    if (ID_TO_EXPR()) {
+                        return true;
+                    }
+                }
+            }
         }
-        else if (searchSelectionSet(selectionSet)) {
-            
+        else if (searchSelectionSet("CONST")) {
+            if (CONST()) {
+                if (ID_TO_EXPR()) {
+                    return true;
+                }
+            }
         }
-        else if (searchSelectionSet(selectionSet)) {
-            
-        }
-        else if (searchSelectionSet(selectionSet)) {
-            
+        else if (searchSelectionSet("FLAG")) {
+            if (FLAG()) {
+                if (OPERANDS()) {
+                    if (ID_TO_EXPR()) {
+                        return true;
+                    }
+                }
+            }
         }
         return false;
     }
     
-    private boolean ASSIGN_EXPR(){return false;}
-    private boolean DOT_EXPR(){return false;}
-    private boolean DOT_EXPR2(){return false;}
-    private boolean ID_TO_EXPR(){return false;}
-    private boolean LIST(){return false;}
-    private boolean ASSIGN_OP(){return false;}
+    private boolean ASSIGN_EXPR() {
+        if (searchSelectionSet("DOT_EXPR")) {
+            if (DOT_EXPR()) {
+                return true;
+            }
+        }
+        else if (searchSelectionSet("FN_BRACKETS")) {
+            if (FN_BRACKETS()) {
+                if (DOT_EXPR()) {
+                    return true;
+                }
+            }
+        }
+        else if (searchSelectionSet("ASSIGN_OP")) {
+            if (ASSIGN_OP()) {
+                if (INIT()) {
+                    return true;
+                }
+            }
+        }
+        else if (searchSelectionSet("INC_DEC")) {
+            if (INC_DEC()) {
+                if (ID_TO_EXPR()) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    private boolean DOT_EXPR() {
+        if (match("dot")) {
+            if (match("id")) {
+                if (ASSIGN_EXPR()) {
+                    return true;
+                }
+            }
+        }
+        else if (searchSelectionSet("SUBSCRIPT")) {
+            if (SUBSCRIPT()) {
+                if (ASSIGN_EXPR()) {
+                    return true;
+                }
+            }
+        }
+        else if (searchSelectionSet("ID_TO_EXPR")) {
+            if (ID_TO_EXPR()) {
+                return true;
+            }
+        }
+        return false;
+    }
+    private boolean ID_TO_EXPR() {
+        if (searchSelectionSet("J1")) {
+            if (J1()) {
+                if (I1()) {
+                    if (H1()) {
+                        if (G1()) {
+                            if (F1()) {
+                                if (EXPR1()) {
+                                    return true;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
+    private boolean LIST() {
+        if (match(",")) {
+            if (match("id")) {
+                if (IS_INIT()) {
+                    return true;
+                }
+            }
+        }
+        else if (match(";")) {
+            return true;
+        }
+        return false;
+    }
+    private boolean ASSIGN_OP() {
+        if (match("=")) {
+            return true;
+        }
+        else if (match("cma")) {
+            return true;
+        }
+        return false;
+    }
     
     //Assignment----------------------------------------------------------------?
-    private boolean ASSIGN(){return false;}
-    private boolean DOT_ID3(){return false;}
-    private boolean DOT_ID4(){return false;}
-    private boolean TWO_ASSIGN(){return false;}
+    private boolean ASSIGN() {
+        if (match("dot")) {
+            if (match("id")) {
+                if (ASSIGN2()) {
+                    return true;
+                }
+            }
+        }
+        else if (searchSelectionSet("FN_TWO_ASSIGN")) {
+            if (FN_TWO_ASSIGN()) {
+                return true;
+            }
+        }
+        return false;
+    }
+    private boolean ASSIGN2() {
+        
+        return false;
+    }
+    private boolean DOT_ID3() {
+        return false;
+    }
+    private boolean FN_TWO_ASSIGN() {
+        return false;
+    }
+    private boolean DOT_ID4() {
+        return false;
+    }
+    private boolean TWO_ASSIGN() {
+        return false;
+    }
     
     //Object Declaration--------------------------------------------------------?
     private boolean NEW_OBJ() {
