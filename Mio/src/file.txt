@@ -31,6 +31,7 @@ def f () {
         default :
             ;
             ;
+            loop thru (int x in (0,10,2)){}
             if (2);else;
     } 
 
@@ -40,6 +41,7 @@ def f () {
 begin {
     test {
         ;
+        loop thru (int x in (0,10,2)){}
     } except (java.lang.NullPointerException e  ) {
         
     } except (NullPointerException e  ) {
@@ -47,7 +49,12 @@ begin {
     } finally {
         ;
     }
+       loop thru (int x in a){}
+loop thru (int x in a.func()){}
+loop thru (int x in a.a()[3]){}
+loop thru (int x in a.b.c[3]){}
 
+    
 }
 
 

@@ -310,8 +310,8 @@ public class LL1Parser {
 
         sSet.put("FOR_ST", new String[][] { {"thru"}, {} });
         sSet.put("FOR_ARG", new String[][] { {"id", "("}, {} });
-        sSet.put("POS3", new String[][] { {"dot", "[", "("}, {} });
-        sSet.put("DOT_ID5", new String[][] { {"dot"}, {} });
+        sSet.put("POS3", new String[][] { {"dot", "[", "("}, {")"} });
+        sSet.put("DOT_ID5", new String[][] { {"dot", "[", "("}, {")"} });
         
         //$Jump Statements
         sSet.put("BREAK", new String[][] { {"stop"}, {} });
@@ -1730,27 +1730,15 @@ public class LL1Parser {
     }
     
     private boolean POS3(){
-        if (searchSelectionSet("DOT_ID5")){
-            if (DOT_ID5()){
-                return true;
-            }
-        }
-        else if (searchSelectionSet("SUBSCRIPT")){
-            if (SUBSCRIPT()){
-                if (DOT_ID5()){
-                    return true;
-                }
-            }
-        }
-        else if (searchSelectionSet("FN_BRACKETS")){
+        if (searchSelectionSet("FN_BRACKETS")){
             if (FN_BRACKETS()){
-                if (DOT_ID5()){
+                if (DOT_ID5()) {
                     return true;
                 }
             }
         }
-        else{
-            if (searchFollowSet("POS3")) {
+        else if (searchSelectionSet("DOT_ID5")){
+            if (DOT_ID5()){
                 return true;
             }
         }
@@ -1763,6 +1751,18 @@ public class LL1Parser {
                     return true;
                 }               
             }            
+        }
+        else if (searchSelectionSet("SUBSCRIPT")) {
+            if (SUBSCRIPT()) {
+                if(POS3()){
+                    return true;
+                }
+            }
+        }
+        else {
+            if (searchFollowSet("DOT_ID5")) {
+                return true;
+            }
         }
         return false;
     }
