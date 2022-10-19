@@ -8,7 +8,7 @@ def f () {
 }
 begin {
 
-
+int a= new int[1]   ,b,c,t;
 
 }
 

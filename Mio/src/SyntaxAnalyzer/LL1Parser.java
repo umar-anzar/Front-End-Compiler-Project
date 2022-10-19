@@ -239,16 +239,37 @@ public class LL1Parser {
         
         
         //?Declaration and Initialization
-        sSet.put("IS_ACMETH", new String[][] { {"Parent", "Self", "id"}, {"id"} });
+        sSet.put("DEC", new String[][] { {"const", "dt", "str", "id", "Parent", "Self"}, {} });
+        sSet.put("ID_FN", new String[][] { {"[", "id", "dot", "(", "inc_dec", "=", "cma"}, {} });
+        sSet.put("ASSIGN_OBJ", new String[][] { {"id", "dot", "(", "inc_dec", "=", "cma"}, {} });
+        sSet.put("ARR_SUBSCRIPT", new String[][] { {"]", "pm", "Parent", "Self", "id", "inc_dec", "(", "typeCast", "not", "intConst", "floatConst", "charConst", "boolConst", "strConst"}, {} });
+        sSet.put("VAR_ARR", new String[][] { {"[", "id"}, {} });
+        sSet.put("IS_INIT", new String[][] { {",", ";", "="}, {} });
+        sSet.put("INIT", new String[][] { {"Parent", "Self", "id", "new", "NaN", "inc_dec", "(", "typeCast", "not", "intConst", "floatConst", "charConst", "boolConst", "strConst", "pm"}, {} });
+        sSet.put("IS_ACMETH", new String[][] { {"Parent", "Self"}, {"id"} });
+        
+        sSet.put("OPER_TO_EXPR", new String[][] { {"inc_dec", "(", "typeCast", "not", "intConst", "floatConst", "charConst", "boolConst", "strConst"}, {} });
+        
+        sSet.put("ASSIGN_EXPR", new String[][] { {"dot", "[", "power", "mdm", "pm", "rop", "and", "or", "(", "=", "cma", "inc_dec"}, {",", ";"} });
+        sSet.put("DOT_EXPR", new String[][] { {"dot", "[", "power", "mdm", "pm", "rop", "and", "or"}, {",", ";"} });
+        sSet.put("ID_TO_EXPR", new String[][] { {"power", "mdm", "pm", "rop", "and", "or"}, {",", ";"} });
+        sSet.put("LIST", new String[][] { {",", ";"}, {} });
+        sSet.put("ASSIGN_OP", new String[][] { {"=", "cma"}, {} });
 
         //?Assignment
+        sSet.put("ASSIGN", new String[][] { {"dot", "(", "inc_dec", "=", "cma"}, {} });
+        sSet.put("ASSIGN2", new String[][] { {"dot", "[", "(", "inc_dec", "=", "cma"}, {} });
+        sSet.put("FN_TWO_ASSIGN", new String[][] { {"(", "inc_dec", "=", "cma"}, {} });
+        sSet.put("DOT_ID3", new String[][] { {"dot", "["}, {} });
+        sSet.put("DOT_ID4", new String[][] { {"dot", "[", ";"}, {} });
+        sSet.put("TWO_ASSIGN", new String[][] { {"inc_dec", "=", "cma"}, {} });
         
-        //?Object Declaration
+        //$Object Declaration
         sSet.put("NEW_OBJ", new String[][] { {"new", "NaN"}, {} });
         sSet.put("CONSTR_ARR", new String[][] { {"id", "dt", "str"}, {} });
         sSet.put("FN_ARR", new String[][] { {"(", "["}, {} });
         
-        //?Array Declaration
+        //$Array Declaration
         sSet.put("DIM_PASS", new String[][] { {"pm", "Parent", "Self", "id", "(", "typeCast", "not", "intConst", "floatConst", 
             "charConst", "boolConst", "strConst", "]"}, {} });
         
@@ -501,11 +522,11 @@ public class LL1Parser {
                 return true;
             }
         }
-//        else if (searchSelectionSet("DEC")) {
-//            if (DEC()) {
-//                return true;
-//            }
-//        }
+        else if (searchSelectionSet("DEC")) {
+            if (DEC()) {
+                return true;
+            }
+        }
         else if (searchSelectionSet("TRY_CATCH")) {
             if (TRY_CATCH()) {
                 return true;

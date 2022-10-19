@@ -2,7 +2,24 @@ import json
 
 string = """
 
-id? dot ? ( ?inc_dec ? = ?cma 
+dot ? ( ? inc_dec ? = ?cma 
+
+
+dot ? [ ?( ? inc_dec ? = ? cma 
+
+
+( ? inc_dec ? = ?cma
+
+
+dot ? [
+
+ 
+
+
+
+inc_dec ? = ? cma 
+
+dot ? [ ? ;
 
 
 
