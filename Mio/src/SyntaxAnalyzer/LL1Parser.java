@@ -1149,12 +1149,142 @@ public class LL1Parser {
     }
     
     //Declaration and Initialization--------------------------------------------?
-    private boolean DEC(){return false;}
-    private boolean ASSIGN_OBJ(){return false;}
-    private boolean ARR_SUBSCRIPT(){return false;}
-    private boolean VAR_ARR(){return false;}
-    private boolean IS_INIT(){return false;}
-    private boolean INIT(){return false;}
+    private boolean DEC() {
+        if (match("const")) {
+            if (TYPE()) {
+                if (VAR_ARR()) {
+                    return true;
+                }
+            }
+        }
+        else if (searchSelectionSet("DT_STR")) {
+            if (DT_STR()) {
+                if (VAR_ARR()) {
+                    return true;
+                }
+            }
+        }
+        if (match("id")) {
+            if (ASSIGN_OBJ()) {
+                return true;
+            }
+        }
+        else if (searchSelectionSet("ACCESS_METH")) {
+            if (ACCESS_METH()) {
+                if (ID_FN()) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    private boolean ID_FN() {
+        if (match("id")) {
+            if (ASSIGN()) {
+                return true;
+            }
+        }
+        else if (searchSelectionSet("ASSIGN")) {
+            if (ASSIGN()) {
+                return true;
+            }
+        }
+        return false;
+    }
+    private boolean ASSIGN_OBJ() {
+        if (match("[")) {
+            if (ARR_SUBSCRIPT()) {
+                return true;
+            }
+        }
+        else if (match("id")) {
+            if (IS_INIT()) {
+                return true;
+            }
+        }
+        else if (searchSelectionSet("ASSIGN")) {
+            if (ASSIGN()) {
+                return true;
+            }
+        }
+        return false;
+    }
+    private boolean ARR_SUBSCRIPT() {
+        if (match("]")) {
+            if (ARR_TYPE_LIST()) {
+                if (match("id")) {
+                    if (IS_INIT()) {
+                        return true;
+                    }
+                }
+            }
+        }
+        else if (searchSelectionSet("EXPR")) {
+            if (EXPR()) {
+                if (match("]")) {
+                    if (DOT_ID3()) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+    
+    private boolean VAR_ARR() {
+        if (searchSelectionSet("ARR_TYPE")) {
+            if (ARR_TYPE()) {
+                if (match("id")) {
+                    if (IS_INIT()) {
+                        return true;
+                    }
+                }
+            }
+        }
+        else if (match("id")) {
+            if (IS_INIT()) {
+                return true;
+            }
+        }
+        return false;
+    }
+    private boolean IS_INIT() {
+        if (match("=")) {
+            if (INIT()) {
+                if (LIST()) {
+                    return true;
+                }
+            }
+        }
+        else if (searchSelectionSet("LIST")) {
+            if (LIST()) {
+                return true;
+            }
+        }
+        return false;
+    }
+    private boolean INIT() {
+        if (searchSelectionSet("IS_ACMETH")) {
+            if (IS_ACMETH()) {
+                if (match("id")) {
+                    if (ASSIGN_EXPR()) {
+                        return true;
+                    }
+                }
+            }
+        }
+        else if (searchSelectionSet("NEW_OBJ")) {
+            if (NEW_OBJ()) {
+                return true;
+            }
+        }
+        else if (searchSelectionSet("OPER_TO_EXPR")) {
+            if (OPER_TO_EXPR()) {
+                return true;
+            }
+        }
+        return false;
+    }
     private boolean IS_ACMETH() {
         if (searchSelectionSet("ACCESS_METH")) {
             if (ACCESS_METH()) {
@@ -1168,7 +1298,39 @@ public class LL1Parser {
         }
         return false;
     }
-    private boolean OPER_TO_EXPR(){return false;}
+    
+    private boolean OPER_TO_EXPR() {
+        if (searchSelectionSet("INC_DEC")) {
+            if (INC_DEC()) {
+                if (match("id")) {
+                    return true;
+                }
+            }
+        }
+        else if (match("(")) {
+            if (EXPR()) {
+                if (match(")")) {
+                    if (ID_TO_EXPR()) {
+                        return true;
+                    }
+                }
+            }
+        }
+        else if (searchSelectionSet(selectionSet)) {
+            
+        }
+        else if (searchSelectionSet(selectionSet)) {
+            
+        }
+        else if (searchSelectionSet(selectionSet)) {
+            
+        }
+        else if (searchSelectionSet(selectionSet)) {
+            
+        }
+        return false;
+    }
+    
     private boolean ASSIGN_EXPR(){return false;}
     private boolean DOT_EXPR(){return false;}
     private boolean DOT_EXPR2(){return false;}

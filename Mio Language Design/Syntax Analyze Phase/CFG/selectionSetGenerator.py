@@ -2,7 +2,7 @@ import json
 
 string = """
 
-, ? ) ? ;
+id? dot ? ( ?inc_dec ? = ?cma 
 
 
 

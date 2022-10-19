@@ -257,7 +257,8 @@ There is no access modifer nor static
 This CFG take cares of declaration of **primitive/object** type **variable** and takes transistion to **array declaration** `<ARR_DEC>`, and also towards **assignment** `<ASSIGN>`.
 
 ```xml
-<DEC>           -> const <TYPE> <VAR_ARR> | <DT_STR> <VAR_ARR> | id <ASSIGN_OBJ> | <ACCESS_METH> id <ASSIGN> 
+<DEC>           -> const <TYPE> <VAR_ARR> | <DT_STR> <VAR_ARR> | id <ASSIGN_OBJ> | <ACCESS_METH> <ID_FN>
+<ID_FN>         -> id <ASSIGN> | <ASSIGN>
 <ASSIGN_OBJ>    -> [ <ARR_SUBSCRIPT> | id <IS_INIT>  | <ASSIGN> <!--DEC TO ASSIGNMENT-->
 <ARR_SUBSCRIPT> -> ] <ARR_TYPE_LIST> id <IS_INIT> <!--DEC--> | <EXPR> ] <DOT_ID3> <!--ASSIGNMENT-->
 
