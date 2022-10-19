@@ -1451,25 +1451,84 @@ public class LL1Parser {
         }
         else if (searchSelectionSet("FN_TWO_ASSIGN")) {
             if (FN_TWO_ASSIGN()) {
-                return true;
+                return true; 
             }
         }
         return false;
     }
     private boolean ASSIGN2() {
-        
-        return false;
-    }
-    private boolean DOT_ID3() {
+        if (searchSelectionSet("DOT_ID3")) {
+            if (DOT_ID3()) {
+                return true;
+            }
+        }
+        else if (searchSelectionSet("FN_TWO_ASSIGN")) {
+            if (FN_TWO_ASSIGN()) {
+                return true; 
+            }
+        }
         return false;
     }
     private boolean FN_TWO_ASSIGN() {
+        if (searchSelectionSet("FN_BRACKETS")) {
+            if (FN_BRACKETS()) {
+                if (DOT_ID4()) {
+                    return true;
+                }
+            }
+        }
+        else if (searchSelectionSet("TWO_ASSIGN")) {
+            if (TWO_ASSIGN()) {
+                return true; 
+            }
+        }
+        return false;
+    }
+    private boolean DOT_ID3() {
+        if (match("dot")) {
+            if (match("id")) {
+                if (ASSIGN2()) {
+                    return true;
+                }
+            }
+        }
+        else if (searchSelectionSet("SUBSCRIPT")) {
+            if (SUBSCRIPT()) {
+                if (ASSIGN2()) {
+                    return true;
+                }
+            }
+        }
         return false;
     }
     private boolean DOT_ID4() {
+        if (searchSelectionSet("DOT_ID3")) {
+            if (DOT_ID3()) {
+                return true;
+            }
+        }
+        else if (match(";")) {
+            return true;
+        }
         return false;
     }
     private boolean TWO_ASSIGN() {
+        if (searchSelectionSet("INC_DEC")) {
+            if (INC_DEC()) {
+                if (match(";")) {
+                    return true;
+                }
+            }
+        }
+        else if (searchSelectionSet("ASSIGN_OP")) {
+            if (ASSIGN_OP()) {
+                if (INIT()) {
+                    if (match(";")) {
+                        return true;
+                    }
+                }
+            }
+        }
         return false;
     }
     
