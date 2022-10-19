@@ -10,7 +10,7 @@ class XYZ{
 public class testing {  
     int b =3,x;
     static int [][][] po = new int[1][][];
-    
+    int [][] o = new int [1][];
     void p(){
         
     }
