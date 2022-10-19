@@ -187,7 +187,7 @@ public class LL1Parser {
         sSet.put("ARR_TYPE", new String[][] {{"["}, {} });
         sSet.put("ARR_TYPE_LIST", new String[][] { {"["},{"id", "protected", "private"} });
         sSet.put("ACCESS_METH", new String[][] {{"Parent", "Self"}, {}});
-        
+        sSet.put("ACM", new String[][] {{"Parent", "Self"}, {}});
         
         //$Access Modifier
         sSet.put("ACCESSMOD", new String[][] { {"protected", "private"}, {"id"} });
@@ -711,6 +711,15 @@ public class LL1Parser {
         }
         return false;
     }
+    private boolean ACM() {
+        if (match("Parent")) {
+            return true;
+        }
+        else if (match("Self")) {
+            return true;
+        }
+        return false;
+    }
     
     //Access Modifier-----------------------------------------------------------$
     private boolean ACCESSMOD() {
@@ -1169,7 +1178,7 @@ public class LL1Parser {
         return false;
     }
     
-    //Declaration and Initialization--------------------------------------------?
+    //Declaration and Initialization--------------------------------------------$
     private boolean DEC() {
         if (match("const")) {
             if (TYPE()) {
@@ -1190,8 +1199,8 @@ public class LL1Parser {
                 return true;
             }
         }
-        else if (searchSelectionSet("ACCESS_METH")) {
-            if (ACCESS_METH()) {
+        else if (searchSelectionSet("ACM")) {
+            if (ACM()) {
                 if (ID_FN()) {
                     return true;
                 }
@@ -1200,14 +1209,18 @@ public class LL1Parser {
         return false;
     }
     private boolean ID_FN() {
-        if (match("id")) {
-            if (ASSIGN()) {
-                return true;
+        if (match("dot")) {
+            if (match("id")) {
+                if (ASSIGN()) {
+                    return true;
+                }
             }
         }
-        else if (searchSelectionSet("ASSIGN")) {
-            if (ASSIGN()) {
-                return true;
+        else if (searchSelectionSet("FN_BRACKETS")) {
+            if (FN_BRACKETS()) {
+                if (DOT_ID4()) {
+                    return true;
+                }
             }
         }
         return false;
@@ -1461,7 +1474,7 @@ public class LL1Parser {
         return false;
     }
     
-    //Assignment----------------------------------------------------------------?
+    //Assignment----------------------------------------------------------------$
     private boolean ASSIGN() {
         if (match("dot")) {
             if (match("id")) {
@@ -1553,7 +1566,7 @@ public class LL1Parser {
         return false;
     }
     
-    //Object Declaration--------------------------------------------------------?
+    //Object Declaration--------------------------------------------------------$
     private boolean NEW_OBJ() {
         if (match("new")) {
             if (CONSTR_ARR()) {
@@ -1599,7 +1612,7 @@ public class LL1Parser {
         return false;
     }
     
-    //Array Declaration---------------------------------------------------------?
+    //Array Declaration---------------------------------------------------------$
     
     private boolean DIM_PASS() {
         if (searchSelectionSet("EXPR")) {

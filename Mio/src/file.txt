@@ -7,8 +7,13 @@ def f () {
     
 }
 begin {
+y=x().a;
+Parent();
+funct();
+int [] a= new int[1]   ,b,c,t;
 
-int a= new int[1]   ,b,c,t;
+str [][] var = new int[][] {{},{},{},{}};
+Omer izhan = new Omer();
 
 }
 
