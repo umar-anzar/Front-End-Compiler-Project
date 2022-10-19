@@ -1,11 +1,9 @@
-package hello;
+package x;
 
-int x,y,o;  
+@int x,y,o;  
 
-def function1 () { 
-    
-    ;;;;
-    if ( a+3 > 3 );else;
+def f () { 
+    if ( ++a / 'a');else;
 
     if (34+3) {;}else{;}
 

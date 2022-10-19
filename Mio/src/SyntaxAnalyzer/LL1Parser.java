@@ -52,7 +52,6 @@ public class LL1Parser {
             } else {
                 System.err.println(token.error +": "+token.valueP+" on line no# "+ token.line);
             }
-            
         }
         
         emptyAndReset();
@@ -223,24 +222,21 @@ public class LL1Parser {
         
         //?Class Body
         
-        //?Dot Separated Id, FC, AR subscripts
-        sSet.put("POS", new String[][] { {"dot", "[", "("}, {"power", "mdm", "pm", "Rop", "And", "Or", "]", ")", 
-            ",", "}", ":", ";"} });
+        //$Dot Separated Id, FC, AR subscripts
+        sSet.put("POS", new String[][] { {"dot", "[", "("}, {"power", "mdm", "pm", "rop", "and", "or", "]", ")", ",", "}", ":", ";"} });
         sSet.put("SUBSCRIPT", new String[][] { {"["}, {} });
-        sSet.put("SUBSCRIPT_LIST", new String[][] { {"["}, {"dot", "=", "Cma", "inc_dec", "new", "NaN", "power", "mdm", "pm", 
-            "Rop", "And", "Or", ",", ";"} });
+        sSet.put("SUBSCRIPT_LIST", new String[][] { {"["}, {"dot", "[", "(", "inc_dec", "power", "mdm", "pm", "rop", "and", "or", "=", "Cma", "]", ")", ",", "}", ":", ";"} });
         sSet.put("FN_BRACKETS", new String[][] { {"("}, {} });
-        sSet.put("ARG", new String[][] { {"pm", "Parent", "Self", "id", "(", "typeCast", "not", "intConst", "floatConst", 
-            "charConst", "boolConst", "strConst", "new", "NaN", ")"}, {} });
+        sSet.put("ARG", new String[][] { {"pm", "Parent", "Self", "id", "(", "typeCast", "not", "intConst", "floatConst", "charConst", "boolConst", "strConst", "new", "NaN", ")"}, {} });     
         sSet.put("ARG_LIST", new String[][] { {",", ")"}, {} });
-        sSet.put("EXPR_OBJ", new String[][] { {"pm", "Parent", "Self", "id", "(", "typeCast", "not", "intConst", "floatConst", 
-            "charConst", "boolConst", "strConst", "new", "NaN"}, {} });
-        sSet.put("DOT_ID", new String[][] { {"dot"}, {} });
+        sSet.put("EXPR_OBJ", new String[][] { {"pm", "Parent", "Self", "id", "(", "typeCast", "not", "intConst", "floatConst", "charConst", "boolConst", "strConst", "new", "NaN"}, {} });
+        sSet.put("DOT_ID_SUBSCRIPT", new String[][] { {"dot", "["}, {} });
         
-        sSet.put("POS2", new String[][] { {"inc_dec", "dot", "[", "("}, {"power", "mdm", "pm", "Rop", "And", "Or", "]", ")", ",", 
-            "}", ":", ";"} });
-        sSet.put("INC_DEC_DOT", new String[][] { {"inc_dec", "dot"}, {} });
-        sSet.put("DOT_ID2", new String[][] { {"dot"}, {} });
+        
+        sSet.put("POS2", new String[][] { {"inc_dec", "dot", "[", "("}, {"power", "mdm", "pm", "rop", "and", "or", "]", ")", ",", "}", ":", ";"} });
+        sSet.put("INC_DEC_DOT", new String[][] { {"inc_dec", "dot", "["}, {"power", "mdm", "pm", "rop", "and", "or", "]", ")", ",", "}", ":", ";"} });
+        sSet.put("DOT_ID_SUBSCRIPT2", new String[][] { {"dot", "["}, {"power", "mdm", "pm", "rop", "and", "or", "]", ")", ",", "}", ":", ";"} });
+        
         
         //?Declaration and Initialization
         sSet.put("IS_ACMETH", new String[][] { {"Parent", "Self", "id"}, {"id"} });
@@ -259,31 +255,31 @@ public class LL1Parser {
         //?Attribute Declaration in class
         
         //$Expression
-        sSet.put("EXPR", new String[][] { {"pm", "Parent", "Self", "id", "(", "typeCast", "not", "intConst", "floatConst", 
+        sSet.put("EXPR", new String[][] { {"pm", "Parent", "Self", "inc_dec", "id", "(", "typeCast", "not", "intConst", "floatConst", 
             "charConst", "boolConst", "strConst"}, {} });
         sSet.put("EXPR1", new String[][] { {"or"}, {"]", ")", ",", "}", ":", ";"} });
-        sSet.put("F", new String[][] { {"pm", "Parent", "Self", "id", "(", "typeCast", "not", "intConst", "floatConst", 
+        sSet.put("F", new String[][] { {"pm", "Parent", "Self", "inc_dec", "id", "(", "typeCast", "not", "intConst", "floatConst", 
             "charConst", "boolConst", "strConst"}, {} });
         sSet.put("F1", new String[][] { {"and"}, {"or", "]", ")", ",", "}", ":", ";"} });
-        sSet.put("G", new String[][] { {"pm", "Parent", "Self", "id", "(", "typeCast", "not", "intConst", "floatConst", 
+        sSet.put("G", new String[][] { {"pm", "Parent", "Self", "inc_dec", "id", "(", "typeCast", "not", "intConst", "floatConst", 
             "charConst", "boolConst", "strConst"}, {} });
         sSet.put("G1", new String[][] { {"rop"}, {"and", "or", "]", ")", ",", "}", ":", ";"} });
-        sSet.put("H", new String[][] { {"pm", "Parent", "Self", "id", "(", "typeCast", "not", "intConst", "floatConst", 
+        sSet.put("H", new String[][] { {"pm", "Parent", "Self", "inc_dec", "id", "(", "typeCast", "not", "intConst", "floatConst", 
             "charConst", "boolConst", "strConst"}, {} });
         sSet.put("H1", new String[][] { {"pm"}, {"rop", "and", "or", "]", ")", ",", "}", ":", ";"} });
-        sSet.put("I", new String[][] { {"pm", "Parent", "Self", "id", "(", "typeCast", "not", "intConst", "floatConst", 
+        sSet.put("I", new String[][] { {"pm", "Parent", "Self", "inc_dec", "id", "(", "typeCast", "not", "intConst", "floatConst", 
             "charConst", "boolConst", "strConst"}, {} });
         sSet.put("I1", new String[][] { {"mdm"}, {"pm", "rop", "and", "or", "]", ")", ",", "}", ":", ";"} });
-        sSet.put("J", new String[][] { {"pm", "Parent", "Self", "id", "(", "typeCast", "not", "intConst", "floatConst", 
+        sSet.put("J", new String[][] { {"pm", "Parent", "Self", "inc_dec", "id", "(", "typeCast", "not", "intConst", "floatConst", 
             "charConst", "boolConst", "strConst"}, {} });
         sSet.put("J1", new String[][] { {"power"}, {"mdm", "pm", "rop", "and", "or", "]", ")", ",", "}", ":", ";"} });
-        sSet.put("K", new String[][] { {"pm", "Parent", "Self", "id", "(", "typeCast", "not", "intConst", "floatConst", 
+        sSet.put("K", new String[][] { {"pm", "Parent", "Self", "inc_dec", "id", "(", "typeCast", "not", "intConst", "floatConst", 
             "charConst", "boolConst", "strConst"}, {} });
-        sSet.put("IS_FLAG", new String[][] { {"pm", "Parent", "Self", "id", "(", "typeCast", "not", "intConst", "floatConst", 
+        sSet.put("IS_FLAG", new String[][] { {"pm", "Parent", "Self", "inc_dec", "id", "(", "typeCast", "not", "intConst", "floatConst", 
             "charConst", "boolConst", "strConst"}, {} });
 
         //$Operands
-        sSet.put("OPERANDS", new String[][] { {"Parent", "Self", "id", "(", "typeCast", "not", "intConst", "floatConst", "charConst", 
+        sSet.put("OPERANDS", new String[][] { {"Parent", "Self", "inc_dec", "id", "(", "typeCast", "not", "intConst", "floatConst", "charConst", 
             "boolConst", "strConst", "pm"}, {} });
         sSet.put("UNARY", new String[][] { {"typeCast", "not"}, {} });
         sSet.put("FLAG", new String[][] { {"pm"}, {} });
@@ -975,26 +971,15 @@ public class LL1Parser {
     
     //Dot Separated Identifers, Function calls, array subscripts----------------?
     private boolean POS() {
-        if (searchSelectionSet("DOT_ID")) {
-            if (DOT_ID()) {
+        if (searchSelectionSet("DOT_ID_SUBSCRIPT")) {
+            if (DOT_ID_SUBSCRIPT()) {
                 return true;
-            }
-        }
-        else if (searchSelectionSet("SUBSCRIPT")) {
-            if (SUBSCRIPT()) {
-                if (DOT_ID()) {
-                    return true;
-                }
             }
         }
         else if (searchSelectionSet("FN_BRACKETS")) {
             if (FN_BRACKETS()) {
-                if (match("dot")) {
-                    if (match("id")) {
-                        if (POS()) {
-                            return true;
-                        }
-                    }
+                if (DOT_ID_SUBSCRIPT()) {
+                    return true;
                 }
             }
         }
@@ -1077,12 +1062,17 @@ public class LL1Parser {
         }
         return false;
     }
-    private boolean DOT_ID() {
+    private boolean DOT_ID_SUBSCRIPT() {
         if (match("dot")) {
             if (match("id")) {
                 if (POS()) {
                     return true;
                 }
+            }
+        }
+        else if (searchSelectionSet("SUBSCRIPT")) {
+            if (POS()) {
+                return true;
             }
         }
         return false;
@@ -1094,23 +1084,12 @@ public class LL1Parser {
                 return true;
             }
         }
-        else if (searchSelectionSet("SUBSCRIPT")) {
-            if (SUBSCRIPT()) {
-                if (INC_DEC_DOT()) {
-                    return true;
-                }
-            }
-        }
         else if (searchSelectionSet("FN_BRACKETS")) {
+            
             if (FN_BRACKETS()) {
-                if (DOT_ID2()) {
+                if (DOT_ID_SUBSCRIPT2()) {
                     return true;
                 }
-            }
-        }
-        else {
-            if (searchFollowSet("POS2")) {
-                return true;
             }
         }
         return false;
@@ -1121,19 +1100,31 @@ public class LL1Parser {
                 return true;
             }
         }
-        else if (searchSelectionSet("DOT_ID2")) {
-            if (DOT_ID2()) {
+        else if (searchSelectionSet("DOT_ID_SUBSCRIPT2")) {
+            if (DOT_ID_SUBSCRIPT2()) {
                 return true;
             }
         }
         return false;
     }
-    private boolean DOT_ID2() {
+    private boolean DOT_ID_SUBSCRIPT2() {
         if (match("dot")) {
             if (match("id")) {
-                if (POS()) {
+                if (POS2()) {
                     return true;
                 }
+            }
+        }
+        else if (searchSelectionSet("SUBSCRIPT")) {
+            if (SUBSCRIPT()) {
+                if (POS2()) {
+                    return true;
+                }
+            }
+        }
+        else {
+            if (searchFollowSet("DOT_ID_SUBSCRIPT2")) {
+                return true;
             }
         }
         return false;
