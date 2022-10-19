@@ -29,7 +29,7 @@ w: wrong
 <START>     -> <PACKAGE> <ST1> | null
 <ST1>       -> <IMPORTS> <ST1> | <ST_BODY>
 <ST_BODY>   -> <MAIN> <ST_BODY2> | <FN_DEC> <ST_BODY> | <GLOBAL_CLASS> <ST_BODY> | 
-...            <GLOBAL_DEC> <ST_BODY> | nullTHROW
+...            <GLOBAL_DEC> <ST_BODY> | null
 <ST_BODY2>  -> <FN_DEC> <ST_BODY2> | <GLOBAL_CLASS> <ST_BODY2> | 
 ...            <GLOBAL_DEC> <ST_BODY2> | null
 ```
@@ -202,15 +202,14 @@ array subscript | arr[2]          | arr[2:3]
 
 - End only with ID, array subscript.
 ```xml
-<POS>               -> <DOT_ID> | <SUBSCRIPT> <DOT_ID_S> | <FN_BRACKETS> dot id <POS> | null
+<POS>               -> <DOT_ID_SUBSCRIPT>  | <FN_BRACKETS> <DOT_ID_SUBSCRIPT> | null
 <SUBSCRIPT>         -> [ <EXPR> ] <SUBSCRIPT_LIST>
 <SUBSCRIPT_LIST>    -> <SUBSCRIPT> | null
 <FN_BRACKETS>       -> ( <ARG> 
 <ARG>               -> <EXPR_OBJ> <ARG_LIST> | )
 <ARG_LIST>          -> , <EXPR_OBJ> <ARG_LIST> | )
 <EXPR_OBJ>          -> <EXPR> | <NEW_OBJ>
-<DOT_ID>            -> dot id <POS>
-<DOT_ID_S>          -> <DOT_ID> | null
+<DOT_ID_SUBSCRIPT>  -> dot id <POS> | <SUBSCRIPT> <POS>
 ```
 
 ```
@@ -228,10 +227,9 @@ func() =                w
 and function call ends with null.
 
 ```xml
-<POS2>          -> <INC_DEC_DOT> | <SUBSCRIPT> <INC_DEC_DOT_S> | <FN_BRACKETS> <DOT_ID2> | null
-<INC_DEC_DOT>   -> <INC_DEC> | <DOT_ID2> 
-<DOT_ID2>       -> dot id <POS2>
-<INC_DEC_DOT_S> -> <INC_DEC_DOT> | null
+<POS2>              -> <INC_DEC_DOT> | <FN_BRACKETS> <DOT_ID_SUBSCRIPT2>
+<INC_DEC_DOT>       -> <INC_DEC>     | <DOT_ID_SUBSCRIPT2> 
+<DOT_ID_SUBSCRIPT2> -> dot id <POS2> | <SUBSCRIPT> <POS2> | null
 ```
 ```
 Example:
@@ -240,13 +238,13 @@ which word this cfg going to parse
 = a                     r
 = a[2] ++               r
 = func()                r
-= a.b.func()            r
+= a.b.func()[]          r
 = func().b[7].c.a[2]    r
 = a[2].b.c.func()--     w
 = func().b[7].c++.a[2]  w
-= func().b[7].c.a[2]    r
+= func().b[7].func()[]  r
 ```
-NEW_OBJ
+
 <hr>
 
 <!--------------------------------------------------------------------------------------->
@@ -272,9 +270,8 @@ This CFG take cares of declaration of **primitive/object** type **variable** and
                    <UNARY> <OPERANDS> <ID_TO_EXPR>     | <CONST> <ID_TO_EXPR>    | 
                    <FLAG> <OPERANDS> <ID_TO_EXPR>
 
-<ASSIGN_EXPR>   -> <DOT_EXPR> | <SUBSCRIPT> <DOT_EXPR> | <FN_BRACKETS> <DOT_EXPR2>
-<DOT_EXPR>      -> dot id <ASSIGN_EXPR> | <ASSIGN_OP> <INIT> | <INC_DEC> <ID_TO_EXPR> | <ID_TO_EXPR> 
-<DOT_EXPR2>     -> dot id <ASSIGN_EXPR> | <ID_TO_EXPR>
+<ASSIGN_EXPR>   -> <DOT_EXPR> | <FN_BRACKETS> <DOT_EXPR> | <ASSIGN_OP> <INIT> | <INC_DEC> <ID_TO_EXPR> 
+<DOT_EXPR>      -> dot id <ASSIGN_EXPR> | <SUBSCRIPT> <ASSIGN_EXPR> | <ID_TO_EXPR>
 <ID_TO_EXPR>    -> <J1> <I1> <H1> <G1> <F1> <EXPR1>
 <LIST>          -> , id <IS_INIT> | ;
 <ASSIGN_OP>     -> = | cma
@@ -294,10 +291,10 @@ x = y = a + 5, t = 3;                       w
 - This CFG is called by `<DEC>` and it handles **assignment** and **function call**.
 
 ```xml
-<ASSIGN>        -> <DOT_ID3> | <SUBSCRIPT> <DOT_ID3> | <FN_BRACKETS> <DOT_ID4>
-<DOT_ID3>       -> dot id <ASSIGN> | <TWO_ASSIGN>
-<DOT_ID4>       -> dot id <ASSIGN> | ;              <!--function call-->
-<TWO_ASSIGN>    -> <INC_DEC> ; | <ASSIGN_OP> <INIT> ;
+<ASSIGN>        -> <DOT_ID3>  | <FN_BRACKETS> <DOT_ID4> | <TWO_ASSIGN>
+<DOT_ID3>       -> dot id <ASSIGN> | <SUBSCRIPT> <ASSIGN>
+<DOT_ID4>       -> <DOT_ID3>    | ;              <!--function call-->
+<TWO_ASSIGN>    -> <INC_DEC> ;  | <ASSIGN_OP> <INIT> ;
 ```
 
 ```
@@ -532,8 +529,8 @@ For-loop
 <FOR_ARG>   -> id <POS3> | ( <EXPR> , <EXPR> , <EXPR> )
 
 <!--POS3 end with anything subscript, id and function-->
-<POS3>      -> <SUBSCRIPT> <DOT_ID5> | <FN_BRACKETS> <DOT_ID5> | <DOT_ID5> 
-<DOT_ID5>   -> dot id <POS3> | null
+<POS3>      -> <FN_BRACKETS> <DOT_ID5> | <DOT_ID5> 
+<DOT_ID5>   -> dot id <POS3> | <SUBSCRIPT> <POS3> | null
 ```
 
 <hr>

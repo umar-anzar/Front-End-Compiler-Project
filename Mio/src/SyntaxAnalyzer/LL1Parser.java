@@ -460,10 +460,7 @@ public class LL1Parser {
     
     //Body----------------------------------------------------------------------$
     private boolean BODY() { 
-        if (match(";")) {
-            return true;
-        }
-        else if (searchSelectionSet("SST")) {
+        if (searchSelectionSet("SST")) {
             if (SST()) {
                 return true;
             }
