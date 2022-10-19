@@ -242,8 +242,26 @@ public class LL1Parser {
         sSet.put("IS_ACMETH", new String[][] { {"Parent", "Self", "id"}, {"id"} });
 
         //?Assignment
+        
         //?Object Declaration
+        sSet.put("NEW_OBJ", new String[][] { {"new", "NaN"}, {} });
+        sSet.put("CONSTR_ARR", new String[][] { {"id", "dt", "str"}, {} });
+        sSet.put("FN_ARR", new String[][] { {"(", "["}, {} });
+        
         //?Array Declaration
+        sSet.put("DIM_PASS", new String[][] { {"pm", "Parent", "Self", "id", "(", "typeCast", "not", "intConst", "floatConst", 
+            "charConst", "boolConst", "strConst", "]"}, {} });
+        
+        sSet.put("MUL_ARR_DEC", new String[][] { {"["}, {",", ")", ";"} });
+        sSet.put("LEN_OF_ARR", new String[][] { {"pm", "Parent", "Self", "id", "(", "typeCast", "not", "intConst", "floatConst", 
+            "charConst", "boolConst", "strConst", "]"}, {} });
+        sSet.put("EMP_ARR_DEC", new String[][] { {"[", "{"}, {} });
+        sSet.put("EMP_ARR_DEC2", new String[][] { {"["}, {",", ")", ";"} });
+        
+        sSet.put("ARR_CONST", new String[][] { {"{"}, {} });
+        sSet.put("ARR_ELEMT", new String[][] { {"pm", "Parent", "Self", "id", "inc_dec(", "typeCast", "not", "intConst", "floatConst", 
+            "charConst", "boolConst", "strConst", "{", "}"}, {} });       
+        sSet.put("EXPR_LIST", new String[][] { {",", "}"}, {} });
         
         //?Global Variable Declaration
         sSet.put("GLOBAL_DEC", new String[][] { {"dt", "id", "str"}, {} });
@@ -969,7 +987,7 @@ public class LL1Parser {
         return false;
     }
     
-    //Dot Separated Identifers, Function calls, array subscripts----------------?
+    //Dot Separated Identifers, Function calls, array subscripts----------------$
     private boolean POS() {
         if (searchSelectionSet("DOT_ID_SUBSCRIPT")) {
             if (DOT_ID_SUBSCRIPT()) {
@@ -1262,8 +1280,10 @@ public class LL1Parser {
     }
     private boolean EMP_ARR_DEC() {
         if (match("[")) {
-            if (EMP_ARR_DEC()) {
-                return true;
+            if (match("]")) {
+                if (EMP_ARR_DEC()) {
+                    return true;
+                }
             }
         }
         else if (searchSelectionSet("ARR_CONST")) {
@@ -1275,8 +1295,10 @@ public class LL1Parser {
     }
     private boolean EMP_ARR_DEC2() {
         if (match("[")) {
-            if (EMP_ARR_DEC2()) {
-                return true;
+            if (match("]")) {
+                if (EMP_ARR_DEC2()) {
+                    return true;
+                }
             }
         }
         else {
@@ -1318,9 +1340,7 @@ public class LL1Parser {
     private boolean EXPR_LIST() {
         if (match(",")) {
             if (ARR_ELEMT()) {
-                if (EXPR_LIST()) {
-                    return true;
-                }
+                return true;
             }
         }
         else if (match("}")) {
@@ -1329,7 +1349,7 @@ public class LL1Parser {
         return false;
     }
     
-    //Global Variable Declaration-----------------------------------------------$
+    //Global Variable Declaration-----------------------------------------------?
     private boolean GLOBAL_DEC() {
         if (searchSelectionSet("TYPE")) {
             if (TYPE()) {
@@ -1400,7 +1420,7 @@ public class LL1Parser {
     private boolean IS_INIT_C(){return false;}
     private boolean LIST_C(){return false;}
     
-    //Expression----------------------------------------------------------------?
+    //Expression----------------------------------------------------------------$
     private boolean EXPR(){
         if (searchSelectionSet("F")){
             if (F()){
@@ -1568,7 +1588,7 @@ public class LL1Parser {
         return false;
     }
     
-    //Operands------------------------------------------------------------------?
+    //Operands------------------------------------------------------------------$
     private boolean OPERANDS(){
         if (searchSelectionSet("IS_ACMETH")){
             if (IS_ACMETH()){
@@ -1638,7 +1658,7 @@ public class LL1Parser {
         return false;
     }
     
-    //Increment Decrement-------------------------------------------------------?
+    //Increment Decrement-------------------------------------------------------$
     private boolean INC_DEC(){
         if (match("inc_dec")) {
             return true;
@@ -1646,7 +1666,7 @@ public class LL1Parser {
         return false;
     }
     
-    //Constant------------------------------------------------------------------?
+    //Constant------------------------------------------------------------------$
     private boolean CONST(){
         if (match("intConst")) {
             return true;
@@ -1666,7 +1686,7 @@ public class LL1Parser {
         return false;
     }
     
-    //Conditional Statements----------------------------------------------------?
+    //Conditional Statements----------------------------------------------------$
     private boolean IF_ELSE(){
         if (match("if")){
             if (match("(")){
@@ -1700,7 +1720,7 @@ public class LL1Parser {
     private boolean SWITCH(){
         if (match("shift")){
             if (match("(")){
-//                if (EXPR()){
+                if (EXPR()){
                     if (match(")")){
                         if (match("{")){
                             if(STATE()){
@@ -1708,20 +1728,20 @@ public class LL1Parser {
                             }      
                         }                
                     }                   
-//                }
+                }
             }
         }  
         return false;
     }
     private boolean STATE(){
         if (match("state")){
-//            if(EXPR()){
+            if(EXPR()){
                 if (match(":")){
                     if (SWITCH_BODY()){
                         return true;
                     }
                 }
-//            }
+            }
         }
         else if (searchSelectionSet("DEFAULT")){
             if (DEFAULT()){

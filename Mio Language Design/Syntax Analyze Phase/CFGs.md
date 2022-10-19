@@ -362,7 +362,7 @@ x.y.functio().function_id (p1,p2,p3)
 
 <ARR_CONST>     -> { <ARR_ELEMT>
 <ARR_ELEMT>     -> <EXPR> <EXPR_LIST>  | <ARR_CONST> <EXPR_LIST> | } 
-<EXPR_LIST>     -> , <ARR_ELEMT> <EXPR_LIST> | } 
+<EXPR_LIST>     -> , <ARR_ELEMT> | } 
 ```
 
 - Not in Class
