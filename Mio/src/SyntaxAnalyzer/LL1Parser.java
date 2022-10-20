@@ -1194,7 +1194,7 @@ public class LL1Parser {
                 }
             }
         }
-        if (match("id")) {
+        else if (match("id")) {
             if (ASSIGN_OBJ()) {
                 return true;
             }
@@ -1283,7 +1283,9 @@ public class LL1Parser {
         return false;
     }
     private boolean IS_INIT() {
+        
         if (match("=")) {
+            
             if (INIT()) {
                 if (LIST()) {
                     return true;
@@ -1291,6 +1293,7 @@ public class LL1Parser {
             }
         }
         else if (searchSelectionSet("LIST")) {
+            System.out.println("X");
             if (LIST()) {
                 return true;
             }

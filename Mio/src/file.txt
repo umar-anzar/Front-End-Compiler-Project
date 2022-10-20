@@ -4,8 +4,10 @@ package x;
 
 def f () { 
 
+int a = 4;
     
 }
+@@
 begin {
 y=x().a;
 Parent();
@@ -15,7 +17,7 @@ int [] a= new int[1]   ,b,c,t;
 str [][] var = new int[][] {{},{},{},{}};
 Omer izhan = new Omer();
 
-}
+}@@
 
 
 
