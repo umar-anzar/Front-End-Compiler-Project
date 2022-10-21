@@ -4,7 +4,7 @@ package x;
 
 def f () { 
 
-int a = 4;
+int a = NaN;
     
 }
 @@

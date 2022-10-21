@@ -8,9 +8,8 @@
 {"classP":"{","line":5},
 {"classP":"dt","valueP":"int","line":7},
 {"classP":"id","valueP":"a","line":7},
-{"classP":"id","valueP":"b","line":7},
 {"classP":"\u003d","line":7},
-{"classP":"intConst","valueP":"4","line":7},
+{"classP":"NaN","line":7},
 {"classP":";","line":7},
 {"classP":"}","line":9},
 {"classP":"~","line":25}]

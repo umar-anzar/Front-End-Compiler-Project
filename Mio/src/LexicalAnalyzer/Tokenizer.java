@@ -272,7 +272,7 @@ public class Tokenizer {
             boolean found=false;
             for (int i = 0; i < bOperator.length; i++) {
                 if (bOperator[i][0].length()>1) {
-                    if (character == bOperator[i][0].charAt(1)) {
+                    if ( (temp+character).equals(bOperator[i][0]) ) {
                         temp += character;
                         found = true;
                         break;
