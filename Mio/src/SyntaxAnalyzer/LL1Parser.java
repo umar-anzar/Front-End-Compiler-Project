@@ -221,6 +221,8 @@ public class LL1Parser {
         sSet.put("MULTI_INHERIT", new String[][] { {",", ")"}, {} });
         
         //?Class Body
+        sSet.put("CLASS_BODY", new String[][] { {"def", "Static", "const", "id", "dt", "str", "}"}, {} });
+        sSet.put("ATTR_FUNC", new String[][] { {"def", "Static", "const", "id", "dt", "str"}, {} });
         
         //$Dot Separated Id, FC, AR subscripts
         sSet.put("POS", new String[][] { {"dot", "[", "("}, {"power", "mdm", "pm", "rop", "and", "or", "]", ")", ",", "}", ":", ";"} });
@@ -238,7 +240,7 @@ public class LL1Parser {
         sSet.put("DOT_ID_SUBSCRIPT2", new String[][] { {"dot", "["}, {"power", "mdm", "pm", "rop", "and", "or", "]", ")", ",", "}", ":", ";"} });
         
         
-        //?Declaration and Initialization
+        //$Declaration and Initialization
         sSet.put("DEC", new String[][] { {"const", "dt", "str", "id", "Parent", "Self"}, {} });
         sSet.put("ID_FN", new String[][] { {"[", "id", "dot", "(", "inc_dec", "=", "cma"}, {} });
         sSet.put("ASSIGN_OBJ", new String[][] { {"id", "dot", "(", "inc_dec", "=", "cma"}, {} });
@@ -256,7 +258,7 @@ public class LL1Parser {
         sSet.put("LIST", new String[][] { {",", ";"}, {} });
         sSet.put("ASSIGN_OP", new String[][] { {"=", "cma"}, {} });
 
-        //?Assignment
+        //$Assignment
         sSet.put("ASSIGN", new String[][] { {"dot", "(", "inc_dec", "=", "cma"}, {} });
         sSet.put("ASSIGN2", new String[][] { {"dot", "[", "(", "inc_dec", "=", "cma"}, {} });
         sSet.put("FN_TWO_ASSIGN", new String[][] { {"(", "inc_dec", "=", "cma"}, {} });
@@ -284,14 +286,21 @@ public class LL1Parser {
             "charConst", "boolConst", "strConst", "{", "}"}, {} });       
         sSet.put("EXPR_LIST", new String[][] { {",", "}"}, {} });
         
-        //?Global Variable Declaration
+        //$Global Variable Declaration
         sSet.put("GLOBAL_DEC", new String[][] { {"dt", "id", "str"}, {} });
         sSet.put("VAR_ARR_G", new String[][] { {"[", "id"}, {} });
         sSet.put("VAR_G", new String[][] { {"id"}, {} });
         sSet.put("IS_INIT_G", new String[][] { {"=", ",", ";"}, {} });
         sSet.put("LIST_G", new String[][] { {",", ";"}, {} });
 
-        //?Attribute Declaration in class
+        //$Attribute Declaration in class
+        sSet.put("ATTR_CLASS_DEC", new String[][] { {"Static", "const", "id", "dt", "str"}, {} });
+        sSet.put("IS_FINAL", new String[][] { {"const", "id", "dt", "str"}, {} });
+        sSet.put("TYPE_VAR_ARR", new String[][] { {"id", "dt", "str"}, {} });
+        sSet.put("VAR_ARR_C", new String[][] { {"[", "protected", "private", "id"}, {} });
+        sSet.put("VAR_C", new String[][] { {"protected", "private", "id"}, {} });
+        sSet.put("IS_INIT_C", new String[][] { {"=", ",", ";"}, {} });
+        sSet.put("LIST_C", new String[][] { {",", ";"}, {} });
         
         //$Expression
         sSet.put("EXPR", new String[][] { {"pm", "Parent", "Self", "inc_dec", "id", "(", "typeCast", "not", "intConst", "floatConst", 
@@ -377,23 +386,8 @@ public class LL1Parser {
                 
     // CFG______________________________________________________________________
     
-    // DUMMY NON TERMINAL FUNCTION
-    private boolean DUMMY() {
-        //IF PRODUCTION RULES START FROM NON TERMINAL ONLY THEN SEARCHFIRSTSET FUNCTION IS USED
-        //IF THERE IS NULL THEN IN THE ELSE BLOCK SEARCHFOLLOWSET IS USED
-        if (searchSelectionSet("NONTERMINAL")) 
-        {
-            //Recursive descent code
-        } else {
-            if (searchFollowSet("NONTERMINAL")) {
-                return true;
-            }
-        }
-        
-        return false;
-    }
     
-    //Start Structure-----------------------------------------------------------&
+    //Start Structure-----------------------------------------------------------$
     
     private boolean START() {
         if (searchSelectionSet("PACKAGE")) {
@@ -693,6 +687,7 @@ public class LL1Parser {
         }
         else {
             if (searchFollowSet("ARR_TYPE_LIST")) {
+                
                 return true;
             }
         }
@@ -841,7 +836,14 @@ public class LL1Parser {
         return false;
     }
     
-    private boolean FN_CLASS_DEC() {return false;}
+    private boolean FN_CLASS_DEC() {
+        if (match("def")) {
+            if (IS_ABSTRACT()) {
+                return true;
+            }
+        }
+        return false;
+    }
     private boolean IS_ABSTRACT() {
         if (match("Abstract")) {
             if (WITH_STATIC()) {
@@ -874,14 +876,96 @@ public class LL1Parser {
         }
         return false;
     }
-    private boolean RET_TO_THROW() {return false;}
-    private boolean WITH_STATIC() {return false;}
+    private boolean RET_TO_THROW() {
+        if (searchSelectionSet("RET_TYPE_C")) {
+            if (RET_TYPE_C()) {
+                if (FN_ST()) {
+                    if (THROWS()) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+    private boolean WITH_STATIC() {
+        if (match("Static")) {
+            if (RET_TO_THROW()) {
+                return true;
+            }
+        }
+        else if (searchSelectionSet("RET_TO_THROW")) {
+            if (RET_TO_THROW()) {
+                return true;
+            }
+        }
+        return false;
+    }
     
-    private boolean RET_TYPE_C(){return false;}
-    private boolean RET_OBJ_C(){return false;}
-    private boolean ACCESSMOD_C(){return false;}
+    private boolean RET_TYPE_C() {
+        if (searchSelectionSet("DT_STR")) {
+            if (DT_STR()) {
+                if (ARR_TYPE_LIST()) {
+                    if (ACCESSMOD()) {
+                        if (match("id")) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        else if (match("id")) {
+            if (RET_OBJ_C()) {
+                return true;
+            }
+        }
+        else if (searchSelectionSet("ACCESSMOD_C")) {
+            if (ACCESSMOD_C()) {
+                if (match("id")) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    private boolean RET_OBJ_C() {
+        if (searchSelectionSet("ARR_TYPE")) {
+            if (ARR_TYPE()) {
+                if (ACCESSMOD()) {
+                    if (match("id")) {
+                        return true;
+                    }
+                }
+            }
+        }
+        else if (searchSelectionSet("ACCESSMOD_C")) {
+            if (ACCESSMOD_C()) {
+                if (match("id")) {
+                    return true;
+                }
+            }
+        }
+        else if (match("id")) {
+                return true;
+        }
+        else {
+            if (searchFollowSet("RET_OBJ_C")) {
+                return true;
+            }
+        }
+        return false;
+    }
+    private boolean ACCESSMOD_C() {
+        if (match("private")) {
+            return true;
+        }
+        else if (match("protected")) {
+            return true;
+        }
+        return false;
+    }
     
-    //Class Statement-----------------------------------------------------------?
+    //Class Statement-----------------------------------------------------------$
     private boolean GLOBAL_CLASS() {
         if (searchSelectionSet("CLASS_DEC")) {
             if (CLASS_DEC()) {
@@ -893,11 +977,11 @@ public class LL1Parser {
                 return true;
             }
         }
-//        else if (match("const")) {
-//            if (CLASS_GLOBAL()) {
-//                return true;
-//            }
-//        }
+        else if (match("const")) {
+            if (CLASS_GLOBAL()) {
+                return true;
+            }
+        }
         return false;
     }
     private boolean CLASS_GLOBAL() {
@@ -988,16 +1072,16 @@ public class LL1Parser {
         return false;
     }
     
-    //Class Body----------------------------------------------------------------?
+    //Class Body----------------------------------------------------------------$
     private boolean CLASS_BODY(){
-//        if (searchSelectionSet("ATTR_FUNC")) {
-//            if (ATTR_FUNC()) {
-//                if (CLASS_BODY()) {
-//                    return true;
-//                }
-//            }
-//        }
-//        else 
+        if (searchSelectionSet("ATTR_FUNC")) {
+            if (ATTR_FUNC()) {
+                if (CLASS_BODY()) {
+                    return true;
+                }
+            }
+        }
+        else 
             if (match("}")) {
                 return true;
         }
@@ -1293,7 +1377,6 @@ public class LL1Parser {
             }
         }
         else if (searchSelectionSet("LIST")) {
-            System.out.println("X");
             if (LIST()) {
                 return true;
             }
@@ -1736,7 +1819,7 @@ public class LL1Parser {
         return false;
     }
     
-    //Global Variable Declaration-----------------------------------------------?
+    //Global Variable Declaration-----------------------------------------------$
     private boolean GLOBAL_DEC() {
         if (searchSelectionSet("TYPE")) {
             if (TYPE()) {
@@ -1800,12 +1883,99 @@ public class LL1Parser {
     }
     
     //Attribute Declaration in class--------------------------------------------?
-    private boolean ATTR_CLASS_DEC(){return false;}
-    private boolean IS_FINAL(){return false;}
-    private boolean VAR_OBJ_C(){return false;}
-    private boolean VAR_ARR_C(){return false;}
-    private boolean IS_INIT_C(){return false;}
-    private boolean LIST_C(){return false;}
+    private boolean ATTR_CLASS_DEC() {
+        if (match("Static")) {
+            if (IS_FINAL()) {
+                return true;
+            }
+        }
+        else if (searchSelectionSet("IS_FINAL")) {
+            if (IS_FINAL()) {
+                return true;
+            }
+        }
+        return false;
+    }
+    private boolean IS_FINAL() {
+        if (match("const")) {
+            if (TYPE_VAR_ARR()) {
+                return true;
+            }
+        }
+        else if (searchSelectionSet("TYPE_VAR_ARR")) {
+            if (TYPE_VAR_ARR()) {
+                return true;
+            }
+        }
+        return false;
+    }
+    private boolean TYPE_VAR_ARR() {
+        if (searchSelectionSet("TYPE")) {
+            if (TYPE()) {
+                if (VAR_ARR_C()) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    } 
+    private boolean VAR_ARR_C() {
+        if (searchSelectionSet("ARR_TYPE")) {
+            if (ARR_TYPE()) {
+                if (VAR_C()) {
+                    return true;
+                }
+            }
+        }
+        else if (searchSelectionSet("VAR_C")) {
+            if (VAR_C()) {
+                return true;
+            }
+        }
+        return false;
+    }
+    private boolean VAR_C() {
+        if (searchSelectionSet("ACCESSMOD")) {
+            if (ACCESSMOD()) {
+                if (match("id")) {
+                    if (IS_INIT_C()) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+    private boolean IS_INIT_C() {
+        if (match("=")) {
+            if (INIT()) {
+                if (LIST_C()) {
+                    return true;
+                }
+            }
+        }
+        else if (searchSelectionSet("LIST_C")) {
+            if (LIST_C()) {
+                return true;
+            }
+        }
+        return false;
+    }
+    private boolean LIST_C() {
+        if (match(",")) {
+            if (ACCESSMOD()) {
+                if (match("id")) {
+                    if (IS_INIT_C()) {
+                        return true;
+                    }
+                }
+            }
+        }
+        else if (match(";")) {
+            return true;
+        }
+        return false;
+    }
     
     //Expression----------------------------------------------------------------$
     private boolean EXPR(){
@@ -2026,7 +2196,7 @@ public class LL1Parser {
     private boolean UNARY(){
         if (match("typeCast")) {
             if (match("(")) {
-                if (match("dt")) {
+                if (TYPE()) {
                     if (match(")")) {
                         return true;
                     }
@@ -2342,7 +2512,7 @@ public class LL1Parser {
     
     private boolean RET_ST(){
         if (match("ret")){
-            if(EXPR()){
+            if(EXPR_OBJ()){
                 if (match(";")){ 
                   return true;
                 } 

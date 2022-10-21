@@ -15,6 +15,5 @@ public class Main {
     public static void main(String[] args) {
         Tokenizer.main(args); // Create Token and save it into Tokens.txt
         CFG.main(args); // Parse the tokens Stream
-        
     }
 }

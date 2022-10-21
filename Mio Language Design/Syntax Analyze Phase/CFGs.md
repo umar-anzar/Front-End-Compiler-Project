@@ -148,7 +148,7 @@ def object function_id (float p1, int [] p2, ABC p3) {}
 
 ```xml
 <RET_TYPE_C>    -> <DT_STR> <ARR_TYPE_LIST> <ACCESSMOD> id | 
-                   id <RET_OBJ_C> | <ACCESSMOD_C> id <!--void and no access modifer--> |
+                   id <RET_OBJ_C> | <ACCESSMOD_C> id <!--void and no access modifer-->
 
 <RET_OBJ_C>     -> <ARR_TYPE> <ACCESSMOD> id | <ACCESSMOD_C> id | 
                    id <!--return type but no access modifer--> | 
@@ -466,7 +466,7 @@ Unary   'convt(dt) !'
 ```xml
 <OPERANDS>  -> <IS_ACMETH> id <POS2> | <INC_DEC> id <POS> | ( <EXPR> ) | <UNARY> <OPERANDS> | <CONST> | <FLAG> <OPERANDS>
 
-<UNARY>     -> typeCast ( dt ) | not
+<UNARY>     -> typeCast ( <TYPE> ) | not
 <FLAG>      -> pm 
 ```
 
@@ -550,7 +550,8 @@ Break-continue
 
 Return-statement
 ```xml
-<RET_ST>    -> ret <EXPR> ;
+<RET_ST>    -> ret <EXPR_OBJ> ;
+
 ```
 
 Throw

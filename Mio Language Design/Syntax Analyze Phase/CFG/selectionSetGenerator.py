@@ -2,24 +2,21 @@ import json
 
 string = """
 
-dot ? ( ? inc_dec ? = ?cma 
+Static ? const ? dt ? id 
+
+const? id ? dt ?str
+
+id ? dt ? str
 
 
-dot ? [ ?( ? inc_dec ? = ? cma 
+[ ? protected ? private ? id
 
+protected?private?id
 
-( ? inc_dec ? = ?cma
+=  ? , ?  ;
 
+, ? ; 
 
-dot ? [
-
- 
-
-
-
-inc_dec ? = ? cma 
-
-dot ? [ ? ;
 
 
 
