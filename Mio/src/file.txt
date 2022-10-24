@@ -55,7 +55,7 @@ Class Car (Vehicle,Vehicle) {
     }
 }
 
-def str printInformation(str [] info) {
+def str printInformation(str [] info) raises Exception  {
     str information = new str();
     loop thru (int i in info) {
         information += info[i];
@@ -71,8 +71,12 @@ begin {
     
     Car car1 = bmw("2018","Karachi");
     Car car2 = Car("2017", "Islamabad", "MFUBIT-2018",95);
-    printInformation(car2.information());
 
+    test {
+        printInformation(car2.information());
+    } except (java.lang.Exception e) {
+        raise new Exception();
+    }
 }
 
 
