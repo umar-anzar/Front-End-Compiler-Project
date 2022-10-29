@@ -351,3 +351,92 @@ Class UnitedBravo(Car){	//Car classe are inherited
 	dataType attribute;
 }
 ```
+
+
+- Example of code
+
+```
+package project.src;
+
+import Properties.Registration;
+import Random.^;
+
+Abstract Class $$Vehicle () {
+    str $type;
+    str model;
+    str name;
+    Registration $register = NaN;
+    int wheelers = 2;   @ default bike
+    
+    def Vehicle(str type, str city, str licenseNo, int wheels) {
+        this.type = type;
+        register = new Registration(city, licenseNo);
+    }
+
+    def Vehicle(str type, str city_name, str license_number, int wheels) {
+        this.type = type;
+        register = new Registration(city_name, license_number);
+        wheelers = wheels;
+    }
+
+    def str getType() {
+        ret this.type;
+    }
+    def Abstract int getWheelers();
+
+    def str getModel() {
+        ret this.model;
+    }
+    def str getName() {
+        ret this.name;
+    }
+    def str getRegisteration() {
+        ret this.register;
+    }
+
+}
+
+
+Class Car (Vehicle,Vehicle) {
+    point engine_size;
+
+    def Car(str type, str city_name, str license_number,point engineSize) {
+        Parent(type,new Registration(city_name, license_number),4);
+        engine_size = engineSize;
+    }
+    
+    def int getWheelers() {
+        ret Parent.wheelers;
+    }
+
+    def str[] information () {
+        ret new str[] {Parent.getType(),Parent.getModel(),Parent.getName(),Parent.getRegistration(),convt(str) getWheelers()};
+    }
+}
+
+def str printInformation(str [] info) raises Exception  {
+    str information = new str();
+    loop thru (int i in info) {
+        information += info[i];
+    }
+    return information;
+}
+
+def Car bmw(str model,str city) {
+    ret Car("BMW", city, "ABC-" + convt(str) (random()*1000), 10.4);
+}
+
+begin {
+    
+    Car car1 = bmw("2018","Karachi");
+    Car car2 = Car("2017", "Islamabad", "MFUBIT-2018",95);
+
+    test {
+        printInformation(car2.information());
+    } except (Mio.lang.Exception e) {
+        raise new Exception();
+    }
+}
+
+
+```
