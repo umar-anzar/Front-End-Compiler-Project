@@ -410,7 +410,9 @@ Class Car (Vehicle,Vehicle) {
     }
 
     def str[] information () {
-        ret new str[] {Parent.getType(),Parent.getModel(),Parent.getName(),Parent.getRegistration(),convt(str) getWheelers()};
+        ret new str[] {Parent.getType(),Parent.getModel(),
+        Parent.getName(),Parent.getRegistration(),
+        convt(str) getWheelers()};
     }
 }
 
