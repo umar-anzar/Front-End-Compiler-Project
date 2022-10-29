@@ -54,34 +54,29 @@ Same:
 - Associativity
 - Syntactically replaceable
 
-| Relation   Operator | inc_dec | not | pm | mdm | power |
-|---------------------|---------|-----|----|-----|-------|
-| <                   | ++      | !   | +  | *   | ^     |
-| >                   | --      |     | -  | /   |       |
-| <=                  |         |     |    | %   |       |
-| >=                  |         |     |    |     |       |
-| !=                  |         |     |    |     |       |
-| ==                  |         |     |    |     |       |
+| Relational | inc_dec | not | pm | mdm | power | simple assignment | compound assignment | and | or   |
+|------------|---------|-----|----|-----|-------|-------------------|---------------------|-----|------|
+| <          | ++      | !   | +  | *   | ^     | =                 | +=                  | &&  | \|\| |
+| >          | --      |     | -  | /   |       |                   | *=                  |     |      |
+| <=         |         |     |    | %   |       |                   | -=                  |     |      |
+| >=         |         |     |    |     |       |                   | %=                  |     |      |
+| !=         |         |     |    |     |       |                   |                     |     |      |
+| ==         |         |     |    |     |       |                   |                     |     |      |
 
-| simple assignment | compound assignment  | and | or   |
-|-------------------|----------------------|-----|------|
-| =                 | +=                   | &&  | \|\| |
-|                   | *=                   |     |      |
-|                   | -=                   |     |      |
-|                   | %=                   |     |      |
+
 
 ### Keyword
 
 Same:
 - Syntactically replaceable
 
-| DT    | String |var|
-|-------|--------|---|
-| int   | str    |var|
-| point |        |   |
-| char  |        |   |
-| val   |        |   |
-| bool  |        |   |
+| DT    | String | var |
+|-------|--------|-----|
+| int   | str    | var |
+| point |        |     |
+| char  |        |     |
+| val   |        |     |
+| bool  |        |     |
 
 | if | else | loop | till | thru | do | class | boolConst  | null |
 |----|------|------|------|------|----|-------|------------|------|
@@ -95,11 +90,11 @@ Same:
 |-------|-------|----|---------|-----|----------|--------|------|
 | const | begin | in | default | new | abstract | Parent | Self |
 
-| Three ps  | try  | catch  | finally | throw  | throws | package | import |
-|-----------|------|--------|---------|--------|--------|---------|--------|
-| public    | test | except | finally | raise  | raises | package | import |
-| private   |      |        |         |        |        |         |        |
-| protected |      |        |         |        |        |         |        |
+| Three ps  | try  | catch  | finally | throw | throws | package | import |
+|-----------|------|--------|---------|-------|--------|---------|--------|
+| public    | test | except | finally | raise | raises | package | import |
+| private   |      |        |         |       |        |         |        |
+| protected |      |        |         |       |        |         |        |
 
 
 ## Syntax
