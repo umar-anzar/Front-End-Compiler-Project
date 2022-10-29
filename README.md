@@ -281,28 +281,28 @@ abstract Class Shape{
 Syntax:
 
 Class Car(){
-
+    
     dataType attribute;         @public
-	static dataType attribute;  @static
-	dataType $attribute;        @private
-	dataType $$attribute;       @protected
+    static dataType attribute;  @static
+    dataType $attribute;        @private
+    dataType $$attribute;       @protected
 	
     @This function is public and void
 	def foo(dataType variable1,dataType variable2) {
 		@block of code
 	}
-
+    
     @This function is private and returnType is there
     def dataType $foo1(dataType variable1,dataType variable2) {
-		@block of code
-		ret variable1+variable2;
-	}
+        @block of code
+        ret variable1+variable2;
+    }
 
     @This function is protected and returnType is there
     def dataType $$foo2(dataType variable1,dataType variable2) {
-		@block of code
-		ret variable1+variable2;
-	}
+        @block of code
+        ret variable1+variable2;
+    }
 }
 ```
 
@@ -313,11 +313,11 @@ Syntax:
 
 begin 
 {
-	  Polygone<A> x = new Box<A>();
-      Polygone<str> x_alpha = new Box<str>();
-
-      x.add(new A(10));
-      x_alpha.add(new str("Hello World"));
+    Polygone<A> x = new Box<A>();
+    Polygone<str> x_alpha = new Box<str>();
+    
+    x.add(new A(10));
+    x_alpha.add(new str("Hello World"));
 }
 
 Class Polygone<T>(){
@@ -434,7 +434,7 @@ begin {
     Car car2 = Car("2017", "Islamabad", "MFUBIT-2018",95);
 
     test {
-        printInformation(car2.information());
+        str info = printInformation(car2.information());
     } except (Mio.lang.Exception e) {
         raise new Exception();
     }
