@@ -3,10 +3,11 @@ package project.src;
 import Properties.Registration;
 import Random.^;
 
-Abstract Class $$Vehicle () {
+Abstract Class $$Vehicle <DataType> () {
     str $type;
     str model;
     str name;
+    DataType x;
     Registration $register = NaN;
     int wheelers = 2;   @ default bike
     
