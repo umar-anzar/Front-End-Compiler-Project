@@ -2,21 +2,11 @@ import json
 
 string = """
 
-Static ? const ? dt ? id 
+dot?,
 
-const? id ? dt ?str
+dot
 
-id ? dt ? str
-
-
-[ ? protected ? private ? id
-
-protected?private?id
-
-=  ? , ?  ;
-
-, ? ; 
-
+,
 
 
 

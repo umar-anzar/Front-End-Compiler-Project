@@ -21,10 +21,10 @@ Abstract Class $$Vehicle <DataType> () {
         wheelers = wheels;
     }
 
-    def str getType() {
+    def str getType() raises type.NotDefined {
         ret this.type;
     }
-    def Abstract int getWheelers();
+    def Abstract int getWheelers() raises multiple.error, list.xyz, Exeption;
 
     def str getModel() {
         ret this.model;

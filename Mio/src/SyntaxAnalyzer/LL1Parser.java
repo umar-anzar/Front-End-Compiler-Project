@@ -377,6 +377,9 @@ public class LL1Parser {
         sSet.put("ERROR_TYPE", new String[][] { {"("}, {} });
         sSet.put("ERR_DOT", new String[][] { {"dot", "id"}, {} });
         sSet.put("THROWS", new String[][] { {"raises"}, {"{", ";"} });
+        sSet.put("ID_ERR", new String[][] { {"dot", ","}, {"{", ";"} });
+        sSet.put("ERR_DOT_ID", new String[][] { {"dot"}, {"{", ";"} });
+        sSet.put("ERR_LIST", new String[][] { {","}, {} }); 
         sSet.put("FINALLY", new String[][] { {"finally"}, {} });
 
     }
@@ -1978,7 +1981,7 @@ public class LL1Parser {
     }
     
     //Expression----------------------------------------------------------------$
-    private boolean EXPR(){
+    private boolean EXPR() {
         if (searchSelectionSet("F")){
             if (F()){
                 if (EXPR1()){
@@ -1988,7 +1991,7 @@ public class LL1Parser {
         }
         return false;
     }
-    private boolean EXPR1(){
+    private boolean EXPR1() {
         if (match("or")) {      
             if (F()){
                 if (EXPR1()){
@@ -2003,7 +2006,7 @@ public class LL1Parser {
         }
         return false;
     }
-    private boolean F(){
+    private boolean F() {
         if (searchSelectionSet("G")){
             if (G()){
                 if (F1()){
@@ -2013,7 +2016,7 @@ public class LL1Parser {
         }
         return false;
     }
-    private boolean F1(){
+    private boolean F1() {
        if (match("and")) {
            if (G()){
                if (F1()){
@@ -2028,7 +2031,7 @@ public class LL1Parser {
        }
         return false;
     }
-    private boolean G(){
+    private boolean G() {
         if (searchSelectionSet("H")){
             if (H()){
                 if (G1()){
@@ -2038,7 +2041,7 @@ public class LL1Parser {
         }
         return false;
     }
-    private boolean G1(){
+    private boolean G1() {
         if (match("rop")) {
             if (H()){
                 if (G1()){
@@ -2053,7 +2056,7 @@ public class LL1Parser {
         }
         return false;
     }
-    private boolean H(){
+    private boolean H() {
         if (searchSelectionSet("I")){
             if (I()){
                 if (H1()){
@@ -2063,7 +2066,7 @@ public class LL1Parser {
         }
         return false;
     }
-    private boolean H1(){
+    private boolean H1() {
         if (match("pm")) {
             if (I()){
                 if (H1()){
@@ -2078,7 +2081,7 @@ public class LL1Parser {
         }
         return false;
     }
-    private boolean I(){
+    private boolean I() {
         if (searchSelectionSet("J")){
             if (J()){
                 if (I1()){
@@ -2088,7 +2091,7 @@ public class LL1Parser {
         }
         return false;
     }
-    private boolean I1(){
+    private boolean I1() {
         if (match("mdm")) {
             if (J()){
                 if (I1()){
@@ -2103,7 +2106,7 @@ public class LL1Parser {
         }
         return false;
     }
-    private boolean J(){
+    private boolean J() {
         if (searchSelectionSet("K")){
             if (K()){
                 if (J1()){
@@ -2113,7 +2116,7 @@ public class LL1Parser {
         }
         return false;
     }
-    private boolean J1(){
+    private boolean J1() {
         if (match("power")) {
             if (K()){
                 if (J1()){
@@ -2128,7 +2131,7 @@ public class LL1Parser {
         }
         return false;
     }
-    private boolean K(){
+    private boolean K() {
         if (searchSelectionSet("IS_FLAG")){
             if (IS_FLAG()){
                 return true;
@@ -2136,7 +2139,7 @@ public class LL1Parser {
         }
         return false;
     }
-    private boolean IS_FLAG(){
+    private boolean IS_FLAG() {
         if (searchSelectionSet("OPERANDS")){
             if (OPERANDS()){
                 return true;
@@ -2146,7 +2149,7 @@ public class LL1Parser {
     }
     
     //Operands------------------------------------------------------------------$
-    private boolean OPERANDS(){
+    private boolean OPERANDS() {
         if (searchSelectionSet("IS_ACMETH")){
             if (IS_ACMETH()){
                 if (match("id")) {
@@ -2193,7 +2196,7 @@ public class LL1Parser {
         }
         return false;
     }
-    private boolean UNARY(){
+    private boolean UNARY() {
         if (match("typeCast")) {
             if (match("(")) {
                 if (TYPE()) {
@@ -2208,7 +2211,7 @@ public class LL1Parser {
         }
         return false;
     }
-    private boolean FLAG(){
+    private boolean FLAG() {
         if (match("pm")) {
             return true;
         }
@@ -2216,7 +2219,7 @@ public class LL1Parser {
     }
     
     //Increment Decrement-------------------------------------------------------$
-    private boolean INC_DEC(){
+    private boolean INC_DEC() {
         if (match("inc_dec")) {
             return true;
         }
@@ -2224,7 +2227,7 @@ public class LL1Parser {
     }
     
     //Constant------------------------------------------------------------------$
-    private boolean CONST(){
+    private boolean CONST() {
         if (match("intConst")) {
             return true;
         }
@@ -2274,7 +2277,7 @@ public class LL1Parser {
         return false;
     }
     
-    private boolean SWITCH(){
+    private boolean SWITCH() {
         if (match("shift")){
             if (match("(")){
                 if (EXPR()){
@@ -2290,7 +2293,7 @@ public class LL1Parser {
         }  
         return false;
     }
-    private boolean STATE(){
+    private boolean STATE() {
         if (match("state")){
             if(EXPR()){
                 if (match(":")){
@@ -2310,7 +2313,7 @@ public class LL1Parser {
         }
         return false;
     }
-    private boolean DEFAULT(){
+    private boolean DEFAULT() {
         if (match("default")){
             if (match(":")){
                 if (MST()){
@@ -2323,7 +2326,7 @@ public class LL1Parser {
        
         return false;
     }
-    private boolean SWITCH_BODY(){
+    private boolean SWITCH_BODY() {
         if (match("{")){
             if (MST()){
                 if (match("}")){
@@ -2344,7 +2347,7 @@ public class LL1Parser {
     }
     
     //Loop Statements-----------------------------------------------------------$
-    private boolean LOOP(){
+    private boolean LOOP() {
         if(match("loop")){
             if (LT()){
                 return true;
@@ -2352,7 +2355,7 @@ public class LL1Parser {
         }
         return false;
     }
-    private boolean LT(){
+    private boolean LT() {
         if (searchSelectionSet("WHILE_ST")){
             if (WHILE_ST()){
                 return true;                     
@@ -2366,7 +2369,7 @@ public class LL1Parser {
         return false;
     }
     
-    private boolean WHILE_ST(){
+    private boolean WHILE_ST() {
         if (match("till")){
             if (match("(")){
                 if (EXPR()){
@@ -2380,7 +2383,7 @@ public class LL1Parser {
         }
         return false;
     }
-    private boolean DO_WHILE(){
+    private boolean DO_WHILE() {
         if (match("do")){
             if (BODY()){
                 if (match("till")){
@@ -2399,7 +2402,7 @@ public class LL1Parser {
         return false;
     }
     
-    private boolean FOR_ST(){
+    private boolean FOR_ST() {
         if (match("thru")){
             if (match("(")){
                 if (match("dt")){
@@ -2419,7 +2422,7 @@ public class LL1Parser {
         }
         return false;
     }
-    private boolean FOR_ARG(){
+    private boolean FOR_ARG() {
         if (match("id")){
             if (POS3()){
                 return true;
@@ -2443,7 +2446,7 @@ public class LL1Parser {
         return false;
     }
     
-    private boolean POS3(){
+    private boolean POS3() {
         if (searchSelectionSet("FN_BRACKETS")){
             if (FN_BRACKETS()){
                 if (DOT_ID5()) {
@@ -2458,7 +2461,7 @@ public class LL1Parser {
         }
         return false;
     }
-    private boolean DOT_ID5(){
+    private boolean DOT_ID5() {
         if (match("dot")){
             if (match("id")){
                 if(POS3()){
@@ -2482,7 +2485,7 @@ public class LL1Parser {
     }
     
     //Jump Statements-----------------------------------------------------------?
-    private boolean BREAK(){
+    private boolean BREAK() {
         if (match("stop")){
             if (L()){
                 return true;
@@ -2490,7 +2493,7 @@ public class LL1Parser {
         }
         return false;
     }
-    private boolean CONTINUE(){
+    private boolean CONTINUE() {
         if (match("cont")){
             if(L()){
                 return true;
@@ -2498,7 +2501,7 @@ public class LL1Parser {
         }
         return false;
     }
-    private boolean L(){
+    private boolean L() {
         if (match("id")){
             if (match(":")){
                 return true;
@@ -2510,7 +2513,7 @@ public class LL1Parser {
         return false;
     }
     
-    private boolean RET_ST(){
+    private boolean RET_ST() {
         if (match("ret")){
             if(EXPR_OBJ()){
                 if (match(";")){ 
@@ -2521,7 +2524,7 @@ public class LL1Parser {
         return false;
     }
     
-    private boolean THROW(){
+    private boolean THROW() {
         if (match("raise")){
             if (NEW_OBJ()){
                 if (match(";")){
@@ -2533,7 +2536,7 @@ public class LL1Parser {
     }
     
     //Exception Handler---------------------------------------------------------$
-    private boolean TRY_CATCH(){
+    private boolean TRY_CATCH() {
         if (match("test")){
             if (match("{")){
                 if(MST()){
@@ -2557,7 +2560,7 @@ public class LL1Parser {
         }
         return false;
     }
-    private boolean EXCEPT_FINALLY(){
+    private boolean EXCEPT_FINALLY() {
         if (match("except")){
             if (ERROR_TYPE()){
                 if (match("{")){
@@ -2583,7 +2586,7 @@ public class LL1Parser {
         }
         return false;
     }
-    private boolean ERROR_TYPE(){
+    private boolean ERROR_TYPE() {
         if (match("(")){
             if (match("id")){
                 if (ERR_DOT()){
@@ -2595,7 +2598,7 @@ public class LL1Parser {
         }
         return false;
     }
-    private boolean ERR_DOT(){
+    private boolean ERR_DOT() {
         if (match("dot")){
             if (match("id")){
                 if (ERR_DOT()) {
@@ -2608,15 +2611,55 @@ public class LL1Parser {
         }
         return false;
     }
-    private boolean THROWS(){
+    private boolean THROWS() {
         if (match("raises")){
             if (match("id")){
-                return true;
+                if (ID_ERR()) {
+                    return true;                  
+                }
             }
         }
         else{
             if (searchFollowSet("THROWS")){
                 return true;
+            }
+        }
+        return false;
+    }
+    private boolean ID_ERR() {
+        if(searchSelectionSet("ERR_DOT_ID")) {
+            if (ERR_DOT_ID()) {
+                return true;
+            }
+        }
+        else if (searchSelectionSet("ERR_LIST")) {
+            if (ERR_LIST()) {
+                return true;
+            }
+        }
+        return false;
+    }
+    private boolean ERR_DOT_ID() {
+        if(match("dot")) {
+            if (match("id")) {
+                if (ID_ERR()) {
+                    return true;
+                }
+            }
+        }
+        else {
+            if (searchFollowSet("ERR_DOT_ID")) {
+                return true;
+            }
+        }
+        return false;
+    }
+    private boolean ERR_LIST() {
+        if(match(",")) {
+            if (match("id")) {
+                if (ERR_DOT_ID()) {
+                    return true;
+                }
             }
         }
         return false;

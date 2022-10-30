@@ -571,7 +571,10 @@ Throw
 <EXCEPT_FINALLY>    -> except <ERROR_TYPE> { <MST> } <EXCEPT> | <FINALLY> | null
 <ERROR_TYPE>        -> ( id <ERR_DOT> )
 <ERR_DOT>           -> dot id <ERR_DOT> | id
-<THROWS>            -> raises id | null
+<THROWS>            -> raises id <ID_ERR> | null
+<ID_ERR>            -> <ERR_DOT_ID>  | <ERR_LIST>
+<ERR_DOT_ID>        -> dot id <ID_ERR> | null
+<ERR_LIST>          -> , id <ERR_DOT_ID>
 <FINALLY>           -> finally { <MST> }
 ```
 
