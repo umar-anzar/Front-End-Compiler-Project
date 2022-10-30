@@ -5,6 +5,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 class XYZ{
+    int x;
     
 }
 public class testing {  
@@ -12,8 +13,9 @@ public class testing {
     static int [][][] po = new int[1][][];
     int [][] o = new int [1][];
     void p(){
-        
+
     }
+    
     public static void main(String[] args){
         
         if (2>3) ;else;

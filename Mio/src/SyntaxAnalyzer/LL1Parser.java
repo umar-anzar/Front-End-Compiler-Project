@@ -50,7 +50,7 @@ public class LL1Parser {
             
                 System.err.println("Syntax Error, token:"+ errorTk + " on line number: "+ token.line);
             } else {
-                System.err.println(token.error +": "+token.valueP+" on line no# "+ token.line);
+                System.err.println(token.error +": "+token.classP+"\t"+token.valueP+" on line no# "+ token.line);
             }
         }
         
