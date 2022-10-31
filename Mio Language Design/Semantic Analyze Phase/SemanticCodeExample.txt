@@ -23,4 +23,4 @@ CLASSDATATABLE:
 
 	Function:
 	def	Abstract|const|null	static|null	int	[][]|null	Fn	(int x, point y) {}
-		TYPE	DIMENSION	NAME	Parameter
+		Abs and constant	static		TYPE	DIMENSION	NAME	Parameter
