@@ -10,13 +10,13 @@ package SemanticAnalyzer;
  */
 public class MainTable {
     public String 
-            name,
-            type,
             Abstract,
-            typeModifier,
+            constant,
+            type,
             size,
-            constantType,
-            extend,
             accessModifier,
+            dimension,
+            name,
+            extend,
             ref;     
 }

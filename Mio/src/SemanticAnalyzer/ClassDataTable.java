@@ -13,6 +13,7 @@ public class ClassDataTable {
             name,
             type,
             Abstract,
+            size,
             accessModifier,
             staticType,
             constantType;

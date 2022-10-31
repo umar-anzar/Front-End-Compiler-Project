@@ -1,0 +1,20 @@
+MAIN TABLE:
+	class:
+	Abstract|const|null	Class	protected|null	A	(INHERIT_B,INHERIT_B) { }
+	 Abs and constand	TYPE 	AM 		NAME 	EXTEND
+	
+	Function:
+	def	int	[][]|null	Fn	(int x, point y) {}
+		TYPE	DIMENSION	NAME	Parameter
+
+	GlobalDec:
+	const|null	int	[]|null		x = values
+	
+
+FUNCTION:
+	DEC:
+	const|null	int	[]|null		x 
+
+CLASSDATATABLE:
+	
+	ATTR
