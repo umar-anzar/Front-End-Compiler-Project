@@ -11,11 +11,11 @@ Abstract Class $$Vehicle <DataType> () {
     Registration $register = NaN;
     int wheelers = 2;   @ default bike
     
-    def Vehicle(str type, str city, str licenseNo, int wheels) {
+    def Static Vehicle(str type, str city, str licenseNo, int wheels) {
         this.type = type;
         register = new Registration(city, licenseNo);
     }
-    def Vehicle(str type, str city_name, str license_number, int wheels) {
+    def const Vehicle(str type, str city_name, str license_number, int wheels) {
         this.type = type;
         register = new Registration(city_name, license_number);
         wheelers = wheels;

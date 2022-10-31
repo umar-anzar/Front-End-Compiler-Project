@@ -203,9 +203,9 @@ public class LL1Parser {
         sSet.put("RT_OBJ", new String[][] { {"[", "Id"}, {"("} });
         
         sSet.put("FN_CLASS_DEC", new String[][] { {"def"}, {}  });
-        sSet.put("IS_ABSTRACT", new String[][] { {"Abstract", "const", "Static"}, {}  });
+        sSet.put("IS_ABSTRACT", new String[][] { {"Abstract", "Static", "const", "dt", "str", "id", "private", "protected"}, {}  });
         sSet.put("RET_TO_THROW", new String[][] { {"dt", "str", "id", "private", "protected"}, {}  });
-        sSet.put("WITH_STATIC", new String[][] { {"Static", "dt", "str", "id", "private", "protected"}, {}  });
+        sSet.put("WITH_FINAL", new String[][] { {"const", "dt", "str", "id", "private", "protected"}, {}  });
         
         sSet.put("RET_TYPE_C", new String[][] { {"dt", "str", "id", "private", "protected"}, {}  });
         sSet.put("RET_OBJ_C", new String[][] { {"[", "private", "protected", "Id"}, {"("} });
@@ -849,14 +849,14 @@ public class LL1Parser {
     }
     private boolean IS_ABSTRACT() {
         if (match("Abstract")) {
-            if (WITH_STATIC()) {
+            if (RET_TO_THROW()) {
                 if (match(";")) {
                     return true;
                 }
             }
         }
-        else if (match("const")) {
-            if (WITH_STATIC()) {
+        else if (match("Static")) {
+            if (WITH_FINAL()) {
                 if (match("{")) {
                     if (MST()) {
                         if (match("}")) {
@@ -866,8 +866,8 @@ public class LL1Parser {
                 }
             }
         }
-        else if (searchSelectionSet("WITH_STATIC")) {
-            if (WITH_STATIC()) {
+        else if (searchSelectionSet("WITH_FINAL")) {
+            if (WITH_FINAL()) {
                 if (match("{")) {
                     if (MST()) {
                         if (match("}")) {
@@ -891,8 +891,8 @@ public class LL1Parser {
         }
         return false;
     }
-    private boolean WITH_STATIC() {
-        if (match("Static")) {
+    private boolean WITH_FINAL() {
+        if (match("const")) {
             if (RET_TO_THROW()) {
                 return true;
             }

@@ -2,7 +2,7 @@ import json
 
 string = """
 
-def ?  Static ? const ? dt ? id  ?str? }
+const?dt ? str ? id ? private ?protected
 
 
 

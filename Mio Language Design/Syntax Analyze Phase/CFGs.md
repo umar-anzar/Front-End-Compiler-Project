@@ -139,11 +139,11 @@ def object function_id (float p1, int [] p2, ABC p3) {}
 
 ```xml
 <FN_CLASS_DEC>  -> def <IS_ABSTRACT>
-<IS_ABSTRACT>   -> Abstract <WITH_STATIC>  ; | 
-...                const <WITH_STATIC>  { <MST> } |
-                   <WITH_STATIC>  { <MST> }
+<IS_ABSTRACT>   -> Abstract <RET_TO_THROW>  ; | 
+...                Static <WITH_FINAL>  { <MST> } |
+                   <WITH_FINAL>  { <MST> }
+<WITH_FINAL>    -> const <RET_TO_THROW> | <RET_TO_THROW>
 <RET_TO_THROW>  -> <RET_TYPE_C> <FN_ST> <THROWS>
-<WITH_STATIC>   -> Static <RET_TO_THROW> | <RET_TO_THROW>
 ```
 
 ```xml
