@@ -1,7 +1,7 @@
 MAIN TABLE:
 	class:
 	Abstract|const|null	Class	protected|null	A	(INHERIT_B,INHERIT_B) { }
-	 Abs and constand	TYPE 	AM 		NAME 	EXTEND
+	 Abs and constant	TYPE 	AM 		NAME 	EXTEND
 	
 	Function:
 	def	int	[][]|null	Fn	(int x, point y) {}
@@ -17,4 +17,10 @@ FUNCTION:
 
 CLASSDATATABLE:
 	
-	ATTR
+	ATTR:
+	static|null	const|null	int	[]|null		protected|private|null	x = values
+	static		constant	TYPE	Dimension	AM			Name
+
+	Function:
+	def	Abstract|const|null	static|null	int	[][]|null	Fn	(int x, point y) {}
+		TYPE	DIMENSION	NAME	Parameter

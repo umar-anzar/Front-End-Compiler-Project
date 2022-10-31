@@ -338,22 +338,6 @@ x.y.functio().function_id (p1,p2,p3)
 <!--COUNT:8-->
 ### Array Declaration
 
-<!-- <ARR_DEC>       -> <ARR_TYPE> <ARR_INIT> 
-<ARR_CLASS_DEC> -> <ARR_TYPE> <ARR_INIT_C>
-
-<ARR_INIT>      -> id <IS_ARR_INIT>
-<IS_ARR_INIT>   -> = <CHOICE> | ;
-<CHOICE>        -> id <POSARR> | <NEW_ARR_CONST> -->
-
-<!-- <NEW_ARR_CONST> -> new <TYPE> [ <DIM_PASS> -->
-
-<!-- <REF_NEWARR>    -> id <POSARR> | <NEW_ARR_CONST>
-<POSARR>        -> <DOT_ARR_REF> | <SUBSCRIPT> <DOT_ARR_REF> | <FN_BRACKETS> <DOT_ARR_TRMIN>
-<DOT_ARR>       -> dot id <POSARR>
-<DOT_ARR_REF>   -> <DOT_ARR> | <MORE_REF_STR>
-<DOT_ARR_TRMIN> -> <DOT_ARR> | <LIST_ARR>
-<MORE_REF_STR>  -> = <REF_NEWARR> | <LIST_ARR>
-<LIST_ARR>      -> , <ARR_INIT> | ; -->
 ```xml
 <DIM_PASS>      -> <EXPR> ] <MUL_ARR_DEC> | ] <EMP_ARR_DEC> 
 

@@ -42,7 +42,7 @@ Project: Front End Compiler Project
 | public     | implicit                    | null    | NaN     |
 | private    | $$identiferName             |         |         |
 | protected  | $identiferName              |         |         |
-| static     | static                      |         |         |
+| static     | Static                      |         |         |
 | new        | new                         |         |         |
 
 ## Classification of Lexemes

@@ -4,9 +4,9 @@ import Properties.Registration;
 import Random.^;
 
 Abstract Class $$Vehicle <DataType> () {
-    str $type;
-    str model;
-    str name;
+    Static int $type;
+    const str model;
+    Static const str name;
     DataType x;
     Registration $register = NaN;
     int wheelers = 2;   @ default bike

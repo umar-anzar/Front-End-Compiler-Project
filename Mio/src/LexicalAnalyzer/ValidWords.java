@@ -69,6 +69,7 @@ public class ValidWords {
         
         {"Class", "Class"},
         {"Abstract", "Abstract"},
+        {"Static", "Static"},
         {"$", "private"},
         {"$$", "protected"},
         {"const", "const"},

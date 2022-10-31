@@ -298,7 +298,7 @@ public class LL1Parser {
         sSet.put("IS_FINAL", new String[][] { {"const", "id", "dt", "str"}, {} });
         sSet.put("TYPE_VAR_ARR", new String[][] { {"id", "dt", "str"}, {} });
         sSet.put("VAR_ARR_C", new String[][] { {"[", "protected", "private", "id"}, {} });
-        sSet.put("VAR_C", new String[][] { {"protected", "private", "id"}, {} });
+        sSet.put("VAR_C", new String[][] { {"protected", "private", "id"}, {"def", "Static", "const", "dt", "id", "str", "}"} });
         sSet.put("IS_INIT_C", new String[][] { {"=", ",", ";"}, {} });
         sSet.put("LIST_C", new String[][] { {",", ";"}, {} });
         

@@ -2,12 +2,7 @@ import json
 
 string = """
 
-dot?,
-
-dot
-
-,
-
+def ?  Static ? const ? dt ? id  ?str? }
 
 
 
