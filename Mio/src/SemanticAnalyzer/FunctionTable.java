@@ -16,4 +16,17 @@ public class FunctionTable {
     
     public int 
             scope;
+
+    /**
+     * For Function Table goes in stack
+     * @param NAME
+     * @param TYPE
+     * @param scope 
+     */
+    public FunctionTable(String NAME, String TYPE, int scope) {
+        this.NAME = NAME;
+        this.TYPE = TYPE;
+        this.scope = scope;
+    }
+
 }
