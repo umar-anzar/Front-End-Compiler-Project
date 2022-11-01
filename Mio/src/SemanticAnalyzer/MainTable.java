@@ -4,19 +4,25 @@
  */
 package SemanticAnalyzer;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author omera
  */
 public class MainTable {
+    
     public String 
-            Abstract,
-            constant,
-            type,
-            size,
-            accessModifier,
-            dimension,
-            name,
-            extend,
-            ref;     
+            ABSTRACT,
+            CONSTANT,
+            TYPE,
+            SIZE,
+            ACCESSMODIFIER,
+            DIMENSION,
+            NAME,
+            REF; 
+     
+    public ArrayList<String>
+            EXTEND,
+            PARAMETER;
 }

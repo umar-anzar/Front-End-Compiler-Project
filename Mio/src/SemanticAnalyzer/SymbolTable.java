@@ -10,4 +10,7 @@ package SemanticAnalyzer;
  */
 public class SymbolTable {
     
+    
+    
+    ScopeStack<FunctionTable> stack = new ScopeStack<>();
 }

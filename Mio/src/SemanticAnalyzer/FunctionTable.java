@@ -9,8 +9,11 @@ package SemanticAnalyzer;
  * @author omera
  */
 public class FunctionTable {
+    
     public String 
-            name,
-            type,
+            NAME,
+            TYPE;
+    
+    public int 
             scope;
 }

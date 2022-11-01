@@ -4,17 +4,27 @@
  */
 package SemanticAnalyzer;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author omera
  */
 public class ClassDataTable {
+    
     public String
-            name,
-            type,
-            Abstract,
-            size,
-            accessModifier,
-            staticType,
-            constantType;
+            ABSTRACT,
+            STATIC,
+            CONSTANT,
+            TYPE,
+            SIZE,
+            ACCESSMODIFIER,
+            DIMENSION,
+            NAME;
+    
+    public ArrayList<String>
+            PARAMETER;
 }
+
+
+

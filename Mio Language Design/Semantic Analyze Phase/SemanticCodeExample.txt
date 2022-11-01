@@ -4,23 +4,27 @@ MAIN TABLE:
 	 Abs and constant	TYPE 	AM 		NAME 	EXTEND
 	
 	Function:
-	def	int	[][]|null	Fn	(int x, point y) {}
-		TYPE	DIMENSION	NAME	Parameter
+	def	int|DT|ID	[][]|null	Fn	(int x, point y) {}
+		TYPE		DIMENSION	NAME	Parameter
 
 	GlobalDec:
-	const|null	int	[]|null		x = values
+	const|null	int	[]|null		x 	= values
+	constant	TYPE	DIMENSION	NAME
 	
 
 FUNCTION:
 	DEC:
 	const|null	int	[]|null		x 
+	constant	TYPE	DIMENSION	NAME
+
 
 CLASSDATATABLE:
 	
+
 	ATTR:
-	static|null	const|null	int	[]|null		protected|private|null	x = values
+	static|null	const|null	int	[]|null		protected|private|null	x 	= values
 	static		constant	TYPE	Dimension	AM			Name
 
 	Function:
-	def	Abstract|const|null	static|null	int	[][]|null	Fn	(int x, point y) {}
-		Abs and constant	static		TYPE	DIMENSION	NAME	Parameter
+	def	Abstract|static|null	const|null	int	[][]|null	Fn	(int x, point y) {}
+		Abs and static		constant	TYPE	DIMENSION	NAME	Parameter
