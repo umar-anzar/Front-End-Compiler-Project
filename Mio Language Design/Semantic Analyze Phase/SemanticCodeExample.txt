@@ -26,5 +26,5 @@ CLASSDATATABLE:
 	static		constant	TYPE	Dimension	AM			Name
 
 	Function:
-	def	Abstract|static|null	const|null	int	[][]|null	Fn	(int x, point y) {}
-		Abs and static		constant	TYPE	DIMENSION	NAME	Parameter
+	def	Abstract|static|null	const|null	int	[][]|null	protected|private|null	Fn	(int x, point y) {}
+		Abs and static		constant	TYPE	DIMENSION	AM			NAME	Parameter

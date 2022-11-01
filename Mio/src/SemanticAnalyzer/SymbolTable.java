@@ -23,9 +23,15 @@ public class SymbolTable {
     
     //Insert Functions----------------------------------------------------------
     
-    public void insertMT() {}
-    public void insertDT() {}
-    public void insertFT() {}
+    public boolean insertMT() { 
+        return false;
+    }
+    public boolean insertDT() { 
+        return false;
+    }
+    public boolean insertFT() { 
+        return false;
+    }
     
     //LookUp Functions----------------------------------------------------------
     
