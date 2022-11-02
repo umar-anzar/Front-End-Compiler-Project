@@ -735,7 +735,7 @@ public class LL1Parser {
         return false;
     }
     
-    //Function Statement--------------------------------------------------------?
+    //Function Statement--------------------------------------------------------$
     private boolean FN_DEC() {
         if (match("def")) {
             if (RET_TYPE()) {

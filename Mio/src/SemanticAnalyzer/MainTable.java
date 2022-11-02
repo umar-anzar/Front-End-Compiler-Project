@@ -23,10 +23,11 @@ public class MainTable {
             NAME;
 
     public ArrayList<String>
-            EXTEND,
-            PARAMETER;
+            EXTEND;
     
     public HashMap<String, ClassDataTable> DT;
+    
+    public HashMap<String, FunctionDataTable> FDT;
 
     public MainTable() {
         DT = new HashMap<>();
@@ -59,12 +60,11 @@ public class MainTable {
      * @param NAME
      * @param PARAMETER 
      */
-    public MainTable(String TYPE, String DIMENSION, String NAME, ArrayList<String> PARAMETER) {
+    public MainTable(String TYPE, String DIMENSION, String NAME) {
         this();
         this.TYPE = TYPE;
         this.DIMENSION = DIMENSION;
         this.NAME = NAME;
-        this.PARAMETER = PARAMETER;
     }
 
     /**

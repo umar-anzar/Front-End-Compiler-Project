@@ -4,28 +4,34 @@
  */
 package SemanticAnalyzer;
 
+import java.util.Iterator;
 import java.util.LinkedList;
 
 /**
  *
  * @author omera
  */
-public class ScopeStack<T> extends LinkedList<T> {
+public class ScopeStack extends LinkedList<Integer> {
     /*The LinkedList maintains pointers both to the first and last node in the 
     list. So it doesn't have to traverse the list to get to the last node.*/
     
-    @Override
-    public void push(T element) {
-        this.addLast(element);
+    Iterator<Integer> iter;
+    Integer scope;
+
+    public void resetIter() {
+        iter = this.iterator();
+    }
+    
+    public void push() {
+        scope++;
+        super.push(scope);
     }
     
     @Override
-    public T pop() {
-        if (this.isEmpty()) {
+    public Integer pop() {
+        if (this.isEmpty()) 
             return null;
-        }
-        return this.removeLast();
-        
+        return super.pop();
     }
     
     @Override
@@ -33,7 +39,8 @@ public class ScopeStack<T> extends LinkedList<T> {
         return (this.size() <= 0);
     }
     
-    public T top() {
-        return this.getLast();
+    public Integer top() {
+        return this.getFirst();
     }
+    
 }

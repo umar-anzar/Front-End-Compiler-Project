@@ -8,7 +8,7 @@ package SemanticAnalyzer;
  *
  * @author omera
  */
-public class FunctionTable {
+public class FunctionDataTable {
     
     public String 
             NAME,
@@ -23,7 +23,7 @@ public class FunctionTable {
      * @param TYPE
      * @param scope 
      */
-    public FunctionTable(String NAME, String TYPE, int scope) {
+    public FunctionDataTable(String NAME, String TYPE, int scope) {
         this.NAME = NAME;
         this.TYPE = TYPE;
         this.scope = scope;
