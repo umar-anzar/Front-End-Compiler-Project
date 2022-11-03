@@ -4,29 +4,19 @@
  */
 package SemanticAnalyzer;
 
+import SemanticAnalyzer.TableStructure.FunctionDataTableRow;
+import java.util.HashMap;
+
 /**
  *
  * @author omera
  */
-public class FunctionDataTable {
-    
-    public String 
-            NAME,
-            TYPE;
-    
-    public int 
-            scope;
 
-    /**
-     * For Function Table goes in stack
-     * @param NAME
-     * @param TYPE
-     * @param scope 
-     */
-    public FunctionDataTable(String NAME, String TYPE, int scope) {
-        this.NAME = NAME;
-        this.TYPE = TYPE;
-        this.scope = scope;
+
+public class FunctionDataTable extends HashMap<String, FunctionDataTableRow> {
+        
+    public FunctionDataTableRow add(FunctionDataTableRow row) {
+        return this.put(row.keyGenerate(), row);
     }
-
+    
 }
