@@ -10,15 +10,21 @@ package SemanticAnalyzer.TableStructure;
  */
 public abstract class ChildTableAttr extends ParentTableAttr {
     public String 
-            ABSTRACT="",
-            PARAM_LIST="",
-            TYPE_EXP="",
-            SIZE="",
-            ACCESS_MODIFIER="";
+            PARAM_LIST,
+            TYPE_EXP,
+            ACCESS_MODIFIER;
 
-    public ChildTableAttr(String NAME, String TYPE) {
-        super(NAME, TYPE);
+    public ChildTableAttr(String NAME, String TYPE, String TYPE_MODIFIER, 
+            String DIMENSION, String PARAM_LIST, 
+            String TYPE_EXP, String ACCESS_MODIFIER) 
+    {
+        super(NAME, TYPE, TYPE_MODIFIER, DIMENSION);
+        this.PARAM_LIST = PARAM_LIST;
+        this.TYPE_EXP = TYPE_EXP;
+        this.ACCESS_MODIFIER = ACCESS_MODIFIER;
     }
+
+    
 
     @Override
     public String keyGenerate() {

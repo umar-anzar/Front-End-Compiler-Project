@@ -7,7 +7,7 @@ package SemanticAnalyzer;
 import SemanticAnalyzer.TableStructure.ClassTableRow;
 import SemanticAnalyzer.TableStructure.FunctionTableRow;
 import SemanticAnalyzer.TableStructure.MainTableRow;
-import java.util.HashMap;
+import SemanticAnalyzer.TableStructure.ParentTableAttr;
 
 /**
  *
@@ -18,7 +18,7 @@ public class SymbolTable {
     //Table--------------------------------------------------------------------
     
     MainTable mt = new MainTable();
-    FunctionTable fdt;
+    FunctionTable fdt = new FunctionTable();
     
     //Stack---------------------------------------------------------------------
     
@@ -30,34 +30,63 @@ public class SymbolTable {
     
     
     //Insert Functions----------------------------------------------------------
-    //insertMT(tm,pl,te,am,n,type,dim,ext)
-    public boolean insertMT(String TYPE_MODIFIER, String PARAM_LIST, String TYPE_EXP,
-            String ACCESSMODIFIER, String NAME, String TYPE, String DIMENSION,
-            String EXTEND) { 
+    //insertMT(n,type,tm,dim,pl,te,ac,ext)
+    public boolean insertMT(String NAME, String TYPE, String TYPE_MODIFIER, 
+            String DIMENSION, String PARAM_LIST, String TYPE_EXP, 
+            String ACCESSMODIFIER, String EXTEND) { 
         
         MainTableRow row = lookUpMT(NAME, PARAM_LIST);
         
-        //Redeclare
-        if (row != null) {
-            return false;
-        }
+        //If already declared
+        if (row != null) return false;
         
-        row = new MainTableRow(NAME, TYPE);
+        row = new MainTableRow(NAME, TYPE, TYPE_MODIFIER, DIMENSION, 
+                PARAM_LIST, TYPE_EXP, ACCESSMODIFIER, EXTEND);
         mt.add(row);
+                
         
         return true;
     }
-    public boolean insertCDT() { 
-        return false;
+    
+    public boolean insertCT(String NAME, String TYPE, String TYPE_MODIFIER, 
+            String DIMENSION, String PARAM_LIST, String TYPE_EXP, 
+            String ACCESS_MODIFIER, String STATIC) { 
+        
+        ClassTableRow row = lookUpDT(NAME, PARAM_LIST, currentCt);
+        
+        //If already declared
+        if (row != null) return false;
+        
+        row = new ClassTableRow(NAME, TYPE, TYPE_MODIFIER, DIMENSION, 
+                PARAM_LIST, TYPE_EXP, ACCESS_MODIFIER, STATIC);
+        currentCt.add(row);
+        
+        
+        
+        
+        
+        return true;
     }
-    public boolean insertFT() { 
+    
+    public boolean insertFT(String NAME, String TYPE, String TYPE_MODIFIER, 
+            String DIMENSION) { 
+        
+        String Type = lookUpFT(NAME, "", currentCt);
+        
+        //If already declared
+        if (Type != null) return false;
+        
+        FunctionTableRow row = new FunctionTableRow(NAME, TYPE, TYPE_MODIFIER, 
+                DIMENSION, stack.scope);
+        fdt.add(row);
+        
         return false;
     }
     
     //LookUp Functions----------------------------------------------------------
     
     /**
-     * 
+     * Function ,Class and Var in main table
      * @param NAME
      * @param PARAM_LIST
      * @return 
@@ -65,59 +94,76 @@ public class SymbolTable {
     public MainTableRow lookUpMT(String NAME, String PARAM_LIST) {
         return mt.get(NAME+","+PARAM_LIST);
     }
+    
     /**
-     * Var Dec in Class
-     * @param NAME
-     * @param cdt
-     * @return 
-     */
-    public ClassTable/*Row*/ lookUpDT(String NAME, HashMap<String, ClassTable> cdt) {
-        return cdt.get(NAME);
-    }
-    /**
-     * Function Use in Class
+     * Function and Var Use in class table
      * @param NAME
      * @param PARAMETER_LIST
      * @return 
      */
-    public ClassTableRow lookUpDT_FN(String NAME, String PARAMETER_LIST) {
-        return null;
+    public ClassTableRow lookUpDT(String NAME, String PARAM_LIST, 
+            ClassTable ct) 
+    {
+        return ct.get(NAME+","+PARAM_LIST);
     }
+    
     /**
-     * Var Use in Function
+     * Function and Var Use in Function table
      * Search in scope stack to find
      * @param NAME
      * @param PARAMETER_LIST
      * @return 
      */
-    public String/*RetType*/ lookUpFDT(String NAME, String PARAM_LIST) {
+    public String/*RetType*/ lookUpFT(String NAME, String PARAM_LIST, 
+            ClassTable ct) 
+    {
         stack.resetIter(); //Bring pointer on top of the stack
         
+        ParentTableAttr row = null;
+        boolean found = false;
+        
         // Search In Scope Stack
-        
-        while (stack.iter.hasNext()) {
-            int scope = stack.iter.next();
-            FunctionTableRow row = fdt.get(NAME+Integer.toString(scope));
-            if (row != null) {
-                return row.TYPE;
+        if (! PARAM_LIST.isEmpty()) {
+            while (stack.iter.hasNext()) {
+                int scope = stack.iter.next();
+                row = fdt.get(NAME+Integer.toString(scope));
+                if (row != null) {
+                    found = true;
+                    break;
+                }
             }
         }
+                
+        // Search in class 
+        if (ct != null && !found)
+            if(lookUpDT(NAME, PARAM_LIST, ct) != null)
+                row = lookUpDT(NAME, PARAM_LIST, ct);
+
         
-        // Search in current class if its there in attributes
-        if (currentCt != null) {
-            if(currentCt.get(NAME) != null) {
-                return currentCt.get(NAME).TYPE;
+        // Search in main table
+        if (lookUpMT(NAME, PARAM_LIST) != null && !found)
+            row = lookUpMT(NAME, PARAM_LIST);
+
+        
+        if (row != null) {
+            if (row instanceof FunctionTableRow) {
+                
             }
-        }
-        
-        // Search in main table for global dec
-        if (lookUpMT(NAME, PARAM_LIST) != null) {
-            return lookUpMT(NAME, PARAM_LIST).TYPE;
+            else if (row instanceof ClassTableRow) {
+                
+            }
+            else if (row instanceof MainTableRow) {
+                
+            }
+            
+            return row.TYPE;
         }
         
         
         return null;
     }
+    
+    
     
     
     public static void main(String[] args) {

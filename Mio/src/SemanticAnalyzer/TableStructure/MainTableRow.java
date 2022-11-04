@@ -13,13 +13,22 @@ import SemanticAnalyzer.ClassTable;
 public class MainTableRow extends ChildTableAttr{
     
     public String 
-            EXTEND="";      
+            EXTEND;      
     public ClassTable 
-            DT = new ClassTable();
+            DT;
 
-    
-    public MainTableRow(String NAME, String TYPE) {
-        super(NAME, TYPE);
+    public MainTableRow(String NAME, String TYPE, String TYPE_MODIFIER, 
+            String DIMENSION, String PARAM_LIST, String TYPE_EXP, 
+            String ACCESS_MODIFIER, String EXTEND) 
+    {
+        super(NAME, TYPE, TYPE_MODIFIER, DIMENSION,PARAM_LIST, 
+                TYPE_EXP, ACCESS_MODIFIER);
+        this.EXTEND = EXTEND;
+        
+        //If class is NOT ABSTRACT then initialize DT
+        if (! "Abstract".equals(TYPE_MODIFIER) ) {
+            DT = new ClassTable();
+        }
     }
 
 }

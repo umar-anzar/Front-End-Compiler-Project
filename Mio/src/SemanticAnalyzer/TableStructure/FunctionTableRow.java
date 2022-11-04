@@ -13,15 +13,9 @@ public class FunctionTableRow extends ParentTableAttr{
     public int 
             SCOPE;
 
-    /**
-     * For Function Table goes in stack
-     * @param NAME
-     * @param TYPE
-     * @param scope 
-     */
-    public FunctionTableRow(String NAME, String TYPE, int scope) {
-        super(NAME, TYPE);
-        this.SCOPE = scope;
+    public FunctionTableRow(String NAME, String TYPE, String TYPE_MODIFIER, String DIMENSION, int SCOPE) {
+        super(NAME, TYPE, TYPE_MODIFIER, DIMENSION);
+        this.SCOPE = SCOPE;
     }
 
     @Override
