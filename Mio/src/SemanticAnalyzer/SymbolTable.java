@@ -4,8 +4,8 @@
  */
 package SemanticAnalyzer;
 
-import SemanticAnalyzer.TableStructure.ClassDataTableRow;
-import SemanticAnalyzer.TableStructure.FunctionDataTableRow;
+import SemanticAnalyzer.TableStructure.ClassTableRow;
+import SemanticAnalyzer.TableStructure.FunctionTableRow;
 import SemanticAnalyzer.TableStructure.MainTableRow;
 import java.util.HashMap;
 
@@ -18,6 +18,7 @@ public class SymbolTable {
     //Table--------------------------------------------------------------------
     
     MainTable mt = new MainTable();
+    FunctionTable fdt;
     
     //Stack---------------------------------------------------------------------
     
@@ -25,15 +26,28 @@ public class SymbolTable {
     
     //Global Current Class and Function Data Table------------------------------
     
-    ClassDataTable currentCdt;
-    FunctionDataTable fdt;
+    ClassTable currentCt;
+    
     
     //Insert Functions----------------------------------------------------------
-    
-    public boolean insertMT() { 
-        return false;
+    //insertMT(tm,pl,te,am,n,type,dim,ext)
+    public boolean insertMT(String TYPE_MODIFIER, String PARAM_LIST, String TYPE_EXP,
+            String ACCESSMODIFIER, String NAME, String TYPE, String DIMENSION,
+            String EXTEND) { 
+        
+        MainTableRow row = lookUpMT(NAME, PARAM_LIST);
+        
+        //Redeclare
+        if (row != null) {
+            return false;
+        }
+        
+        row = new MainTableRow(NAME, TYPE);
+        mt.add(row);
+        
+        return true;
     }
-    public boolean insertDT() { 
+    public boolean insertCDT() { 
         return false;
     }
     public boolean insertFT() { 
@@ -43,21 +57,13 @@ public class SymbolTable {
     //LookUp Functions----------------------------------------------------------
     
     /**
-     * Class and Global Var Dec
+     * 
      * @param NAME
+     * @param PARAM_LIST
      * @return 
      */
-    public MainTableRow lookUpMT(String NAME) {
-        return mt.get(NAME);
-    }
-    /**
-     * Function Dec
-     * @param NAME
-     * @param PARAMETER_LIST
-     * @return 
-     */
-    public MainTableRow lookUpMT_FN(String NAME, String PARAMETER_LIST) {
-        return mt.get(NAME);
+    public MainTableRow lookUpMT(String NAME, String PARAM_LIST) {
+        return mt.get(NAME+","+PARAM_LIST);
     }
     /**
      * Var Dec in Class
@@ -65,7 +71,7 @@ public class SymbolTable {
      * @param cdt
      * @return 
      */
-    public ClassDataTable/*Row*/ lookUpDT(String NAME, HashMap<String, ClassDataTable> cdt) {
+    public ClassTable/*Row*/ lookUpDT(String NAME, HashMap<String, ClassTable> cdt) {
         return cdt.get(NAME);
     }
     /**
@@ -74,38 +80,39 @@ public class SymbolTable {
      * @param PARAMETER_LIST
      * @return 
      */
-    public ClassDataTableRow lookUpDT_FN(String NAME, String PARAMETER_LIST) {
+    public ClassTableRow lookUpDT_FN(String NAME, String PARAMETER_LIST) {
         return null;
     }
     /**
      * Var Use in Function
      * Search in scope stack to find
      * @param NAME
+     * @param PARAMETER_LIST
      * @return 
      */
-    public String/*RetType*/ lookUpFDT(String NAME, String PARAMETER_LIST) {
+    public String/*RetType*/ lookUpFDT(String NAME, String PARAM_LIST) {
         stack.resetIter(); //Bring pointer on top of the stack
         
         // Search In Scope Stack
         
         while (stack.iter.hasNext()) {
             int scope = stack.iter.next();
-            FunctionDataTableRow row = fdt.get(NAME+Integer.toString(scope));
+            FunctionTableRow row = fdt.get(NAME+Integer.toString(scope));
             if (row != null) {
                 return row.TYPE;
             }
         }
         
         // Search in current class if its there in attributes
-        if (currentCdt != null) {
-            if(currentCdt.get(NAME) != null) {
-                return currentCdt.get(NAME).TYPE;
+        if (currentCt != null) {
+            if(currentCt.get(NAME) != null) {
+                return currentCt.get(NAME).TYPE;
             }
         }
         
         // Search in main table for global dec
-        if (lookUpMT(NAME) != null) {
-            return lookUpMT(NAME).TYPE;
+        if (lookUpMT(NAME, PARAM_LIST) != null) {
+            return lookUpMT(NAME, PARAM_LIST).TYPE;
         }
         
         
@@ -114,8 +121,6 @@ public class SymbolTable {
     
     
     public static void main(String[] args) {
-        SymbolTable x = new SymbolTable();
-        System.out.println(x.lookUpMT("package"));
-        System.out.println("a".isEmpty());
+        
     }
 }

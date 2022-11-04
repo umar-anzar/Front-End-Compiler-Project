@@ -4,7 +4,7 @@
  */
 package SemanticAnalyzer;
 
-import SemanticAnalyzer.TableStructure.FunctionDataTableRow;
+import SemanticAnalyzer.TableStructure.FunctionTableRow;
 import java.util.HashMap;
 
 /**
@@ -13,9 +13,9 @@ import java.util.HashMap;
  */
 
 
-public class FunctionDataTable extends HashMap<String, FunctionDataTableRow> {
+public class FunctionTable extends HashMap<String, FunctionTableRow> {
         
-    public FunctionDataTableRow add(FunctionDataTableRow row) {
+    public FunctionTableRow add(FunctionTableRow row) {
         return this.put(row.keyGenerate(), row);
     }
     

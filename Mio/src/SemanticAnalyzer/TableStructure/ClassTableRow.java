@@ -9,12 +9,13 @@ package SemanticAnalyzer.TableStructure;
  * @author omera
  */
 
-public class ClassDataTableRow extends ChildTableAttr {
+public class ClassTableRow extends ChildTableAttr {
     public String
             STATIC="";
 
-    public ClassDataTableRow(String NAME, String TYPE) {
+    public ClassTableRow(String NAME, String TYPE) {
         super(NAME, TYPE);
     }
     
 }
+

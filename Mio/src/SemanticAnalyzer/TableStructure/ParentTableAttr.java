@@ -10,8 +10,10 @@ package SemanticAnalyzer.TableStructure;
  */
 public abstract class ParentTableAttr {
     public String 
-            NAME,
-            TYPE;
+            NAME="",
+            TYPE="",
+            TYPE_MODIFIER="",
+            DIMENSION="";
 
     public ParentTableAttr(String NAME, String TYPE) {
         this.NAME = NAME;

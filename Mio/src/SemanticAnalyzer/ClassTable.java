@@ -4,8 +4,7 @@
  */
 package SemanticAnalyzer;
 
-import SemanticAnalyzer.TableStructure.ChildTableAttr;
-import SemanticAnalyzer.TableStructure.ClassDataTableRow;
+import SemanticAnalyzer.TableStructure.ClassTableRow;
 import java.util.HashMap;
 
 /**
@@ -13,8 +12,11 @@ import java.util.HashMap;
  * @author omera
  */
 
-public class ClassDataTable extends HashMap<String, ClassDataTableRow>{
+public class ClassTable extends HashMap<String, ClassTableRow> {
     
+    public ClassTableRow add(ClassTableRow row) {
+        return this.put(row.keyGenerate(), row);
+    }
 }
 
 

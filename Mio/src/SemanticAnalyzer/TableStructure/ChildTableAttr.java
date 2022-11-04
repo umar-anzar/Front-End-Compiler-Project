@@ -11,12 +11,10 @@ package SemanticAnalyzer.TableStructure;
 public abstract class ChildTableAttr extends ParentTableAttr {
     public String 
             ABSTRACT="",
-            CONSTANT="",
             PARAM_LIST="",
             TYPE_EXP="",
             SIZE="",
-            ACCESSMODIFIER="",
-            DIMENSION="";
+            ACCESS_MODIFIER="";
 
     public ChildTableAttr(String NAME, String TYPE) {
         super(NAME, TYPE);

@@ -4,7 +4,7 @@
  */
 package SemanticAnalyzer.TableStructure;
 
-import SemanticAnalyzer.ClassDataTable;
+import SemanticAnalyzer.ClassTable;
 
 /**
  *
@@ -14,8 +14,8 @@ public class MainTableRow extends ChildTableAttr{
     
     public String 
             EXTEND="";      
-    public ClassDataTable 
-            DT = new ClassDataTable();
+    public ClassTable 
+            DT = new ClassTable();
 
     
     public MainTableRow(String NAME, String TYPE) {

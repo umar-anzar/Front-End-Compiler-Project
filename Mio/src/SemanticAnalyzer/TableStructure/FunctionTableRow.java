@@ -8,10 +8,10 @@ package SemanticAnalyzer.TableStructure;
  *
  * @author omera
  */
-public class FunctionDataTableRow extends ParentTableAttr{
+public class FunctionTableRow extends ParentTableAttr{
     
     public int 
-            scope;
+            SCOPE;
 
     /**
      * For Function Table goes in stack
@@ -19,14 +19,14 @@ public class FunctionDataTableRow extends ParentTableAttr{
      * @param TYPE
      * @param scope 
      */
-    public FunctionDataTableRow(String NAME, String TYPE, int scope) {
+    public FunctionTableRow(String NAME, String TYPE, int scope) {
         super(NAME, TYPE);
-        this.scope = scope;
+        this.SCOPE = scope;
     }
 
     @Override
     public String keyGenerate() {
-        return super.keyGenerate() + "," + scope;
+        return super.keyGenerate() + "," + SCOPE;
     }
 
 }
