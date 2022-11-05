@@ -17,6 +17,5 @@ public class MainTable extends HashMap<String, MainTableRow> {
     public void add(MainTableRow row) {
         this.put(row.keyGenerate(), row);
     }
-    
-    
+        
 }

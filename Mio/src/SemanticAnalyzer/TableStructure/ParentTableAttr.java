@@ -20,6 +20,9 @@ public abstract class ParentTableAttr {
     public ParentTableAttr(String NAME, String TYPE, String TYPE_MODIFIER, String DIMENSION) {
         this.NAME = NAME;
         this.TYPE = TYPE;
+        if (! this.TYPE.isEmpty() ) {
+            this.TYPE = "void"; //empty type means its a function with void return type
+        }
         this.TYPE_MODIFIER = TYPE_MODIFIER;
         this.DIMENSION = DIMENSION;
     }

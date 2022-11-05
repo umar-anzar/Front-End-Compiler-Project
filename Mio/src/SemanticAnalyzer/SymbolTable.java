@@ -60,18 +60,14 @@ public class SymbolTable {
         row = new ClassTableRow(NAME, TYPE, TYPE_MODIFIER, DIMENSION, 
                 PARAM_LIST, TYPE_EXP, ACCESS_MODIFIER, STATIC);
         currentCt.add(row);
-        
-        
-        
-        
-        
+
         return true;
     }
     
     public boolean insertFT(String NAME, String TYPE, String TYPE_MODIFIER, 
             String DIMENSION) { 
         
-        String Type = lookUpFT(NAME, "", currentCt);
+        String Type = lookUpFT(NAME, "", currentCt, new Modifier());
         
         //If already declared
         if (Type != null) return false;
@@ -104,7 +100,10 @@ public class SymbolTable {
     public ClassTableRow lookUpDT(String NAME, String PARAM_LIST, 
             ClassTable ct) 
     {
-        return ct.get(NAME+","+PARAM_LIST);
+        ClassTableRow row = ct.get(NAME+","+PARAM_LIST);
+        
+        
+        return row;
     }
     
     /**
@@ -115,7 +114,7 @@ public class SymbolTable {
      * @return 
      */
     public String/*RetType*/ lookUpFT(String NAME, String PARAM_LIST, 
-            ClassTable ct) 
+            ClassTable ct, Modifier out) 
     {
         stack.resetIter(); //Bring pointer on top of the stack
         
@@ -135,30 +134,37 @@ public class SymbolTable {
         }
                 
         // Search in class 
-        if (ct != null && !found)
-            if(lookUpDT(NAME, PARAM_LIST, ct) != null)
+        if (ct != null && !found) {
+            if(lookUpDT(NAME, PARAM_LIST, ct) != null) {
                 row = lookUpDT(NAME, PARAM_LIST, ct);
+                found = true;
+            }
+        }
 
         
         // Search in main table
-        if (lookUpMT(NAME, PARAM_LIST) != null && !found)
+        if (lookUpMT(NAME, PARAM_LIST) != null && !found) {
             row = lookUpMT(NAME, PARAM_LIST);
+            found = true;
+        }
 
         
+        // 
         if (row != null) {
-            if (row instanceof FunctionTableRow) {
-                
+            if (row instanceof FunctionTableRow functionTableRow) {
+                out.setTM(functionTableRow.TYPE_MODIFIER );
             }
-            else if (row instanceof ClassTableRow) {
-                
+            else if (row instanceof ClassTableRow classTableRow) {
+                out.setAM(classTableRow.ACCESS_MODIFIER );
+                out.setTM(classTableRow.TYPE_MODIFIER );
             }
-            else if (row instanceof MainTableRow) {
-                
+            else if (row instanceof MainTableRow mainTableRow) {                     
+                out.setAM(mainTableRow.ACCESS_MODIFIER );
+                out.setTM(mainTableRow.TYPE_MODIFIER );
             }
             
             return row.TYPE;
         }
-        
         
         return null;
     }
@@ -169,4 +175,27 @@ public class SymbolTable {
     public static void main(String[] args) {
         
     }
+}
+
+class Modifier {
+    public String
+            TYPE_MODIFIER,
+            ACCESS_MODIFIER;
+
+    public void setTM(String TYPE_MODIFIER) {
+        this.TYPE_MODIFIER = TYPE_MODIFIER;
+    }
+
+    public void setAM(String ACCESS_MODIFIER) {
+        this.ACCESS_MODIFIER = ACCESS_MODIFIER;
+    }
+       
+    public String getTM() {
+        return TYPE_MODIFIER;
+    }
+
+    public String getAM() {
+        return ACCESS_MODIFIER;
+    }
+    
 }
