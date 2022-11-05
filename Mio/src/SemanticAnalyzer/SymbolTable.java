@@ -99,11 +99,8 @@ public class SymbolTable {
      */
     public ClassTableRow lookUpDT(String NAME, String PARAM_LIST, 
             ClassTable ct) 
-    {
-        ClassTableRow row = ct.get(NAME+","+PARAM_LIST);
-        
-        
-        return row;
+    {      
+        return ct.get(NAME+","+PARAM_LIST);
     }
     
     /**
@@ -149,8 +146,8 @@ public class SymbolTable {
         }
 
         
-        // 
-        if (row != null) {
+        // If row is found
+        if (found) {
             if (row instanceof FunctionTableRow functionTableRow) {
                 out.setTM(functionTableRow.TYPE_MODIFIER );
             }
