@@ -15,7 +15,6 @@
 {"classP":";","line":4},
 {"classP":"Abstract","line":6},
 {"classP":"Class","line":6},
-{"classP":"protected","valueP":"$$","line":6},
 {"classP":"id","valueP":"Vehicle","line":6},
 {"classP":"rop","valueP":"\u003c","line":6},
 {"classP":"id","valueP":"DataType","line":6},

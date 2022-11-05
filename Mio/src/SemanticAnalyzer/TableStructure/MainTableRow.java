@@ -5,6 +5,7 @@
 package SemanticAnalyzer.TableStructure;
 
 import SemanticAnalyzer.ClassTable;
+import java.util.ArrayList;
 
 /**
  *
@@ -26,9 +27,16 @@ public class MainTableRow extends ChildTableAttr{
         this.EXTEND = EXTEND;
         
         //If class is NOT ABSTRACT then initialize DT
-        if (! "Abstract".equals(TYPE_MODIFIER) ) {
+        if (! "Abstract".equals(TYPE_MODIFIER) && "Class".equals(TYPE)) {
             DT = new ClassTable();
         }
+    }
+
+    @Override
+    public ArrayList<String> tablevalues() {
+        ArrayList<String> header = super.tablevalues();
+        header.add(EXTEND);
+        return header;
     }
 
 }

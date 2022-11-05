@@ -8,6 +8,7 @@ import SemanticAnalyzer.TableStructure.ClassTableRow;
 import SemanticAnalyzer.TableStructure.FunctionTableRow;
 import SemanticAnalyzer.TableStructure.MainTableRow;
 import SemanticAnalyzer.TableStructure.ParentTableAttr;
+import java.util.ArrayList;
 
 /**
  *
@@ -167,10 +168,31 @@ public class SymbolTable {
     }
     
     
-    
+    public void printST() {
+        ArrayList<String> mainTable = mt.printMT();
+        ArrayList<String> classTable;
+        ArrayList<String> functionTable = fdt.printFT();
+        
+        for (String row : mainTable) {
+            System.out.println(row);
+        }
+        
+    }
     
     public static void main(String[] args) {
-        
+        SymbolTable x = new  SymbolTable();
+        x.insertMT("var1", "int", "const", "[][]", "", "", "", "");
+        x.insertMT("var2", "Class", "const", "", "", "", "", "");
+        x.insertMT("var3", "int", "const", "[][]", "", "", "", "");
+        x.insertMT("var4", "Class", "const", "[][]", "", "", "", "");
+        x.insertMT("var5", "int", "const", "[][]", "", "", "", "");
+        MainTableRow row = x.lookUpMT("var2", "");
+        x.currentCt = row.DT;
+        x.insertCT("classvar", "point", "", "", "", "", "", "Static");
+        row = x.lookUpMT("var4", "");
+        x.currentCt = row.DT;
+        x.insertCT("classvar2", "point", "", "", "", "", "private", "Static");
+        x.printST();
     }
 }
 

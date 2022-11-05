@@ -4,6 +4,8 @@
  */
 package SemanticAnalyzer.TableStructure;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author omera
@@ -19,13 +21,18 @@ public class ClassTableRow extends ChildTableAttr {
     {
         super(NAME, TYPE, TYPE_MODIFIER, DIMENSION, PARAM_LIST, 
                 TYPE_EXP, ACCESS_MODIFIER);
-        if (! this.ACCESS_MODIFIER.isEmpty() ) {
+        if (this.ACCESS_MODIFIER.isEmpty() ) {
             this.ACCESS_MODIFIER = "public"; //empty Am means public
         }
         this.STATIC = STATIC;
     }
 
-    
-    
+    @Override
+    public ArrayList<String> tablevalues() {
+        ArrayList<String> header = super.tablevalues();
+        header.add(STATIC);
+        return header;
+    }
+
 }
 

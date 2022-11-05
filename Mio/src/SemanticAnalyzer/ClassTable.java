@@ -5,6 +5,7 @@
 package SemanticAnalyzer;
 
 import SemanticAnalyzer.TableStructure.ClassTableRow;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -16,6 +17,22 @@ public class ClassTable extends HashMap<String, ClassTableRow> {
     
     public ClassTableRow add(ClassTableRow row) {
         return this.put(row.keyGenerate(), row);
+    }
+    
+    public ArrayList<String> printCT() {
+        ArrayList<String> table = new ArrayList<>();
+        for (String key : this.keySet() ) {
+            table.add(printRow(this.get(key).tablevalues()));
+        }
+        return table;
+    }
+    
+    public String printRow(ArrayList<String> row) {
+        String strRow = "";
+        for (String attr : row) {
+            strRow += attr +'\t';  
+        }
+        return strRow;
     }
 }
 

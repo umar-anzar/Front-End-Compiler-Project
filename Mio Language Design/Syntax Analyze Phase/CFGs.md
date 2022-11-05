@@ -174,8 +174,8 @@ def const object $function_id (p1,p2,p3) {}
 ```xml
 <GLOBAL_CLASS>  -> <CLASS_DEC> | Abstract <CLASS_DEC> | const <CLASS_GLOBAL>
 <CLASS_GLOBAL>  -> <CLASS_DEC> | <GLOBAL_DEC>
-<CLASS_DEC>     -> Class <NO_PRIVATE> id <CLASS_PAR> ( <INHERIT>
-<NO_PRIVATE>    -> protected | null
+<CLASS_DEC>     -> Class <!-- <NO_PRIVATE>--> id <CLASS_PAR> ( <INHERIT>
+<!-- <NO_PRIVATE>    -> protected | null -->
 <CLASS_PAR>     -> < id > | null
 <INHERIT>       -> id <MULTI_INHERIT>   | )  { <CLASS_BODY> 
 <MULTI_INHERIT> -> , id <MULTI_INHERIT> | )  { <CLASS_BODY> 

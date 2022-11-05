@@ -4,6 +4,9 @@
  */
 package SemanticAnalyzer.TableStructure;
 
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+
 /**
  *
  * @author omera
@@ -20,13 +23,30 @@ public abstract class ParentTableAttr {
     public ParentTableAttr(String NAME, String TYPE, String TYPE_MODIFIER, String DIMENSION) {
         this.NAME = NAME;
         this.TYPE = TYPE;
-        if (! this.TYPE.isEmpty() ) {
+        if (this.TYPE.isEmpty()) {
             this.TYPE = "void"; //empty type means its a function with void return type
         }
         this.TYPE_MODIFIER = TYPE_MODIFIER;
         this.DIMENSION = DIMENSION;
     }
     
+    public ArrayList<String> tablevalues() {
+        ArrayList<String> header = new ArrayList<>();
+        header.add(NAME);
+        header.add(TYPE);
+        header.add(SIZE);
+        header.add(TYPE_MODIFIER);
+        header.add(DIMENSION);
+        
+        return header;
+    }
+    
+    public Field[] tableheading() {
+        for (Field field : this.getClass().getFields()) {
+            System.out.println(field);
+        }
+        return null;
+    }
           
     /**
      * 

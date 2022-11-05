@@ -3,7 +3,7 @@ package project.src;
 import Properties.Registration;
 import Random.^;
 
-Abstract Class $$Vehicle <DataType> () {
+Abstract Class Vehicle <DataType> () {
     Static int $type;
     const str model;
     Static const str name;

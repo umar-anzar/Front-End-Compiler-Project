@@ -1002,7 +1002,7 @@ public class LL1Parser {
     }
     private boolean CLASS_DEC() {
         if (match("Class")) {
-            if (NO_PRIVATE()) {
+//            if (NO_PRIVATE()) {
                 if (match("id")) {
                     if (CLASS_PAR()) {
                         if (match("(")) {
@@ -1012,21 +1012,21 @@ public class LL1Parser {
                         }
                     }
                 }
-            }
+//            }
         }
         return false;
     }
-    private boolean NO_PRIVATE() {
-        if (match("protected")) {
-            return true;
-        }
-        else {
-            if (searchFollowSet("NO_PRIVATE")) {
-                return true;
-            }
-        }
-        return false;
-    }
+//    private boolean NO_PRIVATE() {
+//        if (match("protected")) {
+//            return true;
+//        }
+//        else {
+//            if (searchFollowSet("NO_PRIVATE")) {
+//                return true;
+//            }
+//        }
+//        return false;
+//    }
     private boolean CLASS_PAR() {
         if (matchVp("<")) {
             if (match("id")) {

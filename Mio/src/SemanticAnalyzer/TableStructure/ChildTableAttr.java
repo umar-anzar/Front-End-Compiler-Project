@@ -4,6 +4,8 @@
  */
 package SemanticAnalyzer.TableStructure;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author omera
@@ -24,7 +26,14 @@ public abstract class ChildTableAttr extends ParentTableAttr {
         this.ACCESS_MODIFIER = ACCESS_MODIFIER;
     }
 
-    
+    @Override
+    public ArrayList<String> tablevalues() {
+        ArrayList<String> header = super.tablevalues();
+        header.add(PARAM_LIST);
+        header.add(TYPE_EXP);
+        header.add(ACCESS_MODIFIER);
+        return header;
+    }
 
     @Override
     public String keyGenerate() {
