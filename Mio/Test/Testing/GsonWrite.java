@@ -5,7 +5,7 @@
 //https://www.tutorialspoint.com/gson/gson_quick_guide.htm
 //https://attacomsian.com/blog/gson-read-json-file
 //https://attacomsian.com/blog/gson-write-json-file
-package JsonTesting;
+package Testing;
 import com.google.gson.Gson; 
 import com.google.gson.GsonBuilder; 
 import com.google.gson.reflect.TypeToken;

@@ -30,6 +30,10 @@ public abstract class ParentTableAttr {
         this.DIMENSION = DIMENSION;
     }
     
+    public boolean isAbstract() {
+        return "Abstract".equals(TYPE_MODIFIER);
+    }
+    
     public ArrayList<String> tablevalues() {
         ArrayList<String> header = new ArrayList<>();
         header.add(NAME);

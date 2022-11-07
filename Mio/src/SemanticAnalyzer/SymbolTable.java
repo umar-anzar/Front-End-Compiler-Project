@@ -9,6 +9,9 @@ import SemanticAnalyzer.TableStructure.FunctionTableRow;
 import SemanticAnalyzer.TableStructure.MainTableRow;
 import SemanticAnalyzer.TableStructure.ParentTableAttr;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.Queue;
 
 /**
  *
@@ -167,6 +170,47 @@ public class SymbolTable {
         return null;
     }
     
+    public boolean BFS (String NAME, String PARAM_LIST, String Initialnode) {
+        MyQueue<String> queue = new MyQueue<>();
+        HashSet<String> visited = new HashSet<>();
+
+        queue.enqueue(Initialnode);
+        visited.add(Initialnode); 
+
+        //while queue not empty
+        while (!queue.isEmpty()) {
+            
+            String current = queue.dequeue();
+            
+            if (current.isEmpty())
+                continue;
+            
+            if ( isInClass(NAME, PARAM_LIST, current))
+                return true;
+                
+            for (String node : edges(current)) {
+                if (!visited.contains(node)) {
+                    queue.enqueue(node);
+                    visited.add(node);
+                }
+            }
+               
+        }
+        return false;
+    }
+    
+    public boolean isInClass(String NAME, String PARAM_LIST, String className) {
+        MainTableRow row = lookUpMT(className, "");
+        if (!row.isAbstract()) {
+            ClassTable ct =  lookUpMT(className, "").DT;
+            if (lookUpDT(NAME, PARAM_LIST, ct) != null )
+                return true;
+        }
+        return false;
+    }
+    public String[] edges(String className) {
+        return lookUpMT(className, "").inheritedClasses();
+    }
     
     public void printST() {
         ArrayList<String> mainTable = mt.printMT();

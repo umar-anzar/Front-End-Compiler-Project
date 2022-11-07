@@ -5,7 +5,7 @@
 //https://www.w3schools.com/java/java_files.asp LINK OF FILE HANDLING IN JAVA
 //https://stackoverflow.com/questions/29908236/reading-java-file-with-escape-characters-for-newline#:~:text=Whenever%20there%20is%20a%20newline,are%20read%20as%20two%20records.
 
-package JsonTesting;
+package Testing;
 import java.io.FileNotFoundException;  // Import this class to handle errors
 import java.io.FileReader; // Import the File class
 import java.io.BufferedReader; // Java BufferedReader class is used to read the text from a character-based input stream.

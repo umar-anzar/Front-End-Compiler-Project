@@ -31,6 +31,16 @@ public class MainTableRow extends ChildTableAttr{
             DT = new ClassTable();
         }
     }
+    
+    public boolean isInherited() {
+        return EXTEND != null;
+    }
+    public String[] inheritedClasses() {
+        if (isInherited()) {
+            return EXTEND.split(",");
+        }
+        return new String[] {""};
+    }
 
     @Override
     public ArrayList<String> tablevalues() {

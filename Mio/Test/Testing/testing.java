@@ -1,4 +1,4 @@
-package JsonTesting;
+package Testing;
 
 import java.util.Scanner;
 import java.util.regex.Matcher;

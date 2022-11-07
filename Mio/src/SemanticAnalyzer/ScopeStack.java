@@ -44,3 +44,19 @@ public class ScopeStack extends LinkedList<Integer> {
     }
     
 }
+
+class MyQueue<T> extends LinkedList<T>{
+    
+    public void enqueue(T e) {
+        this.addFirst(e);
+    }
+    
+    public T dequeue() {
+        if (super.isEmpty()) {
+            throw new ArrayIndexOutOfBoundsException("Queue is empty!");
+        }
+        
+        return this.removeLast();
+    }
+    
+}
