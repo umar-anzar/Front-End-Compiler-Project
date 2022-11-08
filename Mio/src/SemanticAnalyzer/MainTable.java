@@ -27,7 +27,7 @@ public class MainTable extends HashMap<String, MainTableRow> {
             if (this.get(key).DT != null) {
                 table.add("\n");
                 for (String classRow : this.get(key).DT.printCT()) {
-                    table.add("\t"+classRow);
+                    table.add("\t\t"+classRow);
                 }
                 table.add("\n");
             }

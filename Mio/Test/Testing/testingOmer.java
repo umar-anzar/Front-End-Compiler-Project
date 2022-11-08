@@ -4,6 +4,9 @@
  */
 package Testing;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 
@@ -26,18 +29,26 @@ public final class testingOmer {
         cfg.put("<D>" , new String[][] { {"<B>","<C>"}, {"<S>"},{"null"} } );
         cfg.put("<B>", new String[][] { {"="},{"+="},{"*="} } );
         cfg.put("<C>", new String[][] { {"intConst"}, {"floatConst"} } );
-          
-        System.out.println("A,B".split(","));
-        for (String string : "A,B".split(",")) {
+        
+        String word = "a";
+        System.out.println(Arrays.toString(word.split(",")));
+        ArrayList<String> x = new ArrayList<>();
+        System.out.println(1);
+        for (String string : word.split(",")) {
             if (string.isEmpty()) {
+                x.add(string);
                 System.out.println("X");
             } else {
+                 x.add(string);
                 System.out.println(string);
             }
         }
-        HashSet<String> h = new HashSet<>();
-        h.add("A");h.add("A");h.add("B");h.add("C");
-        System.out.println(h.contains("C"));
+        
+        System.out.println(x);
+        System.out.println(new String []{}[0]);
+//        HashSet<String> h = new HashSet<>();
+//        h.add("A");h.add("A");h.add("B");h.add("C");
+//        System.out.println(h.contains("C"));
         
 
 

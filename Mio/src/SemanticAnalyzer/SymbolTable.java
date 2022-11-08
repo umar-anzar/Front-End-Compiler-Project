@@ -10,8 +10,6 @@ import SemanticAnalyzer.TableStructure.MainTableRow;
 import SemanticAnalyzer.TableStructure.ParentTableAttr;
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.Queue;
 
 /**
  *
@@ -139,6 +137,8 @@ public class SymbolTable {
             if(lookUpDT(NAME, PARAM_LIST, ct) != null) {
                 row = lookUpDT(NAME, PARAM_LIST, ct);
                 found = true;
+            } else if ( BFS_inheritedClasses(NAME, PARAM_LIST, ct) ) {
+                found = true;
             }
         }
 
@@ -170,32 +170,54 @@ public class SymbolTable {
         return null;
     }
     
-    public boolean BFS (String NAME, String PARAM_LIST, String Initialnode) {
+    /**
+     * Searching in Multilevel and Hierarchical Inheritance 
+     * Left to Right breath first search
+     * @param NAME
+     * @param PARAM_LIST
+     * @param Initialnode
+     * @return 
+     */
+    public boolean BFS_inheritedClasses (String NAME, String PARAM_LIST, ClassTable ct) {
+        
+        MainTableRow classrow = lookUpMT(ct.NAME, "");
+        
+        //Initial inherited class list from current class 
+        String[] Initialnodes = classrow.inheritedClasses();
+
+
         MyQueue<String> queue = new MyQueue<>();
         HashSet<String> visited = new HashSet<>();
 
-        queue.enqueue(Initialnode);
-        visited.add(Initialnode); 
+        //Adding all the inherited class names of current class into queue and visited set
+        for (String node : Initialnodes) {
+            queue.enqueue(node);
+            visited.add(node);
+        }
+
 
         //while queue not empty
         while (!queue.isEmpty()) {
-            
-            String current = queue.dequeue();
-            
-            if (current.isEmpty())
-                continue;
-            
-            if ( isInClass(NAME, PARAM_LIST, current))
+
+            String current = queue.dequeue();//left most becomes current class name, popFirst from queue
+            System.out.print(current+"->");
+
+            //If search value found in classtable return true
+            if ( isInClass(NAME, PARAM_LIST, current)) {
+                System.out.println("true");
                 return true;
-                
+            }
+            
+            //Open the edges and add them in queue and visited so that they will visit once from queue
             for (String node : edges(current)) {
                 if (!visited.contains(node)) {
                     queue.enqueue(node);
                     visited.add(node);
                 }
             }
-               
+
         }
+
         return false;
     }
     
@@ -225,18 +247,53 @@ public class SymbolTable {
     
     public static void main(String[] args) {
         SymbolTable x = new  SymbolTable();
-        x.insertMT("var1", "int", "const", "[][]", "", "", "", "");
-        x.insertMT("var2", "Class", "const", "", "", "", "", "");
-        x.insertMT("var3", "int", "const", "[][]", "", "", "", "");
-        x.insertMT("var4", "Class", "const", "[][]", "", "", "", "");
-        x.insertMT("var5", "int", "const", "[][]", "", "", "", "");
-        MainTableRow row = x.lookUpMT("var2", "");
+        x.insertMT("A", "Class", "const", "[][]", "", "", "", "");
+        x.insertMT("B", "Class", "const", "", "", "", "", "E,F");
+        x.insertMT("C", "Class", "const", "[][]", "", "", "", "D");
+        x.insertMT("D", "Class", "const", "[][]", "", "", "", "G");
+        x.insertMT("E", "Class", "const", "[][]", "", "", "", "");
+        x.insertMT("F", "Class", "const", "[][]", "", "", "", "");
+        x.insertMT("G", "Class", "const", "[][]", "", "", "", "");
+        
+        
+        x.insertMT("X", "Class", "const", "[][]", "", "", "", "A,B,C");
+        
+        
+        MainTableRow row = x.lookUpMT("A", "");
         x.currentCt = row.DT;
-        x.insertCT("classvar", "point", "", "", "", "", "", "Static");
-        row = x.lookUpMT("var4", "");
+        x.insertCT("a", "point", "", "", "", "", "", "Static");
+        
+        row = x.lookUpMT("B", "");
         x.currentCt = row.DT;
-        x.insertCT("classvar2", "point", "", "", "", "", "private", "Static");
-        x.printST();
+        x.insertCT("b", "point", "", "", "", "", "private", "Static");
+        
+        row = x.lookUpMT("C", "");
+        x.currentCt = row.DT;
+        x.insertCT("c", "point", "", "", "", "", "private", "Static");
+        
+        row = x.lookUpMT("D", "");
+        x.currentCt = row.DT;
+        x.insertCT("d", "point", "", "", "", "", "private", "Static");
+        
+        row = x.lookUpMT("E", "");
+        x.currentCt = row.DT;
+        x.insertCT("e", "point", "", "", "", "", "private", "Static");
+        
+        row = x.lookUpMT("F", "");
+        x.currentCt = row.DT;
+        x.insertCT("f", "point", "", "", "", "", "private", "Static");
+        
+        row = x.lookUpMT("G", "");
+        x.currentCt = row.DT;
+        x.insertCT("g", "point", "", "", "", "", "private", "Static");
+        
+        row = x.lookUpMT("X", "");
+        x.currentCt = row.DT;
+        x.insertCT("x", "point", "", "", "", "", "private", "Static");
+        
+        x.BFS_inheritedClasses("e", "", x.currentCt);
+        
+        //x.printST();
     }
 }
 

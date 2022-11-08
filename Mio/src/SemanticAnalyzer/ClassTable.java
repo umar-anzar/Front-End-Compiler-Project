@@ -15,8 +15,14 @@ import java.util.HashMap;
 
 public class ClassTable extends HashMap<String, ClassTableRow> {
     
+    public String NAME = "";
+    
     public ClassTableRow add(ClassTableRow row) {
         return this.put(row.keyGenerate(), row);
+    }
+    
+    public void setName(String n) {
+        NAME = n;
     }
     
     public ArrayList<String> printCT() {

@@ -29,17 +29,18 @@ public class MainTableRow extends ChildTableAttr{
         //If class is NOT ABSTRACT then initialize DT
         if (! "Abstract".equals(TYPE_MODIFIER) && "Class".equals(TYPE)) {
             DT = new ClassTable();
+            DT.setName(NAME);
         }
     }
     
     public boolean isInherited() {
-        return EXTEND != null;
+        return ! EXTEND.isEmpty();
     }
     public String[] inheritedClasses() {
         if (isInherited()) {
             return EXTEND.split(",");
         }
-        return new String[] {""};
+        return new String[] {};
     }
 
     @Override
