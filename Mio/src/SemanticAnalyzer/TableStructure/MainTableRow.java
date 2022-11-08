@@ -14,17 +14,21 @@ import java.util.ArrayList;
 public class MainTableRow extends ChildTableAttr{
     
     public String 
-            EXTEND;      
+            PARAMETRIC_CLASS,
+            EXTEND;
+    
     public ClassTable 
             DT;
 
     public MainTableRow(String NAME, String TYPE, String TYPE_MODIFIER, 
             String DIMENSION, String PARAM_LIST, String TYPE_EXP, 
-            String ACCESS_MODIFIER, String EXTEND) 
+            String ACCESS_MODIFIER, String PARAMETRIC_CLASS, String EXTEND) 
     {
         super(NAME, TYPE, TYPE_MODIFIER, DIMENSION,PARAM_LIST, 
                 TYPE_EXP, ACCESS_MODIFIER);
+        this.PARAMETRIC_CLASS = PARAMETRIC_CLASS;
         this.EXTEND = EXTEND;
+        
         
         //If class is NOT ABSTRACT then initialize DT
         if (! "Abstract".equals(TYPE_MODIFIER) && "Class".equals(TYPE)) {

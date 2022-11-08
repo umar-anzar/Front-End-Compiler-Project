@@ -35,7 +35,7 @@ public class SymbolTable {
     //insertMT(n,type,tm,dim,pl,te,ac,ext)
     public boolean insertMT(String NAME, String TYPE, String TYPE_MODIFIER, 
             String DIMENSION, String PARAM_LIST, String TYPE_EXP, 
-            String ACCESSMODIFIER, String EXTEND) { 
+            String ACCESSMODIFIER, String PARAMETRIC_CLASS, String EXTEND) { 
         
         MainTableRow row = lookUpMT(NAME, PARAM_LIST);
         
@@ -43,7 +43,7 @@ public class SymbolTable {
         if (row != null) return false;
         
         row = new MainTableRow(NAME, TYPE, TYPE_MODIFIER, DIMENSION, 
-                PARAM_LIST, TYPE_EXP, ACCESSMODIFIER, EXTEND);
+                PARAM_LIST, TYPE_EXP, ACCESSMODIFIER, PARAMETRIC_CLASS, EXTEND);
         mt.add(row);
                 
         
@@ -69,7 +69,7 @@ public class SymbolTable {
     public boolean insertFT(String NAME, String TYPE, String TYPE_MODIFIER, 
             String DIMENSION) { 
         
-        String Type = lookUpFT(NAME, "", currentCt, new Modifier());
+        String Type = lookUpFT(NAME, "", currentCt, new retOutInfo());
         
         //If already declared
         if (Type != null) return false;
@@ -113,7 +113,7 @@ public class SymbolTable {
      * @return 
      */
     public String/*RetType*/ lookUpFT(String NAME, String PARAM_LIST, 
-            ClassTable ct, Modifier out) 
+            ClassTable ct, retOutInfo out) 
     {
         stack.resetIter(); //Bring pointer on top of the stack
         
@@ -135,10 +135,17 @@ public class SymbolTable {
         // Search in class 
         if (ct != null && !found) {
             if(lookUpDT(NAME, PARAM_LIST, ct) != null) {
+                /*Check in current class*/
                 row = lookUpDT(NAME, PARAM_LIST, ct);
                 found = true;
-            } else if ( BFS_inheritedClasses(NAME, PARAM_LIST, ct) ) {
-                found = true;
+            } else {
+                /*Check in all the parents of current class*/
+                String className = BFS_inheritedClasses(NAME, PARAM_LIST, ct);
+                if (className != null) {
+                    ct = lookUpMT(className, "").DT; //class dec
+                    row = lookUpDT(NAME, PARAM_LIST, ct);
+                    found = true; 
+                }
             }
         }
 
@@ -178,7 +185,7 @@ public class SymbolTable {
      * @param Initialnode
      * @return 
      */
-    public boolean BFS_inheritedClasses (String NAME, String PARAM_LIST, ClassTable ct) {
+    public String BFS_inheritedClasses (String NAME, String PARAM_LIST, ClassTable ct) {
         
         MainTableRow classrow = lookUpMT(ct.NAME, "");
         
@@ -205,7 +212,7 @@ public class SymbolTable {
             //If search value found in classtable return true
             if ( isInClass(NAME, PARAM_LIST, current)) {
                 System.out.println("true");
-                return true;
+                return current;
             }
             
             //Open the edges and add them in queue and visited so that they will visit once from queue
@@ -218,7 +225,7 @@ public class SymbolTable {
 
         }
 
-        return false;
+        return null;
     }
     
     public boolean isInClass(String NAME, String PARAM_LIST, String className) {
@@ -247,21 +254,20 @@ public class SymbolTable {
     
     public static void main(String[] args) {
         SymbolTable x = new  SymbolTable();
-        x.insertMT("A", "Class", "const", "[][]", "", "", "", "");
-        x.insertMT("B", "Class", "const", "", "", "", "", "E,F");
-        x.insertMT("C", "Class", "const", "[][]", "", "", "", "D");
-        x.insertMT("D", "Class", "const", "[][]", "", "", "", "G");
-        x.insertMT("E", "Class", "const", "[][]", "", "", "", "");
-        x.insertMT("F", "Class", "const", "[][]", "", "", "", "");
-        x.insertMT("G", "Class", "const", "[][]", "", "", "", "");
+        //x.insertMT("A", "Class", "const", "[][]", "", "", "", "", "D,B,E");
+        x.insertMT("B", "Class", "const", "", "", "", "", "", "C,H");
+        x.insertMT("C", "Class", "const", "[][]", "", "", "", "", "E,G");
+        x.insertMT("D", "Class", "const", "[][]", "", "", "", "", "E,F");
+        x.insertMT("E", "Class", "const", "[][]", "", "", "", "", "G,H");
+        x.insertMT("F", "Class", "const", "[][]", "", "", "", "", "");
+        x.insertMT("G", "Class", "const", "[][]", "", "", "", "", "");
+        x.insertMT("H", "Class", "const", "[][]", "", "", "", "", "");
         
         
-        x.insertMT("X", "Class", "const", "[][]", "", "", "", "A,B,C");
+        x.insertMT("A", "Class", "const", "[][]", "", "", "","", "D,B,E");
         
         
-        MainTableRow row = x.lookUpMT("A", "");
-        x.currentCt = row.DT;
-        x.insertCT("a", "point", "", "", "", "", "", "Static");
+        MainTableRow row;
         
         row = x.lookUpMT("B", "");
         x.currentCt = row.DT;
@@ -285,19 +291,26 @@ public class SymbolTable {
         
         row = x.lookUpMT("G", "");
         x.currentCt = row.DT;
-        x.insertCT("g", "point", "", "", "", "", "private", "Static");
+        x.insertCT("g", "int", "", "", "", "", "private", "Static");
+
         
-        row = x.lookUpMT("X", "");
+        row = x.lookUpMT("H", "");
         x.currentCt = row.DT;
-        x.insertCT("x", "point", "", "", "", "", "private", "Static");
+        x.insertCT("h", "point", "", "", "", "", "private", "Static");
+
         
-        x.BFS_inheritedClasses("e", "", x.currentCt);
+        row = x.lookUpMT("A", "");
+        x.currentCt = row.DT;
+        x.insertCT("a", "point", "", "", "", "", "", "Static");
+        
+        
+        System.out.println(x.lookUpFT("g1", "", x.currentCt, new retOutInfo()));
         
         //x.printST();
     }
 }
 
-class Modifier {
+class retOutInfo {
     public String
             TYPE_MODIFIER,
             ACCESS_MODIFIER;

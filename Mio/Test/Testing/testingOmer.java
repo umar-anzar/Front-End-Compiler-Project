@@ -4,11 +4,9 @@
  */
 package Testing;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
 
 /**
  *
@@ -45,7 +43,9 @@ public final class testingOmer {
         }
         
         System.out.println(x);
-        System.out.println(new String []{}[0]);
+        
+        String B = null;
+        System.out.println(B.isEmpty());
 //        HashSet<String> h = new HashSet<>();
 //        h.add("A");h.add("A");h.add("B");h.add("C");
 //        System.out.println(h.contains("C"));
