@@ -54,7 +54,7 @@ public class SymbolTable {
             String DIMENSION, String PARAM_LIST, String TYPE_EXP, 
             String ACCESS_MODIFIER, String STATIC) { 
         
-        ClassTableRow row = lookUpDT(NAME, PARAM_LIST, currentCt);
+        ClassTableRow row = lookUpDT_singleClass(NAME, PARAM_LIST, currentCt);
         
         //If already declared
         if (row != null) return false;
@@ -93,6 +93,11 @@ public class SymbolTable {
         return mt.get(NAME+","+PARAM_LIST);
     }
     
+    
+    public ClassTableRow lookUpDT_singleClass(String NAME, String PARAM_LIST, ClassTable ct) {
+        return ct.get(NAME +","+ PARAM_LIST);
+    }
+    
     /**
      * Function and Var Use in class table
      * @param NAME
@@ -102,8 +107,28 @@ public class SymbolTable {
     public ClassTableRow lookUpDT(String NAME, String PARAM_LIST, 
             ClassTable ct) 
     {      
-        return ct.get(NAME+","+PARAM_LIST);
+
+        //Check in class which is in argument
+        if (ct != null) {
+            //Check in class first if found then return
+            if (lookUpDT_singleClass(NAME, PARAM_LIST, ct) != null) {
+                return lookUpDT_singleClass(NAME, PARAM_LIST, ct);
+            }
+        }
+        
+        //Check in all parents of the class which is in argument
+        if (ct != null) {
+            String className = BFS_inheritedClasses(NAME, PARAM_LIST, ct);
+            if (className != null) {
+                ct = lookUpMT(className, "").DT; //class dec
+                return lookUpDT_singleClass(NAME, PARAM_LIST, ct);
+            }
+        }
+
+        return null;
     }
+    
+    
     
     /**
      * Function and Var Use in Function table
@@ -121,39 +146,25 @@ public class SymbolTable {
         boolean found = false;
         
         // Search In Scope Stack
-        if (! PARAM_LIST.isEmpty()) {
-            while (stack.iter.hasNext()) {
-                int scope = stack.iter.next();
-                row = fdt.get(NAME+Integer.toString(scope));
-                if (row != null) {
+        if (!found) {
+            row = loopUpScopeStack(NAME, PARAM_LIST);
+            if (row != null)
                     found = true;
-                    break;
-                }
-            }
         }
                 
         // Search in class 
-        if (ct != null && !found) {
-            if(lookUpDT(NAME, PARAM_LIST, ct) != null) {
-                /*Check in current class*/
-                row = lookUpDT(NAME, PARAM_LIST, ct);
-                found = true;
-            } else {
-                /*Check in all the parents of current class*/
-                String className = BFS_inheritedClasses(NAME, PARAM_LIST, ct);
-                if (className != null) {
-                    ct = lookUpMT(className, "").DT; //class dec
-                    row = lookUpDT(NAME, PARAM_LIST, ct);
-                    found = true; 
-                }
-            }
+        if (!found) {
+            row = lookUpDT(NAME, PARAM_LIST, ct);
+            if (row != null)
+                    found = true;
         }
 
         
         // Search in main table
-        if (lookUpMT(NAME, PARAM_LIST) != null && !found) {
+        if (!found) {
             row = lookUpMT(NAME, PARAM_LIST);
-            found = true;
+            if (row != null)
+                found = true;
         }
 
         
@@ -175,6 +186,20 @@ public class SymbolTable {
         }
         
         return null;
+    }
+    
+    public FunctionTableRow loopUpScopeStack(String NAME, String PARAM_LIST) {
+        FunctionTableRow row = null;
+        if (! PARAM_LIST.isEmpty()) {
+            while (stack.iter.hasNext()) {
+                int scope = stack.iter.next();
+                row = fdt.get(NAME+Integer.toString(scope));
+                if (row != null) {
+                    return row;
+                }
+            }
+        }
+        return row;
     }
     
     /**
@@ -232,7 +257,7 @@ public class SymbolTable {
         MainTableRow row = lookUpMT(className, "");
         if (!row.isAbstract()) {
             ClassTable ct =  lookUpMT(className, "").DT;
-            if (lookUpDT(NAME, PARAM_LIST, ct) != null )
+            if (lookUpDT_singleClass(NAME, PARAM_LIST, ct) != null )
                 return true;
         }
         return false;
@@ -304,7 +329,7 @@ public class SymbolTable {
         x.insertCT("a", "point", "", "", "", "", "", "Static");
         
         
-        System.out.println(x.lookUpFT("g1", "", x.currentCt, new retOutInfo()));
+        System.out.println(x.lookUpFT("e", "", x.currentCt, new retOutInfo()));
         
         //x.printST();
     }
