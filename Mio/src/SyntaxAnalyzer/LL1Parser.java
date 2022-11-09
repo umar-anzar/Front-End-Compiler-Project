@@ -68,10 +68,21 @@ public class LL1Parser {
     }
     
     /**
-     * Get Token from TokenList at position of global index current value
+     * Get Token class part from TokenList at position of global index current value
      * @return 
      */
     private String getTokenCP() {
+        return this.tokenList.get(index).classP;
+    }
+    
+    /**
+     * Get Token value from TokenList at position of global index current value
+     * @return 
+     */
+    public String getTokenVP() {
+        if (this.tokenList.get(index).valueP != null) {
+            return this.tokenList.get(index).valueP;
+        }
         return this.tokenList.get(index).classP;
     }
     
