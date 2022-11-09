@@ -32,7 +32,8 @@ public class SymbolTable {
     
     
     //Insert Functions----------------------------------------------------------
-    //insertMT(n,type,tm,dim,pl,te,ac,ext)
+    
+    //insertMT(n,type,tm,dim,pl,te,ac,pc,ext)
     public boolean insertMT(String NAME, String TYPE, String TYPE_MODIFIER, 
             String DIMENSION, String PARAM_LIST, String TYPE_EXP, 
             String ACCESSMODIFIER, String PARAMETRIC_CLASS, String EXTEND) { 
@@ -50,6 +51,7 @@ public class SymbolTable {
         return true;
     }
     
+    //insertCT(n,type,tm,dim,pl,te,ac,Static)
     public boolean insertCT(String NAME, String TYPE, String TYPE_MODIFIER, 
             String DIMENSION, String PARAM_LIST, String TYPE_EXP, 
             String ACCESS_MODIFIER, String STATIC) { 
@@ -66,6 +68,7 @@ public class SymbolTable {
         return true;
     }
     
+    //insertFT(n,type,tm,dim)
     public boolean insertFT(String NAME, String TYPE, String TYPE_MODIFIER, 
             String DIMENSION) { 
         
@@ -93,7 +96,13 @@ public class SymbolTable {
         return mt.get(NAME+","+PARAM_LIST);
     }
     
-    
+    /**
+     * Look up only in class and not parents that is pass as argument
+     * @param NAME
+     * @param PARAM_LIST
+     * @param ct
+     * @return 
+     */
     public ClassTableRow lookUpDT_singleClass(String NAME, String PARAM_LIST, ClassTable ct) {
         return ct.get(NAME +","+ PARAM_LIST);
     }

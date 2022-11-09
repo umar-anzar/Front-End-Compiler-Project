@@ -46,6 +46,7 @@ public final class testingOmer {
         
         String B = null;
         System.out.println(B.isEmpty());
+
 //        HashSet<String> h = new HashSet<>();
 //        h.add("A");h.add("A");h.add("B");h.add("C");
 //        System.out.println(h.contains("C"));
