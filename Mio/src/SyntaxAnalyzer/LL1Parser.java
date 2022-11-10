@@ -143,7 +143,6 @@ public class LL1Parser {
      */
     private boolean match(String nonTerminal) {
         if (getTokenCP().equals(nonTerminal)) {
-            index++;
             return true;
         }
         return false;
@@ -158,7 +157,6 @@ public class LL1Parser {
         String token = this.tokenList.get(index).valueP;
         if (token != null) {
             if (token.equals(nonTerminal)) {
-                index++;
                 return true;
             }
         }
@@ -509,8 +507,10 @@ public class LL1Parser {
             }
         }
         else if (match("{")) {
+            index++;
             if (MST()) {
                 if (match("}")) {
+                    index++;
                     return true;
                 }
             }
@@ -571,6 +571,7 @@ public class LL1Parser {
             }
         }
         else if (match(";")) {
+            index++;
             return true;
         }
         return false;
@@ -594,9 +595,12 @@ public class LL1Parser {
     //Begin the Main Function---------------------------------------------------$
     private boolean MAIN() {
         if (match("begin")) {
+            index++;
             if (match("{")) {
+                index++;
                 if (MST()) {
                     if (match("}")) {
+                        index++;
                         return true;
                     }
                 }
@@ -608,7 +612,9 @@ public class LL1Parser {
     //Package and Import--------------------------------------------------------$
     private boolean PACKAGE() {
         if (match("package")) {
+            index++;
             if (match("id")) {
+                index++;
                 if (IMP_DOT()) { 
                     return true; 
                 }
@@ -620,7 +626,9 @@ public class LL1Parser {
     }
     private boolean IMPORTS() {
         if (match("import")) {
+            index++;
             if (match("id")) {
+                index++;
                 if (IMP_DOT()) { 
                     return true; 
                 }
@@ -631,11 +639,13 @@ public class LL1Parser {
     }
     private boolean IMP_DOT() {
         if (match("dot")) {
+            index++;
             if (ID_STAR()) {
                 return true;
             }
         } 
         else if (match(";")) {
+            index++;
             return true;
         }
         return false;
@@ -643,16 +653,20 @@ public class LL1Parser {
     private boolean ID_STAR() {
 
         if (match("id")){
+            index++;
             if (IMP_DOT()) { 
                 return true; 
             }
         } 
         else if (match("power")) {
+            index++;
             if (match(";")) {
+                index++;
                 return true;
             }
         } 
         else if (match(";")){
+            index++;
             return true;
         }
           
@@ -662,28 +676,35 @@ public class LL1Parser {
     //Reusable CFG--------------------------------------------------------------$
     private boolean TYPE() {
         if (match("id")) {
+            index++;
             return true;
         }
         else if (match("dt")) {
+            index++;
             return true;
         }
         else if (match("str")) {
+            index++;
             return true;
         }
         return false;
     }
     private boolean DT_STR() {
         if (match("dt")) {
+            index++;
             return true;
         }
         else if (match("str")) {
+            index++;
             return true;
         }
         return false;
     }
     private boolean ARR_TYPE() {
         if (match("[")) {
+            index++;
             if (match("]")) {
+                index++;
                 if (ARR_TYPE_LIST()) {
                     return true;
                 }
@@ -693,7 +714,9 @@ public class LL1Parser {
     }
     private boolean ARR_TYPE_LIST() {
         if (match("[")) {
+            index++;
             if (match("]")) {
+                index++;
                 if (ARR_TYPE_LIST()) {
                     return true;
                 }
@@ -709,12 +732,16 @@ public class LL1Parser {
     }
     private boolean ACCESS_METH() {
         if (match("Parent")) {
+            index++;
             if (match("dot")) {
+                index++;
                 return true;
             }
         }
         else if (match("Self")) {
+            index++;
             if (match("dot")) {
+                index++;
                 return true;
             }
         }
@@ -722,9 +749,11 @@ public class LL1Parser {
     }
     private boolean ACM() {
         if (match("Parent")) {
+            index++;
             return true;
         }
         else if (match("Self")) {
+            index++;
             return true;
         }
         return false;
@@ -733,9 +762,11 @@ public class LL1Parser {
     //Access Modifier-----------------------------------------------------------$
     private boolean ACCESSMOD() {
         if (match("protected")) {
+            index++;
             return true;
         }
         else if (match("private")) {
+            index++;
             return true;
         }
         else {
@@ -749,12 +780,15 @@ public class LL1Parser {
     //Function Statement--------------------------------------------------------$
     private boolean FN_DEC() {
         if (match("def")) {
+            index++;
             if (RET_TYPE()) {
                 if (FN_ST()) {
                     if (THROWS()) {
                         if (match("{")) {
+                            index++;
                             if (MST()) {
                                 if (match("}")) {
+                                    index++;
                                     return true;
                                 }
                             }
@@ -767,6 +801,7 @@ public class LL1Parser {
     }
     private boolean FN_ST() {
         if (match("(")) {
+            index++;
             if (PAR()) {
                 return true;
             }
@@ -777,6 +812,7 @@ public class LL1Parser {
         if (searchSelectionSet("DT_ID")) {
             if (DT_ID()) {
                 if (match("id")) {
+                    index++;
                     if (PAR_LIST()) {
                         return true;
                     }
@@ -784,14 +820,17 @@ public class LL1Parser {
             }
         }
         else if (match(")")) {
+            index++;
             return true;
         }
         return false;
     }
     private boolean PAR_LIST() {
         if (match(",")) {
+            index++;
             if (DT_ID()) {
                 if (match("id")) {
+                    index++;
                     if (PAR_LIST()) {
                         return true;
                     }
@@ -799,6 +838,7 @@ public class LL1Parser {
             }
         }
         else if (match(")")) {
+            index++;
             return true;
         }
         return false;
@@ -819,12 +859,14 @@ public class LL1Parser {
             if (DT_STR()) {
                 if (ARR_TYPE_LIST()) {
                     if (match("id")) {
+                        index++;
                         return true;
                     }
                 }
             }
         }
         else if (match("id")) {
+            index++;
             if (RT_OBJ()) {
                 return true;
             }
@@ -835,11 +877,13 @@ public class LL1Parser {
         if (searchSelectionSet("ARR_TYPE")) {
             if (ARR_TYPE()) {
                 if (match("id")) {
+                    index++;
                     return true;
                 }
             }
         }
         else if (match("id")) {
+            index++;
             return true;
         }
         else {
@@ -852,6 +896,7 @@ public class LL1Parser {
     
     private boolean FN_CLASS_DEC() {
         if (match("def")) {
+            index++;
             if (IS_ABSTRACT()) {
                 return true;
             }
@@ -860,17 +905,22 @@ public class LL1Parser {
     }
     private boolean IS_ABSTRACT() {
         if (match("Abstract")) {
+            index++;
             if (RET_TO_THROW()) {
                 if (match(";")) {
+                    index++;
                     return true;
                 }
             }
         }
         else if (match("Static")) {
+            index++;
             if (WITH_FINAL()) {
                 if (match("{")) {
+                    index++;
                     if (MST()) {
                         if (match("}")) {
+                            index++;
                             return true;
                         }
                     }
@@ -880,8 +930,10 @@ public class LL1Parser {
         else if (searchSelectionSet("WITH_FINAL")) {
             if (WITH_FINAL()) {
                 if (match("{")) {
+                    index++;
                     if (MST()) {
                         if (match("}")) {
+                            index++;
                             return true;
                         }
                     }
@@ -904,6 +956,7 @@ public class LL1Parser {
     }
     private boolean WITH_FINAL() {
         if (match("const")) {
+            index++;
             if (RET_TO_THROW()) {
                 return true;
             }
@@ -922,6 +975,7 @@ public class LL1Parser {
                 if (ARR_TYPE_LIST()) {
                     if (ACCESSMOD()) {
                         if (match("id")) {
+                            index++;
                             return true;
                         }
                     }
@@ -929,6 +983,7 @@ public class LL1Parser {
             }
         }
         else if (match("id")) {
+            index++;
             if (RET_OBJ_C()) {
                 return true;
             }
@@ -936,6 +991,7 @@ public class LL1Parser {
         else if (searchSelectionSet("ACCESSMOD_C")) {
             if (ACCESSMOD_C()) {
                 if (match("id")) {
+                    index++;
                     return true;
                 }
             }
@@ -947,6 +1003,7 @@ public class LL1Parser {
             if (ARR_TYPE()) {
                 if (ACCESSMOD()) {
                     if (match("id")) {
+                        index++;
                         return true;
                     }
                 }
@@ -955,11 +1012,13 @@ public class LL1Parser {
         else if (searchSelectionSet("ACCESSMOD_C")) {
             if (ACCESSMOD_C()) {
                 if (match("id")) {
+                    index++;
                     return true;
                 }
             }
         }
         else if (match("id")) {
+            index++;
                 return true;
         }
         else {
@@ -971,9 +1030,11 @@ public class LL1Parser {
     }
     private boolean ACCESSMOD_C() {
         if (match("private")) {
+            index++;
             return true;
         }
         else if (match("protected")) {
+            index++;
             return true;
         }
         return false;
@@ -987,11 +1048,13 @@ public class LL1Parser {
             }
         }
         else if (match("Abstract")) {
+            index++;
             if (CLASS_DEC()) {
                 return true;
             }
         }
         else if (match("const")) {
+            index++;
             if (CLASS_GLOBAL()) {
                 return true;
             }
@@ -1013,10 +1076,13 @@ public class LL1Parser {
     }
     private boolean CLASS_DEC() {
         if (match("Class")) {
+            index++;
 //            if (NO_PRIVATE()) {
                 if (match("id")) {
+                    index++;
                     if (CLASS_PAR()) {
                         if (match("(")) {
+                            index++;
                             if (INHERIT()) {
                                 return true;
                             }
@@ -1040,8 +1106,11 @@ public class LL1Parser {
 //    }
     private boolean CLASS_PAR() {
         if (matchVp("<")) {
+            index++;
             if (match("id")) {
+                index++;
                 if (matchVp(">")) {
+                    index++;
                     return true;
                 }
             }
@@ -1055,12 +1124,15 @@ public class LL1Parser {
     }
     private boolean INHERIT(){
         if (match("id")) {
+            index++;
             if (MULTI_INHERIT()) {
                 return true;
             }
         }
         else if (match(")")) {
+            index++;
             if (match("{")) {
+                index++;
                 if (CLASS_BODY()) {
                     return true;
                 }
@@ -1070,14 +1142,18 @@ public class LL1Parser {
     }
     private boolean MULTI_INHERIT(){
         if (match(",")) {
+            index++;
             if (match("id")) {
+                index++;
                 if (MULTI_INHERIT()) {
                     return true;
                 }
             }
         }
         else if (match(")")) {
+            index++;
             if (match("{")) {
+                index++;
                 if (CLASS_BODY()) {
                     return true;
                 }
@@ -1097,6 +1173,7 @@ public class LL1Parser {
         }
         else 
             if (match("}")) {
+                index++;
                 return true;
         }
         return false;
@@ -1138,8 +1215,10 @@ public class LL1Parser {
     }
     private boolean SUBSCRIPT() {
         if (match("[")) {
+            index++;
             if (EXPR()) {
                 if (match("]")) {
+                    index++;
                     if (SUBSCRIPT_LIST()) {
                         return true;
                     }
@@ -1163,6 +1242,7 @@ public class LL1Parser {
     }
     private boolean FN_BRACKETS() {
         if (match("(")) {
+            index++;
             if (ARG()) {
                 return true;
             }
@@ -1178,12 +1258,14 @@ public class LL1Parser {
             }
         }
         else if (match(")")) {
+            index++;
             return true;
         }
         return false;
     }
     private boolean ARG_LIST() {
         if (match(",")) {
+            index++;
             if (EXPR_OBJ()) {
                 if (ARG_LIST()) {
                     return true;
@@ -1191,6 +1273,7 @@ public class LL1Parser {
             }
         }
         else if (match(")")) {
+            index++;
             return true;
         }
         return false;
@@ -1210,7 +1293,9 @@ public class LL1Parser {
     }
     private boolean DOT_ID_SUBSCRIPT() {
         if (match("dot")) {
+            index++;
             if (match("id")) {
+                index++;
                 if (POS()) {
                     return true;
                 }
@@ -1255,7 +1340,9 @@ public class LL1Parser {
     }
     private boolean DOT_ID_SUBSCRIPT2() {
         if (match("dot")) {
+            index++;
             if (match("id")) {
+                index++;
                 if (POS2()) {
                     return true;
                 }
@@ -1279,6 +1366,7 @@ public class LL1Parser {
     //Declaration and Initialization--------------------------------------------$
     private boolean DEC() {
         if (match("const")) {
+            index++;
             if (TYPE()) {
                 if (VAR_ARR()) {
                     return true;
@@ -1293,6 +1381,7 @@ public class LL1Parser {
             }
         }
         else if (match("id")) {
+            index++;
             if (ASSIGN_OBJ()) {
                 return true;
             }
@@ -1308,7 +1397,9 @@ public class LL1Parser {
     }
     private boolean ID_FN() {
         if (match("dot")) {
+            index++;
             if (match("id")) {
+                index++;
                 if (ASSIGN()) {
                     return true;
                 }
@@ -1325,11 +1416,13 @@ public class LL1Parser {
     }
     private boolean ASSIGN_OBJ() {
         if (match("[")) {
+            index++;
             if (ARR_SUBSCRIPT()) {
                 return true;
             }
         }
         else if (match("id")) {
+            index++;
             if (IS_INIT()) {
                 return true;
             }
@@ -1343,8 +1436,10 @@ public class LL1Parser {
     }
     private boolean ARR_SUBSCRIPT() {
         if (match("]")) {
+            index++;
             if (ARR_TYPE_LIST()) {
                 if (match("id")) {
+                    index++;
                     if (IS_INIT()) {
                         return true;
                     }
@@ -1354,6 +1449,7 @@ public class LL1Parser {
         else if (searchSelectionSet("EXPR")) {
             if (EXPR()) {
                 if (match("]")) {
+                    index++;
                     if (DOT_ID3()) {
                         return true;
                     }
@@ -1367,6 +1463,7 @@ public class LL1Parser {
         if (searchSelectionSet("ARR_TYPE")) {
             if (ARR_TYPE()) {
                 if (match("id")) {
+                    index++;
                     if (IS_INIT()) {
                         return true;
                     }
@@ -1374,6 +1471,7 @@ public class LL1Parser {
             }
         }
         else if (match("id")) {
+            index++;
             if (IS_INIT()) {
                 return true;
             }
@@ -1383,6 +1481,7 @@ public class LL1Parser {
     private boolean IS_INIT() {
         
         if (match("=")) {
+            index++;
             
             if (INIT()) {
                 if (LIST()) {
@@ -1401,6 +1500,7 @@ public class LL1Parser {
         if (searchSelectionSet("IS_ACMETH")) {
             if (IS_ACMETH()) {
                 if (match("id")) {
+                    index++;
                     if (ASSIGN_EXPR()) {
                         return true;
                     }
@@ -1437,6 +1537,7 @@ public class LL1Parser {
         if (searchSelectionSet("INC_DEC")) {
             if (INC_DEC()) {
                 if (match("id")) {
+                    index++;
                     if (POS()) {
                         if (ID_TO_EXPR()) {
                             return true;
@@ -1446,8 +1547,10 @@ public class LL1Parser {
             }
         }
         else if (match("(")) {
+            index++;
             if (EXPR()) {
                 if (match(")")) {
+                    index++;
                     if (ID_TO_EXPR()) {
                         return true;
                     }
@@ -1513,7 +1616,9 @@ public class LL1Parser {
     }
     private boolean DOT_EXPR() {
         if (match("dot")) {
+            index++;
             if (match("id")) {
+                index++;
                 if (ASSIGN_EXPR()) {
                     return true;
                 }
@@ -1553,22 +1658,27 @@ public class LL1Parser {
     }
     private boolean LIST() {
         if (match(",")) {
+            index++;
             if (match("id")) {
+                index++;
                 if (IS_INIT()) {
                     return true;
                 }
             }
         }
         else if (match(";")) {
+            index++;
             return true;
         }
         return false;
     }
     private boolean ASSIGN_OP() {
         if (match("=")) {
+            index++;
             return true;
         }
         else if (match("cma")) {
+            index++;
             return true;
         }
         return false;
@@ -1577,7 +1687,9 @@ public class LL1Parser {
     //Assignment----------------------------------------------------------------$
     private boolean ASSIGN() {
         if (match("dot")) {
+            index++;
             if (match("id")) {
+                index++;
                 if (ASSIGN2()) {
                     return true;
                 }
@@ -1620,7 +1732,9 @@ public class LL1Parser {
     }
     private boolean DOT_ID3() {
         if (match("dot")) {
+            index++;
             if (match("id")) {
+                index++;
                 if (ASSIGN2()) {
                     return true;
                 }
@@ -1642,6 +1756,7 @@ public class LL1Parser {
             }
         }
         else if (match(";")) {
+            index++;
             return true;
         }
         return false;
@@ -1650,6 +1765,7 @@ public class LL1Parser {
         if (searchSelectionSet("INC_DEC")) {
             if (INC_DEC()) {
                 if (match(";")) {
+                    index++;
                     return true;
                 }
             }
@@ -1658,6 +1774,7 @@ public class LL1Parser {
             if (ASSIGN_OP()) {
                 if (INIT()) {
                     if (match(";")) {
+                        index++;
                         return true;
                     }
                 }
@@ -1669,29 +1786,35 @@ public class LL1Parser {
     //Object Declaration--------------------------------------------------------$
     private boolean NEW_OBJ() {
         if (match("new")) {
+            index++;
             if (CONSTR_ARR()) {
                 return true;
             }
         }
         else if (match("NaN")) {
+            index++;
             return true;
         }
         return false;
     }
     private boolean CONSTR_ARR() {
         if (match("id")) {
+            index++;
             if (FN_ARR()) {
                 return true; 
             }
         }
         else if (match("dt")) {
+            index++;
             if (match("[")) {
+                index++;
                 if (DIM_PASS()) {
                     return true;
                 }
             }
         }
         else if (match("str")) {
+            index++;
             if (FN_ARR()) {
                 return true; 
             }
@@ -1705,6 +1828,7 @@ public class LL1Parser {
             }
         }
         else if (match("[")) {
+            index++;
             if (DIM_PASS()) {
                 return true;
             }
@@ -1718,6 +1842,7 @@ public class LL1Parser {
         if (searchSelectionSet("EXPR")) {
             if (EXPR()) {
                 if (match("]")) {
+                    index++;
                     if (MUL_ARR_DEC()) {
                         return true;
                     }
@@ -1725,6 +1850,7 @@ public class LL1Parser {
             }
         }
         else if (match("]")) {
+            index++;
             if (EMP_ARR_DEC()) {
                 return true;
             }
@@ -1734,6 +1860,7 @@ public class LL1Parser {
     
     private boolean MUL_ARR_DEC() {
         if (match("[")) {
+            index++;
             if (LEN_OF_ARR()) {
                 return true;
             }
@@ -1749,6 +1876,7 @@ public class LL1Parser {
         if (searchSelectionSet("EXPR")) {
             if (EXPR()) {
                 if (match("]")) {
+                    index++;
                     if (MUL_ARR_DEC()) {
                         return true;
                     }
@@ -1756,6 +1884,7 @@ public class LL1Parser {
             }
         }
         else if (match("]")) {
+            index++;
             if (EMP_ARR_DEC2()) {
                 return true;
             }
@@ -1764,7 +1893,9 @@ public class LL1Parser {
     }
     private boolean EMP_ARR_DEC() {
         if (match("[")) {
+            index++;
             if (match("]")) {
+                index++;
                 if (EMP_ARR_DEC()) {
                     return true;
                 }
@@ -1779,7 +1910,9 @@ public class LL1Parser {
     }
     private boolean EMP_ARR_DEC2() {
         if (match("[")) {
+            index++;
             if (match("]")) {
+                index++;
                 if (EMP_ARR_DEC2()) {
                     return true;
                 }
@@ -1795,6 +1928,7 @@ public class LL1Parser {
     
     private boolean ARR_CONST() {
         if (match("{")) {
+            index++;
             if (ARR_ELEMT()) {
                 return true;
             }
@@ -1817,17 +1951,20 @@ public class LL1Parser {
             }
         }
         else if (match("}")) {
+            index++;
             return true;
         }
         return false;
     }
     private boolean EXPR_LIST() {
         if (match(",")) {
+            index++;
             if (ARR_ELEMT()) {
                 return true;
             }
         }
         else if (match("}")) {
+            index++;
             return true;
         }
         return false;
@@ -1861,6 +1998,7 @@ public class LL1Parser {
     }
     private boolean VAR_G() {
         if (match("id")) {
+            index++;
             if (IS_INIT_G()) {
                 return true;
             }
@@ -1869,6 +2007,7 @@ public class LL1Parser {
     }
     private boolean IS_INIT_G() {
         if (match("=")) {
+            index++;
             if (INIT()) {
                 if (LIST_G()) {
                     return true;
@@ -1884,13 +2023,16 @@ public class LL1Parser {
     }
     private boolean LIST_G(){
         if (match(",")) {
+            index++;
             if (match("id")) {
+                index++;
                 if (IS_INIT_G()) {
                     return true;
                 }
             }
         }
         else if (match(";")) {
+            index++;
             return true;
         }
         return false;
@@ -1899,6 +2041,7 @@ public class LL1Parser {
     //Attribute Declaration in class--------------------------------------------?
     private boolean ATTR_CLASS_DEC() {
         if (match("Static")) {
+            index++;
             if (IS_FINAL()) {
                 return true;
             }
@@ -1912,6 +2055,7 @@ public class LL1Parser {
     }
     private boolean IS_FINAL() {
         if (match("const")) {
+            index++;
             if (TYPE_VAR_ARR()) {
                 return true;
             }
@@ -1952,6 +2096,7 @@ public class LL1Parser {
         if (searchSelectionSet("ACCESSMOD")) {
             if (ACCESSMOD()) {
                 if (match("id")) {
+                    index++;
                     if (IS_INIT_C()) {
                         return true;
                     }
@@ -1962,6 +2107,7 @@ public class LL1Parser {
     }
     private boolean IS_INIT_C() {
         if (match("=")) {
+            index++;
             if (INIT()) {
                 if (LIST_C()) {
                     return true;
@@ -1977,8 +2123,10 @@ public class LL1Parser {
     }
     private boolean LIST_C() {
         if (match(",")) {
+            index++;
             if (ACCESSMOD()) {
                 if (match("id")) {
+                    index++;
                     if (IS_INIT_C()) {
                         return true;
                     }
@@ -1986,6 +2134,7 @@ public class LL1Parser {
             }
         }
         else if (match(";")) {
+            index++;
             return true;
         }
         return false;
@@ -2003,7 +2152,8 @@ public class LL1Parser {
         return false;
     }
     private boolean EXPR1() {
-        if (match("or")) {      
+        if (match("or")) {
+            index++;
             if (F()){
                 if (EXPR1()){
                     return true;
@@ -2029,6 +2179,7 @@ public class LL1Parser {
     }
     private boolean F1() {
        if (match("and")) {
+           index++;
            if (G()){
                if (F1()){
                    return true;
@@ -2054,6 +2205,7 @@ public class LL1Parser {
     }
     private boolean G1() {
         if (match("rop")) {
+            index++;
             if (H()){
                 if (G1()){
                     return true;
@@ -2079,6 +2231,7 @@ public class LL1Parser {
     }
     private boolean H1() {
         if (match("pm")) {
+            index++;
             if (I()){
                 if (H1()){
                     return true;
@@ -2104,6 +2257,7 @@ public class LL1Parser {
     }
     private boolean I1() {
         if (match("mdm")) {
+            index++;
             if (J()){
                 if (I1()){
                     return true;
@@ -2129,6 +2283,7 @@ public class LL1Parser {
     }
     private boolean J1() {
         if (match("power")) {
+            index++;
             if (K()){
                 if (J1()){
                     return true;
@@ -2164,6 +2319,7 @@ public class LL1Parser {
         if (searchSelectionSet("IS_ACMETH")){
             if (IS_ACMETH()){
                 if (match("id")) {
+                    index++;
                     if (POS2()){
                         return true;
                     }             
@@ -2173,6 +2329,7 @@ public class LL1Parser {
         else if (searchSelectionSet("INC_DEC")){
             if (INC_DEC()){
                 if (match("id")) {
+                    index++;
                     if (POS()){
                         return true;
                     }
@@ -2180,8 +2337,10 @@ public class LL1Parser {
             }
         }
         else if (match("(")) {
+            index++;
             if (EXPR()){
                 if (match(")")) {
+                    index++;
                     return true;
                 }
             }          
@@ -2209,21 +2368,26 @@ public class LL1Parser {
     }
     private boolean UNARY() {
         if (match("typeCast")) {
+            index++;
             if (match("(")) {
+                index++;
                 if (TYPE()) {
                     if (match(")")) {
+                        index++;
                         return true;
                     }
                 }
             }
         }
         else if (match("not")) {
+            index++;
             return true;
         }
         return false;
     }
     private boolean FLAG() {
         if (match("pm")) {
+            index++;
             return true;
         }
         return false;
@@ -2232,6 +2396,7 @@ public class LL1Parser {
     //Increment Decrement-------------------------------------------------------$
     private boolean INC_DEC() {
         if (match("inc_dec")) {
+            index++;
             return true;
         }
         return false;
@@ -2240,18 +2405,23 @@ public class LL1Parser {
     //Constant------------------------------------------------------------------$
     private boolean CONST() {
         if (match("intConst")) {
+            index++;
             return true;
         }
         else if (match("floatConst")) {
+            index++;
             return true;
         }
         else if (match("charConst")) {
+            index++;
             return true; 
         }
         else if (match("boolConst")) {
+            index++;
             return true;
         }
         else if (match("strConst")) {
+            index++;
             return true;
         }
         return false;
@@ -2260,9 +2430,12 @@ public class LL1Parser {
     //Conditional Statements----------------------------------------------------$
     private boolean IF_ELSE(){
         if (match("if")){
+            index++;
             if (match("(")){
+                index++;
                 if (EXPR()){
                     if (match(")")){
+                        index++;
                         if (BODY()){
                             if (OELSE()){
                                 return true;                             
@@ -2276,6 +2449,7 @@ public class LL1Parser {
     }
     private boolean OELSE(){
         if (match("else")){
+            index++;
             if (BODY()){
                 return true;
             }
@@ -2290,10 +2464,14 @@ public class LL1Parser {
     
     private boolean SWITCH() {
         if (match("shift")){
+            index++;
             if (match("(")){
+                index++;
                 if (EXPR()){
                     if (match(")")){
+                        index++;
                         if (match("{")){
+                            index++;
                             if(STATE()){
                                 return true;
                             }      
@@ -2306,8 +2484,10 @@ public class LL1Parser {
     }
     private boolean STATE() {
         if (match("state")){
+            index++;
             if(EXPR()){
                 if (match(":")){
+                    index++;
                     if (SWITCH_BODY()){
                         return true;
                     }
@@ -2320,15 +2500,19 @@ public class LL1Parser {
             }
         }
         else if (match("}")){
+            index++;
             return true;
         }
         return false;
     }
     private boolean DEFAULT() {
         if (match("default")){
+            index++;
             if (match(":")){
+                index++;
                 if (MST()){
                     if (match("}")){
+                        index++;
                         return true;
                     }
                 }
@@ -2339,8 +2523,10 @@ public class LL1Parser {
     }
     private boolean SWITCH_BODY() {
         if (match("{")){
+            index++;
             if (MST()){
                 if (match("}")){
+                    index++;
                     if (STATE()){
                         return true;                        
                     }
@@ -2360,6 +2546,7 @@ public class LL1Parser {
     //Loop Statements-----------------------------------------------------------$
     private boolean LOOP() {
         if(match("loop")){
+            index++;
             if (LT()){
                 return true;
             }     
@@ -2382,9 +2569,12 @@ public class LL1Parser {
     
     private boolean WHILE_ST() {
         if (match("till")){
+            index++;
             if (match("(")){
+                index++;
                 if (EXPR()){
                     if (match(")")){
+                        index++;
                         if (BODY()){
                             return true;
                         }
@@ -2396,12 +2586,17 @@ public class LL1Parser {
     }
     private boolean DO_WHILE() {
         if (match("do")){
+            index++;
             if (BODY()){
                 if (match("till")){
+                    index++;
                     if (match("(")){
+                        index++;
                         if (EXPR()){ 
                             if (match(")")){
+                                index++;
                                 if (match(";")) {
+                                    index++;
                                     return true;
                                 }
                             }
@@ -2415,12 +2610,18 @@ public class LL1Parser {
     
     private boolean FOR_ST() {
         if (match("thru")){
+            index++;
             if (match("(")){
+                index++;
                 if (match("dt")){
+                    index++;
                     if (match("id")){
+                        index++;
                         if (match("in")){
+                            index++;
                             if (FOR_ARG()){
                                 if (match(")")){
+                                    index++;
                                     if (BODY()){
                                         return true;
                                     }
@@ -2435,17 +2636,22 @@ public class LL1Parser {
     }
     private boolean FOR_ARG() {
         if (match("id")){
+            index++;
             if (POS3()){
                 return true;
             }            
         }
         else if (match("(")){
+            index++;
             if (EXPR()){
                 if (match(",")){
+                    index++;
                     if (EXPR()){
                         if (match(",")){
+                            index++;
                             if (EXPR()){
                                 if (match(")")){
+                                    index++;
                                     return true;
                                 }                                
                             }                            
@@ -2474,7 +2680,9 @@ public class LL1Parser {
     }
     private boolean DOT_ID5() {
         if (match("dot")){
+            index++;
             if (match("id")){
+                index++;
                 if(POS3()){
                     return true;
                 }               
@@ -2498,6 +2706,7 @@ public class LL1Parser {
     //Jump Statements-----------------------------------------------------------?
     private boolean BREAK() {
         if (match("stop")){
+            index++;
             if (L()){
                 return true;
             }
@@ -2506,6 +2715,7 @@ public class LL1Parser {
     }
     private boolean CONTINUE() {
         if (match("cont")){
+            index++;
             if(L()){
                 return true;
             } 
@@ -2514,11 +2724,14 @@ public class LL1Parser {
     }
     private boolean L() {
         if (match("id")){
+            index++;
             if (match(":")){
+                index++;
                 return true;
             }           
         }
         else if (match(";")){
+            index++;
             return true;
         }
         return false;
@@ -2526,8 +2739,10 @@ public class LL1Parser {
     
     private boolean RET_ST() {
         if (match("ret")){
+            index++;
             if(EXPR_OBJ()){
-                if (match(";")){ 
+                if (match(";")){
+                    index++;
                   return true;
                 } 
             }
@@ -2537,8 +2752,10 @@ public class LL1Parser {
     
     private boolean THROW() {
         if (match("raise")){
+            index++;
             if (NEW_OBJ()){
                 if (match(";")){
+                    index++;
                     return true;
                 }
             }
@@ -2549,14 +2766,20 @@ public class LL1Parser {
     //Exception Handler---------------------------------------------------------$
     private boolean TRY_CATCH() {
         if (match("test")){
+            index++;
             if (match("{")){
+                index++;
                 if(MST()){
                     if (match("}")){
+                        index++;
                         if (match("except")){
+                            index++;
                             if (ERROR_TYPE()){
                                 if (match("{")){
+                                    index++;
                                     if(MST()){
                                         if (match("}")){
+                                            index++;
                                             if (EXCEPT_FINALLY()){
                                                 return true;
                                             }    
@@ -2573,10 +2796,13 @@ public class LL1Parser {
     }
     private boolean EXCEPT_FINALLY() {
         if (match("except")){
+            index++;
             if (ERROR_TYPE()){
                 if (match("{")){
+                    index++;
                     if (MST()){
                         if (match("}")){
+                            index++;
                             if (EXCEPT_FINALLY()){
                                 return true;
                             }               
@@ -2599,9 +2825,12 @@ public class LL1Parser {
     }
     private boolean ERROR_TYPE() {
         if (match("(")){
+            index++;
             if (match("id")){
+                index++;
                 if (ERR_DOT()){
                     if (match(")")){
+                        index++;
                         return true;
                     }
                 }          
@@ -2611,20 +2840,25 @@ public class LL1Parser {
     }
     private boolean ERR_DOT() {
         if (match("dot")){
+            index++;
             if (match("id")){
+                index++;
                 if (ERR_DOT()) {
                     return true;   
                 }
             }
         }
         else if (match("id")){
+            index++;
             return true;
         }
         return false;
     }
     private boolean THROWS() {
         if (match("raises")){
+            index++;
             if (match("id")){
+                index++;
                 if (ID_ERR()) {
                     return true;                  
                 }
@@ -2652,7 +2886,9 @@ public class LL1Parser {
     }
     private boolean ERR_DOT_ID() {
         if(match("dot")) {
+            index++;
             if (match("id")) {
+                index++;
                 if (ID_ERR()) {
                     return true;
                 }
@@ -2667,7 +2903,9 @@ public class LL1Parser {
     }
     private boolean ERR_LIST() {
         if(match(",")) {
+            index++;
             if (match("id")) {
+                index++;
                 if (ERR_DOT_ID()) {
                     return true;
                 }
@@ -2677,9 +2915,12 @@ public class LL1Parser {
     }
     private boolean FINALLY(){
         if (match("finally")){
+            index++;
             if (match("{")){
+                index++;
                 if(MST()){
                     if (match("}")){
+                        index++;
                         return true;
                     }
                 }

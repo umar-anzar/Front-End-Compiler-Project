@@ -45,7 +45,6 @@ public final class testingOmer {
         System.out.println(x);
         
         String B = null;
-        System.out.println(B.isEmpty());
 
 //        HashSet<String> h = new HashSet<>();
 //        h.add("A");h.add("A");h.add("B");h.add("C");
