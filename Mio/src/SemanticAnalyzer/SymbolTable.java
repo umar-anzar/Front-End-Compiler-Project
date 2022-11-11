@@ -297,10 +297,15 @@ public class SymbolTable {
         
     }
     
+    public void addError(String statement) {
+        error.add(statement);
+    }
     public void addError(int line, String statement, String identifier) {
         error.add("line no "+line+": "+statement+", "+identifier);
     }
     public void printError() {
+        if (lookUpMT("begin", "") == null)
+            error.add("File has no executable function {begin}");
         for (String string : error) {
             System.err.println(string);
         }

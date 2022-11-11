@@ -1,16 +1,13 @@
 package project.src;
-
 import Properties.Registration;
 import Random.^;
-
-
 
 begin {}
 
 def func1 () {}
 def int func1 (int a) {}
 def str func1 (int a,float b) {}
-def X func1 (int[] a,float[][] b) {}
+def X func1 (int[] a,float[][] b, A[] c) {}
 def X[][][] func1 (int[][] a,float[][] b) {}
 
 

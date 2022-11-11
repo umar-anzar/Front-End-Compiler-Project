@@ -14,7 +14,9 @@ public class RetOutInfo {
             TYPE="",
             DIMENSION="",
             TYPE_MODIFIER="",
-            ACCESS_MODIFIER="";
+            ACCESS_MODIFIER="",
+            PARAMETRIC_CLASS="",
+            EXTEND="";
 
     public String getNAME() {
         return NAME;

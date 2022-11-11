@@ -7,6 +7,7 @@ package SyntaxAnalyzer;
 import LexicalAnalyzer.TokenClass;
 import SemanticAnalyzer.RetOutInfo;
 import SemanticAnalyzer.SymbolTable;
+import SemanticAnalyzer.TableStructure.MainTableRow;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -836,9 +837,11 @@ public class LL1Parser {
                         if (match("{")) {
                             if(!ST.insertMT(N, T, "", PL, "", "", "", ""))
                                 ST.addError(getTokenLine(), "Redeclaration error",N);
+                            ST.push();
                             index++;
                             if (MST()) {
                                 if (match("}")) {
+                                    ST.pop();
                                     index++;
                                     return true;
                                 }
@@ -1133,15 +1136,18 @@ public class LL1Parser {
         return false;
     }
     private boolean CLASS_DEC() {
+        RetOutInfo out = new RetOutInfo();
         if (match("Class")) {
+            out.TYPE = getTokenVP();
             index++;
 //            if (NO_PRIVATE()) {
                 if (match("id")) {
+                    out.NAME = getTokenVP();
                     index++;
-                    if (CLASS_PAR()) {
+                    if (CLASS_PAR(out)) {
                         if (match("(")) {
                             index++;
-                            if (INHERIT()) {
+                            if (INHERIT(out)) {
                                 return true;
                             }
                         }
@@ -1162,10 +1168,11 @@ public class LL1Parser {
 //        }
 //        return false;
 //    }
-    private boolean CLASS_PAR() {
+    private boolean CLASS_PAR(RetOutInfo out) {
         if (matchVp("<")) {
             index++;
             if (match("id")) {
+                out.PARAMETRIC_CLASS = getTokenVP();
                 index++;
                 if (matchVp(">")) {
                     index++;
@@ -1180,16 +1187,19 @@ public class LL1Parser {
         }
         return false;
     }
-    private boolean INHERIT(){
+    private boolean INHERIT(RetOutInfo out) {
         if (match("id")) {
+            
+            out.EXTEND = getTokenVP();
             index++;
-            if (MULTI_INHERIT()) {
+            if (MULTI_INHERIT(out)) {
                 return true;
             }
         }
         else if (match(")")) {
             index++;
             if (match("{")) {
+                
                 index++;
                 if (CLASS_BODY()) {
                     return true;
@@ -1198,12 +1208,14 @@ public class LL1Parser {
         }
         return false;
     }
-    private boolean MULTI_INHERIT(){
+    private boolean MULTI_INHERIT(RetOutInfo out){
         if (match(",")) {
+            out.EXTEND += getTokenVP();
             index++;
             if (match("id")) {
+                out.EXTEND += getTokenVP();
                 index++;
-                if (MULTI_INHERIT()) {
+                if (MULTI_INHERIT(out)) {
                     return true;
                 }
             }
@@ -1211,6 +1223,7 @@ public class LL1Parser {
         else if (match(")")) {
             index++;
             if (match("{")) {
+                
                 index++;
                 if (CLASS_BODY()) {
                     return true;
