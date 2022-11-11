@@ -311,6 +311,21 @@ public class SymbolTable {
         }
     }
     
+    public boolean isFinalClass(String className) {
+        return lookUpMT(className, "").isFinal();
+    }
+    public void canInhert(String className,int line) {
+        MainTableRow row = lookUpMT(className, "");
+        if(row != null) {
+            if ("Class".equals(row.TYPE)) {
+                if (isFinalClass(className)){
+                    addError(line,"Class is final, cannot extend",className);
+                }
+            }
+        } else {
+            addError(line,"Class not declared",className);
+        }
+    }
     
     public static void main(String[] args) {
         SymbolTable x = new  SymbolTable();

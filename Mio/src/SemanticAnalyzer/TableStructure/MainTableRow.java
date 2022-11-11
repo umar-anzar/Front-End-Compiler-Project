@@ -46,6 +46,9 @@ public class MainTableRow extends ChildTableAttr{
         }
         return new String[] {};
     }
+    public boolean isFinal() {
+        return "const".equals(TYPE_MODIFIER) && "Class".equals(TYPE);
+    }
 
     @Override
     public ArrayList<String> tablevalues() {

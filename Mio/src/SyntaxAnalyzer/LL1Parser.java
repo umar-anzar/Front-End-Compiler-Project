@@ -491,7 +491,7 @@ public class LL1Parser {
             }
         }
         else if (searchSelectionSet("GLOBAL_CLASS")) {
-            if (FN_DEC()) {
+            if (GLOBAL_CLASS()) {
                 if (ST_BODY2()) {
                     return true;
                 }
@@ -1103,28 +1103,31 @@ public class LL1Parser {
     
     //Class Statement-----------------------------------------------------------$
     private boolean GLOBAL_CLASS() {
+        String TM="";
         if (searchSelectionSet("CLASS_DEC")) {
-            if (CLASS_DEC()) {
+            if (CLASS_DEC(TM)) {
                 return true;
             }
         }
         else if (match("Abstract")) {
+            TM = getTokenVP();
             index++;
-            if (CLASS_DEC()) {
+            if (CLASS_DEC(TM)) {
                 return true;
             }
         }
         else if (match("const")) {
+            TM = getTokenVP();
             index++;
-            if (CLASS_GLOBAL()) {
+            if (CLASS_GLOBAL(TM)) {
                 return true;
             }
         }
         return false;
     }
-    private boolean CLASS_GLOBAL() {
+    private boolean CLASS_GLOBAL(String TM) {
         if (searchSelectionSet("CLASS_DEC")) {
-            if (CLASS_DEC()) {
+            if (CLASS_DEC(TM)) {
                 return true;
             }
         }
@@ -1135,8 +1138,9 @@ public class LL1Parser {
         }
         return false;
     }
-    private boolean CLASS_DEC() {
+    private boolean CLASS_DEC(String TM) {
         RetOutInfo out = new RetOutInfo();
+        out.TYPE_MODIFIER = TM;
         if (match("Class")) {
             out.TYPE = getTokenVP();
             index++;
@@ -1190,6 +1194,8 @@ public class LL1Parser {
     private boolean INHERIT(RetOutInfo out) {
         if (match("id")) {
             
+            ST.canInhert(getTokenVP(), getTokenLine());
+            
             out.EXTEND = getTokenVP();
             index++;
             if (MULTI_INHERIT(out)) {
@@ -1197,9 +1203,12 @@ public class LL1Parser {
             }
         }
         else if (match(")")) {
+            String N=out.NAME,T=out.TYPE,TM=out.TYPE_MODIFIER,
+                    PC=out.PARAMETRIC_CLASS;
             index++;
             if (match("{")) {
-                
+                if(!ST.insertMT(N, T, TM, "", "", "", PC, ""))
+                        ST.addError(getTokenLine(), "Redeclaration error",N);
                 index++;
                 if (CLASS_BODY()) {
                     return true;
@@ -1213,6 +1222,7 @@ public class LL1Parser {
             out.EXTEND += getTokenVP();
             index++;
             if (match("id")) {
+                ST.canInhert(getTokenVP(), getTokenLine());
                 out.EXTEND += getTokenVP();
                 index++;
                 if (MULTI_INHERIT(out)) {
@@ -1221,9 +1231,12 @@ public class LL1Parser {
             }
         }
         else if (match(")")) {
+            String N=out.NAME,T=out.TYPE,TM=out.TYPE_MODIFIER,
+                    PC=out.PARAMETRIC_CLASS,EXT=out.EXTEND;
             index++;
             if (match("{")) {
-                
+                if(!ST.insertMT(N, T, TM, "", "", "", PC, EXT))
+                        ST.addError(getTokenLine(), "Redeclaration error",N);
                 index++;
                 if (CLASS_BODY()) {
                     return true;
