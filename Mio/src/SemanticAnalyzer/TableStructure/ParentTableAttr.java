@@ -18,17 +18,15 @@ public abstract class ParentTableAttr {
             NAME,
             TYPE,
             SIZE,
-            TYPE_MODIFIER,
-            DIMENSION;
+            TYPE_MODIFIER;
     
-    public ParentTableAttr(String NAME, String TYPE, String TYPE_MODIFIER, String DIMENSION) {
+    public ParentTableAttr(String NAME, String TYPE, String TYPE_MODIFIER) {
         this.NAME = NAME;
         this.TYPE = TYPE;
         if (this.TYPE.isEmpty()) {
             this.TYPE = "void"; //empty type means its a function with void return type
         }
         this.TYPE_MODIFIER = TYPE_MODIFIER;
-        this.DIMENSION = DIMENSION;
     }
     
     public boolean isAbstract() {
@@ -41,7 +39,6 @@ public abstract class ParentTableAttr {
         record.add(TYPE);
         record.add(SIZE);
         record.add(TYPE_MODIFIER);
-        record.add(DIMENSION);
         
         return record;
     }
@@ -53,7 +50,6 @@ public abstract class ParentTableAttr {
         header.add("TYPE");
         header.add("SIZE");
         header.add("TYPE_MODIFIER");
-        header.add("DIMENSION");
         
         return header;
     }

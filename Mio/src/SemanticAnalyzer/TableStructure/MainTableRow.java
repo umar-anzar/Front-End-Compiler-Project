@@ -21,10 +21,10 @@ public class MainTableRow extends ChildTableAttr{
             DT;
 
     public MainTableRow(String NAME, String TYPE, String TYPE_MODIFIER, 
-            String DIMENSION, String PARAM_LIST, String TYPE_EXP, 
+            String PARAM_LIST, String TYPE_EXP, 
             String ACCESS_MODIFIER, String PARAMETRIC_CLASS, String EXTEND) 
     {
-        super(NAME, TYPE, TYPE_MODIFIER, DIMENSION,PARAM_LIST, 
+        super(NAME, TYPE, TYPE_MODIFIER, PARAM_LIST, 
                 TYPE_EXP, ACCESS_MODIFIER);
         this.PARAMETRIC_CLASS = PARAMETRIC_CLASS;
         this.EXTEND = EXTEND;

@@ -16,7 +16,7 @@ public class ScopeStack extends LinkedList<Integer> {
     list. So it doesn't have to traverse the list to get to the last node.*/
     
     Iterator<Integer> iter;
-    Integer scope;
+    Integer scope = 0;
 
     public void resetIter() {
         iter = this.iterator();

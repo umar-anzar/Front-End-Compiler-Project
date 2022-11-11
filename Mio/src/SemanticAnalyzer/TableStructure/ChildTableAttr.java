@@ -17,10 +17,10 @@ public abstract class ChildTableAttr extends ParentTableAttr {
             ACCESS_MODIFIER;
 
     public ChildTableAttr(String NAME, String TYPE, String TYPE_MODIFIER, 
-            String DIMENSION, String PARAM_LIST, 
-            String TYPE_EXP, String ACCESS_MODIFIER) 
+            String PARAM_LIST, String TYPE_EXP, 
+            String ACCESS_MODIFIER) 
     {
-        super(NAME, TYPE, TYPE_MODIFIER, DIMENSION);
+        super(NAME, TYPE, TYPE_MODIFIER);
         this.PARAM_LIST = PARAM_LIST;
         this.TYPE_EXP = TYPE_EXP;
         this.ACCESS_MODIFIER = ACCESS_MODIFIER;

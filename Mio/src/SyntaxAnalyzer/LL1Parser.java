@@ -5,8 +5,13 @@
 package SyntaxAnalyzer;
 
 import LexicalAnalyzer.TokenClass;
+import SemanticAnalyzer.RetOutInfo;
+import SemanticAnalyzer.SymbolTable;
 import java.util.HashMap;
 import java.util.List;
+
+
+
 
 /**
  *
@@ -18,6 +23,8 @@ public class LL1Parser {
     List <TokenClass> tokenList;
     //Selection Set
     private HashMap<String, String[][]> sSet;
+    //SymbolTable
+    public SymbolTable ST = new SymbolTable();
 
     /**
      * Constructor Initializes Selection Set HashMap
@@ -594,12 +601,17 @@ public class LL1Parser {
     
     //Begin the Main Function---------------------------------------------------$
     private boolean MAIN() {
+        String N;
         if (match("begin")) {
+            N = getTokenVP();
             index++;
             if (match("{")) {
+                ST.insertMT(N, "", "", "", "", "", "", "");
+                ST.push();
                 index++;
                 if (MST()) {
                     if (match("}")) {
+                        ST.pop();
                         index++;
                         return true;
                     }
@@ -611,11 +623,18 @@ public class LL1Parser {
     
     //Package and Import--------------------------------------------------------$
     private boolean PACKAGE() {
+        String T,N;
+        
         if (match("package")) {
+            T = getTokenVP();
             index++;
             if (match("id")) {
+                N = getTokenVP();
                 index++;
-                if (IMP_DOT()) { 
+                RetOutInfo out = new RetOutInfo();
+                if (IMP_DOT(out)) { 
+                    N += out.NAME;
+                    ST.insertMT(N, T, "", "", "", "", "", "");
                     return true; 
                 }
                 
@@ -625,11 +644,18 @@ public class LL1Parser {
         return false;
     }
     private boolean IMPORTS() {
+        String N;
+        String T;
         if (match("import")) {
+            T = getTokenVP();
             index++;
             if (match("id")) {
+                N = getTokenVP();
+                RetOutInfo out = new RetOutInfo();
                 index++;
-                if (IMP_DOT()) { 
+                if (IMP_DOT(out)) { 
+                    N += out.NAME;
+                    ST.insertMT(N, T, "", "", "", "", "", "");
                     return true; 
                 }
             }
@@ -637,10 +663,11 @@ public class LL1Parser {
         
         return false;
     }
-    private boolean IMP_DOT() {
+    private boolean IMP_DOT(RetOutInfo out) {
         if (match("dot")) {
+            out.NAME = ".";
             index++;
-            if (ID_STAR()) {
+            if (ID_STAR(out)) {
                 return true;
             }
         } 
@@ -650,15 +677,17 @@ public class LL1Parser {
         }
         return false;
     }
-    private boolean ID_STAR() {
+    private boolean ID_STAR(RetOutInfo out) {
 
         if (match("id")){
+            out.NAME += getTokenVP();
             index++;
-            if (IMP_DOT()) { 
+            if (IMP_DOT(out)) { 
                 return true; 
             }
         } 
         else if (match("power")) {
+            out.NAME += "^";
             index++;
             if (match(";")) {
                 index++;
@@ -674,50 +703,59 @@ public class LL1Parser {
     }
 
     //Reusable CFG--------------------------------------------------------------$
-    private boolean TYPE() {
+    private boolean TYPE(RetOutInfo out) {
         if (match("id")) {
+            out.TYPE += getTokenVP();
             index++;
             return true;
         }
         else if (match("dt")) {
+            out.TYPE += getTokenVP();
             index++;
             return true;
         }
         else if (match("str")) {
+            out.TYPE += getTokenVP();
             index++;
             return true;
         }
         return false;
     }
-    private boolean DT_STR() {
+    private boolean DT_STR(RetOutInfo out) {
         if (match("dt")) {
+            out.TYPE = getTokenVP();
             index++;
             return true;
         }
         else if (match("str")) {
+            out.TYPE = getTokenVP();
             index++;
             return true;
         }
         return false;
     }
-    private boolean ARR_TYPE() {
+    private boolean ARR_TYPE(RetOutInfo out) {
         if (match("[")) {
+            out.TYPE += getTokenVP();
             index++;
             if (match("]")) {
+                out.TYPE += getTokenVP();
                 index++;
-                if (ARR_TYPE_LIST()) {
+                if (ARR_TYPE_LIST(out)) {
                     return true;
                 }
             }
         }
         return false;
     }
-    private boolean ARR_TYPE_LIST() {
+    private boolean ARR_TYPE_LIST(RetOutInfo out) {
         if (match("[")) {
+            out.TYPE += getTokenVP();
             index++;
             if (match("]")) {
+                out.TYPE += getTokenVP();
                 index++;
-                if (ARR_TYPE_LIST()) {
+                if (ARR_TYPE_LIST(out)) {
                     return true;
                 }
             }
@@ -779,12 +817,19 @@ public class LL1Parser {
     
     //Function Statement--------------------------------------------------------$
     private boolean FN_DEC() {
+        String N,T,PL;
+        RetOutInfo out = new RetOutInfo();
         if (match("def")) {
             index++;
-            if (RET_TYPE()) {
-                if (FN_ST()) {
+            if (RET_TYPE(out)) {
+                T = out.TYPE;
+                N = out.NAME;
+                out = new RetOutInfo();
+                if (FN_ST(out)) {
+                    PL = out.TYPE;
                     if (THROWS()) {
                         if (match("{")) {
+                            ST.insertMT(N, T, "", PL, "", "", "", "");
                             index++;
                             if (MST()) {
                                 if (match("}")) {
@@ -799,21 +844,21 @@ public class LL1Parser {
         }
         return false;
     }
-    private boolean FN_ST() {
+    private boolean FN_ST(RetOutInfo out) {
         if (match("(")) {
             index++;
-            if (PAR()) {
+            if (PAR(out)) {
                 return true;
             }
         }
         return false;
     }
-    private boolean PAR() {
+    private boolean PAR(RetOutInfo out) {
         if (searchSelectionSet("DT_ID")) {
-            if (DT_ID()) {
+            if (DT_ID(out)) {
                 if (match("id")) {
                     index++;
-                    if (PAR_LIST()) {
+                    if (PAR_LIST(out)) {
                         return true;
                     }
                 }
@@ -825,13 +870,14 @@ public class LL1Parser {
         }
         return false;
     }
-    private boolean PAR_LIST() {
+    private boolean PAR_LIST(RetOutInfo out) {
         if (match(",")) {
+            out.TYPE += ",";
             index++;
-            if (DT_ID()) {
+            if (DT_ID(out)) {
                 if (match("id")) {
                     index++;
-                    if (PAR_LIST()) {
+                    if (PAR_LIST(out)) {
                         return true;
                     }
                 }
@@ -843,10 +889,10 @@ public class LL1Parser {
         }
         return false;
     }
-    private boolean DT_ID() {
+    private boolean DT_ID(RetOutInfo out) {
         if (searchSelectionSet("TYPE")) {
-            if (TYPE()) {
-                if (ARR_TYPE_LIST()) {
+            if (TYPE(out)) {
+                if (ARR_TYPE_LIST(out)) {
                     return true;
                 } 
             }
@@ -854,11 +900,12 @@ public class LL1Parser {
         return false;
     }
     
-    private boolean RET_TYPE() {
+    private boolean RET_TYPE(RetOutInfo out) {
         if (searchSelectionSet("DT_STR")) {
-            if (DT_STR()) {
-                if (ARR_TYPE_LIST()) {
+            if (DT_STR(out)) {
+                if (ARR_TYPE_LIST(out)) {
                     if (match("id")) {
+                        out.NAME = getTokenVP();
                         index++;
                         return true;
                     }
@@ -866,28 +913,33 @@ public class LL1Parser {
             }
         }
         else if (match("id")) {
+            out.NAME = getTokenVP();
+            out.TYPE = getTokenVP();
             index++;
-            if (RT_OBJ()) {
+            if (RT_OBJ(out)) {
                 return true;
             }
         }
         return false;
     }
-    private boolean RT_OBJ() {
+    private boolean RT_OBJ(RetOutInfo out) {
         if (searchSelectionSet("ARR_TYPE")) {
-            if (ARR_TYPE()) {
+            if (ARR_TYPE(out)) {
                 if (match("id")) {
+                    out.NAME = getTokenVP();
                     index++;
                     return true;
                 }
             }
         }
         else if (match("id")) {
+            out.NAME = getTokenVP();
             index++;
             return true;
         }
         else {
             if (searchFollowSet("RT_OBJ")) {
+                out.TYPE = "";
                 return true;
             }
         }
@@ -945,7 +997,7 @@ public class LL1Parser {
     private boolean RET_TO_THROW() {
         if (searchSelectionSet("RET_TYPE_C")) {
             if (RET_TYPE_C()) {
-                if (FN_ST()) {
+                if (FN_ST(null)) {
                     if (THROWS()) {
                         return true;
                     }
@@ -971,8 +1023,8 @@ public class LL1Parser {
     
     private boolean RET_TYPE_C() {
         if (searchSelectionSet("DT_STR")) {
-            if (DT_STR()) {
-                if (ARR_TYPE_LIST()) {
+            if (DT_STR(null)) {
+                if (ARR_TYPE_LIST(null)) {
                     if (ACCESSMOD()) {
                         if (match("id")) {
                             index++;
@@ -1000,7 +1052,7 @@ public class LL1Parser {
     }
     private boolean RET_OBJ_C() {
         if (searchSelectionSet("ARR_TYPE")) {
-            if (ARR_TYPE()) {
+            if (ARR_TYPE(null)) {
                 if (ACCESSMOD()) {
                     if (match("id")) {
                         index++;
@@ -1367,14 +1419,14 @@ public class LL1Parser {
     private boolean DEC() {
         if (match("const")) {
             index++;
-            if (TYPE()) {
+            if (TYPE(null)) {
                 if (VAR_ARR()) {
                     return true;
                 }
             }
         }
         else if (searchSelectionSet("DT_STR")) {
-            if (DT_STR()) {
+            if (DT_STR(null)) {
                 if (VAR_ARR()) {
                     return true;
                 }
@@ -1437,7 +1489,7 @@ public class LL1Parser {
     private boolean ARR_SUBSCRIPT() {
         if (match("]")) {
             index++;
-            if (ARR_TYPE_LIST()) {
+            if (ARR_TYPE_LIST(null)) {
                 if (match("id")) {
                     index++;
                     if (IS_INIT()) {
@@ -1461,7 +1513,7 @@ public class LL1Parser {
     
     private boolean VAR_ARR() {
         if (searchSelectionSet("ARR_TYPE")) {
-            if (ARR_TYPE()) {
+            if (ARR_TYPE(null)) {
                 if (match("id")) {
                     index++;
                     if (IS_INIT()) {
@@ -1973,7 +2025,7 @@ public class LL1Parser {
     //Global Variable Declaration-----------------------------------------------$
     private boolean GLOBAL_DEC() {
         if (searchSelectionSet("TYPE")) {
-            if (TYPE()) {
+            if (TYPE(null)) {
                 if (VAR_ARR_G()) {
                     return true;
                 }
@@ -1983,7 +2035,7 @@ public class LL1Parser {
     }
     private boolean VAR_ARR_G() {
         if (searchSelectionSet("ARR_TYPE")) {
-            if (ARR_TYPE()) {
+            if (ARR_TYPE(null)) {
                 if (VAR_G()) {
                     return true;
                 }
@@ -2069,7 +2121,7 @@ public class LL1Parser {
     }
     private boolean TYPE_VAR_ARR() {
         if (searchSelectionSet("TYPE")) {
-            if (TYPE()) {
+            if (TYPE(null)) {
                 if (VAR_ARR_C()) {
                     return true;
                 }
@@ -2079,7 +2131,7 @@ public class LL1Parser {
     } 
     private boolean VAR_ARR_C() {
         if (searchSelectionSet("ARR_TYPE")) {
-            if (ARR_TYPE()) {
+            if (ARR_TYPE(null)) {
                 if (VAR_C()) {
                     return true;
                 }
@@ -2371,7 +2423,7 @@ public class LL1Parser {
             index++;
             if (match("(")) {
                 index++;
-                if (TYPE()) {
+                if (TYPE(null)) {
                     if (match(")")) {
                         index++;
                         return true;
