@@ -284,17 +284,44 @@ public class SymbolTable {
             System.out.println(row);
         }
         
+        for (String row : functionTable) {
+            System.out.println(row);
+        }
+        
     }
+    
     
     public static void main(String[] args) {
         SymbolTable x = new  SymbolTable();
         //x.insertMT("A", "Class", "const", "[][]", "", "", "", "", "D,B,E");
+        
         x.insertMT("B", "Class", "const", "", "", "", "", "", "C,H");
+        
+        x.insertMT("var1", "int", "const", "", "", "", "", "", "");
+        
         x.insertMT("C", "Class", "const", "[][]", "", "", "", "", "E,G");
+        
+        x.insertMT("x2", "int", "const", "", "", "", "", "", "");
+        x.insertMT("a3", "int", "const", "", "", "", "", "", "");
+        
         x.insertMT("D", "Class", "const", "[][]", "", "", "", "", "E,F");
+        
+        x.insertMT("b4", "int", "const", "", "", "", "", "", "");
+        x.insertMT("q5", "int", "const", "", "", "", "", "", "");
+        x.insertMT("var6", "int", "const", "", "", "", "", "", "");
+        x.insertMT("asd", "Class", "const", "[][]", "", "", "", "", "");
+        x.insertMT("rasd", "Class", "const", "[][]", "", "", "", "", "");
+        
         x.insertMT("E", "Class", "const", "[][]", "", "", "", "", "G,H");
+        
+        
         x.insertMT("F", "Class", "const", "[][]", "", "", "", "", "");
+        
+        
         x.insertMT("G", "Class", "const", "[][]", "", "", "", "", "");
+        
+        
+        
         x.insertMT("H", "Class", "const", "[][]", "", "", "", "", "");
         
         
@@ -326,6 +353,8 @@ public class SymbolTable {
         row = x.lookUpMT("G", "");
         x.currentCt = row.DT;
         x.insertCT("g", "int", "", "", "", "", "private", "Static");
+        x.insertCT("g1", "int", "", "", "", "", "private", "Static");
+        x.insertCT("g2", "int", "", "", "", "", "private", "Static");
 
         
         row = x.lookUpMT("H", "");
@@ -340,7 +369,7 @@ public class SymbolTable {
         
         System.out.println(x.lookUpFT("e", "", x.currentCt, new retOutInfo()));
         
-        //x.printST();
+        x.printST();
     }
 }
 

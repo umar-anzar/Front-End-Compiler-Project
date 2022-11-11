@@ -22,8 +22,17 @@ public class FunctionTableRow extends ParentTableAttr{
 
     @Override
     public ArrayList<String> tablevalues() {
-        ArrayList<String> header = super.tablevalues();
-        header.add(Integer.toString(SCOPE));
+        ArrayList<String> record = super.tablevalues();
+        record.add(Integer.toString(SCOPE));
+        return record;
+    }
+    
+    @Override
+    public ArrayList<String> tableheading() {
+        
+        ArrayList<String> header = super.tableheading();
+        header.add("SCOPE");
+
         return header;
     }
     

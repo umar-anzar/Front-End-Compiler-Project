@@ -29,8 +29,17 @@ public class ClassTableRow extends ChildTableAttr {
 
     @Override
     public ArrayList<String> tablevalues() {
-        ArrayList<String> header = super.tablevalues();
-        header.add(STATIC);
+        ArrayList<String> record = super.tablevalues();
+        record.add(STATIC);
+        return record;
+    }
+    
+    @Override
+    public ArrayList<String> tableheading() {
+        
+        ArrayList<String> header = super.tableheading();
+        header.add("STATIC");
+    
         return header;
     }
 

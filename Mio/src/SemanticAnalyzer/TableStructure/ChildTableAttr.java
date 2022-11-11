@@ -28,10 +28,21 @@ public abstract class ChildTableAttr extends ParentTableAttr {
 
     @Override
     public ArrayList<String> tablevalues() {
-        ArrayList<String> header = super.tablevalues();
-        header.add(PARAM_LIST);
-        header.add(TYPE_EXP);
-        header.add(ACCESS_MODIFIER);
+        ArrayList<String> record = super.tablevalues();
+        record.add(PARAM_LIST);
+        record.add(TYPE_EXP);
+        record.add(ACCESS_MODIFIER);
+        return record;
+    }
+    
+    @Override
+    public ArrayList<String> tableheading() {
+        
+        ArrayList<String> header = super.tableheading();
+        header.add("PARAM_LIST");
+        header.add("TYPE_EXP");
+        header.add("ACCESS_MODIFIER");
+    
         return header;
     }
 

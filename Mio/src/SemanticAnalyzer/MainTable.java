@@ -6,6 +6,7 @@ package SemanticAnalyzer;
 
 import SemanticAnalyzer.TableStructure.MainTableRow;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 /**
@@ -21,10 +22,20 @@ public class MainTable extends HashMap<String, MainTableRow> {
     
     public ArrayList<String> printMT() {
         ArrayList<String> table = new ArrayList<>();
+        boolean headerOn = true;
         for (String key : this.keySet() ) {
-            table.add(printRow(this.get(key).tablevalues()));
             
+            //header on once
+            if (headerOn) {
+                table.add(printHeader(this.get(key).tableheading()));
+                headerOn = false;
+            }
+            
+            table.add(printRow(this.get(key).tablevalues()));
             if (this.get(key).DT != null) {
+                
+                headerOn = true;//when printing of class start MT header gets on
+                
                 table.add("\n");
                 for (String classRow : this.get(key).DT.printCT()) {
                     table.add("\t\t"+classRow);
@@ -38,6 +49,18 @@ public class MainTable extends HashMap<String, MainTableRow> {
     public String printRow(ArrayList<String> row) {
         String strRow = "";
         for (String attr : row) {
+            if (attr == null)
+                attr = "--";
+            else if (attr.isEmpty())
+                attr = "--";
+            strRow += attr +'\t';  
+        }
+        return strRow;
+    }
+    
+    public String printHeader(ArrayList<String> header) {
+        String strRow = "";
+        for (String attr : header) {
             strRow += attr +'\t';  
         }
         return strRow;

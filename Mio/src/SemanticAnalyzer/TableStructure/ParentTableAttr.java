@@ -6,6 +6,7 @@ package SemanticAnalyzer.TableStructure;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  *
@@ -35,21 +36,26 @@ public abstract class ParentTableAttr {
     }
     
     public ArrayList<String> tablevalues() {
-        ArrayList<String> header = new ArrayList<>();
-        header.add(NAME);
-        header.add(TYPE);
-        header.add(SIZE);
-        header.add(TYPE_MODIFIER);
-        header.add(DIMENSION);
+        ArrayList<String> record = new ArrayList<>();
+        record.add(NAME);
+        record.add(TYPE);
+        record.add(SIZE);
+        record.add(TYPE_MODIFIER);
+        record.add(DIMENSION);
         
-        return header;
+        return record;
     }
     
-    public Field[] tableheading() {
-        for (Field field : this.getClass().getFields()) {
-            System.out.println(field);
-        }
-        return null;
+    public ArrayList<String> tableheading() {
+        
+        ArrayList<String> header = new ArrayList<>();
+        header.add("NAME");
+        header.add("TYPE");
+        header.add("SIZE");
+        header.add("TYPE_MODIFIER");
+        header.add("DIMENSION");
+        
+        return header;
     }
           
     /**

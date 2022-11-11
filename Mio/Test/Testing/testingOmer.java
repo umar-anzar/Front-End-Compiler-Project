@@ -50,7 +50,7 @@ public final class testingOmer {
 //        h.add("A");h.add("A");h.add("B");h.add("C");
 //        System.out.println(h.contains("C"));
         
-
+        System.out.println(Arrays.toString("public java.lang.String SemanticAnalyzer.TableStructure.ChildTableAttr.TYPE_EXP".split("[.]")));
 
         
         
