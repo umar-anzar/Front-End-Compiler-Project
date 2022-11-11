@@ -19,6 +19,7 @@ public class CFG {
         var parser = new LL1Parser();
         System.out.println(parser.validate(TokenClass.tokenList));
         parser.ST.printST();
+        parser.ST.printError();
     }
     
     

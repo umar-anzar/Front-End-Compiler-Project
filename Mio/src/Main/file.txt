@@ -7,7 +7,11 @@ import Random.^;
 
 begin {}
 
-def A[] func1 (int a, float b) {}
+def func1 () {}
+def int func1 (int a) {}
+def str func1 (int a,float b) {}
+def X func1 (int[] a,float[][] b) {}
+def X[][][] func1 (int[][] a,float[][] b) {}
 
 
 

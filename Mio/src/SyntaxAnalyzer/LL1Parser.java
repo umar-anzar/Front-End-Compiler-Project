@@ -7,6 +7,7 @@ package SyntaxAnalyzer;
 import LexicalAnalyzer.TokenClass;
 import SemanticAnalyzer.RetOutInfo;
 import SemanticAnalyzer.SymbolTable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -91,6 +92,10 @@ public class LL1Parser {
             return this.tokenList.get(index).valueP;
         }
         return this.tokenList.get(index).classP;
+    }
+    
+    public int getTokenLine() {
+        return this.tokenList.get(index).line;
     }
     
     /**
@@ -829,7 +834,8 @@ public class LL1Parser {
                     PL = out.TYPE;
                     if (THROWS()) {
                         if (match("{")) {
-                            ST.insertMT(N, T, "", PL, "", "", "", "");
+                            if(!ST.insertMT(N, T, "", PL, "", "", "", ""))
+                                ST.addError(getTokenLine(), "Redeclaration error",N);
                             index++;
                             if (MST()) {
                                 if (match("}")) {

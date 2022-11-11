@@ -30,6 +30,8 @@ public class SymbolTable {
     
     ClassTable currentCt;
     
+    //Semantic Error------------------------------------------------------------
+    ArrayList<String> error = new ArrayList<>();
     
     //Stack Functions-----------------------------------------------------------
     public void push(){stack.push();}
@@ -293,6 +295,15 @@ public class SymbolTable {
             System.out.println(row);
         }
         
+    }
+    
+    public void addError(int line, String statement, String identifier) {
+        error.add("line no "+line+": "+statement+", "+identifier);
+    }
+    public void printError() {
+        for (String string : error) {
+            System.err.println(string);
+        }
     }
     
     
