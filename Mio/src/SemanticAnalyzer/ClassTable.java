@@ -45,7 +45,9 @@ public class ClassTable extends HashMap<String, ClassTableRow> {
                 attr = "--";
             else if (attr.isEmpty())
                 attr = "--";
-            strRow += attr +'\t';  
+            else if("protected".equals(attr) || "private".equals(attr) || "public".equals(attr))
+                attr = attr.substring(0,3);
+            strRow += attr +"\t\t";  
         }
         return strRow;
     }
@@ -53,7 +55,7 @@ public class ClassTable extends HashMap<String, ClassTableRow> {
     public String printHeader(ArrayList<String> header) {
         String strRow = "";
         for (String attr : header) {
-            strRow += attr +'\t';  
+            strRow += attr +"\t\t";  
         }
         return strRow;
     }

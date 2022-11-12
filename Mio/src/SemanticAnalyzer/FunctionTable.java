@@ -40,7 +40,7 @@ public class FunctionTable extends HashMap<String, FunctionTableRow> {
                 attr = "--";
             else if (attr.isEmpty())
                 attr = "--";
-            strRow += attr +'\t';  
+            strRow += attr +"\t\t";  
         }
         return strRow;
     }
@@ -48,7 +48,7 @@ public class FunctionTable extends HashMap<String, FunctionTableRow> {
     public String printHeader(ArrayList<String> header) {
         String strRow = "";
         for (String attr : header) {
-            strRow += attr +'\t';  
+            strRow += attr +"\t\t";  
         }
         return strRow;
     }

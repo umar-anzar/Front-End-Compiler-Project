@@ -28,8 +28,8 @@ public abstract class ChildTableAttr extends ParentTableAttr {
     @Override
     public ArrayList<String> tablevalues() {
         ArrayList<String> record = super.tablevalues();
-        record.add(PARAM_LIST);
         record.add(ACCESS_MODIFIER);
+        record.add(PARAM_LIST);
         return record;
     }
     
@@ -37,8 +37,9 @@ public abstract class ChildTableAttr extends ParentTableAttr {
     public ArrayList<String> tableheading() {
         
         ArrayList<String> header = super.tableheading();
-        header.add("PARAM_LIST");
-        header.add("ACCESS_MODIFIER");
+        header.add("AM");
+        header.add("PL");
+        
     
         return header;
     }

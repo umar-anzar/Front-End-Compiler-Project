@@ -61,9 +61,9 @@ public class MainTableRow extends ChildTableAttr{
     public ArrayList<String> tableheading() {
         
         ArrayList<String> header = super.tableheading();
-        header.add("PARAMETRIC_CLASS");
-        header.add("EXTEND");
-    
+        header.add("EXT");
+        header.add("PC");
+
         return header;
     }
 

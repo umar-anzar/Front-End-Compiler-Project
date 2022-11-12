@@ -43,7 +43,6 @@ public abstract class ParentTableAttr {
         ArrayList<String> record = new ArrayList<>();
         record.add(NAME);
         record.add(TYPE);
-        record.add(SIZE);
         record.add(TYPE_MODIFIER);
         
         return record;
@@ -52,10 +51,9 @@ public abstract class ParentTableAttr {
     public ArrayList<String> tableheading() {
         
         ArrayList<String> header = new ArrayList<>();
-        header.add("NAME");
-        header.add("TYPE");
-        header.add("SIZE");
-        header.add("TYPE_MODIFIER");
+        header.add("N");
+        header.add("T");
+        header.add("TM");
         
         return header;
     }

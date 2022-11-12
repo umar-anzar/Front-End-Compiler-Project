@@ -1,13 +1,13 @@
-package project.src;
-import Properties.Registration;
-import Random.^;
+package p.src;
+import Pro.Reg;
+import Rand.^;
 
 @begin {}
 Abstract Class A () {
 
-    def int function () {}
-    def int[] $$function (int x, float b) {}
-    def Static A $function (float b) {}
+    def int fun () {}
+    def int[] $$fun1(int x, float b) {}
+    def Static A $fun2 (float b) {}
 
 }
 @def func1 () {}

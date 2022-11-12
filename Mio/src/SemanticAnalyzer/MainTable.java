@@ -38,7 +38,7 @@ public class MainTable extends HashMap<String, MainTableRow> {
                 
                 table.add("\n");
                 for (String classRow : this.get(key).DT.printCT()) {
-                    table.add("\t\t"+classRow);
+                    table.add("\t"+classRow);
                 }
                 table.add("\n");
             }
@@ -53,7 +53,10 @@ public class MainTable extends HashMap<String, MainTableRow> {
                 attr = "--";
             else if (attr.isEmpty())
                 attr = "--";
-            strRow += attr +'\t';  
+            else if("Abstract".equals(attr))
+                attr = attr.substring(0,3);
+            
+            strRow += attr +"\t\t";  
         }
         return strRow;
     }
@@ -61,7 +64,7 @@ public class MainTable extends HashMap<String, MainTableRow> {
     public String printHeader(ArrayList<String> header) {
         String strRow = "";
         for (String attr : header) {
-            strRow += attr +'\t';  
+            strRow += attr +"\t\t";  
         }
         return strRow;
     }

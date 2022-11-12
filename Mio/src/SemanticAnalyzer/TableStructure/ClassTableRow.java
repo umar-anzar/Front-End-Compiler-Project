@@ -42,7 +42,7 @@ public class ClassTableRow extends ChildTableAttr {
     public ArrayList<String> tableheading() {
         
         ArrayList<String> header = super.tableheading();
-        header.add("STATIC");
+        header.add("STC");
     
         return header;
     }
