@@ -2106,6 +2106,9 @@ public class LL1Parser {
             }
         }
         else if (searchSelectionSet("LIST_G")) {
+            if (!ST.insertMT(N, T, TM, "", "", "", "")) {
+                ST.addError(getTokenLine(), "Redeclaration error",N);
+            }
             if (LIST_G(out)) {
                 return true;
             }
@@ -2115,9 +2118,6 @@ public class LL1Parser {
     private boolean LIST_G(RetOutInfo out){
         String N=out.NAME,T=out.TYPE,TM=out.TYPE_MODIFIER;
         if (match(",")) {
-            if (!ST.insertMT(N, T, TM, "", "", "", "")) {
-                ST.addError(getTokenLine(), "Redeclaration error",N);
-            }
             index++;
             if (match("id")) {
                 out.NAME = getTokenVP();
@@ -2128,10 +2128,6 @@ public class LL1Parser {
             }
         }
         else if (match(";")) {
-            System.out.println("X");
-            if (!ST.insertMT(N, T, TM, "", "", "", "")) {
-                ST.addError(getTokenLine(), "Redeclaration error",N);
-            }
             index++;
             return true;
         }
