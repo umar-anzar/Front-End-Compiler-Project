@@ -16,19 +16,19 @@ public class ClassTableRow extends ChildTableAttr {
             STATIC;
 
     public ClassTableRow(String NAME, String TYPE, String TYPE_MODIFIER, 
-            String PARAM_LIST, String TYPE_EXP, 
+            String PARAM_LIST,
             String ACCESS_MODIFIER, String STATIC) 
     {
         super(NAME, TYPE, TYPE_MODIFIER, PARAM_LIST, 
-                TYPE_EXP, ACCESS_MODIFIER);
+                ACCESS_MODIFIER);
         if (this.ACCESS_MODIFIER.isEmpty() ) {
             this.ACCESS_MODIFIER = "public"; //empty Am means public
         }
         this.STATIC = STATIC;
     }
     
-    public boolean isFinal() {
-        return "const".equals(this.ACCESS_MODIFIER);
+    public boolean isFunction() {
+        return !(NAME.isEmpty() || PARAM_LIST.isEmpty());
     }
 
     @Override

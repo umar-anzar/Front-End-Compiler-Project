@@ -2,15 +2,17 @@ package project.src;
 import Properties.Registration;
 import Random.^;
 
-begin {}
+@begin {}
 Class A (){}
 @def func1 () {}
 @def int func1 (int a) {}
-def str func1 (int a,float b) {}
-def X func1 (int[] a,float[][] b, A[] c) {}
+@def str func1 (int a,float b) {}
+@def X func1 (int[] a,float[][] b, A[] c) {}
 @def X[][][] func1 (int[][] a,float[][] b) {}
 
-const Class Car (A){}
+@const Class Car (A){}
+
+const A a=5,b=3;
 
 
 

@@ -469,7 +469,7 @@ public class LL1Parser {
             }
         }
         else if (searchSelectionSet("GLOBAL_DEC")) {
-            if (GLOBAL_DEC()) {
+            if (GLOBAL_DEC("")) {
                 if (ST_BODY()) {
                     return true;
                 }
@@ -498,7 +498,7 @@ public class LL1Parser {
             }
         }
         else if (searchSelectionSet("GLOBAL_DEC")) {
-            if (GLOBAL_DEC()) {
+            if (GLOBAL_DEC("")) {
                 if (ST_BODY2()) {
                     return true;
                 }
@@ -612,7 +612,7 @@ public class LL1Parser {
             N = getTokenVP();
             index++;
             if (match("{")) {
-                ST.insertMT(N, "", "", "", "", "", "", "");
+                ST.insertMT(N, "", "", "", "", "", "");
                 ST.push();
                 index++;
                 if (MST()) {
@@ -640,7 +640,7 @@ public class LL1Parser {
                 RetOutInfo out = new RetOutInfo();
                 if (IMP_DOT(out)) { 
                     N += out.NAME;
-                    ST.insertMT(N, T, "", "", "", "", "", "");
+                    ST.insertMT(N, T, "", "", "", "", "");
                     return true; 
                 }
                 
@@ -661,7 +661,7 @@ public class LL1Parser {
                 index++;
                 if (IMP_DOT(out)) { 
                     N += out.NAME;
-                    ST.insertMT(N, T, "", "", "", "", "", "");
+                    ST.insertMT(N, T, "", "", "", "", "");
                     return true; 
                 }
             }
@@ -835,7 +835,7 @@ public class LL1Parser {
                     PL = out.TYPE;
                     if (THROWS()) {
                         if (match("{")) {
-                            if(!ST.insertMT(N, T, "", PL, "", "", "", ""))
+                            if(!ST.insertMT(N, T, "", PL, "", "", ""))
                                 ST.addError(getTokenLine(), "Redeclaration error",N);
                             ST.push();
                             index++;
@@ -1132,7 +1132,7 @@ public class LL1Parser {
             }
         }
         else if (searchSelectionSet("GLOBAL_DEC")) {
-            if (GLOBAL_DEC()) {
+            if (GLOBAL_DEC(TM)) {
                 return true;
             }
         }
@@ -1207,7 +1207,7 @@ public class LL1Parser {
                     PC=out.PARAMETRIC_CLASS;
             index++;
             if (match("{")) {
-                if(!ST.insertMT(N, T, TM, "", "", "", PC, ""))
+                if(!ST.insertMT(N, T, TM, "", "", PC, ""))
                         ST.addError(getTokenLine(), "Redeclaration error",N);
                 index++;
                 if (CLASS_BODY()) {
@@ -1235,7 +1235,7 @@ public class LL1Parser {
                     PC=out.PARAMETRIC_CLASS,EXT=out.EXTEND;
             index++;
             if (match("{")) {
-                if(!ST.insertMT(N, T, TM, "", "", "", PC, EXT))
+                if(!ST.insertMT(N, T, TM, "", "", PC, EXT))
                         ST.addError(getTokenLine(), "Redeclaration error",N);
                 index++;
                 if (CLASS_BODY()) {
@@ -2055,67 +2055,83 @@ public class LL1Parser {
     }
     
     //Global Variable Declaration-----------------------------------------------$
-    private boolean GLOBAL_DEC() {
+    private boolean GLOBAL_DEC(String TM) {
+        RetOutInfo out = new RetOutInfo();
+        out.TYPE_MODIFIER = TM;
         if (searchSelectionSet("TYPE")) {
-            if (TYPE(null)) {
-                if (VAR_ARR_G()) {
+            if (TYPE(out)) {
+                if (VAR_ARR_G(out)) {
                     return true;
                 }
             }
         }
         return false;
     }
-    private boolean VAR_ARR_G() {
+    private boolean VAR_ARR_G(RetOutInfo out) {
         if (searchSelectionSet("ARR_TYPE")) {
-            if (ARR_TYPE(null)) {
-                if (VAR_G()) {
+            if (ARR_TYPE(out)) {
+                if (VAR_G(out)) {
                     return true;
                 }
             }
         }
         else if (searchSelectionSet("VAR_G")) {
-            if (VAR_G()) {
+            if (VAR_G(out)) {
                 return true;
             }
         }
         return false;
     }
-    private boolean VAR_G() {
+    private boolean VAR_G(RetOutInfo out) {
         if (match("id")) {
+            out.NAME = getTokenVP();
             index++;
-            if (IS_INIT_G()) {
+            if (IS_INIT_G(out)) {
                 return true;
             }
         }
         return false;
     }
-    private boolean IS_INIT_G() {
+    private boolean IS_INIT_G(RetOutInfo out) {
+        String N=out.NAME,T=out.TYPE,TM=out.TYPE_MODIFIER;
         if (match("=")) {
+            if (!ST.insertMT(N, T, TM, "", "", "", "")) {
+                ST.addError(getTokenLine(), "Redeclaration error",N);
+            }
             index++;
             if (INIT()) {
-                if (LIST_G()) {
+                if (LIST_G(out)) {
                     return true;
                 }
             }
         }
         else if (searchSelectionSet("LIST_G")) {
-            if (LIST_G()) {
+            if (LIST_G(out)) {
                 return true;
             }
         }
         return false;
     }
-    private boolean LIST_G(){
+    private boolean LIST_G(RetOutInfo out){
+        String N=out.NAME,T=out.TYPE,TM=out.TYPE_MODIFIER;
         if (match(",")) {
+            if (!ST.insertMT(N, T, TM, "", "", "", "")) {
+                ST.addError(getTokenLine(), "Redeclaration error",N);
+            }
             index++;
             if (match("id")) {
+                out.NAME = getTokenVP();
                 index++;
-                if (IS_INIT_G()) {
+                if (IS_INIT_G(out)) {
                     return true;
                 }
             }
         }
         else if (match(";")) {
+            System.out.println("X");
+            if (!ST.insertMT(N, T, TM, "", "", "", "")) {
+                ST.addError(getTokenLine(), "Redeclaration error",N);
+            }
             index++;
             return true;
         }

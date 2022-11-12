@@ -17,12 +17,11 @@ public abstract class ChildTableAttr extends ParentTableAttr {
             ACCESS_MODIFIER;
 
     public ChildTableAttr(String NAME, String TYPE, String TYPE_MODIFIER, 
-            String PARAM_LIST, String TYPE_EXP, 
+            String PARAM_LIST,
             String ACCESS_MODIFIER) 
     {
         super(NAME, TYPE, TYPE_MODIFIER);
         this.PARAM_LIST = PARAM_LIST;
-        this.TYPE_EXP = TYPE_EXP;
         this.ACCESS_MODIFIER = ACCESS_MODIFIER;
     }
 
@@ -30,7 +29,6 @@ public abstract class ChildTableAttr extends ParentTableAttr {
     public ArrayList<String> tablevalues() {
         ArrayList<String> record = super.tablevalues();
         record.add(PARAM_LIST);
-        record.add(TYPE_EXP);
         record.add(ACCESS_MODIFIER);
         return record;
     }
@@ -40,7 +38,6 @@ public abstract class ChildTableAttr extends ParentTableAttr {
         
         ArrayList<String> header = super.tableheading();
         header.add("PARAM_LIST");
-        header.add("TYPE_EXP");
         header.add("ACCESS_MODIFIER");
     
         return header;
