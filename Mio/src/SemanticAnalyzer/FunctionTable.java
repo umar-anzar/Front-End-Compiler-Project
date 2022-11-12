@@ -25,6 +25,7 @@ public class FunctionTable extends HashMap<String, FunctionTableRow> {
         boolean headerOn = true;
         for (String key : this.keySet() ) {
             if (headerOn) {
+                table.add("FUNCTION TABLE:");
                 table.add(printHeader(this.get(key).tableheading()));
                 headerOn = false;
             } 

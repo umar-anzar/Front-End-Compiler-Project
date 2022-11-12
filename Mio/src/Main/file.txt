@@ -3,21 +3,21 @@ import Pro.Reg;
 import Rand.^;
 
 begin {
-    int x=5;
+    A yad=5;
 }
 Abstract Class A () {
 
     def int fun () {}
     Static const int a = 4;
-    def ABC[] $$fun1(int x, float b) {}
-    def Static A $fun2 (float b) {}
+    def ABC[] $$fun1(int x, point b) {}
+    def Static A $fun2 (point b) {}
 
 }
 @def func1 () {}
 @def int func1 (int a) {}
-@def str func1 (int a,float b) {}
-@def X func1 (int[] a,float[][] b, A[] c) {}
-@def X[][][] func1 (int[][] a,float[][] b) {}
+@def str func1 (int a,point b) {}
+@def X func1 (int[] a,point[][] b, A[] c) {}
+@def X[][][] func1 (int[][] a,point[][] b) {}
 
 @const Class Car (A){}
 

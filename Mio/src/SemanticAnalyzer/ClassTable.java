@@ -30,6 +30,7 @@ public class ClassTable extends HashMap<String, ClassTableRow> {
         boolean headerOn = true;
         for (String key : this.keySet() ) {
             if (headerOn) {
+                table.add("CLASS TABLE:");
                 table.add(printHeader(this.get(key).tableheading()));
                 headerOn = false;
             } 

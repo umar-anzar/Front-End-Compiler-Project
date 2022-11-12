@@ -92,7 +92,7 @@ public class SymbolTable {
                 stack.scope);
         fdt.add(row);
         
-        return false;
+        return true;
     }
     
     //LookUp Functions----------------------------------------------------------
@@ -306,10 +306,11 @@ public class SymbolTable {
         for (String row : mainTable) {
             System.out.println(row);
         }
-        
+        System.out.println("");
         for (String row : functionTable) {
             System.out.println(row);
         }
+        System.out.println("");
         
     }
     
@@ -323,6 +324,8 @@ public class SymbolTable {
     public void printError() {
         if (lookUpMT("begin", "") == null)
             error.add("File has no executable function {begin}");
+        if (error.size() > 0)
+            System.out.println("ERROR LIST:");
         for (String string : error) {
             System.out.println(string);
         }

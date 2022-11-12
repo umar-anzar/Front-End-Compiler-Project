@@ -1499,8 +1499,10 @@ public class LL1Parser {
             }
         }
         else if (match("id")) {
+            out.TYPE = getTokenVP();
+            out.NAME = getTokenVP();
             index++;
-            if (ASSIGN_OBJ()) {
+            if (ASSIGN_OBJ(out)) {
                 return true;
             }
         }
@@ -1532,20 +1534,23 @@ public class LL1Parser {
         }
         return false;
     }
-    private boolean ASSIGN_OBJ() {
+    private boolean ASSIGN_OBJ(RetOutInfo out) {
         if (match("[")) {
+            out.TYPE ="";
             index++;
             if (ARR_SUBSCRIPT()) {
                 return true;
             }
         }
         else if (match("id")) {
+            out.NAME = getTokenVP();
             index++;
-            if (IS_INIT(null)) {
+            if (IS_INIT(out)) {
                 return true;
             }
         }
         else if (searchSelectionSet("ASSIGN")) {
+            out.TYPE ="";
             if (ASSIGN()) {
                 return true;
             }

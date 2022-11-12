@@ -6,7 +6,6 @@ package SemanticAnalyzer;
 
 import SemanticAnalyzer.TableStructure.MainTableRow;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 
 /**
@@ -27,6 +26,7 @@ public class MainTable extends HashMap<String, MainTableRow> {
             
             //header on once
             if (headerOn) {
+                table.add("MAIN TABLE:");
                 table.add(printHeader(this.get(key).tableheading()));
                 headerOn = false;
             }
