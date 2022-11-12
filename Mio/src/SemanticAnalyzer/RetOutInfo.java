@@ -19,27 +19,4 @@ public class RetOutInfo {
             STATIC = "",
             TYPE2 = "";
 
-    public String getNAME() {
-        return NAME;
-    }
-
-    public void setNAME(String NAME) {
-        this.NAME = NAME;
-    }
-
-    public void setTM(String TYPE_MODIFIER) {
-        this.TYPE_MODIFIER = TYPE_MODIFIER;
-    }
-
-    public void setAM(String ACCESS_MODIFIER) {
-        this.ACCESS_MODIFIER = ACCESS_MODIFIER;
-    }
-
-    public String getTM() {
-        return TYPE_MODIFIER;
-    }
-
-    public String getAM() {
-        return ACCESS_MODIFIER;
-    }
 }

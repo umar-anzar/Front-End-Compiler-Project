@@ -205,15 +205,15 @@ public class SymbolTable {
         // If row is found
         if (found) {
             if (row instanceof FunctionTableRow functionTableRow) {
-                out.setTM(functionTableRow.TYPE_MODIFIER );
+                out.TYPE_MODIFIER = functionTableRow.TYPE_MODIFIER ;
             }
             else if (row instanceof ClassTableRow classTableRow) {
-                out.setAM(classTableRow.ACCESS_MODIFIER );
-                out.setTM(classTableRow.TYPE_MODIFIER );
+                out.ACCESS_MODIFIER = classTableRow.ACCESS_MODIFIER ;
+                out.TYPE_MODIFIER = classTableRow.TYPE_MODIFIER ;
             }
             else if (row instanceof MainTableRow mainTableRow) {                     
-                out.setAM(mainTableRow.ACCESS_MODIFIER );
-                out.setTM(mainTableRow.TYPE_MODIFIER );
+                out.ACCESS_MODIFIER= mainTableRow.ACCESS_MODIFIER ;
+                out.TYPE_MODIFIER = mainTableRow.TYPE_MODIFIER ;
             }
             
             return row.TYPE;

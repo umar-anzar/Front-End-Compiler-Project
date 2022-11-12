@@ -2168,64 +2168,68 @@ public class LL1Parser {
     
     //Attribute Declaration in class--------------------------------------------?
     private boolean ATTR_CLASS_DEC() {
+        RetOutInfo out = new RetOutInfo();
         if (match("Static")) {
+            out.STATIC = getTokenVP();
             index++;
-            if (IS_FINAL()) {
+            if (IS_FINAL(out)) {
                 return true;
             }
         }
         else if (searchSelectionSet("IS_FINAL")) {
-            if (IS_FINAL()) {
+            if (IS_FINAL(out)) {
                 return true;
             }
         }
         return false;
     }
-    private boolean IS_FINAL() {
+    private boolean IS_FINAL(RetOutInfo out) {
         if (match("const")) {
+            out.TYPE_MODIFIER = getTokenVP();
             index++;
-            if (TYPE_VAR_ARR()) {
+            if (TYPE_VAR_ARR(out)) {
                 return true;
             }
         }
         else if (searchSelectionSet("TYPE_VAR_ARR")) {
-            if (TYPE_VAR_ARR()) {
+            if (TYPE_VAR_ARR(out)) {
                 return true;
             }
         }
         return false;
     }
-    private boolean TYPE_VAR_ARR() {
+    private boolean TYPE_VAR_ARR(RetOutInfo out) {
         if (searchSelectionSet("TYPE")) {
-            if (TYPE(null)) {
-                if (VAR_ARR_C()) {
+            if (TYPE(out)) {
+                if (VAR_ARR_C(out)) {
                     return true;
                 }
             }
         }
         return false;
     } 
-    private boolean VAR_ARR_C() {
+    private boolean VAR_ARR_C(RetOutInfo out) {
         if (searchSelectionSet("ARR_TYPE")) {
-            if (ARR_TYPE(null)) {
-                if (VAR_C()) {
+            if (ARR_TYPE(out)) {
+                if (VAR_C(out)) {
                     return true;
                 }
             }
         }
         else if (searchSelectionSet("VAR_C")) {
-            if (VAR_C()) {
+            if (VAR_C(out)) {
                 return true;
             }
         }
         return false;
     }
-    private boolean VAR_C() {
+    private boolean VAR_C(RetOutInfo out) {
         if (searchSelectionSet("ACCESSMOD")) {
-            if (ACCESSMOD(null)) {
+            if (ACCESSMOD(out)) {
                 if (match("id")) {
+                    out.NAME = getTokenVP();
                     index++;
-                    if (IS_INIT_C()) {
+                    if (IS_INIT_C(out)) {
                         return true;
                     }
                 }
@@ -2233,29 +2237,38 @@ public class LL1Parser {
         }
         return false;
     }
-    private boolean IS_INIT_C() {
+    private boolean IS_INIT_C(RetOutInfo out) {
+        String N=out.NAME,T=out.TYPE,TM=out.TYPE_MODIFIER,STC=out.STATIC,AC=out.ACCESS_MODIFIER;
         if (match("=")) {
+            if (!ST.insertCT(N, T, TM, "", AC, STC)) {
+                ST.addError(getTokenLine(), "Redeclaration error",N);
+            }
             index++;
             if (INIT()) {
-                if (LIST_C()) {
+                if (LIST_C(out)) {
                     return true;
                 }
             }
         }
         else if (searchSelectionSet("LIST_C")) {
-            if (LIST_C()) {
+            if (!ST.insertCT(N, T, TM, "", AC, STC)) {
+                ST.addError(getTokenLine(), "Redeclaration error",N);
+            }
+            if (LIST_C(out)) {
                 return true;
             }
         }
         return false;
     }
-    private boolean LIST_C() {
+    private boolean LIST_C(RetOutInfo out) {
+        
         if (match(",")) {
             index++;
-            if (ACCESSMOD(null)) {
+            if (ACCESSMOD(out)) {
                 if (match("id")) {
+                    out.NAME = getTokenVP();
                     index++;
-                    if (IS_INIT_C()) {
+                    if (IS_INIT_C(out)) {
                         return true;
                     }
                 }

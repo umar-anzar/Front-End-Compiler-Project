@@ -6,6 +6,7 @@ import Rand.^;
 Abstract Class A () {
 
     def int fun () {}
+    Static const int a = 4;
     def int[] $$fun1(int x, float b) {}
     def Static A $fun2 (float b) {}
 
