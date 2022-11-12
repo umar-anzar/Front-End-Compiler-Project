@@ -26,6 +26,10 @@ public class ClassTableRow extends ChildTableAttr {
         }
         this.STATIC = STATIC;
     }
+    
+    public boolean isFinal() {
+        return "const".equals(this.ACCESS_MODIFIER);
+    }
 
     @Override
     public ArrayList<String> tablevalues() {

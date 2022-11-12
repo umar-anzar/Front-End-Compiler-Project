@@ -32,6 +32,12 @@ public abstract class ParentTableAttr {
     public boolean isAbstract() {
         return "Abstract".equals(TYPE_MODIFIER);
     }
+    public boolean isFinal() {
+        return "const".equals(TYPE_MODIFIER) && "Class".equals(TYPE);
+    }
+    public boolean isClass(){
+        return "Class".equals(TYPE);
+    }
     
     public ArrayList<String> tablevalues() {
         ArrayList<String> record = new ArrayList<>();

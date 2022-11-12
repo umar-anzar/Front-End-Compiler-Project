@@ -31,7 +31,7 @@ public class MainTableRow extends ChildTableAttr{
         
         
         //If class is NOT ABSTRACT then initialize DT
-        if (! "Abstract".equals(TYPE_MODIFIER) && "Class".equals(TYPE)) {
+        if (!isAbstract() && isClass()) {
             DT = new ClassTable();
             DT.setName(NAME);
         }
@@ -46,10 +46,9 @@ public class MainTableRow extends ChildTableAttr{
         }
         return new String[] {};
     }
-    public boolean isFinal() {
-        return "const".equals(TYPE_MODIFIER) && "Class".equals(TYPE);
-    }
+    
 
+ 
     @Override
     public ArrayList<String> tablevalues() {
         ArrayList<String> record = super.tablevalues();

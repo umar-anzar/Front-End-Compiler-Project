@@ -53,7 +53,11 @@ public class SymbolTable {
         row = new MainTableRow(NAME, TYPE, TYPE_MODIFIER, 
                 PARAM_LIST, TYPE_EXP, ACCESSMODIFIER, PARAMETRIC_CLASS, EXTEND);
         mt.add(row);
-                
+        
+        //If row isnt abstract and is a class then class table is put in currentCt
+        if (!row.isAbstract() && row.isClass())
+            currentCt = row.DT;
+
         
         return true;
     }
@@ -218,6 +222,7 @@ public class SymbolTable {
         return row;
     }
     
+    //Searching of multiple inheritance functions-------------------------------
     /**
      * Searching in Multilevel and Hierarchical Inheritance 
      * Left to Right breath first search
@@ -232,7 +237,6 @@ public class SymbolTable {
         
         //Initial inherited class list from current class 
         String[] Initialnodes = classrow.inheritedClasses();
-
 
         MyQueue<String> queue = new MyQueue<>();
         HashSet<String> visited = new HashSet<>();
@@ -268,7 +272,6 @@ public class SymbolTable {
 
         return null;
     }
-    
     public boolean isInClass(String NAME, String PARAM_LIST, String className) {
         MainTableRow row = lookUpMT(className, "");
         if (!row.isAbstract()) {
@@ -282,6 +285,7 @@ public class SymbolTable {
         return lookUpMT(className, "").inheritedClasses();
     }
     
+    //Print table functions-----------------------------------------------------
     public void printST() {
         ArrayList<String> mainTable = mt.printMT();
         ArrayList<String> classTable;
@@ -297,6 +301,7 @@ public class SymbolTable {
         
     }
     
+    //Error Functions-----------------------------------------------------------
     public void addError(String statement) {
         error.add(statement);
     }
@@ -311,14 +316,12 @@ public class SymbolTable {
         }
     }
     
-    public boolean isFinalClass(String className) {
-        return lookUpMT(className, "").isFinal();
-    }
+    //helpful functions--------------------------------------------------------
     public void canInhert(String className,int line) {
         MainTableRow row = lookUpMT(className, "");
         if(row != null) {
-            if ("Class".equals(row.TYPE)) {
-                if (isFinalClass(className)){
+            if (row.isClass()) {
+                if (row.isFinal()){
                     addError(line,"Class is final, cannot extend",className);
                 }
             }
@@ -326,21 +329,25 @@ public class SymbolTable {
             addError(line,"Class not declared",className);
         }
     }
+    public void canOverRide(ClassTableRow row) {
+        
+    }
     
     public static void main(String[] args) {
         SymbolTable x = new  SymbolTable();
-        //x.insertMT("A", "Class", "const", "[][]", "", "", "", "", "D,B,E");
+        
         
         x.insertMT("B", "Class", "const", "", "", "", "", "C,H");
         
         x.insertMT("var1", "int", "const", "", "", "", "", "");
         
-        x.insertMT("C", "Class", "const", "[][]", "", "", "", "E,G");
+        x.insertMT("C", "Class", "const", "", "", "", "", "E,G");
+
         
         x.insertMT("x2", "int", "const", "", "", "", "", "");
         x.insertMT("a3", "int", "const", "", "", "", "", "");
         
-        x.insertMT("D", "Class", "const", "[][]", "", "", "", "E,F");
+        x.insertMT("D", "Class", "const", "", "", "", "", "E,F");
         
         x.insertMT("b4", "int", "const", "", "", "", "", "");
         x.insertMT("q5", "int", "const", "", "", "", "", "");
@@ -348,20 +355,20 @@ public class SymbolTable {
         x.insertMT("asd", "Class", "const", "[][]", "", "", "", "");
         x.insertMT("rasd", "Class", "const", "[][]", "", "", "", "");
         
-        x.insertMT("E", "Class", "const", "[][]", "", "", "", "G,H");
+        x.insertMT("E", "Class", "const", "", "", "", "", "G,H");
         
         
-        x.insertMT("F", "Class", "const", "[][]", "", "", "", "");
+        x.insertMT("F", "Class", "const", "", "", "", "", "");
         
         
-        x.insertMT("G", "Class", "const", "[][]", "", "", "", "");
+        x.insertMT("G", "Class", "const", "", "", "", "", "");
         
         
         
-        x.insertMT("H", "Class", "const", "[][]", "", "", "", "");
+        x.insertMT("H", "Class", "const", "", "", "", "", "");
         
         
-        x.insertMT("A", "Class", "const", "[][]", "", "", "", "D,B,E");
+        x.insertMT("A", "Class", "const", "", "", "", "", "D,B,E");
         
         
         MainTableRow row;
@@ -405,7 +412,7 @@ public class SymbolTable {
         
         System.out.println(x.lookUpFT("e", "", x.currentCt, new RetOutInfo()));
         
-        x.printST();
+//        x.printST();
     }
     
 }
