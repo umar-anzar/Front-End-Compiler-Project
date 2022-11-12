@@ -1481,17 +1481,19 @@ public class LL1Parser {
     
     //Declaration and Initialization--------------------------------------------$
     private boolean DEC() {
+        RetOutInfo out = new RetOutInfo();
         if (match("const")) {
+            out.TYPE_MODIFIER = getTokenVP();
             index++;
-            if (TYPE(null)) {
-                if (VAR_ARR()) {
+            if (TYPE(out)) {
+                if (VAR_ARR(out)) {
                     return true;
                 }
             }
         }
         else if (searchSelectionSet("DT_STR")) {
-            if (DT_STR(null)) {
-                if (VAR_ARR()) {
+            if (DT_STR(out)) {
+                if (VAR_ARR(out)) {
                     return true;
                 }
             }
@@ -1539,7 +1541,7 @@ public class LL1Parser {
         }
         else if (match("id")) {
             index++;
-            if (IS_INIT()) {
+            if (IS_INIT(null)) {
                 return true;
             }
         }
@@ -1556,7 +1558,7 @@ public class LL1Parser {
             if (ARR_TYPE_LIST(null)) {
                 if (match("id")) {
                     index++;
-                    if (IS_INIT()) {
+                    if (IS_INIT(null)) {
                         return true;
                     }
                 }
@@ -1575,30 +1577,35 @@ public class LL1Parser {
         return false;
     }
     
-    private boolean VAR_ARR() {
+    private boolean VAR_ARR(RetOutInfo out) {
         if (searchSelectionSet("ARR_TYPE")) {
-            if (ARR_TYPE(null)) {
+            if (ARR_TYPE(out)) {
                 if (match("id")) {
+                    out.NAME = getTokenVP();
                     index++;
-                    if (IS_INIT()) {
+                    if (IS_INIT(out)) {
                         return true;
                     }
                 }
             }
         }
         else if (match("id")) {
+            out.NAME = getTokenVP();
             index++;
-            if (IS_INIT()) {
+            if (IS_INIT(out)) {
                 return true;
             }
         }
         return false;
     }
-    private boolean IS_INIT() {
+    private boolean IS_INIT(RetOutInfo out) {
+        String N=out.NAME,T=out.TYPE,TM=out.TYPE_MODIFIER;
         
         if (match("=")) {
+            if (!ST.insertFT(N, T, TM)) {
+                ST.addError(getTokenLine(), "Redeclaration error",N);
+            }
             index++;
-            
             if (INIT()) {
                 if (LIST()) {
                     return true;
@@ -1606,6 +1613,9 @@ public class LL1Parser {
             }
         }
         else if (searchSelectionSet("LIST")) {
+            if (!ST.insertFT(N, T, TM)) {
+                ST.addError(getTokenLine(), "Redeclaration error",N);
+            }
             if (LIST()) {
                 return true;
             }
@@ -1777,7 +1787,7 @@ public class LL1Parser {
             index++;
             if (match("id")) {
                 index++;
-                if (IS_INIT()) {
+                if (IS_INIT(null)) {
                     return true;
                 }
             }

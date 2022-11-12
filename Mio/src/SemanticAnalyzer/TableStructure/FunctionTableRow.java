@@ -15,7 +15,7 @@ public class FunctionTableRow extends ParentTableAttr{
     public int 
             SCOPE;
 
-    public FunctionTableRow(String NAME, String TYPE, String TYPE_MODIFIER, String DIMENSION, int SCOPE) {
+    public FunctionTableRow(String NAME, String TYPE, String TYPE_MODIFIER, int SCOPE) {
         super(NAME, TYPE, TYPE_MODIFIER);
         this.SCOPE = SCOPE;
     }

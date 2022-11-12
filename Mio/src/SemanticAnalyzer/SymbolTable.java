@@ -81,8 +81,7 @@ public class SymbolTable {
     }
     
     //insertFT(n,type,tm,dim)
-    public boolean insertFT(String NAME, String TYPE, String TYPE_MODIFIER, 
-            String DIMENSION) { 
+    public boolean insertFT(String NAME, String TYPE, String TYPE_MODIFIER) { 
         
         String Type = lookUpFT(NAME, "", currentCt, new RetOutInfo());
         
@@ -90,7 +89,7 @@ public class SymbolTable {
         if (Type != null) return false;
         
         FunctionTableRow row = new FunctionTableRow(NAME, TYPE, TYPE_MODIFIER, 
-                DIMENSION, stack.scope);
+                stack.scope);
         fdt.add(row);
         
         return false;
@@ -302,7 +301,6 @@ public class SymbolTable {
     //Print table functions-----------------------------------------------------
     public void printST() {
         ArrayList<String> mainTable = mt.printMT();
-        ArrayList<String> classTable;
         ArrayList<String> functionTable = fdt.printFT();
         
         for (String row : mainTable) {
