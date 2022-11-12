@@ -31,7 +31,7 @@ public class MainTableRow extends ChildTableAttr{
         
         
         //If class is NOT ABSTRACT then initialize DT
-        if (!isAbstract() && isClass()) {
+        if (isClass()) {
             DT = new ClassTable();
             DT.setName(NAME);
         }

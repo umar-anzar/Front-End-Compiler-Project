@@ -3,7 +3,13 @@ import Properties.Registration;
 import Random.^;
 
 @begin {}
-Class A (){}
+Abstract Class A () {
+
+    def int function () {}
+    def int[] $$function (int x, float b) {}
+    def Static A $function (float b) {}
+
+}
 @def func1 () {}
 @def int func1 (int a) {}
 @def str func1 (int a,float b) {}

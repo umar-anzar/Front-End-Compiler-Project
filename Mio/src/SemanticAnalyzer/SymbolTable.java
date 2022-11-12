@@ -54,8 +54,8 @@ public class SymbolTable {
                 PARAM_LIST, ACCESSMODIFIER, PARAMETRIC_CLASS, EXTEND);
         mt.add(row);
         
-        //If row isnt abstract and is a class then class table is put in currentCt
-        if (!row.isAbstract() && row.isClass())
+        //If row is a class then class table is put in currentCt
+        if (row.isClass())
             currentCt = row.DT;
 
         
