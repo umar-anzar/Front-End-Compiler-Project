@@ -25,6 +25,7 @@ public class ScopeStack extends LinkedList<Integer> {
     public void push() {
         scope++;
         super.push(scope);
+        System.out.println(this);
     }
     
     @Override

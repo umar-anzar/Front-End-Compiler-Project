@@ -7,8 +7,6 @@ package SyntaxAnalyzer;
 import LexicalAnalyzer.TokenClass;
 import SemanticAnalyzer.RetOutInfo;
 import SemanticAnalyzer.SymbolTable;
-import SemanticAnalyzer.TableStructure.MainTableRow;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -22,6 +20,7 @@ import java.util.List;
 public class LL1Parser {
     //CTRL + SHIFT + - TO MINIMIZE FUNCTIONS AND COMMENTS
     private int index = 0;
+    
     List <TokenClass> tokenList;
     //Selection Set
     private HashMap<String, String[][]> sSet;
@@ -612,7 +611,7 @@ public class LL1Parser {
             N = getTokenVP();
             index++;
             if (match("{")) {
-                ST.insertMT(N, "", "", "", "", "", "");
+                ST.insertMT(N, "", "", "", "", "", "", getTokenLine());
                 ST.push();
                 index++;
                 if (MST()) {
@@ -640,7 +639,7 @@ public class LL1Parser {
                 RetOutInfo out = new RetOutInfo();
                 if (IMP_DOT(out)) { 
                     N += out.NAME;
-                    ST.insertMT(N, T, "", "", "", "", "");
+                    ST.insertMT(N, T, "", "", "", "", "", getTokenLine());
                     return true; 
                 }
                 
@@ -661,7 +660,7 @@ public class LL1Parser {
                 index++;
                 if (IMP_DOT(out)) { 
                     N += out.NAME;
-                    ST.insertMT(N, T, "", "", "", "", "");
+                    ST.insertMT(N, T, "", "", "", "", "", getTokenLine());
                     return true; 
                 }
             }
@@ -837,9 +836,8 @@ public class LL1Parser {
                     PL = out.TYPE;
                     if (THROWS()) {
                         if (match("{")) {
-                            if(!ST.insertMT(N, T, "", PL, "", "", ""))
+                            if(!ST.insertMT(N, T, "", PL, "", "", "", getTokenLine()))
                                 ST.addError(getTokenLine(), "Redeclaration error",N);
-                            ST.push();
                             index++;
                             if (MST()) {
                                 if (match("}")) {
@@ -857,6 +855,7 @@ public class LL1Parser {
     }
     private boolean FN_ST(RetOutInfo out) {
         if (match("(")) {
+            ST.push();
             index++;
             if (PAR(out)) {
                 return true;
@@ -868,6 +867,7 @@ public class LL1Parser {
         if (searchSelectionSet("DT_ID")) {
             if (DT_ID(out)) {
                 if (match("id")) {
+                    out.NAME2 += getTokenVP();
                     index++;
                     if (PAR_LIST(out)) {
                         return true;
@@ -883,10 +883,12 @@ public class LL1Parser {
     }
     private boolean PAR_LIST(RetOutInfo out) {
         if (match(",")) {
-            out.TYPE += ",";
+            out.TYPE += getTokenVP();
+            out.NAME2 += getTokenVP();
             index++;
             if (DT_ID(out)) {
                 if (match("id")) {
+                    out.NAME2 += getTokenVP();
                     index++;
                     if (PAR_LIST(out)) {
                         return true;
@@ -895,6 +897,8 @@ public class LL1Parser {
             }
         }
         else if (match(")")) {
+            String N = out.NAME2,T= out.TYPE;
+            ST.insertFT_Param(N, T, getTokenLine());
             index++;
             return true;
         }
@@ -985,7 +989,7 @@ public class LL1Parser {
                 String N=out.NAME,T=out.TYPE2,TM=out.TYPE_MODIFIER,
                         PL=out.TYPE,AC=out.ACCESS_MODIFIER,STC=out.STATIC;
                 if (match("{")) {
-                    if (!ST.insertCT(N, T, TM, PL, AC, STC)) {
+                    if (!ST.insertCT(N, T, TM, PL, AC, STC, getTokenLine())) {
                         ST.addError(getTokenLine(), "Redeclaration error",N);
                     }
                     ST.push();
@@ -1005,7 +1009,7 @@ public class LL1Parser {
                 String N=out.NAME,T=out.TYPE2,TM=out.TYPE_MODIFIER,
                         PL=out.TYPE,AC=out.ACCESS_MODIFIER,STC=out.STATIC;
                 if (match("{")) {
-                    if (!ST.insertCT(N, T, TM, PL, AC, STC)) {
+                    if (!ST.insertCT(N, T, TM, PL, AC, STC, getTokenLine())) {
                         ST.addError(getTokenLine(), "Redeclaration error",N);
                     }
                     ST.push();
@@ -1067,7 +1071,7 @@ public class LL1Parser {
             }
         }
         else if (match("id")) {
-            out.TYPE = getTokenCP();
+            out.TYPE = getTokenVP();
             out.NAME = getTokenVP();
             index++;
             if (RET_OBJ_C(out)) {
@@ -1239,7 +1243,7 @@ public class LL1Parser {
                     PC=out.PARAMETRIC_CLASS;
             index++;
             if (match("{")) {
-                if(!ST.insertMT(N, T, TM, "", "", PC, ""))
+                if(!ST.insertMT(N, T, TM, "", "", PC, "", getTokenLine()))
                         ST.addError(getTokenLine(), "Redeclaration error",N);
                 index++;
                 if (CLASS_BODY()) {
@@ -1267,7 +1271,7 @@ public class LL1Parser {
                     PC=out.PARAMETRIC_CLASS,EXT=out.EXTEND;
             index++;
             if (match("{")) {
-                if(!ST.insertMT(N, T, TM, "", "", PC, EXT))
+                if(!ST.insertMT(N, T, TM, "", "", PC, EXT, getTokenLine()))
                         ST.addError(getTokenLine(), "Redeclaration error",N);
                 index++;
                 if (CLASS_BODY()) {
@@ -1289,6 +1293,7 @@ public class LL1Parser {
         }
         else 
             if (match("}")) {
+                ST.referenceOff();
                 index++;
                 return true;
         }
@@ -1607,7 +1612,7 @@ public class LL1Parser {
         String N=out.NAME,T=out.TYPE,TM=out.TYPE_MODIFIER;
         
         if (match("=")) {
-            if (!ST.insertFT(N, T, TM)) {
+            if (!ST.insertFT(N, T, TM, getTokenLine())) {
                 ST.addError(getTokenLine(), "Redeclaration error",N);
             }
             index++;
@@ -1618,7 +1623,7 @@ public class LL1Parser {
             }
         }
         else if (searchSelectionSet("LIST")) {
-            if (!ST.insertFT(N, T, TM)) {
+            if (!ST.insertFT(N, T, TM, getTokenLine())) {
                 ST.addError(getTokenLine(), "Redeclaration error",N);
             }
             if (LIST()) {
@@ -2142,7 +2147,7 @@ public class LL1Parser {
     private boolean IS_INIT_G(RetOutInfo out) {
         String N=out.NAME,T=out.TYPE,TM=out.TYPE_MODIFIER;
         if (match("=")) {
-            if (!ST.insertMT(N, T, TM, "", "", "", "")) {
+            if (!ST.insertMT(N, T, TM, "", "", "", "", getTokenLine())) {
                 ST.addError(getTokenLine(), "Redeclaration error",N);
             }
             index++;
@@ -2153,7 +2158,7 @@ public class LL1Parser {
             }
         }
         else if (searchSelectionSet("LIST_G")) {
-            if (!ST.insertMT(N, T, TM, "", "", "", "")) {
+            if (!ST.insertMT(N, T, TM, "", "", "", "", getTokenLine())) {
                 ST.addError(getTokenLine(), "Redeclaration error",N);
             }
             if (LIST_G(out)) {
@@ -2255,7 +2260,7 @@ public class LL1Parser {
     private boolean IS_INIT_C(RetOutInfo out) {
         String N=out.NAME,T=out.TYPE,TM=out.TYPE_MODIFIER,STC=out.STATIC,AC=out.ACCESS_MODIFIER;
         if (match("=")) {
-            if (!ST.insertCT(N, T, TM, "", AC, STC)) {
+            if (!ST.insertCT(N, T, TM, "", AC, STC, getTokenLine())) {
                 ST.addError(getTokenLine(), "Redeclaration error",N);
             }
             index++;
@@ -2266,7 +2271,7 @@ public class LL1Parser {
             }
         }
         else if (searchSelectionSet("LIST_C")) {
-            if (!ST.insertCT(N, T, TM, "", AC, STC)) {
+            if (!ST.insertCT(N, T, TM, "", AC, STC, getTokenLine())) {
                 ST.addError(getTokenLine(), "Redeclaration error",N);
             }
             if (LIST_C(out)) {

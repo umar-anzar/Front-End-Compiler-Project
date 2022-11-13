@@ -17,8 +17,11 @@ public class CFG {
         TokenClass.loadToken(); // load tokens from file
         
         var parser = new LL1Parser();
-        System.out.println(parser.validate(TokenClass.tokenList));
+        System.out.println("----------------------------------------------");
+        System.out.println("SYNTAX: "+parser.validate(TokenClass.tokenList));
+        System.out.println("----------------------------------------------");
         parser.ST.printST();
+        System.out.println("----------------------------------------------");
         parser.ST.printError();
     }
     

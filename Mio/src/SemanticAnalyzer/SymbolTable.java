@@ -17,7 +17,7 @@ import java.util.HashSet;
  */
 public class SymbolTable {
     
-    //Table--------------------------------------------------------------------
+    //Table---------------------------------------------------------------------
     
     MainTable mt = new MainTable();
     FunctionTable fdt = new FunctionTable();
@@ -38,25 +38,36 @@ public class SymbolTable {
     public void pop(){stack.pop();}
     public int getScope(){return stack.scope;}
     
+    //Current Class Ref Functions-----------------------------------------------
+    public void referenceOn(MainTableRow row) {
+        if (row.isClass())
+            currentCt = row.DT;
+    }
+    public void referenceOff() {
+        currentCt = null;
+    }
+    
     //Insert Functions----------------------------------------------------------
     
     //insertMT(n,type,tm,dim,pl,te,ac,pc,ext)
     public boolean insertMT(String NAME, String TYPE, String TYPE_MODIFIER, 
             String PARAM_LIST,
-            String ACCESSMODIFIER, String PARAMETRIC_CLASS, String EXTEND) { 
+            String ACCESSMODIFIER, String PARAMETRIC_CLASS, String EXTEND, int line) { 
         
         MainTableRow row = lookUpMT(NAME, PARAM_LIST);
         
         //If already declared
         if (row != null) return false;
         
+        //if not primitive type then search in lookUpMT also check whether obj can be made
+        typeExis(TYPE, line);
+        
         row = new MainTableRow(NAME, TYPE, TYPE_MODIFIER, 
                 PARAM_LIST, ACCESSMODIFIER, PARAMETRIC_CLASS, EXTEND);
         mt.add(row);
         
         //If row is a class then class table is put in currentCt
-        if (row.isClass())
-            currentCt = row.DT;
+        referenceOn(row);
 
         
         return true;
@@ -65,12 +76,15 @@ public class SymbolTable {
     //insertCT(n,type,tm,dim,pl,te,ac,Static)
     public boolean insertCT(String NAME, String TYPE, String TYPE_MODIFIER, 
             String PARAM_LIST, 
-            String ACCESS_MODIFIER, String STATIC) { 
+            String ACCESS_MODIFIER, String STATIC, int line) { 
         
         ClassTableRow row = lookUpDT_singleClass(NAME, PARAM_LIST, currentCt);
         
         //If already declared
         if (row != null) return false;
+        
+        //if not primitive type then search in lookUpMT also check whether obj can be made
+        typeExis(TYPE, line);
         
         row = new ClassTableRow(NAME, TYPE, TYPE_MODIFIER, 
                 PARAM_LIST, ACCESS_MODIFIER, STATIC);
@@ -81,17 +95,33 @@ public class SymbolTable {
     }
     
     //insertFT(n,type,tm,dim)
-    public boolean insertFT(String NAME, String TYPE, String TYPE_MODIFIER) { 
+    public boolean insertFT(String NAME, String TYPE, String TYPE_MODIFIER, int line) { 
         
-        String Type = lookUpFT(NAME, "", currentCt, new RetOutInfo());
-        
+        FunctionTableRow row = lookUpScopeStack(NAME, "");
+                
         //If already declared
-        if (Type != null) return false;
+        if (row != null) return false;
         
-        FunctionTableRow row = new FunctionTableRow(NAME, TYPE, TYPE_MODIFIER, 
-                stack.scope);
+        //if not primitive type then search in lookUpMT also check whether obj can be made
+        typeExis(TYPE, line);
+        
+        row = new FunctionTableRow(NAME, TYPE, TYPE_MODIFIER, stack.scope);
         fdt.add(row);
         
+        return true;
+    }
+    
+    
+    public boolean insertFT_Param(String NAME_LIST, String TYPE_LIST, int line) {
+        String [] NAMES = NAME_LIST.split(",") , 
+                  TYPES = TYPE_LIST.split(",");
+        for (int i = 0; i < TYPES.length; i++) {
+            
+            //if not primitive type then search in lookUpMT also check whether obj can be made
+            typeExis(TYPES[i], line);
+
+            insertFT(NAMES[i], TYPES[i], "",line);
+        }
         return true;
     }
     
@@ -173,14 +203,14 @@ public class SymbolTable {
     public String/*RetType*/ lookUpFT(String NAME, String PARAM_LIST, 
             ClassTable ct, RetOutInfo out) 
     {
-        stack.resetIter(); //Bring pointer on top of the stack
+        
         
         ParentTableAttr row = null;
         boolean found = false;
         
         // Search In Scope Stack
         if (!found) {
-            row = loopUpScopeStack(NAME, PARAM_LIST);
+            row = lookUpScopeStack(NAME, PARAM_LIST);
             if (row != null)
                     found = true;
         }
@@ -221,7 +251,8 @@ public class SymbolTable {
         return null;
     }
     
-    public FunctionTableRow loopUpScopeStack(String NAME, String PARAM_LIST) {
+    public FunctionTableRow lookUpScopeStack(String NAME, String PARAM_LIST) {
+        stack.resetIter(); //Bring pointer on top of the stack
         FunctionTableRow row = null;
         if (! PARAM_LIST.isEmpty()) {
             while (stack.iter.hasNext()) {
@@ -349,82 +380,100 @@ public class SymbolTable {
             if (row.isFunction() && row.isFinal()) 
                 addError(line,"Function is final, cannot override",NAME);
     }
+    public boolean canMakeObj(String TYPE) {
+        MainTableRow row = lookUpMT(TYPE, "");
+        if (lookUpMT(TYPE, "") != null)
+            if ( !row.isAbstract() )
+                return true;
+        return false;
+    }
+    public void typeExis(String TYPE,int line) {
+        if (!PrimitiveType.isPrimitiveType(TYPE))
+            if ( lookUpMT(TYPE, "") == null )
+                addError(line, "Unknown Type", TYPE);
+    }
+//IMP
+//                } else if (!canMakeObj(TYPE)) /*If cannot make objs*/{
+//                addError(line, "Class Data Type is Abstract", TYPE);
+//            }
+    
+
     
     public static void main(String[] args) {
         SymbolTable x = new  SymbolTable();
         
         
-        x.insertMT("B", "Class", "const", "", "", "", "C,H");
+        x.insertMT("B", "Class", "const", "", "", "", "C,H",0);
         
-        x.insertMT("var1", "int", "const", "", "", "", "");
+        x.insertMT("var1", "int", "const", "", "", "", "",0);
         
-        x.insertMT("C", "Class", "const", "", "", "", "E,G");
+        x.insertMT("C", "Class", "const", "", "", "", "E,G",0);
 
         
-        x.insertMT("x2", "int", "const", "", "", "", "");
-        x.insertMT("a3", "int", "const", "", "", "", "");
+        x.insertMT("x2", "int", "const", "", "", "", "",0);
+        x.insertMT("a3", "int", "const", "", "", "", "",0);
         
-        x.insertMT("D", "Class", "const", "", "", "", "E,F");
+        x.insertMT("D", "Class", "const", "", "", "", "E,F",0);
         
-        x.insertMT("b4", "int", "const", "", "", "", "");
-        x.insertMT("q5", "int", "const", "", "", "", "");
-        x.insertMT("var6", "int", "const", "", "", "", "");
-        x.insertMT("asd", "Class", "const", "[][]", "", "", "");
-        x.insertMT("rasd", "Class", "const", "[][]", "", "", "");
+        x.insertMT("b4", "int", "const", "", "", "", "",0);
+        x.insertMT("q5", "int", "const", "", "", "", "",0);
+        x.insertMT("var6", "int", "const", "", "", "", "",0);
+        x.insertMT("asd", "Class", "const", "[][]", "", "", "",0);
+        x.insertMT("rasd", "Class", "const", "[][]", "", "", "",0);
         
-        x.insertMT("E", "Class", "const", "", "", "", "G,H");
-        
-        
-        x.insertMT("F", "Class", "const", "", "", "", "");
+        x.insertMT("E", "Class", "const", "", "", "", "G,H",0);
         
         
-        x.insertMT("G", "Class", "const", "", "", "", "");
+        x.insertMT("F", "Class", "const", "", "", "", "",0);
+        
+        
+        x.insertMT("G", "Class", "const", "", "", "", "",0);
         
         
         
-        x.insertMT("H", "Class", "const", "", "", "", "");
+        x.insertMT("H", "Class", "const", "", "", "", "",0);
         
         
-        x.insertMT("A", "Class", "const", "", "", "", "D,B,E");
+        x.insertMT("A", "Class", "const", "", "", "", "D,B,E",0);
         
         
         MainTableRow row;
         
         row = x.lookUpMT("B", "");
         x.currentCt = row.DT;
-        x.insertCT("b", "point", "", "", "private", "Static");
+        x.insertCT("b", "point", "", "", "private", "Static",0);
         
         row = x.lookUpMT("C", "");
         x.currentCt = row.DT;
-        x.insertCT("c", "point", "", "", "private", "Static");
+        x.insertCT("c", "point", "", "", "private", "Static",0);
         
         row = x.lookUpMT("D", "");
         x.currentCt = row.DT;
-        x.insertCT("d", "point", "", "", "private", "Static");
+        x.insertCT("d", "point", "", "", "private", "Static",0);
         
         row = x.lookUpMT("E", "");
         x.currentCt = row.DT;
-        x.insertCT("e", "point", "", "",  "private", "Static");
+        x.insertCT("e", "point", "", "",  "private", "Static",0);
         
         row = x.lookUpMT("F", "");
         x.currentCt = row.DT;
-        x.insertCT("f", "point", "", "",  "private", "Static");
+        x.insertCT("f", "point", "", "",  "private", "Static",0);
         
         row = x.lookUpMT("G", "");
         x.currentCt = row.DT;
-        x.insertCT("g", "int", "", "",  "private", "Static");
-        x.insertCT("g1", "int", "", "",  "private", "Static");
-        x.insertCT("g2", "int", "", "",  "private", "Static");
+        x.insertCT("g", "int", "", "",  "private", "Static",0);
+        x.insertCT("g1", "int", "", "",  "private", "Static",0);
+        x.insertCT("g2", "int", "", "",  "private", "Static",0);
 
         
         row = x.lookUpMT("H", "");
         x.currentCt = row.DT;
-        x.insertCT("h", "point", "", "", "private", "Static");
+        x.insertCT("h", "point", "", "", "private", "Static",0);
 
         
         row = x.lookUpMT("A", "");
         x.currentCt = row.DT;
-        x.insertCT("a", "point", "", "", "", "Static");
+        x.insertCT("a", "point", "", "", "", "Static",0);
         
         
         System.out.println(x.lookUpFT("e", "", x.currentCt, new RetOutInfo()));

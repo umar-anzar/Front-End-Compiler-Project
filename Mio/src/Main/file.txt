@@ -2,9 +2,7 @@ package p.src;
 import Pro.Reg;
 import Rand.^;
 
-begin {
-    A yad=5;
-}
+
 Abstract Class A () {
 
     def int fun () {}
@@ -13,6 +11,14 @@ Abstract Class A () {
     def Static A $fun2 (point b) {}
 
 }
+
+begin {
+    A yad=5;
+}
+const A a=5,b=3;
+
+
+@@
 @def func1 () {}
 @def int func1 (int a) {}
 @def str func1 (int a,point b) {}
@@ -21,7 +27,7 @@ Abstract Class A () {
 
 @const Class Car (A){}
 
-const A a=5,b=3;
+
 
 
 

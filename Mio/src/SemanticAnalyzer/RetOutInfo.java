@@ -11,12 +11,13 @@ package SemanticAnalyzer;
 public class RetOutInfo {
     public String
             NAME="",
+            NAME2="",/*using in names of parameters*/
             TYPE="",
             TYPE_MODIFIER="",
             ACCESS_MODIFIER="",
             PARAMETRIC_CLASS="",
             EXTEND="",
             STATIC = "",
-            TYPE2 = "";
+            TYPE2 = "";/*using in types of parameters*/
 
 }
