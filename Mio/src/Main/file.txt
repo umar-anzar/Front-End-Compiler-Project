@@ -21,7 +21,7 @@ const A a=5,b=3;
 
 def func1 () {}
 def int func1 (int a) {}
-def str func1 (int a,point b) {}
+def str func1 (int a, point b) {}
 def X func1 (int[] a,point[][] b, A[] c) {}
 def X[][][] func1 (int[][] a,point[][] b) {}
 

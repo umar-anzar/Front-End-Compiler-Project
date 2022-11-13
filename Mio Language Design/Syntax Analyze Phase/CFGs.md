@@ -487,8 +487,9 @@ switch-case
 ```xml
 <SWITCH>        -> shift ( <EXPR> ) { <STATE> 
 <STATE>         -> state <EXPR> : <SWITCH_BODY> | <DEFAULT> | }
-<DEFAULT>       -> default : <MST> }
+<DEFAULT>       -> default : <DEFAULT_BODY> }
 <SWITCH_BODY>   -> { <MST> } <STATE> | <MST> <STATE> 
+<DEFAULT_BODY>  -> { <MST> } | <MST>
 ```
 
 <hr>

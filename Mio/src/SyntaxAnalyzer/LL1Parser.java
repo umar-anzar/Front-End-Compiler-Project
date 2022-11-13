@@ -369,6 +369,8 @@ public class LL1Parser {
         sSet.put("DEFAULT", new String[][] { {"default"}, {} });
         sSet.put("SWITCH_BODY", new String[][] { {"{", "; if", "shift", "const", "dt", "id", "Parent", "Self", "test", "loop", 
             "do", "stop", "ret", "cont", "raise", "state", "default", "}"}, {} }); 
+        sSet.put("DEFAULT_BODY", new String[][] { {"{", "if", "shift", "const", "dt", "str", "id", "Parent", "Self", "test", "loop", "do", 
+            "stop", "ret", "cont", "raise", ";"}, {"}"} });
 
         //$Loop Statements
         sSet.put("LOOP", new String[][] { {"loop"}, {} });
@@ -514,14 +516,18 @@ public class LL1Parser {
     //Body----------------------------------------------------------------------$
     private boolean BODY() { 
         if (searchSelectionSet("SST")) {
+            ST.push();
             if (SST()) {
+                ST.pop();
                 return true;
             }
         }
         else if (match("{")) {
+            ST.push();
             index++;
             if (MST()) {
                 if (match("}")) {
+                    ST.pop();
                     index++;
                     return true;
                 }
@@ -992,7 +998,6 @@ public class LL1Parser {
                     if (!ST.insertCT(N, T, TM, PL, AC, STC, getTokenLine())) {
                         ST.addError(getTokenLine(), "Redeclaration error",N);
                     }
-                    ST.push();
                     index++;
                     if (MST()) {
                         if (match("}")) {
@@ -2632,6 +2637,7 @@ public class LL1Parser {
                     if (match(")")){
                         index++;
                         if (match("{")){
+                            ST.push();
                             index++;
                             if(STATE()){
                                 return true;
@@ -2648,6 +2654,7 @@ public class LL1Parser {
             index++;
             if(EXPR()){
                 if (match(":")){
+                    ST.push();
                     index++;
                     if (SWITCH_BODY()){
                         return true;
@@ -2661,6 +2668,7 @@ public class LL1Parser {
             }
         }
         else if (match("}")){
+            ST.pop();
             index++;
             return true;
         }
@@ -2670,9 +2678,11 @@ public class LL1Parser {
         if (match("default")){
             index++;
             if (match(":")){
+                ST.push();
                 index++;
-                if (MST()){
+                if (DEFAULT_BODY()){
                     if (match("}")){
+                        ST.pop();
                         index++;
                         return true;
                     }
@@ -2687,6 +2697,7 @@ public class LL1Parser {
             index++;
             if (MST()){
                 if (match("}")){
+                    ST.pop();
                     index++;
                     if (STATE()){
                         return true;                        
@@ -2696,9 +2707,29 @@ public class LL1Parser {
         }
         else if (searchSelectionSet("MST")){
             if (MST()){
+                ST.pop();
                 if (STATE()){
                     return true;
                 }
+            }
+        }
+        return false;
+    }
+    private boolean DEFAULT_BODY() {
+        if (match("{")){
+            index++;
+            if (MST()){
+                if (match("}")){
+                    ST.pop();
+                    index++;
+                    return true;  
+                }  
+            }     
+        }
+        else if (searchSelectionSet("MST")){
+            if (MST()){
+                ST.pop();
+                return true;
             }
         }
         return false;
@@ -2773,6 +2804,7 @@ public class LL1Parser {
         if (match("thru")){
             index++;
             if (match("(")){
+                ST.push();
                 index++;
                 if (match("dt")){
                     index++;
@@ -2929,17 +2961,21 @@ public class LL1Parser {
         if (match("test")){
             index++;
             if (match("{")){
+                ST.push();
                 index++;
                 if(MST()){
                     if (match("}")){
+                        ST.pop();
                         index++;
                         if (match("except")){
                             index++;
                             if (ERROR_TYPE()){
                                 if (match("{")){
+                                    ST.push();
                                     index++;
                                     if(MST()){
                                         if (match("}")){
+                                            ST.pop();
                                             index++;
                                             if (EXCEPT_FINALLY()){
                                                 return true;
@@ -2963,6 +2999,7 @@ public class LL1Parser {
                     index++;
                     if (MST()){
                         if (match("}")){
+                            ST.pop();
                             index++;
                             if (EXCEPT_FINALLY()){
                                 return true;
@@ -2986,6 +3023,7 @@ public class LL1Parser {
     }
     private boolean ERROR_TYPE() {
         if (match("(")){
+            ST.push();
             index++;
             if (match("id")){
                 index++;
@@ -3078,9 +3116,11 @@ public class LL1Parser {
         if (match("finally")){
             index++;
             if (match("{")){
+                ST.push();
                 index++;
                 if(MST()){
                     if (match("}")){
+                        ST.pop();
                         index++;
                         return true;
                     }
