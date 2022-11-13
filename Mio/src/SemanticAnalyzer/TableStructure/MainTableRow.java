@@ -52,8 +52,10 @@ public class MainTableRow extends ChildTableAttr{
     @Override
     public ArrayList<String> tablevalues() {
         ArrayList<String> record = super.tablevalues();
-        record.add(PARAMETRIC_CLASS);
         record.add(EXTEND);
+        
+        record.add(record.get(4));
+        record.set(4,PARAMETRIC_CLASS);
         return record;
     }
     
@@ -62,7 +64,9 @@ public class MainTableRow extends ChildTableAttr{
         
         ArrayList<String> header = super.tableheading();
         header.add("EXT");
-        header.add("PC");
+        
+        header.add(header.get(4));
+        header.set(4,"PC");
 
         return header;
     }

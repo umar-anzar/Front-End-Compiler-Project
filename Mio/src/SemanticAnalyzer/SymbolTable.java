@@ -60,7 +60,7 @@ public class SymbolTable {
         if (row != null) return false;
         
         //if not primitive type then search in lookUpMT also check whether obj can be made
-        typeExis(TYPE, line);
+        typeExist(TYPE, line);
         
         row = new MainTableRow(NAME, TYPE, TYPE_MODIFIER, 
                 PARAM_LIST, ACCESSMODIFIER, PARAMETRIC_CLASS, EXTEND);
@@ -84,7 +84,7 @@ public class SymbolTable {
         if (row != null) return false;
         
         //if not primitive type then search in lookUpMT also check whether obj can be made
-        typeExis(TYPE, line);
+        typeExist(TYPE, line);
         
         row = new ClassTableRow(NAME, TYPE, TYPE_MODIFIER, 
                 PARAM_LIST, ACCESS_MODIFIER, STATIC);
@@ -103,7 +103,7 @@ public class SymbolTable {
         if (row != null) return false;
         
         //if not primitive type then search in lookUpMT also check whether obj can be made
-        typeExis(TYPE, line);
+        typeExist(TYPE, line);
         
         row = new FunctionTableRow(NAME, TYPE, TYPE_MODIFIER, stack.scope);
         fdt.add(row);
@@ -118,7 +118,7 @@ public class SymbolTable {
         for (int i = 0; i < TYPES.length; i++) {
             
             //if not primitive type then search in lookUpMT also check whether obj can be made
-            typeExis(TYPES[i], line);
+            typeExist(TYPES[i], line);
 
             insertFT(NAMES[i], TYPES[i], "",line);
         }
@@ -387,7 +387,11 @@ public class SymbolTable {
                 return true;
         return false;
     }
-    public void typeExis(String TYPE,int line) {
+    public void typeExist(String TYPE,int line) {
+        
+        //Break array part to get type int[][] -> int only
+        TYPE = TYPE.split("\\[")[0];
+        
         if (!PrimitiveType.isPrimitiveType(TYPE))
             if ( lookUpMT(TYPE, "") == null )
                 addError(line, "Unknown Type", TYPE);

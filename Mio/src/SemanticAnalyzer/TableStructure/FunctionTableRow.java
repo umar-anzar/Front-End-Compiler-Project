@@ -23,7 +23,9 @@ public class FunctionTableRow extends ParentTableAttr{
     @Override
     public ArrayList<String> tablevalues() {
         ArrayList<String> record = super.tablevalues();
-        record.add(Integer.toString(SCOPE));
+        //row interchanging
+        record.add(record.get(1));
+        record.set(1, Integer.toString(SCOPE));
         return record;
     }
     
@@ -31,7 +33,8 @@ public class FunctionTableRow extends ParentTableAttr{
     public ArrayList<String> tableheading() {
         
         ArrayList<String> header = super.tableheading();
-        header.add("SCOPE");
+        header.add(header.get(1));
+        header.set(1,"SCOPE");
 
         return header;
     }

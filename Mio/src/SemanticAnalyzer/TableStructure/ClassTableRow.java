@@ -34,7 +34,8 @@ public class ClassTableRow extends ChildTableAttr {
     @Override
     public ArrayList<String> tablevalues() {
         ArrayList<String> record = super.tablevalues();
-        record.add(STATIC);
+        record.add(record.get(4));
+        record.set(4,STATIC);
         return record;
     }
     
@@ -42,7 +43,8 @@ public class ClassTableRow extends ChildTableAttr {
     public ArrayList<String> tableheading() {
         
         ArrayList<String> header = super.tableheading();
-        header.add("STC");
+        header.add(header.get(4));
+        header.set(4,"STC");
     
         return header;
     }

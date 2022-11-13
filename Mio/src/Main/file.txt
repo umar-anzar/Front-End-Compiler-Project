@@ -3,7 +3,7 @@ import Pro.Reg;
 import Rand.^;
 
 
-Abstract Class A () {
+Abstract Class A <OBJ> (N,C) {
 
     def int fun () {}
     Static const int a = 4;
@@ -18,14 +18,14 @@ begin {
 const A a=5,b=3;
 
 
-@@
-@def func1 () {}
-@def int func1 (int a) {}
-@def str func1 (int a,point b) {}
-@def X func1 (int[] a,point[][] b, A[] c) {}
-@def X[][][] func1 (int[][] a,point[][] b) {}
 
-@const Class Car (A){}
+def func1 () {}
+def int func1 (int a) {}
+def str func1 (int a,point b) {}
+def X func1 (int[] a,point[][] b, A[] c) {}
+def X[][][] func1 (int[][] a,point[][] b) {}
+
+const Class Car (A){}
 
 
 
