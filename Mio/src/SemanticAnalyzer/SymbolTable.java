@@ -151,7 +151,8 @@ public class SymbolTable {
     /**
      * Function and Var Use in class table
      * @param NAME
-     * @param PARAMETER_LIST
+     * @param PARAM_LIST
+     * @param ct
      * @return 
      */
     public ClassTableRow lookUpDT(String NAME, String PARAM_LIST, 
@@ -184,7 +185,7 @@ public class SymbolTable {
      * @param PARAM_LIST
      * @param ct
      * @param line
-     * @return 
+     * @return ClassTableRow
      */
     public ClassTableRow lookUpDT(String NAME, String PARAM_LIST, 
             ClassTable ct, int line) {
@@ -195,10 +196,11 @@ public class SymbolTable {
     
     /**
      * Function and Var Use in Function table
-     * Search in scope stack to find
      * @param NAME
-     * @param PARAMETER_LIST
-     * @return 
+     * @param PARAM_LIST
+     * @param ct
+     * @param out
+     * @return String
      */
     public String/*RetType*/ lookUpFT(String NAME, String PARAM_LIST, 
             ClassTable ct, RetOutInfo out) 
@@ -269,10 +271,9 @@ public class SymbolTable {
     //Searching of multiple inheritance functions-------------------------------
     /**
      * Searching in Multilevel and Hierarchical Inheritance 
-     * Left to Right breath first search
      * @param NAME
      * @param PARAM_LIST
-     * @param Initialnode
+     * @param ct
      * @return 
      */
     public String BFS_inheritedClasses (String NAME, String PARAM_LIST, ClassTable ct) {
