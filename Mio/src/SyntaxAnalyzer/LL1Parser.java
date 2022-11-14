@@ -1687,19 +1687,21 @@ public class LL1Parser {
         }
         else if (match("(")) {
             index++;
-            if (EXPR(null)) {
+            if (EXPR(out)) {
                 if (match(")")) {
                     index++;
-                    if (ID_TO_EXPR(null)) {
+                    if (ID_TO_EXPR(out)) {
                         return true;
                     }
                 }
             }
         }
         else if (searchSelectionSet("UNARY")) {
-            if (UNARY()) {
-                if (OPERANDS(null)) {
-                    if (ID_TO_EXPR(null)) {
+            if (UNARY(out)) {
+                RetOutInfo out1 = new RetOutInfo();
+                if (OPERANDS(out1)) {
+                    out.TYPE = ST.compatibility_conv(out.TYPE, out1.TYPE, getTokenLine());
+                    if (ID_TO_EXPR(out)) {
                         return true;
                     }
                 }
@@ -2544,7 +2546,7 @@ public class LL1Parser {
         }
         else if (match("(")) {
             index++;
-            if (EXPR(null)){
+            if (EXPR(out)){
                 if (match(")")) {
                     index++;
                     return true;
@@ -2552,8 +2554,10 @@ public class LL1Parser {
             }          
         }
         else if (searchSelectionSet("UNARY")){
-            if (UNARY()){
-                if (OPERANDS(null)){
+            if (UNARY(out)){
+                RetOutInfo out1 = new RetOutInfo();
+                if (OPERANDS(out1)){
+                    out.TYPE = ST.compatibility_conv(out.TYPE, out1.TYPE, getTokenLine());
                     return true;
                 }
             }
@@ -2572,12 +2576,12 @@ public class LL1Parser {
         }
         return false;
     }
-    private boolean UNARY() {
+    private boolean UNARY(RetOutInfo out) {
         if (match("typeCast")) {
             index++;
             if (match("(")) {
                 index++;
-                if (TYPE(null)) {
+                if (TYPE(out)) {
                     if (match(")")) {
                         index++;
                         return true;

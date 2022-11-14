@@ -331,6 +331,21 @@ public class SymbolTable {
     }
     
     //Compatibility functions---------------------------------------------------
+    
+    public String compatibility_conv(String convType, String TYPE, int line){
+        String TYPE1,TYPE2;
+        TYPE1 = PrimitiveType.airthematicTypeDictionary.get(convType);
+        TYPE2 = PrimitiveType.airthematicTypeDictionary.get(TYPE);
+        if (TYPE1 !=null && TYPE2 != null)//if both are not null
+            return convType;
+        else if (TYPE1==null && TYPE2 == null )//if any one of them is null
+            addError(line, "Cannot be type cast to ", TYPE1);
+        else {
+            //FOR CLASS TYPE
+        }
+        return convType;
+    }
+    
     public String compatibility(String TYPE1, String TYPE2, String operator, int line) {
         System.out.println(TYPE1+operator+TYPE2);
         TYPE1 = PrimitiveType.airthematicTypeDictionary.get(TYPE1);
@@ -352,7 +367,7 @@ public class SymbolTable {
                 return "str";
             }
             
-            if (PrimitiveType.typeSize.get(TYPE1) > PrimitiveType.typeSize.get(TYPE2))
+            if (PrimitiveType.typeSize.get(TYPE1) >= PrimitiveType.typeSize.get(TYPE2))
                 return TYPE1;
             else
                 return TYPE2;
