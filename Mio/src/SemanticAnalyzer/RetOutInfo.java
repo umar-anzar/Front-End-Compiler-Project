@@ -12,6 +12,7 @@ public class RetOutInfo {
     public String
             NAME="",
             NAME2="",/*using in names of parameters*/
+            beforeOpName = "", /*use before operator comes to have operator compaitble error*/
             TYPE="",
             TYPE_MODIFIER="",
             ACCESS_MODIFIER="",
@@ -19,5 +20,16 @@ public class RetOutInfo {
             EXTEND="",
             STATIC = "",
             TYPE2 = "";/*using in types of parameters*/
+    public boolean
+            consturctor = false;
+
+    public void onConsturctor() {
+        this.consturctor = true;
+    }
+    public void offConsturctor() {
+        this.consturctor = false;
+    }
+    
+    
 
 }

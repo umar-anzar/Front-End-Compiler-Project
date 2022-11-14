@@ -329,6 +329,87 @@ public class SymbolTable {
         return lookUpMT(className, "").inheritedClasses();
     }
     
+    //Compatibility functions---------------------------------------------------
+    public String compatibility(String TYPE1, String TYPE2, String operator, int line) {
+        TYPE1 = PrimitiveType.airthematicTypeDictionary.get(TYPE1);
+        TYPE2 = PrimitiveType.airthematicTypeDictionary.get(TYPE2);
+        
+        
+        
+        if (compatibility_op(TYPE1, operator) && compatibility_op(TYPE2, operator)) {
+            
+            if (TYPE1.equals(TYPE2)) {
+                if ("bool".equals(TYPE1)) {
+                    String [] boolType = PrimitiveType.operatorDictionary.get(operator);
+                    if (boolType != null) {
+                        return boolType[0];
+                    }
+                }
+            }
+            if ("str".equals(TYPE1) || "str".equals(TYPE2)) {
+                return "str";
+            }
+            
+            if (PrimitiveType.typeSize.get(TYPE1) > PrimitiveType.typeSize.get(TYPE2))
+                return TYPE1;
+            else
+                return TYPE2;
+            
+        }
+        
+        addError(line, "Incompatible operation of ("+operator+")", "between "+TYPE1+" and "+TYPE2);
+        return TYPE1;
+    }
+    public boolean compatibility_op(String TYPE, String operator) {
+        if (PrimitiveType.isAirthematicType(TYPE)) {
+            TYPE = PrimitiveType.airthematicTypeDictionary.get(TYPE);
+        }
+        String [] types = PrimitiveType.operatorDictionary.get(operator);
+        for (String type : types) {
+            if (type.equals(TYPE)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    public boolean compareType(String T1, String T2, String NAME, int line) {
+        
+        if (T1.equals(T2)) {
+            
+            return true;
+        } else {
+            
+            if (lookUpMT(T1, "") != null && lookUpMT(T2, "")!= null)
+                ;//HERE I ALSO HAVE TO CHECK PARENT REFERENCE CHECK 
+        }
+        
+        
+        T1 = PrimitiveType.airthematicTypeDictionary.get(T1);
+        T2 = PrimitiveType.airthematicTypeDictionary.get(T2);
+        
+        if (T1!= null && T2 != null) {
+            
+            if (T1.equals(T2)) {
+                return true;
+                
+            } else {
+                Integer T1_size = PrimitiveType.typeSize.get(T1), 
+                        T2_size = PrimitiveType.typeSize.get(T2);
+                
+                if (T1_size != null && T2_size != null) {
+                    if (T1_size >= T2_size)
+                        return true;
+                }
+                
+            }
+
+        }
+
+
+        addError(line,"Incompatible Type Assign to variable",NAME);
+        return false;
+    }
+    
     //Print table functions-----------------------------------------------------
     public void printST() {
         ArrayList<String> mainTable = mt.printMT();
@@ -355,14 +436,14 @@ public class SymbolTable {
     public void printError() {
         if (lookUpMT("begin", "") == null)
             error.add("File has no executable function {begin}");
-        if (error.size() > 0)
+        if (!error.isEmpty())
             System.out.println("ERROR LIST:");
         for (String string : error) {
             System.out.println(string);
         }
     }
     
-    //helpful functions--------------------------------------------------------
+    //helpful functions---------------------------------------------------------
     public void canInhert(String className, int line) {
         MainTableRow row = lookUpMT(className, "");
         if(row != null) {
@@ -380,21 +461,26 @@ public class SymbolTable {
             if (row.isFunction() && row.isFinal()) 
                 addError(line,"Function is final, cannot override",NAME);
     }
-    public boolean canMakeObj(String TYPE) {
+    public boolean canMakeObj(String TYPE, int line) {
         MainTableRow row = lookUpMT(TYPE, "");
         if (lookUpMT(TYPE, "") != null)
             if ( !row.isAbstract() )
                 return true;
+            else
+                addError(line, "Class Data Type is Abstract, Cannot be initialize", TYPE);
         return false;
     }
-    public void typeExist(String TYPE,int line) {
+    public boolean typeExist(String TYPE,int line) {
         
         //Break array part to get type int[][] -> int only
         TYPE = TYPE.split("\\[")[0];
         
         if (!PrimitiveType.isPrimitiveType(TYPE))
-            if ( lookUpMT(TYPE, "") == null )
+            if ( lookUpMT(TYPE, "") == null ) {
                 addError(line, "Unknown Type", TYPE);
+                return false;
+            }
+        return true;
     }
 //IMP
 //                } else if (!canMakeObj(TYPE)) /*If cannot make objs*/{

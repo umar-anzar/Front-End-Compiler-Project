@@ -17,10 +17,11 @@ public class CFG {
         TokenClass.loadToken(); // load tokens from file
         
         var parser = new LL1Parser();
-        System.out.println("----------------------------------------------");
-        System.out.println("SYNTAX: "+parser.validate(TokenClass.tokenList));
-        System.out.println("----------------------------------------------");
+        boolean syntax = parser.validate(TokenClass.tokenList);
+        System.out.println("SEMANTIC: ");
         parser.ST.printST();
+        System.out.println("----------------------------------------------");
+        System.out.println("SYNTAX: "+syntax);
         System.out.println("----------------------------------------------");
         parser.ST.printError();
     }

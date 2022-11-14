@@ -1326,7 +1326,7 @@ public class LL1Parser {
             }
         }
         else if (searchSelectionSet("FN_BRACKETS")) {
-            if (FN_BRACKETS()) {
+            if (FN_BRACKETS(null)) {
                 if (DOT_ID_SUBSCRIPT()) {
                     return true;
                 }
@@ -1366,7 +1366,7 @@ public class LL1Parser {
         }
         return false;
     }
-    private boolean FN_BRACKETS() {
+    private boolean FN_BRACKETS(RetOutInfo out) {
         if (match("(")) {
             index++;
             if (ARG()) {
@@ -1411,7 +1411,7 @@ public class LL1Parser {
             }
         }
         else if (searchSelectionSet("NEW_OBJ")) {
-            if (NEW_OBJ()) {
+            if (NEW_OBJ(null)) {
                 return true;
             }
         }
@@ -1443,7 +1443,7 @@ public class LL1Parser {
         }
         else if (searchSelectionSet("FN_BRACKETS")) {
             
-            if (FN_BRACKETS()) {
+            if (FN_BRACKETS(null)) {
                 if (DOT_ID_SUBSCRIPT2()) {
                     return true;
                 }
@@ -1536,7 +1536,7 @@ public class LL1Parser {
             }
         }
         else if (searchSelectionSet("FN_BRACKETS")) {
-            if (FN_BRACKETS()) {
+            if (FN_BRACKETS(null)) {
                 if (DOT_ID4()) {
                     return true;
                 }
@@ -1620,7 +1620,7 @@ public class LL1Parser {
             if (!ST.insertFT(N, T, TM, getTokenLine()))
                 ST.addError(getTokenLine(), "Redeclaration error",N);
             index++;
-            if (INIT()) {
+            if (INIT(null)) {
                 if (LIST()) {
                     return true;
                 }
@@ -1635,7 +1635,7 @@ public class LL1Parser {
         }
         return false;
     }
-    private boolean INIT() {
+    private boolean INIT(RetOutInfo out) {
         if (searchSelectionSet("IS_ACMETH")) {
             if (IS_ACMETH()) {
                 if (match("id")) {
@@ -1647,12 +1647,12 @@ public class LL1Parser {
             }
         }
         else if (searchSelectionSet("NEW_OBJ")) {
-            if (NEW_OBJ()) {
+            if (NEW_OBJ(out)) {
                 return true;
             }
         }
         else if (searchSelectionSet("OPER_TO_EXPR")) {
-            if (OPER_TO_EXPR()) {
+            if (OPER_TO_EXPR(out)) {
                 return true;
             }
         }
@@ -1672,13 +1672,13 @@ public class LL1Parser {
         return false;
     }
     
-    private boolean OPER_TO_EXPR() {
+    private boolean OPER_TO_EXPR(RetOutInfo out) {
         if (searchSelectionSet("INC_DEC")) {
             if (INC_DEC()) {
                 if (match("id")) {
                     index++;
                     if (POS()) {
-                        if (ID_TO_EXPR()) {
+                        if (ID_TO_EXPR(null)) {
                             return true;
                         }
                     }
@@ -1690,7 +1690,7 @@ public class LL1Parser {
             if (EXPR()) {
                 if (match(")")) {
                     index++;
-                    if (ID_TO_EXPR()) {
+                    if (ID_TO_EXPR(null)) {
                         return true;
                     }
                 }
@@ -1698,24 +1698,24 @@ public class LL1Parser {
         }
         else if (searchSelectionSet("UNARY")) {
             if (UNARY()) {
-                if (OPERANDS()) {
-                    if (ID_TO_EXPR()) {
+                if (OPERANDS(null)) {
+                    if (ID_TO_EXPR(null)) {
                         return true;
                     }
                 }
             }
         }
         else if (searchSelectionSet("CONST")) {
-            if (CONST()) {
-                if (ID_TO_EXPR()) {
+            if (CONST(out)) {
+                if (ID_TO_EXPR(out)) {
                     return true;
                 }
             }
         }
         else if (searchSelectionSet("FLAG")) {
             if (FLAG()) {
-                if (OPERANDS()) {
-                    if (ID_TO_EXPR()) {
+                if (OPERANDS(null)) {
+                    if (ID_TO_EXPR(null)) {
                         return true;
                     }
                 }
@@ -1731,7 +1731,7 @@ public class LL1Parser {
             }
         }
         else if (searchSelectionSet("FN_BRACKETS")) {
-            if (FN_BRACKETS()) {
+            if (FN_BRACKETS(null)) {
                 if (DOT_EXPR()) {
                     return true;
                 }
@@ -1739,14 +1739,14 @@ public class LL1Parser {
         }
         else if (searchSelectionSet("ASSIGN_OP")) {
             if (ASSIGN_OP()) {
-                if (INIT()) {
+                if (INIT(null)) {
                     return true;
                 }
             }
         }
         else if (searchSelectionSet("INC_DEC")) {
             if (INC_DEC()) {
-                if (ID_TO_EXPR()) {
+                if (ID_TO_EXPR(null)) {
                     return true;
                 }
             }
@@ -1771,17 +1771,17 @@ public class LL1Parser {
             }
         }
         else if (searchSelectionSet("ID_TO_EXPR")) {
-            if (ID_TO_EXPR()) {
+            if (ID_TO_EXPR(null)) {
                 return true;
             }
         }
         return false;
     }
-    private boolean ID_TO_EXPR() {
+    private boolean ID_TO_EXPR(RetOutInfo out) {
         if (searchSelectionSet("J1")) {
             if (J1()) {
                 if (I1()) {
-                    if (H1()) {
+                    if (H1(out)) {
                         if (G1()) {
                             if (F1()) {
                                 if (EXPR1()) {
@@ -1856,7 +1856,7 @@ public class LL1Parser {
     }
     private boolean FN_TWO_ASSIGN() {
         if (searchSelectionSet("FN_BRACKETS")) {
-            if (FN_BRACKETS()) {
+            if (FN_BRACKETS(null)) {
                 if (DOT_ID4()) {
                     return true;
                 }
@@ -1911,7 +1911,7 @@ public class LL1Parser {
         }
         else if (searchSelectionSet("ASSIGN_OP")) {
             if (ASSIGN_OP()) {
-                if (INIT()) {
+                if (INIT(null)) {
                     if (match(";")) {
                         index++;
                         return true;
@@ -1923,10 +1923,12 @@ public class LL1Parser {
     }
     
     //Object Declaration--------------------------------------------------------$
-    private boolean NEW_OBJ() {
+    private boolean NEW_OBJ(RetOutInfo out) {
         if (match("new")) {
+            out.onConsturctor();
             index++;
-            if (CONSTR_ARR()) {
+            if (CONSTR_ARR(out)) {
+                out.offConsturctor();
                 return true;
             }
         }
@@ -1936,10 +1938,14 @@ public class LL1Parser {
         }
         return false;
     }
-    private boolean CONSTR_ARR() {
+    private boolean CONSTR_ARR(RetOutInfo out) {
         if (match("id")) {
+            String N = getTokenVP();
+            if (ST.typeExist(N, getTokenLine())){
+                ST.canMakeObj(N, getTokenLine()); }           
+            out.NAME = N;
             index++;
-            if (FN_ARR()) {
+            if (FN_ARR(out)) {
                 return true; 
             }
         }
@@ -1954,15 +1960,15 @@ public class LL1Parser {
         }
         else if (match("str")) {
             index++;
-            if (FN_ARR()) {
+            if (FN_ARR(null)) {
                 return true; 
             }
         }
         return false;
     }
-    private boolean FN_ARR() {
+    private boolean FN_ARR(RetOutInfo out) {
         if (searchSelectionSet("FN_BRACKETS")) {
-            if (FN_BRACKETS()) {
+            if (FN_BRACKETS(out)) {
                 return true;
             }
         }
@@ -2154,7 +2160,10 @@ public class LL1Parser {
                 ST.addError(getTokenLine(), "Redeclaration error",N);
             }
             index++;
-            if (INIT()) {
+            RetOutInfo out1 = new RetOutInfo();
+            if (INIT(out1)) {
+                //compare
+                ST.compareType(T, out1.TYPE, N, getTokenLine());
                 if (LIST_G(out)) {
                     return true;
                 }
@@ -2267,7 +2276,10 @@ public class LL1Parser {
                 ST.addError(getTokenLine(), "Redeclaration error",N);
             }
             index++;
-            if (INIT()) {
+            RetOutInfo out1 = new RetOutInfo();
+            if (INIT(out1)) {
+                //Type that comes out from init must be equatl to T
+                //ST.compareType (T, out1.TYPE, N, getTokenLine());
                 if (LIST_C(out)) {
                     return true;
                 }
@@ -2385,19 +2397,25 @@ public class LL1Parser {
     }
     private boolean H() {
         if (searchSelectionSet("I")){
-            if (I()){
-                if (H1()){
+            if (I(null)){
+                if (H1(null)){
                     return true;
                 }
             }
         }
         return false;
     }
-    private boolean H1() {
+    private boolean H1(RetOutInfo out) {
         if (match("pm")) {
+            String operator = getTokenVP();
+            if (!ST.compatibility_op(out.TYPE, operator))
+                ST.addError(getTokenLine(), "Incompatible with the operator ("+operator+")", out.beforeOpName);
+            
             index++;
-            if (I()){
-                if (H1()){
+            RetOutInfo out1 = new RetOutInfo();
+            if (I(out1)){
+                out.TYPE = ST.compatibility(out.TYPE, out1.TYPE, operator, getTokenLine());
+                if (H1(out)){
                     return true;
                 }
             }
@@ -2409,9 +2427,9 @@ public class LL1Parser {
         }
         return false;
     }
-    private boolean I() {
+    private boolean I(RetOutInfo out) {
         if (searchSelectionSet("J")){
-            if (J()){
+            if (J(out)){
                 if (I1()){
                     return true;
                 }
@@ -2422,7 +2440,7 @@ public class LL1Parser {
     private boolean I1() {
         if (match("mdm")) {
             index++;
-            if (J()){
+            if (J(null)){
                 if (I1()){
                     return true;
                 }
@@ -2435,9 +2453,9 @@ public class LL1Parser {
         }
         return false;
     }
-    private boolean J() {
+    private boolean J(RetOutInfo out) {
         if (searchSelectionSet("K")){
-            if (K()){
+            if (K(out)){
                 if (J1()){
                     return true;
                 }
@@ -2448,7 +2466,7 @@ public class LL1Parser {
     private boolean J1() {
         if (match("power")) {
             index++;
-            if (K()){
+            if (K(null)){
                 if (J1()){
                     return true;
                 }
@@ -2461,17 +2479,17 @@ public class LL1Parser {
         }
         return false;
     }
-    private boolean K() {
+    private boolean K(RetOutInfo out) {
         if (searchSelectionSet("IS_FLAG")){
-            if (IS_FLAG()){
+            if (IS_FLAG(out)){
                 return true;
             }
         }
         return false;
     }
-    private boolean IS_FLAG() {
+    private boolean IS_FLAG(RetOutInfo out) {
         if (searchSelectionSet("OPERANDS")){
-            if (OPERANDS()){
+            if (OPERANDS(out)){
                 return true;
             }
         }
@@ -2479,7 +2497,7 @@ public class LL1Parser {
     }
     
     //Operands------------------------------------------------------------------$
-    private boolean OPERANDS() {
+    private boolean OPERANDS(RetOutInfo out) {
         if (searchSelectionSet("IS_ACMETH")){
             if (IS_ACMETH()){
                 if (match("id")) {
@@ -2511,19 +2529,19 @@ public class LL1Parser {
         }
         else if (searchSelectionSet("UNARY")){
             if (UNARY()){
-                if (OPERANDS()){
+                if (OPERANDS(null)){
                     return true;
                 }
             }
         }
         else if (searchSelectionSet("CONST")){
-            if (CONST()){
+            if (CONST(out)){
                 return true;
             }
         }
         else if (searchSelectionSet("FLAG")){
             if (FLAG()){
-                if (OPERANDS()){
+                if (OPERANDS(null)){
                     return true;
                 }
             }
@@ -2567,24 +2585,34 @@ public class LL1Parser {
     }
     
     //Constant------------------------------------------------------------------$
-    private boolean CONST() {
+    private boolean CONST(RetOutInfo out) {
         if (match("intConst")) {
+            out.beforeOpName = getTokenVP();
+            out.TYPE = getTokenCP();
             index++;
             return true;
         }
         else if (match("floatConst")) {
+            out.beforeOpName = getTokenVP();
+            out.TYPE = getTokenCP();
             index++;
             return true;
         }
         else if (match("charConst")) {
+            out.beforeOpName = getTokenVP();
+            out.TYPE = getTokenCP();
             index++;
             return true; 
         }
         else if (match("boolConst")) {
+            out.beforeOpName = getTokenVP();
+            out.TYPE = getTokenCP();
             index++;
             return true;
         }
         else if (match("strConst")) {
+            out.beforeOpName = getTokenVP();
+            out.TYPE = getTokenCP();
             index++;
             return true;
         }
@@ -2861,7 +2889,7 @@ public class LL1Parser {
     
     private boolean POS3() {
         if (searchSelectionSet("FN_BRACKETS")){
-            if (FN_BRACKETS()){
+            if (FN_BRACKETS(null)){
                 if (DOT_ID5()) {
                     return true;
                 }
@@ -2949,7 +2977,7 @@ public class LL1Parser {
     private boolean THROW() {
         if (match("raise")){
             index++;
-            if (NEW_OBJ()){
+            if (NEW_OBJ(null)){
                 if (match(";")){
                     index++;
                     return true;

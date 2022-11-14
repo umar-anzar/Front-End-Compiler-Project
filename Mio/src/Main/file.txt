@@ -2,38 +2,5 @@ package p.src;
 import Pro.Reg;
 import Rand.^;
 
-begin {
-    
-    loop thru (int y in (1,2,3));
-
-}
-
-@@
-Abstract Class A <OBJ> (N,C) {
-
-    def int fun () {}
-    Static const int a = 4;
-    def ABC[] $$fun1(int x, point b) {}
-    def Static A $fun2 (point b) {}
-
-}
-
-begin {
-    A yad=5;
-}
-const A a=5,b=3;
-
-
-
-def func1 () {}
-def int func1 (int a) {}
-def str func1 (int a, point b) {}
-def X func1 (int[] a,point[][] b, A[] c) {}
-def X[][][] func1 (int[][] a,point[][] b) {}
-
-const Class Car (A){}
-
-
-
-
-
+Class A (){}
+str a = "abc" - 2;
