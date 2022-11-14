@@ -12,11 +12,11 @@ import java.util.HashMap;
  */
 public class PrimitiveType {
     //In Bytes
-    public static final double INTEGER_SIZE = 8;
-    public static final double POINT_SIZE = 8;
-    public static final double CHAR_SIZE = 4;
-    public static final double BOOL_SIZE = 2;
-    public static final double VAL_SIZE = 8;
+    public static final Integer INTEGER_SIZE = 4;
+    public static final Integer POINT_SIZE = 8;
+    public static final Integer CHAR_SIZE = 4;
+    public static final Integer BOOL_SIZE = 1;
+    public static final Integer VAL_SIZE = 8;
     
     public static final String INTEGER = "intConst";
     public static final String POINT = "floatConst";
@@ -27,11 +27,11 @@ public class PrimitiveType {
 
     public static final HashMap<String,Integer> typeSize = new HashMap<>(){
         {
-            put("int", 8);
-            put("point", 8);
-            put("char", 4);
-            put("bool", 2);
-            put("val", 8);
+            put("int", INTEGER_SIZE);
+            put("point", POINT_SIZE);
+            put("char", CHAR_SIZE);
+            put("bool", BOOL_SIZE);
+            put("val", VAL_SIZE);
         }
     };
     

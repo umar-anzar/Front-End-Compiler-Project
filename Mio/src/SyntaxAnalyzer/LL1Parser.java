@@ -1342,7 +1342,7 @@ public class LL1Parser {
     private boolean SUBSCRIPT() {
         if (match("[")) {
             index++;
-            if (EXPR()) {
+            if (EXPR(null)) {
                 if (match("]")) {
                     index++;
                     if (SUBSCRIPT_LIST()) {
@@ -1406,7 +1406,7 @@ public class LL1Parser {
     }
     private boolean EXPR_OBJ() {
         if (searchSelectionSet("EXPR")) {
-            if (EXPR()) {
+            if (EXPR(null)) {
                 return true;
             }
         }
@@ -1580,7 +1580,7 @@ public class LL1Parser {
             }
         }
         else if (searchSelectionSet("EXPR")) {
-            if (EXPR()) {
+            if (EXPR(null)) {
                 if (match("]")) {
                     index++;
                     if (DOT_ID3()) {
@@ -1687,7 +1687,7 @@ public class LL1Parser {
         }
         else if (match("(")) {
             index++;
-            if (EXPR()) {
+            if (EXPR(null)) {
                 if (match(")")) {
                     index++;
                     if (ID_TO_EXPR(null)) {
@@ -1779,12 +1779,12 @@ public class LL1Parser {
     }
     private boolean ID_TO_EXPR(RetOutInfo out) {
         if (searchSelectionSet("J1")) {
-            if (J1()) {
-                if (I1()) {
+            if (J1(out)) {
+                if (I1(out)) {
                     if (H1(out)) {
-                        if (G1()) {
-                            if (F1()) {
-                                if (EXPR1()) {
+                        if (G1(out)) {
+                            if (F1(out)) {
+                                if (EXPR1(out)) {
                                     return true;
                                 }
                             }
@@ -1985,7 +1985,7 @@ public class LL1Parser {
     
     private boolean DIM_PASS() {
         if (searchSelectionSet("EXPR")) {
-            if (EXPR()) {
+            if (EXPR(null)) {
                 if (match("]")) {
                     index++;
                     if (MUL_ARR_DEC()) {
@@ -2019,7 +2019,7 @@ public class LL1Parser {
     }
     private boolean LEN_OF_ARR() {
         if (searchSelectionSet("EXPR")) {
-            if (EXPR()) {
+            if (EXPR(null)) {
                 if (match("]")) {
                     index++;
                     if (MUL_ARR_DEC()) {
@@ -2082,7 +2082,7 @@ public class LL1Parser {
     }
     private boolean ARR_ELEMT() {
         if (searchSelectionSet("EXPR")) {
-            if (EXPR()) {
+            if (EXPR(null)) {
                 if (EXPR_LIST()) {
                     return true;
                 }
@@ -2317,21 +2317,26 @@ public class LL1Parser {
     }
     
     //Expression----------------------------------------------------------------$
-    private boolean EXPR() {
+    private boolean EXPR(RetOutInfo out) {
         if (searchSelectionSet("F")){
-            if (F()){
-                if (EXPR1()){
+            if (F(out)){
+                if (EXPR1(out)){
                     return true;
                 }
             }
         }
         return false;
     }
-    private boolean EXPR1() {
+    private boolean EXPR1(RetOutInfo out) {
         if (match("or")) {
+            String operator = getTokenVP();
+            if (!ST.compatibility_op(out.TYPE, operator))
+                ST.addError(getTokenLine(), "Incompatible with the operator ("+operator+")", out.beforeOpName);
+            RetOutInfo out1 = new RetOutInfo();
             index++;
-            if (F()){
-                if (EXPR1()){
+            if (F(out1)){
+                out.TYPE = ST.compatibility(out.TYPE, out1.TYPE, operator, getTokenLine());
+                if (EXPR1(out)){
                     return true;
                 }
             }
@@ -2343,21 +2348,26 @@ public class LL1Parser {
         }
         return false;
     }
-    private boolean F() {
+    private boolean F(RetOutInfo out) {
         if (searchSelectionSet("G")){
-            if (G()){
-                if (F1()){
+            if (G(out)){
+                if (F1(out)){
                     return true;
                 }
             }
         }
         return false;
     }
-    private boolean F1() {
+    private boolean F1(RetOutInfo out) {
        if (match("and")) {
+           String operator = getTokenVP();
+            if (!ST.compatibility_op(out.TYPE, operator))
+                ST.addError(getTokenLine(), "Incompatible with the operator ("+operator+")", out.beforeOpName);
+            RetOutInfo out1 = new RetOutInfo();
            index++;
-           if (G()){
-               if (F1()){
+           if (G(out1)){
+               out.TYPE = ST.compatibility(out.TYPE, out1.TYPE, operator, getTokenLine());
+               if (F1(out)){
                    return true;
                }
            }      
@@ -2369,21 +2379,26 @@ public class LL1Parser {
        }
         return false;
     }
-    private boolean G() {
+    private boolean G(RetOutInfo out) {
         if (searchSelectionSet("H")){
-            if (H()){
-                if (G1()){
+            if (H(out)){
+                if (G1(out)){
                     return true;
                 }
             }
         }
         return false;
     }
-    private boolean G1() {
+    private boolean G1(RetOutInfo out) {
         if (match("rop")) {
+            String operator = getTokenVP();
+            if (!ST.compatibility_op(out.TYPE, operator))
+                ST.addError(getTokenLine(), "Incompatible with the operator ("+operator+")", out.beforeOpName);
+            RetOutInfo out1 = new RetOutInfo();
             index++;
-            if (H()){
-                if (G1()){
+            if (H(out1)){
+                out.TYPE = ST.compatibility(out.TYPE, out1.TYPE, operator, getTokenLine());
+                if (G1(out)){
                     return true;
                 }
             }
@@ -2395,10 +2410,10 @@ public class LL1Parser {
         }
         return false;
     }
-    private boolean H() {
+    private boolean H(RetOutInfo out) {
         if (searchSelectionSet("I")){
-            if (I(null)){
-                if (H1(null)){
+            if (I(out)){
+                if (H1(out)){
                     return true;
                 }
             }
@@ -2410,9 +2425,8 @@ public class LL1Parser {
             String operator = getTokenVP();
             if (!ST.compatibility_op(out.TYPE, operator))
                 ST.addError(getTokenLine(), "Incompatible with the operator ("+operator+")", out.beforeOpName);
-            
-            index++;
             RetOutInfo out1 = new RetOutInfo();
+            index++;
             if (I(out1)){
                 out.TYPE = ST.compatibility(out.TYPE, out1.TYPE, operator, getTokenLine());
                 if (H1(out)){
@@ -2430,18 +2444,23 @@ public class LL1Parser {
     private boolean I(RetOutInfo out) {
         if (searchSelectionSet("J")){
             if (J(out)){
-                if (I1()){
+                if (I1(out)){
                     return true;
                 }
             }
         }
         return false;
     }
-    private boolean I1() {
+    private boolean I1(RetOutInfo out) {
         if (match("mdm")) {
+            String operator = getTokenVP();
+            if (!ST.compatibility_op(out.TYPE, operator))
+                ST.addError(getTokenLine(), "Incompatible with the operator ("+operator+")", out.beforeOpName);
+            RetOutInfo out1 = new RetOutInfo();
             index++;
-            if (J(null)){
-                if (I1()){
+            if (J(out1)){
+                out.TYPE = ST.compatibility(out.TYPE, out1.TYPE, operator, getTokenLine());
+                if (I1(out)){
                     return true;
                 }
             }
@@ -2456,18 +2475,23 @@ public class LL1Parser {
     private boolean J(RetOutInfo out) {
         if (searchSelectionSet("K")){
             if (K(out)){
-                if (J1()){
+                if (J1(out)){
                     return true;
                 }
             }
         }
         return false;
     }
-    private boolean J1() {
+    private boolean J1(RetOutInfo out) {
         if (match("power")) {
+            String operator = getTokenVP();
+            if (!ST.compatibility_op(out.TYPE, operator))
+                ST.addError(getTokenLine(), "Incompatible with the operator ("+operator+")", out.beforeOpName);
+            RetOutInfo out1 = new RetOutInfo();
             index++;
-            if (K(null)){
-                if (J1()){
+            if (K(out1)){
+                out.TYPE = ST.compatibility(out.TYPE, out1.TYPE, operator, getTokenLine());
+                if (J1(out)){
                     return true;
                 }
             }
@@ -2520,7 +2544,7 @@ public class LL1Parser {
         }
         else if (match("(")) {
             index++;
-            if (EXPR()){
+            if (EXPR(null)){
                 if (match(")")) {
                     index++;
                     return true;
@@ -2625,7 +2649,7 @@ public class LL1Parser {
             index++;
             if (match("(")){
                 index++;
-                if (EXPR()){
+                if (EXPR(null)){
                     if (match(")")){
                         index++;
                         if (BODY()){
@@ -2659,7 +2683,7 @@ public class LL1Parser {
             index++;
             if (match("(")){
                 index++;
-                if (EXPR()){
+                if (EXPR(null)){
                     if (match(")")){
                         index++;
                         if (match("{")){
@@ -2678,7 +2702,7 @@ public class LL1Parser {
     private boolean STATE() {
         if (match("state")){
             index++;
-            if(EXPR()){
+            if(EXPR(null)){
                 if (match(":")){
                     ST.push();
                     index++;
@@ -2790,7 +2814,7 @@ public class LL1Parser {
             index++;
             if (match("(")){
                 index++;
-                if (EXPR()){
+                if (EXPR(null)){
                     if (match(")")){
                         index++;
                         if (BODY()){
@@ -2810,7 +2834,7 @@ public class LL1Parser {
                     index++;
                     if (match("(")){
                         index++;
-                        if (EXPR()){ 
+                        if (EXPR(null)){ 
                             if (match(")")){
                                 index++;
                                 if (match(";")) {
@@ -2867,13 +2891,13 @@ public class LL1Parser {
         }
         else if (match("(")){
             index++;
-            if (EXPR()){
+            if (EXPR(null)){
                 if (match(",")){
                     index++;
-                    if (EXPR()){
+                    if (EXPR(null)){
                         if (match(",")){
                             index++;
-                            if (EXPR()){
+                            if (EXPR(null)){
                                 if (match(")")){
                                     index++;
                                     return true;

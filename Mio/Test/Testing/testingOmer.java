@@ -32,6 +32,7 @@ class B extends A{
     public static int y=7;
     static int x () {
         int z = B.y;
+        
         return z;
     }
 }

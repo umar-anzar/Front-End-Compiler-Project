@@ -332,6 +332,7 @@ public class SymbolTable {
     
     //Compatibility functions---------------------------------------------------
     public String compatibility(String TYPE1, String TYPE2, String operator, int line) {
+        System.out.println(TYPE1+operator+TYPE2);
         TYPE1 = PrimitiveType.airthematicTypeDictionary.get(TYPE1);
         TYPE2 = PrimitiveType.airthematicTypeDictionary.get(TYPE2);
         
@@ -374,7 +375,7 @@ public class SymbolTable {
         return false;
     }
     public boolean compareType(String T1, String T2, String NAME, int line) {
-        
+        System.out.println(T2);
         if (T1.equals(T2)) {
             
             return true;

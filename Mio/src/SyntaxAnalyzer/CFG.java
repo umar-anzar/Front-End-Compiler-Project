@@ -19,7 +19,7 @@ public class CFG {
         var parser = new LL1Parser();
         boolean syntax = parser.validate(TokenClass.tokenList);
         System.out.println("SEMANTIC: ");
-        parser.ST.printST();
+        //parser.ST.printST();
         System.out.println("----------------------------------------------");
         System.out.println("SYNTAX: "+syntax);
         System.out.println("----------------------------------------------");
