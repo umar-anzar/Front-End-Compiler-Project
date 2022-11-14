@@ -2,7 +2,13 @@ package p.src;
 import Pro.Reg;
 import Rand.^;
 
+begin {
+    
+    loop thru (int y in (1,2,3));
 
+}
+
+@@
 Abstract Class A <OBJ> (N,C) {
 
     def int fun () {}

@@ -1617,9 +1617,8 @@ public class LL1Parser {
         String N=out.NAME,T=out.TYPE,TM=out.TYPE_MODIFIER;
         
         if (match("=")) {
-            if (!ST.insertFT(N, T, TM, getTokenLine())) {
+            if (!ST.insertFT(N, T, TM, getTokenLine()))
                 ST.addError(getTokenLine(), "Redeclaration error",N);
-            }
             index++;
             if (INIT()) {
                 if (LIST()) {
@@ -1628,9 +1627,8 @@ public class LL1Parser {
             }
         }
         else if (searchSelectionSet("LIST")) {
-            if (!ST.insertFT(N, T, TM, getTokenLine())) {
+            if (!ST.insertFT(N, T, TM, getTokenLine()))
                 ST.addError(getTokenLine(), "Redeclaration error",N);
-            }
             if (LIST()) {
                 return true;
             }
@@ -2801,14 +2799,18 @@ public class LL1Parser {
     }
     
     private boolean FOR_ST() {
+        String N,T;
         if (match("thru")){
             index++;
             if (match("(")){
                 ST.push();
                 index++;
                 if (match("dt")){
+                    T = getTokenVP();
                     index++;
                     if (match("id")){
+                        N = getTokenVP();
+                        ST.insertFT(N, T, "", getTokenLine());
                         index++;
                         if (match("in")){
                             index++;
@@ -2816,6 +2818,7 @@ public class LL1Parser {
                                 if (match(")")){
                                     index++;
                                     if (BODY()){
+                                        ST.pop();
                                         return true;
                                     }
                                 }  
@@ -2971,7 +2974,6 @@ public class LL1Parser {
                             index++;
                             if (ERROR_TYPE()){
                                 if (match("{")){
-                                    ST.push();
                                     index++;
                                     if(MST()){
                                         if (match("}")){
