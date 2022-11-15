@@ -20,7 +20,9 @@ public class RetOutInfo {
             EXTEND="",
             STATIC = "",
             TYPE2 = "",/*using in types of parameters*/
-            OPERATOR = "";/*Used for not ! operator*/
+            OPERATOR = "",/*Used for not ! operator*/
+            FLAGOP = "";/*Used for flag pm*/
+    
     public boolean
             consturctor = false;
 

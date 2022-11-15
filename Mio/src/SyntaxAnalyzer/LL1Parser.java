@@ -271,7 +271,7 @@ public class LL1Parser {
         sSet.put("INIT", new String[][] { {"Parent", "Self", "id", "new", "NaN", "inc_dec", "(", "typeCast", "not", "intConst", "floatConst", "charConst", "boolConst", "strConst", "pm"}, {} });
         sSet.put("IS_ACMETH", new String[][] { {"Parent", "Self"}, {"id"} });
         
-        sSet.put("OPER_TO_EXPR", new String[][] { {"inc_dec", "(", "typeCast", "not", "intConst", "floatConst", "charConst", "boolConst", "strConst"}, {} });
+        sSet.put("OPER_TO_EXPR", new String[][] { {"inc_dec", "(", "typeCast", "not", "intConst", "floatConst", "charConst", "boolConst", "strConst", "pm"}, {} });
         
         sSet.put("ASSIGN_EXPR", new String[][] { {"dot", "[", "power", "mdm", "pm", "rop", "and", "or", "(", "=", "cma", "inc_dec"}, {",", ";"} });
         sSet.put("DOT_EXPR", new String[][] { {"dot", "[", "power", "mdm", "pm", "rop", "and", "or"}, {",", ";"} });
@@ -1730,9 +1730,12 @@ public class LL1Parser {
             }
         }
         else if (searchSelectionSet("FLAG")) {
-            if (FLAG()) {
-                if (OPERANDS(null)) {
-                    if (ID_TO_EXPR(null)) {
+            if (FLAG(out)) {
+                if (OPERANDS(out)) {
+                    if (!ST.compatibility_op(out.TYPE, out.FLAGOP))
+                        ST.addError(getTokenLine(), "Incompatible with the operator ("+out.FLAGOP+")", out.TYPE);
+                    out.FLAGOP = "";
+                    if (ID_TO_EXPR(out)) {
                         return true;
                     }
                 }
@@ -2597,8 +2600,11 @@ public class LL1Parser {
             }
         }
         else if (searchSelectionSet("FLAG")){
-            if (FLAG()){
-                if (OPERANDS(null)){
+            if (FLAG(out)){
+                if (OPERANDS(out)){
+                    if (!ST.compatibility_op(out.TYPE, out.FLAGOP))
+                            ST.addError(getTokenLine(), "Incompatible with the operator ("+out.FLAGOP+")", out.TYPE);
+                    out.FLAGOP = "";
                     return true;
                 }
             }
@@ -2625,8 +2631,20 @@ public class LL1Parser {
         }
         return false;
     }
-    private boolean FLAG() {
+    private boolean FLAG(RetOutInfo out) {
         if (match("pm")) {
+            //Flag + - + - - + handling resultant operator
+            HashMap<String,String> opSwitch = new HashMap<>(){
+                {
+                    put("+", "-");
+                    put("-", "+");
+                }
+            };
+            if (out.FLAGOP.isEmpty()) {
+                out.FLAGOP = getTokenVP();
+            } else if ("-".equals(getTokenVP())) {
+                out.FLAGOP = opSwitch.get(out.FLAGOP);
+            }
             index++;
             return true;
         }
@@ -2900,7 +2918,7 @@ public class LL1Parser {
                         index++;
                         if (match("in")){
                             index++;
-                            if (FOR_ARG()){
+                            if (FOR_ARG(N,T)){
                                 if (match(")")){
                                     index++;
                                     if (BODY()){
@@ -2916,7 +2934,8 @@ public class LL1Parser {
         }
         return false;
     }
-    private boolean FOR_ARG() {
+    private boolean FOR_ARG(String N, String T) {
+        RetOutInfo out;
         if (match("id")){
             index++;
             if (POS3()){
@@ -2924,14 +2943,20 @@ public class LL1Parser {
             }            
         }
         else if (match("(")){
+            out = new RetOutInfo();
             index++;
-            if (EXPR(null)){
+            if (EXPR(out)){
+                ST.compareType(T, out.TYPE, N, getTokenLine());
                 if (match(",")){
+                    out = new RetOutInfo();
                     index++;
-                    if (EXPR(null)){
+                    if (EXPR(out)){
+                        ST.compareType(T, out.TYPE, N, getTokenLine());
                         if (match(",")){
+                            out = new RetOutInfo();
                             index++;
-                            if (EXPR(null)){
+                            if (EXPR(out)){
+                                ST.compareType(T, out.TYPE, N, getTokenLine());
                                 if (match(")")){
                                     index++;
                                     return true;

@@ -7,5 +7,10 @@ bool a = !convt(bool)(true+convt(bool)2*convt(bool)5);
 
 }
 begin {
+
+loop thru (char a in ('a','z',1));
+
+
 bool a = !convt(bool)(true+convt(bool)2*convt(bool)5);
+int x = 3;
 }

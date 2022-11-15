@@ -346,6 +346,7 @@ public class SymbolTable {
         return convType;
     }
     public String compatibility(String TYPE1, String TYPE2, String operator, int line) {
+        
         TYPE1 = DataType.airthematicTypeDictionary.get(TYPE1);
         TYPE2 = DataType.airthematicTypeDictionary.get(TYPE2);
         
@@ -379,6 +380,7 @@ public class SymbolTable {
         if (DataType.isAirthematicType(TYPE)) {
             TYPE = DataType.airthematicTypeDictionary.get(TYPE);
         }
+        
         String [] types = DataType.operatorDictionary.get(operator);
         for (String type : types) {
             if (type.equals(TYPE)) {
