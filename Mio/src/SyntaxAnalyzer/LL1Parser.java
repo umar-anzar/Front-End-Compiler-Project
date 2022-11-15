@@ -1620,8 +1620,11 @@ public class LL1Parser {
             if (!ST.insertFT(N, T, TM, getTokenLine()))
                 ST.addError(getTokenLine(), "Redeclaration error",N);
             index++;
-            if (INIT(null)) {
-                if (LIST()) {
+            RetOutInfo out1 = new RetOutInfo();
+            if (INIT(out1)) {
+                //compare
+                ST.compareType(T, out1.TYPE, N, getTokenLine());
+                if (LIST(out)) {
                     return true;
                 }
             }
@@ -1629,7 +1632,7 @@ public class LL1Parser {
         else if (searchSelectionSet("LIST")) {
             if (!ST.insertFT(N, T, TM, getTokenLine()))
                 ST.addError(getTokenLine(), "Redeclaration error",N);
-            if (LIST()) {
+            if (LIST(out)) {
                 return true;
             }
         }
@@ -1809,12 +1812,13 @@ public class LL1Parser {
         }
         return false;
     }
-    private boolean LIST() {
+    private boolean LIST(RetOutInfo out) {
         if (match(",")) {
             index++;
             if (match("id")) {
+                out.NAME = getTokenVP();
                 index++;
-                if (IS_INIT(null)) {
+                if (IS_INIT(out)) {
                     return true;
                 }
             }
@@ -2293,7 +2297,7 @@ public class LL1Parser {
             RetOutInfo out1 = new RetOutInfo();
             if (INIT(out1)) {
                 //Type that comes out from init must be equatl to T
-                //ST.compareType (T, out1.TYPE, N, getTokenLine());
+                ST.compareType(T, out1.TYPE, N, getTokenLine());
                 if (LIST_C(out)) {
                     return true;
                 }

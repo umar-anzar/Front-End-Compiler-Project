@@ -2,5 +2,10 @@ package p.src;
 import Pro.Reg;
 import Rand.^;
 
-Class A (){}
-bool a = !(true+convt(bool)2*convt(bool)5);
+Class A (){
+bool a = !convt(bool)(true+convt(bool)2*convt(bool)5);
+
+}
+begin {
+bool a = !convt(bool)(true+convt(bool)2*convt(bool)5);
+}
