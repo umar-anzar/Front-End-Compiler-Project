@@ -422,7 +422,7 @@ public class SymbolTable {
         }
 
 
-        addError(line,"Incompatible Type Assign to variable",NAME);
+        addError(line,"Incompatible Type Assign to ",NAME);
         return false;
     }
     

@@ -2701,7 +2701,9 @@ public class LL1Parser {
             index++;
             if (match("(")){
                 index++;
-                if (EXPR(null)){
+                RetOutInfo out = new RetOutInfo();
+                if (EXPR(out)){
+                    ST.compareType("bool", out.TYPE, "While Condition Statement", getTokenLine());
                     if (match(")")){
                         index++;
                         if (BODY()){
@@ -2735,13 +2737,14 @@ public class LL1Parser {
             index++;
             if (match("(")){
                 index++;
-                if (EXPR(null)){
+                RetOutInfo out = new RetOutInfo();
+                if (EXPR(out)){
                     if (match(")")){
                         index++;
                         if (match("{")){
                             ST.push();
                             index++;
-                            if(STATE()){
+                            if(STATE(out)){
                                 return true;
                             }      
                         }                
@@ -2751,14 +2754,16 @@ public class LL1Parser {
         }  
         return false;
     }
-    private boolean STATE() {
+    private boolean STATE(RetOutInfo out) {
         if (match("state")){
             index++;
-            if(EXPR(null)){
+            RetOutInfo out1 = new RetOutInfo();
+            if(EXPR(out1)){
+                ST.compareType(out.TYPE, out1.TYPE, "state in shift-state statement", getTokenLine());
                 if (match(":")){
                     ST.push();
                     index++;
-                    if (SWITCH_BODY()){
+                    if (SWITCH_BODY(out)){
                         return true;
                     }
                 }
@@ -2794,14 +2799,14 @@ public class LL1Parser {
        
         return false;
     }
-    private boolean SWITCH_BODY() {
+    private boolean SWITCH_BODY(RetOutInfo out) {
         if (match("{")){
             index++;
             if (MST()){
                 if (match("}")){
                     ST.pop();
                     index++;
-                    if (STATE()){
+                    if (STATE(out)){
                         return true;                        
                     }
                 }  
@@ -2810,7 +2815,7 @@ public class LL1Parser {
         else if (searchSelectionSet("MST")){
             if (MST()){
                 ST.pop();
-                if (STATE()){
+                if (STATE(out)){
                     return true;
                 }
             }
@@ -2866,7 +2871,9 @@ public class LL1Parser {
             index++;
             if (match("(")){
                 index++;
-                if (EXPR(null)){
+                RetOutInfo out = new RetOutInfo();
+                if (EXPR(out)){
+                    ST.compareType("bool", out.TYPE, "loop while condition statement", getTokenLine());
                     if (match(")")){
                         index++;
                         if (BODY()){
@@ -2885,8 +2892,10 @@ public class LL1Parser {
                 if (match("till")){
                     index++;
                     if (match("(")){
+                        RetOutInfo out = new RetOutInfo();
                         index++;
-                        if (EXPR(null)){ 
+                        if (EXPR(out)){ 
+                            ST.compareType("bool", out.TYPE, "Do while condition statement", getTokenLine());
                             if (match(")")){
                                 index++;
                                 if (match(";")) {
