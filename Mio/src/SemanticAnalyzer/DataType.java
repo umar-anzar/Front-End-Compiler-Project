@@ -10,7 +10,7 @@ import java.util.HashMap;
  *
  * @author omera
  */
-public class PrimitiveType {
+public class DataType {
     //In Bytes
     public static final Integer INTEGER_SIZE = 4;
     public static final Integer POINT_SIZE = 8;
@@ -72,7 +72,6 @@ public class PrimitiveType {
             put("^", basicType);
             put("||", new String [] {"bool"});
             put("&&", new String [] {"bool"});
-            put("!", new String [] {"bool"});
             put("!", new String [] {"bool"});
             put("==", new String [] {"bool"});
             put("<", new String [] {"bool"});

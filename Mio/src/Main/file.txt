@@ -3,4 +3,4 @@ import Pro.Reg;
 import Rand.^;
 
 Class A (){}
-int a = (2+3)*5/3;
+bool a = !(true+convt(bool)2*convt(bool)5);

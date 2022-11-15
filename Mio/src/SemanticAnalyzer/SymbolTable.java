@@ -334,8 +334,8 @@ public class SymbolTable {
     
     public String compatibility_conv(String convType, String TYPE, int line){
         String TYPE1,TYPE2;
-        TYPE1 = PrimitiveType.airthematicTypeDictionary.get(convType);
-        TYPE2 = PrimitiveType.airthematicTypeDictionary.get(TYPE);
+        TYPE1 = DataType.airthematicTypeDictionary.get(convType);
+        TYPE2 = DataType.airthematicTypeDictionary.get(TYPE);
         if (TYPE1 !=null && TYPE2 != null)//if both are not null
             return convType;
         else if (TYPE1==null && TYPE2 == null )//if any one of them is null
@@ -345,11 +345,10 @@ public class SymbolTable {
         }
         return convType;
     }
-    
     public String compatibility(String TYPE1, String TYPE2, String operator, int line) {
         System.out.println(TYPE1+operator+TYPE2);
-        TYPE1 = PrimitiveType.airthematicTypeDictionary.get(TYPE1);
-        TYPE2 = PrimitiveType.airthematicTypeDictionary.get(TYPE2);
+        TYPE1 = DataType.airthematicTypeDictionary.get(TYPE1);
+        TYPE2 = DataType.airthematicTypeDictionary.get(TYPE2);
         
         
         
@@ -357,7 +356,7 @@ public class SymbolTable {
             
             if (TYPE1.equals(TYPE2)) {
                 if ("bool".equals(TYPE1)) {
-                    String [] boolType = PrimitiveType.operatorDictionary.get(operator);
+                    String [] boolType = DataType.operatorDictionary.get(operator);
                     if (boolType != null) {
                         return boolType[0];
                     }
@@ -367,7 +366,7 @@ public class SymbolTable {
                 return "str";
             }
             
-            if (PrimitiveType.typeSize.get(TYPE1) >= PrimitiveType.typeSize.get(TYPE2))
+            if (DataType.typeSize.get(TYPE1) >= DataType.typeSize.get(TYPE2))
                 return TYPE1;
             else
                 return TYPE2;
@@ -378,10 +377,10 @@ public class SymbolTable {
         return TYPE1;
     }
     public boolean compatibility_op(String TYPE, String operator) {
-        if (PrimitiveType.isAirthematicType(TYPE)) {
-            TYPE = PrimitiveType.airthematicTypeDictionary.get(TYPE);
+        if (DataType.isAirthematicType(TYPE)) {
+            TYPE = DataType.airthematicTypeDictionary.get(TYPE);
         }
-        String [] types = PrimitiveType.operatorDictionary.get(operator);
+        String [] types = DataType.operatorDictionary.get(operator);
         for (String type : types) {
             if (type.equals(TYPE)) {
                 return true;
@@ -401,8 +400,8 @@ public class SymbolTable {
         }
         
         
-        T1 = PrimitiveType.airthematicTypeDictionary.get(T1);
-        T2 = PrimitiveType.airthematicTypeDictionary.get(T2);
+        T1 = DataType.airthematicTypeDictionary.get(T1);
+        T2 = DataType.airthematicTypeDictionary.get(T2);
         
         if (T1!= null && T2 != null) {
             
@@ -410,8 +409,8 @@ public class SymbolTable {
                 return true;
                 
             } else {
-                Integer T1_size = PrimitiveType.typeSize.get(T1), 
-                        T2_size = PrimitiveType.typeSize.get(T2);
+                Integer T1_size = DataType.typeSize.get(T1), 
+                        T2_size = DataType.typeSize.get(T2);
                 
                 if (T1_size != null && T2_size != null) {
                     if (T1_size >= T2_size)
@@ -492,7 +491,7 @@ public class SymbolTable {
         //Break array part to get type int[][] -> int only
         TYPE = TYPE.split("\\[")[0];
         
-        if (!PrimitiveType.isPrimitiveType(TYPE))
+        if (!DataType.isPrimitiveType(TYPE))
             if ( lookUpMT(TYPE, "") == null ) {
                 addError(line, "Unknown Type", TYPE);
                 return false;

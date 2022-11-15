@@ -1700,7 +1700,19 @@ public class LL1Parser {
             if (UNARY(out)) {
                 RetOutInfo out1 = new RetOutInfo();
                 if (OPERANDS(out1)) {
-                    out.TYPE = ST.compatibility_conv(out.TYPE, out1.TYPE, getTokenLine());
+                    if ("!".equals(out.OPERATOR)) {
+                        if (!ST.compatibility_op(out1.TYPE, out.OPERATOR)) {
+                            ST.addError(getTokenLine(), "Incompatible with the operator ("+out.OPERATOR+")", out.beforeOpName);
+                        } else {
+                            //if compatible with not operator
+                            out.TYPE = out1.TYPE;
+                        }
+                        
+                        out.OPERATOR = "";
+                        out.beforeOpName = "";
+                    } else {
+                        out.TYPE = ST.compatibility_conv(out.TYPE, out1.TYPE, getTokenLine());
+                    }
                     if (ID_TO_EXPR(out)) {
                         return true;
                     }
@@ -2489,6 +2501,7 @@ public class LL1Parser {
             String operator = getTokenVP();
             if (!ST.compatibility_op(out.TYPE, operator))
                 ST.addError(getTokenLine(), "Incompatible with the operator ("+operator+")", out.beforeOpName);
+            out.beforeOpName="";
             RetOutInfo out1 = new RetOutInfo();
             index++;
             if (K(out1)){
@@ -2557,7 +2570,19 @@ public class LL1Parser {
             if (UNARY(out)){
                 RetOutInfo out1 = new RetOutInfo();
                 if (OPERANDS(out1)){
-                    out.TYPE = ST.compatibility_conv(out.TYPE, out1.TYPE, getTokenLine());
+                    if ("!".equals(out.OPERATOR)) {
+                        if (!ST.compatibility_op(out1.TYPE, out.OPERATOR)) {
+                            ST.addError(getTokenLine(), "Incompatible with the operator ("+out.OPERATOR+")", out.beforeOpName);
+                        } else {
+                            //if compatible with not operator
+                            out.TYPE = out1.TYPE;
+                        }
+                        
+                        out.OPERATOR = "";
+                        out.beforeOpName = "";
+                    } else {
+                        out.TYPE = ST.compatibility_conv(out.TYPE, out1.TYPE, getTokenLine());
+                    }
                     return true;
                 }
             }
@@ -2590,6 +2615,7 @@ public class LL1Parser {
             }
         }
         else if (match("not")) {
+            out.OPERATOR = getTokenVP();
             index++;
             return true;
         }

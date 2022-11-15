@@ -19,7 +19,8 @@ public class RetOutInfo {
             PARAMETRIC_CLASS="",
             EXTEND="",
             STATIC = "",
-            TYPE2 = "";/*using in types of parameters*/
+            TYPE2 = "",/*using in types of parameters*/
+            OPERATOR = "";/*Used for not ! operator*/
     public boolean
             consturctor = false;
 
