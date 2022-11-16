@@ -2,15 +2,57 @@ package p.src;
 import Pro.Reg;
 import Rand.^;
 
-Class A (){
-bool a = !convt(bool)(true+convt(bool)2*convt(bool)5);
+Abstract Class B () {
+
+    def Static const point[] b_fn1 (int a) { }
+    def Static str b_fn2( ) { }
+    def Static const B b_fn3 ( ) { }
+    def b_fn4 ( ) { }
+
+
+}
+
+Class A (B){
+    Static int a = 3 + 5 + convt(int)23.5, n = 10;
+    const point z = 3 + 5 + convt(int)23.5, $$q = 9.6 * (2+4);
+    B $x = new B();
+
+    def Abstract fn (int[] a, B[][] y);
+
+    def B [] fn(str b) {
+        
+        int b = 3, c = 9%2;
+
+    }
 
 }
 begin {
+    
+    loop thru (char a in ('a','z',1)) {
+        if (true) {
+        
+        } else {
+            shift ('b') {
+                state 'x':
+                state 'b': {
+                    B y = new B();
+                }
+                default :
+                    ;
+            }
+        }
+    }
 
-loop thru (char a in ('a','z',1));
 
+}
 
-bool a = !convt(bool)(true+convt(bool)2*convt(bool)5);
-int x = 3;
+def int fn3 (char x) {
+    
+    test {
+        const point b;
+    } except (Error e) {
+        str b;
+    }
+    
+    
 }

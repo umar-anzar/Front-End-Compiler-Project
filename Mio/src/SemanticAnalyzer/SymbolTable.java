@@ -31,11 +31,15 @@ public class SymbolTable {
     ClassTable currentCt;
     
     //Semantic Error------------------------------------------------------------
+    
     ArrayList<String> error = new ArrayList<>();
     
     //Stack Functions-----------------------------------------------------------
+    
     public void push(){stack.push();}
+    
     public void pop(){stack.pop();}
+    
     public int getScope(){return stack.scope;}
     
     //Current Class Ref Functions-----------------------------------------------
@@ -43,6 +47,7 @@ public class SymbolTable {
         if (row.isClass())
             currentCt = row.DT;
     }
+    
     public void referenceOff() {
         currentCt = null;
     }
@@ -110,7 +115,6 @@ public class SymbolTable {
         
         return true;
     }
-    
     
     public boolean insertFT_Param(String NAME_LIST, String TYPE_LIST, int line) {
         String [] NAMES = NAME_LIST.split(",") , 
@@ -217,7 +221,7 @@ public class SymbolTable {
                     found = true;
         }
                 
-        // Search in class 
+        // Search in class and all of their parents
         if (!found) {
             row = lookUpDT(NAME, PARAM_LIST, ct);
             if (row != null)
@@ -225,7 +229,7 @@ public class SymbolTable {
         }
 
         
-        // Search in main table
+        // Search in main table for global dec
         if (!found) {
             row = lookUpMT(NAME, PARAM_LIST);
             if (row != null)
@@ -317,6 +321,7 @@ public class SymbolTable {
 
         return null;
     }
+    
     public boolean isInClass(String NAME, String PARAM_LIST, String className) {
         MainTableRow row = lookUpMT(className, "");
         if (!row.isAbstract()) {
@@ -326,6 +331,7 @@ public class SymbolTable {
         }
         return false;
     }
+    
     public String[] edges(String className) {
         return lookUpMT(className, "").inheritedClasses();
     }
@@ -345,6 +351,7 @@ public class SymbolTable {
         }
         return convType;
     }
+    
     public String compatibility(String TYPE1, String TYPE2, String operator, int line) {
         
         TYPE1 = DataType.airthematicTypeDictionary.get(TYPE1);
@@ -376,6 +383,7 @@ public class SymbolTable {
         addError(line, "Incompatible operation of ("+operator+")", "between "+TYPE1+" and "+TYPE2);
         return TYPE1;
     }
+    
     public boolean compatibility_op(String TYPE, String operator) {
         if (DataType.isAirthematicType(TYPE)) {
             TYPE = DataType.airthematicTypeDictionary.get(TYPE);
@@ -389,6 +397,7 @@ public class SymbolTable {
         }
         return false;
     }
+    
     public boolean compareType(String T1, String T2, String NAME, int line) {
         if (T1.equals(T2)) {
             
@@ -427,6 +436,7 @@ public class SymbolTable {
     }
     
     //Print table functions-----------------------------------------------------
+    
     public void printST() {
         ArrayList<String> mainTable = mt.printMT();
         ArrayList<String> functionTable = fdt.printFT();
@@ -443,12 +453,15 @@ public class SymbolTable {
     }
     
     //Error Functions-----------------------------------------------------------
+    
     public void addError(String statement) {
         error.add(statement);
     }
+    
     public void addError(int line, String statement, String identifier) {
         error.add("line no "+line+": "+statement+", "+identifier);
     }
+    
     public void printError() {
         if (lookUpMT("begin", "") == null)
             error.add("File has no executable function {begin}");
@@ -460,6 +473,7 @@ public class SymbolTable {
     }
     
     //helpful functions---------------------------------------------------------
+    
     public void canInhert(String className, int line) {
         MainTableRow row = lookUpMT(className, "");
         if(row != null) {
@@ -472,11 +486,13 @@ public class SymbolTable {
             addError(line,"Class not declared",className);
         }
     }
+    
     public void canOverRide(ClassTableRow row, String NAME, int line) {
         if(row != null)
             if (row.isFunction() && row.isFinal()) 
                 addError(line,"Function is final, cannot override",NAME);
     }
+    
     public boolean canMakeObj(String TYPE, int line) {
         MainTableRow row = lookUpMT(TYPE, "");
         if (lookUpMT(TYPE, "") != null)
@@ -486,6 +502,7 @@ public class SymbolTable {
                 addError(line, "Class Data Type is Abstract, Cannot be initialize", TYPE);
         return false;
     }
+    
     public boolean typeExist(String TYPE,int line) {
         
         //Break array part to get type int[][] -> int only
@@ -498,10 +515,7 @@ public class SymbolTable {
             }
         return true;
     }
-//IMP
-//                } else if (!canMakeObj(TYPE)) /*If cannot make objs*/{
-//                addError(line, "Class Data Type is Abstract", TYPE);
-//            }
+
     
 
     
