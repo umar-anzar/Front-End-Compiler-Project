@@ -88,7 +88,7 @@ Same:
 
 | final | main  | in | default | new | abstract | super  | this |
 |-------|-------|----|---------|-----|----------|--------|------|
-| const | begin | in | default | new | abstract | Parent | Self |
+| const | begin | in | default | new | Abstract | Parent | Self |
 
 | Three ps  | try  | catch  | finally | throw | throws | package | import |
 |-----------|------|--------|---------|-------|--------|---------|--------|
@@ -270,8 +270,8 @@ Class className <Parameter> (inheritedClass1,nheritedClass2){
 - Abstract class and function
 
 ```
-abstract Class Shape{  
-    abstract draw();  
+Abstract Class Shape{  
+    Abstract draw();  
 }  
 ```
 
